@@ -47,21 +47,11 @@ This project is configured to deploy automatically to GitHub Pages using GitHub 
     *   Go to your repository **Settings** > **Pages**.
     *   Under **Build and deployment**, select **GitHub Actions** as the source.
 3.  **Trigger Deployment:**
-    *   The workflow in `.github/workflows/deploy.yml` will automatically run on every push to the `main` branch.
-    *   Once finished, your site will be live at `https://<your-username>.github.io/<repo-name>/`.
+    *   The workflow in `.github/workflows/deploy.yml` will automatically run on every push to the `master` branch.
+    *   Once finished, your site will be live at `https://razavioo.github.io/pesaba.com/`.
 
 ### Note on Base Path
-If you are deploying to a project page (e.g., `user.github.io/repo-name`), you might need to set the `basePath` in `next.config.ts`.
-The GitHub Action attempts to handle this, but if assets fail to load, update `next.config.ts`:
-
-```typescript
-const nextConfig: NextConfig = {
-  output: "export",
-  basePath: "/<repo-name>", // Add this line
-  images: { unoptimized: true },
-  // ...
-};
-```
+The `basePath` is automatically configured in `next.config.ts` to use `/pesaba.com` when building in GitHub Actions. This ensures all assets and routes work correctly on GitHub Pages.
 
 ## 🧪 Testing
 
