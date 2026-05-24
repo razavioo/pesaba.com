@@ -1,0 +1,175 @@
+/* ─── IRANYekanX FaNum (Persian — self-hosted) ───────────────────────────── */
+@font-face {
+  font-family: 'IRANYekanX';
+  src: url('/fonts/iranyekanx/IRANYekanXFaNum-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  size-adjust: 110%;
+}
+@font-face {
+  font-family: 'IRANYekanX';
+  src: url('/fonts/iranyekanx/IRANYekanXFaNum-Bold.woff2') format('woff2');
+  font-weight: 600 900;
+  font-style: normal;
+  font-display: swap;
+  size-adjust: 110%;
+}
+
+/* ─── Inter (Latin body — self-hosted variable) ──────────────────────────── */
+@font-face {
+  font-family: 'Inter';
+  src: url('/fonts/inter/inter-latin-wght-normal.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Inter';
+  src: url('/fonts/inter/inter-latin-wght-italic.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* ─── JetBrains Mono (monospace — self-hosted) ───────────────────────────── */
+@font-face {
+  font-family: 'JetBrains Mono';
+  src: url('/fonts/jetbrains-mono/jetbrains-mono-latin-400-normal.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'JetBrains Mono';
+  src: url('/fonts/jetbrains-mono/jetbrains-mono-latin-400-italic.woff2') format('woff2');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'JetBrains Mono';
+  src: url('/fonts/jetbrains-mono/jetbrains-mono-latin-700-normal.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ─── Newsreader (editorial serif — self-hosted) ─────────────────────────── */
+@font-face {
+  font-family: 'Newsreader';
+  src: url('/fonts/newsreader/newsreader-latin-400-normal.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Newsreader';
+  src: url('/fonts/newsreader/newsreader-latin-400-italic.woff2') format('woff2');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Newsreader';
+  src: url('/fonts/newsreader/newsreader-latin-700-normal.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Newsreader';
+  src: url('/fonts/newsreader/newsreader-latin-700-italic.woff2') format('woff2');
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* ─── Typography utilities ───────────────────────────────────────────────── */
+/* Default (LTR / English): Inter for body, Inter for headings */
+.font-display  { font-family: 'Inter', system-ui, sans-serif; }
+.font-heading  { font-family: 'Inter', system-ui, sans-serif; }
+.font-fa       { font-family: 'IRANYekanX', Tahoma, sans-serif; }
+.font-body     { font-family: 'Inter', system-ui, sans-serif; }
+.font-mono     { font-family: 'JetBrains Mono', ui-monospace, 'Cascadia Code', 'Fira Code', monospace; }
+.font-editorial { font-family: 'Newsreader', Georgia, serif; font-style: italic; }
+
+/* Persian text rendering — IRANYekanX takes over for all [lang="fa"] and RTL */
+[lang="fa"], .fa {
+  font-family: 'IRANYekanX', Tahoma, sans-serif;
+  text-rendering: optimizeLegibility;
+  font-feature-settings: "liga", "kern", "calt";
+}
+
+/* In RTL/Persian pages, all text uses IRANYekanX */
+html[dir="rtl"] body,
+html[dir="rtl"] h1,
+html[dir="rtl"] h2,
+html[dir="rtl"] h3,
+html[dir="rtl"] h4,
+html[dir="rtl"] h5,
+html[dir="rtl"] h6,
+html[dir="rtl"] p,
+html[dir="rtl"] span,
+html[dir="rtl"] a,
+html[dir="rtl"] li,
+html[dir="rtl"] td,
+html[dir="rtl"] th,
+html[dir="rtl"] button,
+html[dir="rtl"] input,
+html[dir="rtl"] textarea,
+html[dir="rtl"] .font-display,
+html[dir="rtl"] .font-heading,
+html[dir="rtl"] .font-body {
+  font-family: 'IRANYekanX', Tahoma, sans-serif;
+}
+
+/* In RTL/Persian pages, neutralize letter-spacing and uppercase — both
+   break Persian script (letter-spacing prevents joining, uppercase is a no-op). */
+html[dir="rtl"] .tracking-tight,
+html[dir="rtl"] .tracking-normal,
+html[dir="rtl"] .tracking-wide,
+html[dir="rtl"] .tracking-wider,
+html[dir="rtl"] .tracking-widest {
+  letter-spacing: 0 !important;
+}
+html[dir="rtl"] .uppercase {
+  text-transform: none;
+}
+
+/* In RTL, monospace uses IRANYekanX (mono is for Latin eyebrows/badges) */
+html[dir="rtl"] .font-mono,
+html[dir="rtl"] .spec-value {
+  font-family: 'IRANYekanX', Tahoma, sans-serif;
+}
+
+/* Persian line-height corrections — size-adjust: 110% makes glyphs ~10% taller
+   than Latin, so the tight display line-heights clip bold Persian text. */
+html[dir="rtl"] .text-10xl { line-height: 1.22 !important; }
+html[dir="rtl"] .text-9xl  { line-height: 1.22 !important; }
+html[dir="rtl"] .text-8xl  { line-height: 1.25 !important; }
+html[dir="rtl"] .text-7xl  { line-height: 1.28 !important; }
+html[dir="rtl"] .text-6xl  { line-height: 1.32 !important; }
+html[dir="rtl"] .text-5xl  { line-height: 1.35 !important; }
+html[dir="rtl"] .text-4xl  { line-height: 1.42 !important; }
+html[dir="rtl"] .text-3xl  { line-height: 1.5  !important; }
+html[dir="rtl"] .text-2xl  { line-height: 1.6  !important; }
+html[dir="rtl"] .text-xl   { line-height: 1.7  !important; }
+html[dir="rtl"] .text-lg   { line-height: 1.85 !important; }
+html[dir="rtl"] .text-base { line-height: 1.85 !important; }
+
+html[dir="rtl"] h1,
+html[dir="rtl"] h2,
+html[dir="rtl"] h3,
+html[dir="rtl"] h4,
+html[dir="rtl"] h5,
+html[dir="rtl"] h6 {
+  line-height: 1.4;
+}
+
+/* Monospace spec values always in Latin digits */
+.spec-value,
+.font-mono {
+  font-family: 'JetBrains Mono', ui-monospace, 'Cascadia Code', 'Fira Code', monospace;
+  font-variant-numeric: tabular-nums;
+}

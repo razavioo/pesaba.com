@@ -1,0 +1,172 @@
+/* ─── Pesaba Design Tokens — Dark Infrastructure ─────────────────────────── */
+
+:root {
+  /* Canvas / Ink */
+  --ink-1000:  #04070D;
+  --ink-950:   #0A0F1A;
+  --ink-900:   #0E1422;
+  --ink-800:   #131C2E;
+  --ink-700:   #1B2438;
+  --ink-500:   #4A5673;
+  --ink-300:   #94A1BD;
+  --ink-100:   #E2E7F2;
+  --ink-0:     #FFFFFF;
+
+  /* Photon (sky blue) */
+  --photon-400: #38BDF8;
+  --photon-500: #0EA5E9;
+  --photon-600: #0284C7;
+  --photon-700: #0369A1;
+  --photon-900: #0C4A6E;
+
+  /* Signal (success / live) */
+  --signal-500: #00D88A;
+  --signal-700: #009E63;
+
+  /* Warning */
+  --warn-500: #FFB020;
+
+  /* Critical */
+  --critical-500: #FF4D5E;
+
+  /* Paper (light mode) */
+  --paper-50:  #F8FAFC;
+  --paper-100: #EEF2F8;
+  --paper-900: #0E1422;
+
+  /* ─── Semantic tokens (dark-mode default) ────────────────────────────── */
+  --bg-page:      #08101C;
+  --bg-elevated:  #0D1726;
+  --bg-modal:     #111D2F;
+  --border:       #1C2940;
+  --border-strong:#2A3952;
+  --text-primary: #F2F6FC;
+  --text-secondary:#C3CEE2;
+  --text-muted:   #8896B0;
+  --accent:       var(--photon-500);
+  --accent-hover: var(--photon-600);
+  --accent-bg:    rgba(0, 229, 255, 0.12);
+
+  /* ─── Spacing ─────────────────────────────────────────────────────────── */
+  --space-hero:    clamp(4.5rem, 8vw, 7rem);
+  --space-section: clamp(3rem, 5vw, 4.75rem);
+  --space-cta:     clamp(3.75rem, 7vw, 6rem);
+  --space-gap:     clamp(1.25rem, 2vw, 2rem);
+
+  /* ─── Radius ──────────────────────────────────────────────────────────── */
+  --r-xs:   4px;
+  --r-sm:   8px;
+  --r-md:   12px;
+  --r-lg:   20px;
+  --r-2xl:  28px;
+  --r-full: 9999px;
+
+  /* ─── Shadows ─────────────────────────────────────────────────────────── */
+  --glow-sm: 0 2px 8px rgba(4,10,20,.28), 0 8px 24px rgba(4,10,20,.20);
+  --glow-md: 0 4px 16px rgba(4,10,20,.32), 0 16px 42px rgba(4,10,20,.24);
+  --glow-lg: 0 0 0 1px rgba(14,165,233,.10), 0 26px 64px rgba(4, 10, 20, .48);
+  --glow-xl: 0 0 0 1px rgba(14,165,233,.14), 0 34px 90px rgba(4, 10, 20, .54);
+
+  /* ─── Motion ──────────────────────────────────────────────────────────── */
+  --ease-entrance: cubic-bezier(.32, .72, 0, 1);
+  --ease-hover:    cubic-bezier(.4, 0, .2, 1);
+  --ease-exit:     cubic-bezier(.2, 0, 1, .9);
+  --dur-fast:  120ms;
+  --dur-base:  200ms;
+  --dur-slow:  320ms;
+  --dur-enter: 320ms;
+
+  /* ─── Grid ────────────────────────────────────────────────────────────── */
+  --container:       1280px;
+  --container-wide:  1440px;
+  --container-prose: 720px;
+}
+
+/* Light mode overrides */
+.light {
+  --bg-page:      var(--paper-50);
+  --bg-elevated:  var(--paper-100);
+  --bg-modal:     #FFFFFF;
+  --border:       #D0D9E8;
+  --text-primary:   var(--paper-900);
+  --text-secondary: #4A5673;
+  --text-muted:     #8A9AB8;
+  --accent:       #0284C7;
+  --accent-hover: #0369A1;
+  --accent-bg:    #E0F2FE;
+  --glow-sm: 0 2px 8px rgba(0,0,0,.06), 0 8px 24px rgba(0,0,0,.04);
+  --glow-md: 0 4px 16px rgba(0,0,0,.08), 0 16px 42px rgba(0,0,0,.06);
+  --glow-lg: 0 0 0 1px rgba(2,132,199,.12), 0 24px 60px rgba(0,0,0,.08);
+}
+
+/* Graph-paper background pattern */
+.bg-graph-paper {
+  background-image: radial-gradient(circle, rgba(148,161,189,0.045) 1px, transparent 1px);
+  background-size: 36px 36px;
+}
+.light .bg-graph-paper {
+  background-image: radial-gradient(circle, rgba(0,0,0,0.10) 1px, transparent 1px);
+}
+
+/* ─── Light mode: remap hardcoded Tailwind ink-* utilities ──────────────── */
+/* Background remapping */
+.light .bg-ink-1000\/70 { background-color: rgba(0, 0, 0, 0.4) }
+.light .bg-ink-950,
+.light .bg-ink-950\/96  { background-color: var(--paper-50) }
+.light .bg-ink-900      { background-color: var(--paper-100) }
+.light .bg-ink-800,
+.light .bg-ink-800\/60  { background-color: #E2E9F5 }
+
+/* Text remapping */
+.light .text-ink-100    { color: #0E1422 }
+.light .text-ink-200    { color: #1B2438 }
+.light .text-ink-300    { color: #4A5673 }
+.light .text-ink-400    { color: #5E6E8A }
+.light .text-ink-500    { color: #8A9AB8 }
+.light .text-ink-600    { color: #9CAABB }
+
+/* Border remapping */
+.light .border-ink-700   { border-color: #D0D9E8 }
+.light .border-ink-800   { border-color: #DDE5F0 }
+.light .border-ink-600   { border-color: #BCC8DC }
+.light .border-ink-500   { border-color: #A0B0C8 }
+
+/* Border opacity variants */
+.light .border-ink-700\/30 { border-color: rgba(208,217,232,0.3) }
+.light .border-ink-700\/40 { border-color: rgba(208,217,232,0.4) }
+.light .border-ink-700\/50 { border-color: rgba(208,217,232,0.5) }
+.light .border-ink-700\/60 { border-color: rgba(208,217,232,0.6) }
+
+/* Sticky tabs / bg-ink-950 opacity variants */
+.light .bg-ink-950\/95 { background-color: rgba(248,250,252,0.95) }
+.light .bg-ink-950\/40 { background-color: rgba(238,242,248,0.4) }
+.light .bg-ink-900\/20 { background-color: rgba(248,250,252,0.2) }
+
+/* Background opacity variants */
+.light .bg-ink-800\/80 { background-color: rgba(226,233,245,0.8) }
+
+/* Placeholder text remapping */
+.light .placeholder-ink-600::placeholder { color: #8A9AB8 }
+
+/* Gradient remaps — via-ink-700 divider lines */
+.light .via-ink-700\/60 {
+  --tw-gradient-via: rgba(208,217,232,0.6) var(--tw-gradient-via-position);
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-via), var(--tw-gradient-to, rgba(208,217,232,0));
+}
+
+/* Gradient remap — blog hero overlay (from-ink-1000 / via-ink-1000/40) */
+.light .from-ink-1000 {
+  --tw-gradient-from: #F8FAFC var(--tw-gradient-from-position);
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(248,250,252,0));
+}
+.light .via-ink-1000\/40 {
+  --tw-gradient-via: rgba(248,250,252,0.4) var(--tw-gradient-via-position);
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-via), var(--tw-gradient-to, rgba(248,250,252,0));
+}
+
+/* Hover states: these need !important because they compete with hover: utilities */
+.light .hover\:bg-ink-800:hover  { background-color: #E2E9F5 !important }
+.light .hover\:bg-ink-800\/60:hover { background-color: rgba(226,233,245,0.6) !important }
+.light .hover\:text-ink-100:hover { color: #0E1422 !important }
+.light .hover\:text-ink-300:hover { color: #4A5673 !important }
+.light .hover\:border-ink-500:hover { border-color: #A0B0C8 !important }

@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Pesaba">
+  <rect width="64" height="64" rx="12" fill="#0A0F1A"/>
+  <path d="M12 16h40v8H22v8h25v8H22v8h30v8H12V16Z" fill="#38BDF8"/>
+  <path d="M22 24h30v8H22v-8Zm0 16h25v8H22v-8Z" fill="#E5F6FF" opacity=".9"/>
+</svg>

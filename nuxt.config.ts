@@ -1,0 +1,134 @@
+import { defineNuxtConfig } from 'nuxt/config'
+
+export default defineNuxtConfig({
+  compatibilityDate: '2024-11-01',
+
+  devtools: { enabled: process.env.NODE_ENV !== 'production' },
+
+  modules: [
+    '@nuxt/content',
+    '@nuxt/image',
+    '@nuxtjs/i18n',
+    '@vueuse/nuxt',
+    '@nuxt/eslint',
+  ],
+
+  components: [
+    { path: '~/components', pathPrefix: false },
+  ],
+
+  css: [
+    '~/assets/css/tokens.css',
+    '~/assets/css/typography.css',
+    '~/assets/css/base.css',
+  ],
+
+  postcss: {
+    plugins: {
+      tailwindcss: {},
+      autoprefixer: {},
+    },
+  },
+
+  // ─── i18n ────────────────────────────────────────────────────────────────
+  i18n: {
+    strategy: 'prefix',
+    bundle: {
+      optimizeTranslationDirective: false,
+    },
+    defaultLocale: 'fa',
+    locales: [
+      { code: 'fa', language: 'fa-IR', dir: 'rtl', name: 'فارسی', file: 'fa.json' },
+      { code: 'en', language: 'en-US', dir: 'ltr', name: 'English', file: 'en.json' },
+    ],
+    langDir: 'locales/',
+    detectBrowserLanguage: {
+      useCookie: true,
+      cookieKey: 'pesaba_locale',
+      redirectOn: 'root',
+    },
+  },
+
+  // ─── Content ─────────────────────────────────────────────────────────────
+  content: {
+    highlight: {
+      theme: 'github-dark',
+      langs: ['bash', 'json', 'yaml', 'python', 'javascript', 'typescript'],
+    },
+    navigation: {
+      fields: ['title', 'description', 'category', 'slug', 'locale'],
+    },
+  },
+
+  // ─── Image ───────────────────────────────────────────────────────────────
+  image: {
+    formats: ['avif', 'webp'],
+    quality: 80,
+    screens: {
+      xs: 320,
+      sm: 640,
+      md: 768,
+      lg: 1024,
+      xl: 1280,
+      '2xl': 1440,
+    },
+  },
+
+  // ─── App head defaults ───────────────────────────────────────────────────
+  app: {
+    head: {
+      charset: 'utf-8',
+      viewport: 'width=device-width, initial-scale=1',
+      link: [
+        { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' },
+        { rel: 'apple-touch-icon', href: '/apple-touch-icon.png' },
+        { rel: 'manifest', href: '/manifest.webmanifest' },
+        { rel: 'alternate', type: 'application/rss+xml', title: 'Pesaba Blog', href: '/feed.xml' },
+      ],
+      meta: [
+        { name: 'theme-color', content: '#0A0F1A' },
+        { name: 'color-scheme', content: 'dark light' },
+        { property: 'og:site_name', content: 'Pesaba' },
+        { property: 'og:type', content: 'website' },
+        { name: 'twitter:card', content: 'summary_large_image' },
+      ],
+    },
+  },
+
+  // ─── Runtime config ──────────────────────────────────────────────────────
+  runtimeConfig: {
+    smtpHost: process.env.SMTP_HOST || '',
+    smtpPort: process.env.SMTP_PORT || '587',
+    smtpUser: process.env.SMTP_USER || '',
+    smtpPass: process.env.SMTP_PASS || '',
+    smtpTo: process.env.SMTP_TO || 'admin@pesaba.com',
+    contactEmail: process.env.CONTACT_EMAIL || 'admin@pesaba.com',
+    public: {
+      siteUrl: process.env.NUXT_PUBLIC_SITE_URL || 'https://pesaba.com',
+      meilisearchHost: process.env.NUXT_PUBLIC_MEILISEARCH_HOST || '',
+      meilisearchKey: process.env.NUXT_PUBLIC_MEILISEARCH_KEY || '',
+    },
+  },
+
+  // ─── Nitro ───────────────────────────────────────────────────────────────
+  nitro: {
+    prerender: {
+      routes: ['/feed.xml', '/sitemap.xml', '/robots.txt'],
+    },
+    routeRules: {
+      '/api/**': { cors: false },
+    },
+  },
+
+  // ─── TypeScript ──────────────────────────────────────────────────────────
+  typescript: {
+    strict: true,
+    typeCheck: false,
+  },
+
+  // ─── Experimental ────────────────────────────────────────────────────────
+  experimental: {
+    viewTransition: true,
+    payloadExtraction: true,
+  },
+})

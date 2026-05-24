@@ -1,0 +1,52 @@
+---
+title: 'Data Diode A100'
+title_fa: 'دیتا دیود A100'
+slug: 'a100'
+category: 'data-diodes'
+category_label: 'Data Diodes'
+category_label_fa: 'دیتادیود'
+description: 'The Data Diode A100 is a hardware-based solution for secure one-way data transfer between two Ethernet networks in industrial environments.'
+description_fa: 'دیتادیود A100 راهکاری سخت‌افزاری برای انتقال یک‌طرفه امن داده بین دو شبکه اترنت در محیط‌های صنعتی و حساس است.'
+id: '81d24c65-a60e-430d-8cc1-3ca0c5ae62e8'
+active: true
+priority: 4
+specs:
+  - label: 'Network Interface'
+    value: '2 × 100 Mbps Ethernet'
+  - label: 'Data Transfer Rate'
+    value: '100 Mbps'
+  - label: 'Dimensions'
+    value: '87 × 220 × 204 mm'
+  - label: 'Form Factor'
+    value: 'Desktop'
+  - label: 'Weight'
+    value: '1.395 kg'
+  - label: 'Operating Temperature'
+    value: '0 to 60 °C'
+  - label: 'Storage Temperature'
+    value: '0 to 85 °C'
+  - label: 'Power Supply'
+    value: 'Dual 5V DC / 2A adapters'
+specs_fa:
+  - label: 'رابط شبکه'
+    value: '2 × 100Mbps Ethernet'
+  - label: 'نرخ انتقال داده'
+    value: '100 مگابیت بر ثانیه'
+  - label: 'ابعاد'
+    value: '87 × 220 × 204 میلی‌متر'
+  - label: 'فرم فاکتور'
+    value: 'دسکتاپ'
+  - label: 'وزن'
+    value: '1.395 کیلوگرم'
+  - label: 'دمای کاری'
+    value: '0 تا 60 درجه سانتی‌گراد'
+  - label: 'دمای نگهداری'
+    value: '0 تا 85 درجه سانتی‌گراد'
+  - label: 'منبع تغذیه'
+    value: 'دو عدد آداپتور 5V DC / 2A'
+photos:
+  - '/photos/a100/photo-1.webp'
+diagram: '/schematics/a100/diagram.svg'
+---
+
+Industrial Data Diode A100 | Product OverviewThe Data Diode A100 is a hardware-based security system designed and developed for unidirectional data transfer between two Ethernet networks. By fully separating the transmit and receive paths at the hardware level, this device ensures that data flows only in the authorized direction and that no reverse access to the secure network is possible.In the design of the Data Diode A100, the transmit and receive sections are completely isolated even at the power supply level, physically eliminating any possibility of data leakage. This approach provides a level of security that is significantly higher than software-based or operating system–dependent solutions.The system is fully hardware-based and OS-less, with no operating system or general-purpose processor. As a result, there are no attack vectors for intrusion, malware execution, or exploit-based attacks. The architecture of the Data Diode A100 is built on next-generation FPGAs, and by implementing the full Ethernet stack in hardware, it delivers stable, reliable, and secure data transmission.The Data Diode A100 is ready for operation without any initial configuration or activation of management protocols, minimizing the risk of security vulnerabilities caused by misconfiguration. This product is an ideal solution for OT/ICS networks, SCADA systems, control centers, and critical infrastructures.Key Features of the Data Diode A100True one-way data transfer between two Ethernet networksComplete hardware-based separation of transmit and receive pathsIsolated power circuits for transmit and receive sections to prevent data leakageFully hardware-based, OS-less design with no operating systemSignificantly reduced risk of hacking and cyber intrusionFPGA-based design for maximum performance and high reliabilityNo requirement for initial setup or complex configurationIntegrated LED display for system status indicationSupport for industrial services and protocols, including:One-way message transfer (Streaming UDP)File, database, and image transferDatabase synchronizationScreen MirroringModbusCamera servicesSYSLOG implementationAbility to connect multiple users to a single serverConnect and disconnect from servers without system rebootSimultaneous access to multiple servers and multiple displaysScalable and adaptable display resolutionFile reception event integration with the Kafka platformDisplay of software outputs (alerts, statistics, etc.) on SolarWinds dashboardsForm Factor: Desktop enclosure or industrial rack-mounted (upon request)This product contains Certificates from AFTA, Padafand and MASAFRelevant Internal Links:Why Is a Data Diode Important?

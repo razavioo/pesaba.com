@@ -1,0 +1,18 @@
+{
+  "name": "Pesaba",
+  "short_name": "Pesaba",
+  "description": "Critical infrastructure security, encryption, monitoring, and data diode platforms.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#0A0F1A",
+  "theme_color": "#0A0F1A",
+  "icons": [
+    {
+      "src": "/logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
