@@ -85,52 +85,52 @@
     </div>
 
     <MegaMenu :active="activeMenu" :scrolled="scrolled" @close="activeMenu = null" @enter="cancelClose()" @leave="activeMenu = null" />
-
-    <Transition name="slide-down">
-      <div v-if="mobileOpen" :class="['fixed inset-x-0 top-16 bottom-0 z-40 overflow-y-auto border-t border-[var(--border)] px-0 pb-8 backdrop-blur-xl lg:hidden', isDark ? 'bg-[rgba(8,16,28,0.98)]' : 'bg-[rgba(248,250,252,0.98)]']">
-        <nav class="container-site py-6 space-y-2">
-
-          <div v-for="item in navItems" :key="item.key" class="rounded-none border border-[var(--border)] bg-[var(--bg-elevated)]">
-            <div class="flex items-center gap-2 px-4 py-3">
-              <NuxtLink
-                :to="localePath(item.to)"
-                class="flex-1 text-base font-medium text-[var(--text-primary)]"
-              >
-                {{ $t(`nav.${item.key}`) }}
-              </NuxtLink>
-              <button
-                v-if="item.subItems"
-                @click="expandedMobile = expandedMobile === item.key ? null : item.key"
-                class="p-2 text-[var(--text-muted)]"
-                :aria-label="`${$t(`nav.${item.key}`)} menu`"
-                :aria-expanded="expandedMobile === item.key"
-              >
-                <svg :class="['h-4 w-4 transition-transform', expandedMobile === item.key ? 'rotate-180' : '']" viewBox="0 0 12 12" fill="none">
-                  <path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-                </svg>
-              </button>
-            </div>
-            <div v-if="item.subItems && expandedMobile === item.key" class="grid gap-1 px-3 pb-3">
-              <NuxtLink
-                v-for="child in item.children"
-                :key="child.to"
-                :to="localePath(child.to)"
-                class="rounded-xl px-3 py-2 text-sm text-[var(--text-secondary)] transition-colors hover:bg-[var(--bg-modal)] hover:text-[var(--text-primary)]"
-              >
-                {{ child.label }}
-              </NuxtLink>
-            </div>
-          </div>
-
-          <div class="pt-4">
-            <BaseButton variant="primary" size="lg" :to="localePath('/company/contact')" full>
-              {{ $t('nav.talk_to_sales') }}
-            </BaseButton>
-          </div>
-        </nav>
-      </div>
-    </Transition>
   </header>
+
+  <Transition name="slide-down">
+    <div v-if="mobileOpen" :class="['fixed inset-x-0 bottom-0 z-40 overflow-y-auto border-t border-[var(--border)] px-0 pb-8 backdrop-blur-xl lg:hidden', scrolled ? 'top-16' : 'top-20', isDark ? 'bg-[rgba(8,16,28,0.98)]' : 'bg-[rgba(248,250,252,0.98)]']">
+      <nav class="container-site py-6 space-y-2">
+
+        <div v-for="item in navItems" :key="item.key" class="rounded-none border border-[var(--border)] bg-[var(--bg-elevated)]">
+          <div class="flex items-center gap-2 px-4 py-3">
+            <NuxtLink
+              :to="localePath(item.to)"
+              class="flex-1 text-base font-medium text-[var(--text-primary)]"
+            >
+              {{ $t(`nav.${item.key}`) }}
+            </NuxtLink>
+            <button
+              v-if="item.subItems"
+              @click="expandedMobile = expandedMobile === item.key ? null : item.key"
+              class="p-2 text-[var(--text-muted)]"
+              :aria-label="`${$t(`nav.${item.key}`)} menu`"
+              :aria-expanded="expandedMobile === item.key"
+            >
+              <svg :class="['h-4 w-4 transition-transform', expandedMobile === item.key ? 'rotate-180' : '']" viewBox="0 0 12 12" fill="none">
+                <path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+            </button>
+          </div>
+          <div v-if="item.subItems && expandedMobile === item.key" class="grid gap-1 px-3 pb-3">
+            <NuxtLink
+              v-for="child in item.children"
+              :key="child.to"
+              :to="localePath(child.to)"
+              class="rounded-xl px-3 py-2 text-sm text-[var(--text-secondary)] transition-colors hover:bg-[var(--bg-modal)] hover:text-[var(--text-primary)]"
+            >
+              {{ child.label }}
+            </NuxtLink>
+          </div>
+        </div>
+
+        <div class="pt-4">
+          <BaseButton variant="primary" size="lg" :to="localePath('/company/contact')" full>
+            {{ $t('nav.talk_to_sales') }}
+          </BaseButton>
+        </div>
+      </nav>
+    </div>
+  </Transition>
 
   <div :class="scrolled ? 'h-16' : 'h-20'" aria-hidden="true" />
 </template>
