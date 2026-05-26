@@ -31,7 +31,7 @@
     <section class="border-b border-[var(--border)]">
       <div class="relative h-[420px] overflow-hidden lg:h-[520px]">
         <NuxtImg
-          src="/images/hero-datacenter.png"
+          :src="$withBase('/images/hero-datacenter.png')"
           alt="Pesaba engineering facility"
           class="h-full w-full object-cover object-center"
           loading="lazy"
@@ -58,7 +58,7 @@
         </div>
         <div class="overflow-hidden rounded-3xl border border-[var(--border)]">
           <NuxtImg
-            src="/images/about/soc-operations.png"
+            :src="$withBase('/images/about/soc-operations.png')"
             :alt="locale === 'fa' ? 'تیم مهندسی پرتو ارتباط صبا' : 'Pesaba engineering team'"
             class="h-72 w-full object-cover object-center lg:h-80"
             loading="lazy"

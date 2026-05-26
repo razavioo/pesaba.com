@@ -28,7 +28,7 @@
                 'relative border-b border-[var(--border)] bg-[var(--bg-elevated)] overflow-hidden',
                 i === 0 || i === 5 ? 'aspect-[21/9]' : 'aspect-[4/3]',
               ]">
-                <NuxtImg :src="cat.image" :alt="cat.title" class="h-full w-full object-contain p-8 transition-transform duration-500 group-hover:scale-[1.03]" loading="lazy" />
+                <NuxtImg :src="$withBase(cat.image)" :alt="cat.title" class="h-full w-full object-contain p-8 transition-transform duration-500 group-hover:scale-[1.03]" loading="lazy" />
               </div>
               <div class="p-5 flex-grow">
                 <div class="mb-2 flex items-center justify-between gap-3">
@@ -94,7 +94,7 @@
             <div class="relative h-full min-h-[24rem]">
               <NuxtImg
                 v-if="featuredArticles[0].image"
-                :src="featuredArticles[0].image"
+                :src="$withBase(featuredArticles[0].image)"
                 :alt="featuredArticles[0].title"
                 class="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
                 loading="eager"

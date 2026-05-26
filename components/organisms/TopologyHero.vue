@@ -8,7 +8,7 @@
           :key="activeIdx"
           class="absolute inset-0 bg-cover bg-center ken-burns"
           :style="{
-            backgroundImage: `url(${slides[activeIdx].bgImage})`,
+            backgroundImage: `url(${$withBase(slides[activeIdx].bgImage)})`,
             opacity: isDark ? 0.38 : 0.26,
             filter: isDark ? 'none' : 'invert(1) hue-rotate(180deg) brightness(1.02) contrast(0.95)'
           }"
@@ -119,7 +119,7 @@
                 <!-- Product image -->
                 <div class="aspect-[4/3] flex items-center justify-center p-6 sm:p-8 relative">
                   <img
-                    :src="slides[activeIdx].productImage"
+                    :src="$withBase(slides[activeIdx].productImage)"
                     :alt="slides[activeIdx].productTitle"
                     class="max-w-[82%] max-h-[82%] object-contain drop-shadow-[0_12px_44px_rgba(0,229,255,0.22)] transform hover:scale-105 transition-transform duration-500"
                     loading="eager"

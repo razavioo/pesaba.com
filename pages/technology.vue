@@ -56,7 +56,7 @@
       <div class="container-site grid gap-8 lg:grid-cols-2 lg:items-center">
         <div class="overflow-hidden rounded-3xl border border-[var(--border)]">
           <NuxtImg
-            src="/images/technology/air-gap-concept.png"
+            :src="$withBase('/images/technology/air-gap-concept.png')"
             :alt="locale === 'fa' ? 'معماری air-gap و جداسازی یک‌طرفه' : 'Air-gap architecture and one-way isolation'"
             class="h-72 w-full object-cover object-center lg:h-96"
             loading="lazy"
@@ -96,7 +96,7 @@
         </div>
         <div class="overflow-hidden rounded-3xl border border-[var(--border)]">
           <NuxtImg
-            src="/images/technology/network-filtering.png"
+            :src="$withBase('/images/technology/network-filtering.png')"
             :alt="locale === 'fa' ? 'فیلترینگ شبکه در سطح سخت‌افزار' : 'Hardware-level network filtering'"
             class="h-72 w-full object-cover object-center lg:h-80"
             loading="lazy"
@@ -115,11 +115,12 @@
 const { t, locale } = useI18n()
 const localePath = useLocalePath()
 const { isDark } = useDarkMode()
+const { withBase } = useBaseUrl()
 
 const heroMediaStyle = computed(() => {
   const position = locale.value === 'fa' ? 'left center' : 'center'
   const opacity = isDark.value ? '0.35' : '0.12'
-  return `background-image: url('/images/technology/technology-hero.png'); background-size: cover; background-position: ${position}; opacity: ${opacity};`
+  return `background-image: url('${withBase('/images/technology/technology-hero.png')}'); background-size: cover; background-position: ${position}; opacity: ${opacity};`
 })
 
 const heroOverlayStyle = computed(() => {

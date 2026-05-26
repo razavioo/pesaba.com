@@ -4,7 +4,7 @@
 
     <NuxtLink :to="href" class="relative block aspect-[4/3] overflow-hidden border-b border-[var(--border)] bg-[var(--bg-elevated)]">
       <NuxtImg
-        :src="image || '/placeholder-product.svg'"
+        :src="$withBase(image || '/placeholder-product.svg')"
         :alt="title"
         class="h-full w-full object-contain p-8 transition-transform duration-500 group-hover:scale-[1.03]"
         loading="lazy"

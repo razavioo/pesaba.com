@@ -34,7 +34,7 @@
           <div class="spec-exhibit">№&nbsp;01</div>
           <div class="spec-visual-zone">
             <img
-              src="/images/stats/years.png"
+              :src="$withBase('/images/stats/years.png')"
               :alt="locale === 'fa' ? 'سال‌های تجربه' : 'Years of Experience'"
               class="spec-image"
               loading="lazy"
@@ -57,7 +57,7 @@
           <div class="spec-exhibit">№&nbsp;02</div>
           <div class="spec-visual-zone">
             <img
-              src="/images/stats/products.png"
+              :src="$withBase('/images/stats/products.png')"
               :alt="locale === 'fa' ? 'محصولات فعال' : 'Active Products'"
               class="spec-image"
               loading="lazy"
@@ -79,7 +79,7 @@
           <div class="spec-exhibit">№&nbsp;03</div>
           <div class="spec-visual-zone">
             <img
-              src="/images/stats/categories.png"
+              :src="$withBase('/images/stats/categories.png')"
               :alt="locale === 'fa' ? 'شاخه‌های محصول' : 'Product Categories'"
               class="spec-image"
               loading="lazy"
@@ -101,7 +101,7 @@
           <div class="spec-exhibit">№&nbsp;04</div>
           <div class="spec-visual-zone">
             <img
-              src="/images/stats/certs.png"
+              :src="$withBase('/images/stats/certs.png')"
               :alt="locale === 'fa' ? 'گواهینامه‌ها' : 'Certifications'"
               class="spec-image"
               loading="lazy"

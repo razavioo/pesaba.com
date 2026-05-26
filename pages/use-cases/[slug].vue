@@ -75,11 +75,12 @@ if (useCase.value) {
 }
 
 const { isDark } = useDarkMode()
+const { withBase } = useBaseUrl()
 
 const heroMediaStyle = computed(() => {
   const position = locale.value === 'fa' ? 'left center' : 'right center'
   const opacity = isDark.value ? '0.52' : '0.22'
-  return `background-image: url('/images/use-cases/${useCase.value?.slug}.png'); background-size: cover; background-position: ${position}; opacity: ${opacity};`
+  return `background-image: url('${withBase(`/images/use-cases/${useCase.value?.slug}.png`)}'); background-size: cover; background-position: ${position}; opacity: ${opacity};`
 })
 
 const heroOverlayStyle = computed(() => {

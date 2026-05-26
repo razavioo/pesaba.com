@@ -71,11 +71,12 @@
 const { t, locale } = useI18n()
 const localePath = useLocalePath()
 const { isDark } = useDarkMode()
+const { withBase } = useBaseUrl()
 
 const heroMediaStyle = computed(() => {
   const position = locale.value === 'fa' ? 'left center' : 'center'
   const opacity = isDark.value ? '0.35' : '0.12'
-  return `background-image: url('/images/products/products-hero.png'); background-size: cover; background-position: ${position}; opacity: ${opacity};`
+  return `background-image: url('${withBase('/images/products/products-hero.png')}'); background-size: cover; background-position: ${position}; opacity: ${opacity};`
 })
 
 const heroOverlayStyle = computed(() => {

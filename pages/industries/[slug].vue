@@ -134,11 +134,12 @@ if (industry.value) {
 }
 
 const { isDark } = useDarkMode()
+const { withBase } = useBaseUrl()
 
 const heroMediaStyle = computed(() => {
   const position = locale.value === 'fa' ? 'left center' : 'center'
   const opacity = isDark.value ? '0.58' : '0.25'
-  return `background-image: url('/images/industries/${industry.value?.slug}.png'); background-size: cover; background-position: ${position}; opacity: ${opacity};`
+  return `background-image: url('${withBase(`/images/industries/${industry.value?.slug}.png`)}'); background-size: cover; background-position: ${position}; opacity: ${opacity};`
 })
 
 const heroOverlayStyle = computed(() => {

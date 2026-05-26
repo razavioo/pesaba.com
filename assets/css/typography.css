@@ -1,7 +1,7 @@
 /* ─── IRANYekanX FaNum (Persian — self-hosted) ───────────────────────────── */
 @font-face {
   font-family: 'IRANYekanX';
-  src: url('/fonts/iranyekanx/IRANYekanXFaNum-Regular.woff2') format('woff2');
+  src: url('../../public/fonts/iranyekanx/IRANYekanXFaNum-Regular.woff2') format('woff2');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -9,7 +9,7 @@
 }
 @font-face {
   font-family: 'IRANYekanX';
-  src: url('/fonts/iranyekanx/IRANYekanXFaNum-Bold.woff2') format('woff2');
+  src: url('../../public/fonts/iranyekanx/IRANYekanXFaNum-Bold.woff2') format('woff2');
   font-weight: 600 900;
   font-style: normal;
   font-display: swap;
@@ -19,14 +19,14 @@
 /* ─── Inter (Latin body — self-hosted variable) ──────────────────────────── */
 @font-face {
   font-family: 'Inter';
-  src: url('/fonts/inter/inter-latin-wght-normal.woff2') format('woff2');
+  src: url('../../public/fonts/inter/inter-latin-wght-normal.woff2') format('woff2');
   font-weight: 100 900;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: 'Inter';
-  src: url('/fonts/inter/inter-latin-wght-italic.woff2') format('woff2');
+  src: url('../../public/fonts/inter/inter-latin-wght-italic.woff2') format('woff2');
   font-weight: 100 900;
   font-style: italic;
   font-display: swap;
@@ -35,21 +35,21 @@
 /* ─── JetBrains Mono (monospace — self-hosted) ───────────────────────────── */
 @font-face {
   font-family: 'JetBrains Mono';
-  src: url('/fonts/jetbrains-mono/jetbrains-mono-latin-400-normal.woff2') format('woff2');
+  src: url('../../public/fonts/jetbrains-mono/jetbrains-mono-latin-400-normal.woff2') format('woff2');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: 'JetBrains Mono';
-  src: url('/fonts/jetbrains-mono/jetbrains-mono-latin-400-italic.woff2') format('woff2');
+  src: url('../../public/fonts/jetbrains-mono/jetbrains-mono-latin-400-italic.woff2') format('woff2');
   font-weight: 400;
   font-style: italic;
   font-display: swap;
 }
 @font-face {
   font-family: 'JetBrains Mono';
-  src: url('/fonts/jetbrains-mono/jetbrains-mono-latin-700-normal.woff2') format('woff2');
+  src: url('../../public/fonts/jetbrains-mono/jetbrains-mono-latin-700-normal.woff2') format('woff2');
   font-weight: 700;
   font-style: normal;
   font-display: swap;
@@ -58,28 +58,28 @@
 /* ─── Newsreader (editorial serif — self-hosted) ─────────────────────────── */
 @font-face {
   font-family: 'Newsreader';
-  src: url('/fonts/newsreader/newsreader-latin-400-normal.woff2') format('woff2');
+  src: url('../../public/fonts/newsreader/newsreader-latin-400-normal.woff2') format('woff2');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: 'Newsreader';
-  src: url('/fonts/newsreader/newsreader-latin-400-italic.woff2') format('woff2');
+  src: url('../../public/fonts/newsreader/newsreader-latin-400-italic.woff2') format('woff2');
   font-weight: 400;
   font-style: italic;
   font-display: swap;
 }
 @font-face {
   font-family: 'Newsreader';
-  src: url('/fonts/newsreader/newsreader-latin-700-normal.woff2') format('woff2');
+  src: url('../../public/fonts/newsreader/newsreader-latin-700-normal.woff2') format('woff2');
   font-weight: 700;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: 'Newsreader';
-  src: url('/fonts/newsreader/newsreader-latin-700-italic.woff2') format('woff2');
+  src: url('../../public/fonts/newsreader/newsreader-latin-700-italic.woff2') format('woff2');
   font-weight: 700;
   font-style: italic;
   font-display: swap;

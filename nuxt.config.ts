@@ -62,8 +62,8 @@ export default defineNuxtConfig({
 
   // ─── Image ───────────────────────────────────────────────────────────────
   image: {
-    formats: ['avif', 'webp'],
     quality: 80,
+    formats: ['avif', 'webp'],
     screens: {
       xs: 320,
       sm: 640,
@@ -76,6 +76,7 @@ export default defineNuxtConfig({
 
   // ─── App head defaults ───────────────────────────────────────────────────
   app: {
+    baseURL: '/pesaba.com/',
     head: {
       charset: 'utf-8',
       viewport: 'width=device-width, initial-scale=1',
@@ -104,7 +105,7 @@ export default defineNuxtConfig({
     smtpTo: process.env.SMTP_TO || 'admin@pesaba.com',
     contactEmail: process.env.CONTACT_EMAIL || 'admin@pesaba.com',
     public: {
-      siteUrl: process.env.NUXT_PUBLIC_SITE_URL || 'https://pesaba.com',
+      siteUrl: process.env.NUXT_PUBLIC_SITE_URL || 'https://razavioo.github.io/pesaba.com',
       meilisearchHost: process.env.NUXT_PUBLIC_MEILISEARCH_HOST || '',
       meilisearchKey: process.env.NUXT_PUBLIC_MEILISEARCH_KEY || '',
     },
@@ -115,6 +116,8 @@ export default defineNuxtConfig({
     preset: 'github-pages',
     prerender: {
       routes: ['/feed.xml', '/sitemap.xml', '/robots.txt'],
+      failOnError: false,
+      ignore: ['/_ipx/**'],
     },
     routeRules: {
       '/api/**': { cors: false },

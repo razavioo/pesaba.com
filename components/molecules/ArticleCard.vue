@@ -3,7 +3,7 @@
     <NuxtLink :to="href" class="relative block aspect-[16/10] overflow-hidden bg-[var(--bg-elevated)]">
       <NuxtImg
         v-if="image"
-        :src="image"
+        :src="$withBase(image)"
         :alt="title"
         class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
         loading="eager"
