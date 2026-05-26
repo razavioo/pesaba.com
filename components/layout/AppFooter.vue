@@ -4,7 +4,7 @@
       <div class="grid gap-10 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,2fr)]">
         <div class="space-y-6">
           <NuxtLink :to="localePath('/')" class="inline-flex items-center gap-3">
-            <NuxtImg :src="$withBase('/logo.svg')" alt="Pesaba" class="h-9 w-9" />
+            <NuxtImg src="/logo.svg" alt="Pesaba" class="h-9 w-9" />
             <div>
               <div class="text-lg font-semibold text-[var(--text-primary)]">Pesaba</div>
               <div class="text-[11px] uppercase tracking-[0.2em] text-[var(--text-muted)]">

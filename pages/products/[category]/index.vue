@@ -43,7 +43,7 @@
               :style="isDark ? 'background: linear-gradient(145deg, #0E1422 0%, #08101C 100%)' : 'background: var(--bg-page)'"
             >
               <NuxtImg
-                :src="$withBase(heroPhotoSrc(slug))"
+                :src="heroPhotoSrc(slug)"
                 :alt="slug"
                 class="w-full h-full object-contain p-4 drop-shadow-[0_4px_16px_rgba(14,165,233,0.10)]"
                 loading="eager"
