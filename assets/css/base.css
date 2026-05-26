@@ -421,6 +421,18 @@
   .prose-product a:hover,
   .prose-custom a:hover,
   .prose-article a:hover { color: var(--photon-400); }
+  .prose-product h2 a,
+  .prose-product h3 a,
+  .prose-product h4 a,
+  .prose-custom h2 a,
+  .prose-custom h3 a,
+  .prose-custom h4 a,
+  .prose-article h2 a,
+  .prose-article h3 a,
+  .prose-article h4 a {
+    text-decoration: none !important;
+    color: inherit !important;
+  }
   .prose-product blockquote,
   .prose-custom blockquote,
   .prose-article blockquote {
