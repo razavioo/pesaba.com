@@ -25,7 +25,7 @@
           <!-- Premium Hero Image Card -->
           <div class="overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--bg-elevated)] relative group shadow-glow-sm hover:shadow-glow-md transition-all duration-300">
             <NuxtImg
-              src="/images/resources/firmware-hero.png"
+              :src="$withBase('/images/resources/firmware-hero.png')"
               :alt="locale === 'fa' ? 'ارتقای فریم‌ور سخت‌افزارهای پسا‌با' : 'Pesaba Hardware Firmware Flashing and Updates'"
               class="w-full h-64 sm:h-72 lg:h-80 object-cover object-center opacity-90 group-hover:opacity-100 transition-all duration-500 group-hover:scale-[1.02]"
               loading="lazy"

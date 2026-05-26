@@ -31,7 +31,7 @@
       <div class="container-site py-10">
         <div class="overflow-hidden rounded-3xl border border-[var(--border)]">
           <NuxtImg
-            src="/images/trust/rack-installation.png"
+            :src="$withBase('/images/trust/rack-installation.png')"
             :alt="locale === 'fa' ? 'نصب رک — سخت‌افزار پرتو ارتباط صبا در محیط عملیاتی' : 'Rack installation — Pesaba hardware in operational environment'"
             class="h-64 w-full object-cover object-center md:h-80"
             loading="lazy"

@@ -25,7 +25,7 @@
             :class="{ 'md:col-span-2 xl:col-span-1': i === 0 }"
           >
             <div :class="['overflow-hidden border-b border-[var(--border)]', i === 0 ? 'aspect-[21/9] md:aspect-[21/9]' : 'aspect-[16/10]']">
-              <NuxtImg :src="industry.image" :alt="industry.title" class="h-full w-full object-cover" loading="lazy" />
+              <NuxtImg :src="$withBase(industry.image)" :alt="industry.title" class="h-full w-full object-cover" loading="lazy" />
             </div>
             <div class="p-5">
               <div class="label-meta mb-2">{{ industry.badge }}</div>

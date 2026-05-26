@@ -26,7 +26,7 @@
         >
           <div class="aspect-[16/10] overflow-hidden border-b border-[var(--border)] bg-[var(--bg-elevated)]">
             <NuxtImg
-              :src="item.image"
+              :src="$withBase(item.image)"
               :alt="item.title"
               class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
               loading="lazy"

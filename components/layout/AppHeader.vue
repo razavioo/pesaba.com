@@ -11,7 +11,7 @@
   >
     <div class="container-site flex h-full items-center gap-5">
       <NuxtLink :to="localePath('/')" class="flex items-center gap-3" :aria-label="$t('meta.site_name')">
-        <NuxtImg src="/logo.svg" alt="Pesaba" class="h-10 w-10" />
+        <NuxtImg :src="$withBase('/logo.svg')" alt="Pesaba" class="h-10 w-10" />
         <div class="hidden sm:block">
           <div class="text-lg font-semibold tracking-[0.02em] text-[var(--text-primary)]">Pesaba</div>
           <div class="text-[10px] uppercase tracking-[0.2em] text-[var(--text-muted)]">
