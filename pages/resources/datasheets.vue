@@ -36,7 +36,7 @@
               </NuxtLink>
               <a
                 v-if="p.schematic_pdf"
-                :href="p.schematic_pdf"
+                :href="$withBase(p.schematic_pdf)"
                 target="_blank"
                 rel="noopener"
                 download
@@ -45,7 +45,7 @@
               <a
                 v-for="(pdf, i) in (p.schematic_pdfs || [])"
                 :key="`pdf-${i}`"
-                :href="pdf"
+                :href="$withBase(pdf)"
                 target="_blank"
                 rel="noopener"
                 download

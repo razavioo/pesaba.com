@@ -42,7 +42,7 @@
               <div class="label-accent mb-4">{{ $t(`products.categories.${product.category}`) }}</div>
               <div class="mb-3 flex items-center gap-4">
                 <h1 class="text-4xl font-extrabold leading-[1.05] tracking-[-0.04em] text-[var(--text-primary)]">{{ product.title }}</h1>
-                <img v-if="product.logo" :src="product.logo" :alt="`${product.title} logo`" class="h-10 w-auto opacity-90" loading="lazy" />
+                <img v-if="product.logo" :src="$withBase(product.logo)" :alt="`${product.title} logo`" class="h-10 w-auto opacity-90" loading="lazy" />
               </div>
               <p class="mb-6 text-base leading-relaxed text-[var(--text-secondary)]">{{ product.card_summary || product.description }}</p>
 
