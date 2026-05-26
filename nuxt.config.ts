@@ -112,6 +112,7 @@ export default defineNuxtConfig({
 
   // ─── Nitro ───────────────────────────────────────────────────────────────
   nitro: {
+    preset: 'github-pages',
     prerender: {
       routes: ['/feed.xml', '/sitemap.xml', '/robots.txt'],
     },

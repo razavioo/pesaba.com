@@ -26,13 +26,13 @@ export default {
           100:  '#E2E7F2',
           0:    '#FFFFFF',
         },
-        // Photon accent (sky blue)
+        // Photon accent (Stark High-Contrast Neutral Monochrome / Silver)
         photon: {
-          400: '#38BDF8',
-          500: '#0EA5E9',
-          600: '#0284C7',
-          700: '#0369A1',
-          900: '#0C4A6E',
+          400: '#F2F2F7', // Silver light
+          500: '#FFFFFF', // Pure white
+          600: '#E5E5EA', // Off white / light grey
+          700: '#D1D1D6', // Medium light grey
+          900: '#8E8E93', // Cool muted grey
         },
         // Signal (success / live)
         signal: {
@@ -46,6 +46,10 @@ export default {
         // Critical
         critical: {
           500: '#FF4D5E',
+        },
+        // Brand
+        brand: {
+          red: '#891D1E',
         },
         // Light mode paper
         paper: {
@@ -85,18 +89,18 @@ export default {
         'section': 'clamp(4rem, 8vw, 9rem)',
       },
       borderRadius: {
-        'xs':   '4px',
-        'sm':   '8px',
-        'md':   '12px',
-        'lg':   '20px',
-        '2xl':  '28px',
+        'xs':   '0px',
+        'sm':   '0px',
+        'md':   '0px',
+        'lg':   '0px',
+        '2xl':  '0px',
         'full': '9999px',
       },
       boxShadow: {
-        'glow-sm': '0 0 0 1px rgba(0,229,255,.08), 0 6px 14px rgba(0,229,255,.04)',
-        'glow-md': '0 0 0 1px rgba(0,229,255,.12), 0 12px 28px rgba(0,229,255,.08)',
-        'glow-lg': '0 0 0 1px rgba(0,229,255,.16), 0 24px 60px rgba(0,229,255,.12)',
-        'glow-xl': '0 0 0 1px rgba(0,229,255,.20), 0 32px 80px rgba(0,229,255,.16)',
+        'glow-sm': 'none',
+        'glow-md': 'none',
+        'glow-lg': 'none',
+        'glow-xl': 'none',
       },
       backgroundImage: {
         'photon-gradient': 'linear-gradient(135deg, #0EA5E9 0%, #0C4A6E 100%)',

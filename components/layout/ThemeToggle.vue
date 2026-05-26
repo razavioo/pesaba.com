@@ -1,7 +1,7 @@
 <template>
   <button
     @click="toggle()"
-    class="p-2 text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-elevated)] rounded-md transition-colors duration-150"
+    class="p-2 text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-elevated)] rounded-none transition-colors duration-150"
     :aria-label="isDark ? 'Switch to light mode' : 'Switch to dark mode'"
   >
     <svg v-if="isDark" class="w-4 h-4" viewBox="0 0 20 20" fill="none" aria-hidden="true">

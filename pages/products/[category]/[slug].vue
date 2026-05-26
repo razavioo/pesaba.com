@@ -121,11 +121,11 @@
         </div>
 
         <div v-show="activeTab === 'specs'" class="overflow-x-auto rounded-[24px] border border-[var(--border)]">
-          <table class="w-full text-left text-sm">
+          <table class="w-full text-start text-sm">
             <thead class="bg-[var(--bg-elevated)]">
               <tr>
-                <th class="label-meta px-5 py-4">{{ locale === 'fa' ? 'پارامتر' : 'Parameter' }}</th>
-                <th class="label-meta px-5 py-4">{{ locale === 'fa' ? 'مقدار' : 'Value' }}</th>
+                <th class="label-meta px-5 py-4 text-start">{{ locale === 'fa' ? 'پارامتر' : 'Parameter' }}</th>
+                <th class="label-meta px-5 py-4 text-start">{{ locale === 'fa' ? 'مقدار' : 'Value' }}</th>
               </tr>
             </thead>
             <tbody>

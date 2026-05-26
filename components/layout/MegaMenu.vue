@@ -23,7 +23,7 @@
                   @click="$emit('close')"
                   class="group flex items-center gap-3 rounded-xl px-3 py-3 text-sm text-[var(--text-secondary)] transition-colors hover:bg-[var(--bg-elevated)] hover:text-[var(--text-primary)]"
                 >
-                  <span class="w-5 h-5 flex-shrink-0 text-photon-500/50 group-hover:text-photon-500 transition-colors">
+                  <span class="w-5 h-5 flex-shrink-0 text-photon-500/50 group-hover:text-[var(--brand-red)] transition-colors">
                     <component :is="ind.icon" class="w-full h-full" />
                   </span>
                   {{ $t(`industries.${ind.key}`) }}
@@ -40,9 +40,9 @@
                 <NuxtLink
                   :to="localePath(`/use-cases/${uc.slug}`)"
                   @click="$emit('close')"
-                  class="flex items-center gap-3 rounded-xl px-3 py-3 text-sm text-[var(--text-secondary)] transition-colors hover:bg-[var(--bg-elevated)] hover:text-[var(--text-primary)]"
+                  class="group flex items-center gap-3 rounded-xl px-3 py-3 text-sm text-[var(--text-secondary)] transition-colors hover:bg-[var(--bg-elevated)] hover:text-[var(--text-primary)]"
                 >
-                  <span class="w-1.5 h-1.5 rounded-full bg-photon-500/40 flex-shrink-0" />
+                  <span class="w-1.5 h-1.5 rounded-full bg-photon-500/40 group-hover:bg-[var(--brand-red)] flex-shrink-0 transition-colors" />
                   {{ $t(`use_cases.${uc.key}`) }}
                 </NuxtLink>
               </li>
@@ -67,7 +67,7 @@
                   @click="$emit('close')"
                   class="group flex items-start gap-2 rounded-xl px-3 py-2.5 transition-colors hover:bg-[var(--bg-elevated)]"
                 >
-                  <span class="w-1 h-1 rounded-full bg-[var(--text-muted)] group-hover:bg-photon-500 mt-2 flex-shrink-0 transition-colors" />
+                  <span class="w-1 h-1 rounded-full bg-[var(--text-muted)] group-hover:bg-[var(--brand-red)] mt-2 flex-shrink-0 transition-colors" />
                   <div>
                     <p class="text-sm leading-snug text-[var(--text-secondary)] transition-colors group-hover:text-[var(--text-primary)]">{{ prod.name }}</p>
                   </div>

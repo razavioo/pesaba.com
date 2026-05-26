@@ -2,10 +2,10 @@
   <header
     ref="headerRef"
     :class="[
-      'fixed inset-x-0 top-0 z-50 transition-all duration-300 ease-hover',
+      'fixed inset-x-0 top-0 z-50 transition-all duration-200 ease-hover',
       scrolled
-        ? isDark ? 'h-16 border-b border-[var(--border)] bg-[rgba(8,16,28,0.94)] shadow-[0_10px_30px_rgba(4,10,20,0.45)] backdrop-blur-xl' : 'h-16 border-b border-[var(--border)] bg-[rgba(248,250,252,0.94)] shadow-[0_10px_30px_rgba(0,0,0,0.08)] backdrop-blur-xl'
-        : isDark ? 'h-20 border-b border-transparent bg-[rgba(8,16,28,0.82)] backdrop-blur-lg' : 'h-20 border-b border-transparent bg-[rgba(248,250,252,0.82)] backdrop-blur-lg',
+        ? isDark ? 'h-16 border-b border-[var(--border)] bg-black/90 backdrop-blur-md' : 'h-16 border-b border-[var(--border)] bg-white/95 backdrop-blur-md'
+        : isDark ? 'h-20 border-b border-transparent bg-black/40 backdrop-blur-sm' : 'h-20 border-b border-transparent bg-white/40 backdrop-blur-sm',
     ]"
     role="banner"
   >
@@ -33,9 +33,9 @@
             v-bind="item.subItems ? { 'aria-expanded': activeMenu === item.key, 'aria-haspopup': true } : { to: localePath(item.to) }"
             @click="item.subItems ? toggleMenu(item.key) : undefined"
             :class="[
-              'inline-flex items-center gap-1 rounded-xl px-3 py-2 text-sm font-medium transition-colors',
+              'inline-flex items-center gap-1 rounded-none px-3 py-2 text-sm font-medium transition-colors',
               isItemActive(item)
-                ? 'bg-photon-500/10 text-[var(--text-primary)]'
+                ? 'bg-photon-500/10 text-photon-500'
                 : 'text-[var(--text-secondary)] hover:bg-[var(--bg-elevated)] hover:text-[var(--text-primary)]',
             ]"
           >
@@ -51,7 +51,7 @@
           </component>
           <span
             v-if="isItemActive(item)"
-            class="absolute inset-x-3 -bottom-1 h-0.5 rounded-full bg-photon-500"
+            class="absolute inset-x-3 -bottom-1 h-[3px] bg-[var(--brand-red)]"
             aria-hidden="true"
           />
         </div>
@@ -68,7 +68,7 @@
         </BaseButton>
         <button
           @click="mobileOpen = !mobileOpen"
-          class="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-[var(--border-strong)] bg-[var(--bg-elevated)] text-[var(--text-secondary)] transition-colors hover:text-[var(--text-primary)] lg:hidden"
+          class="inline-flex h-10 w-10 items-center justify-center rounded-none border border-[var(--border-strong)] bg-[var(--bg-elevated)] text-[var(--text-secondary)] transition-colors hover:text-[var(--text-primary)] lg:hidden"
           :aria-label="mobileOpen ? $t('common.close') : $t('common.open')"
           :aria-expanded="mobileOpen"
         >
@@ -90,7 +90,7 @@
       <div v-if="mobileOpen" :class="['fixed inset-x-0 top-16 bottom-0 z-40 overflow-y-auto border-t border-[var(--border)] px-0 pb-8 backdrop-blur-xl lg:hidden', isDark ? 'bg-[rgba(8,16,28,0.98)]' : 'bg-[rgba(248,250,252,0.98)]']">
         <nav class="container-site py-6 space-y-2">
 
-          <div v-for="item in navItems" :key="item.key" class="rounded-2xl border border-[var(--border)] bg-[var(--bg-elevated)]">
+          <div v-for="item in navItems" :key="item.key" class="rounded-none border border-[var(--border)] bg-[var(--bg-elevated)]">
             <div class="flex items-center gap-2 px-4 py-3">
               <NuxtLink
                 :to="localePath(item.to)"

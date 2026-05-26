@@ -2,7 +2,7 @@
   <div ref="rootRef" class="relative">
     <button
       @click="open = !open"
-      class="inline-flex h-10 items-center gap-2 rounded-xl border border-[var(--border-strong)] bg-[var(--bg-elevated)] px-3 text-sm font-medium text-[var(--text-secondary)] transition-colors hover:border-photon-500/30 hover:text-[var(--text-primary)]"
+      class="inline-flex h-9 items-center gap-2 rounded-none border border-[var(--border-strong)] bg-[var(--bg-elevated)] px-3 text-sm font-medium text-[var(--text-secondary)] transition-colors hover:border-photon-500/30 hover:text-[var(--text-primary)]"
       :aria-label="`Switch language, current: ${locale}`"
       :aria-expanded="open"
     >
@@ -21,7 +21,7 @@
     <Transition name="dropdown">
       <div
         v-if="open"
-        class="absolute end-0 top-full z-50 mt-2 w-36 overflow-hidden rounded-2xl border border-[var(--border-strong)] bg-[var(--bg-modal)] shadow-[0_18px_42px_rgba(4,10,20,0.55)]"
+        class="absolute end-0 top-full z-50 mt-2 w-36 overflow-hidden rounded-none border border-[var(--border-strong)] bg-[var(--bg-modal)] shadow-[0_18px_42px_rgba(4,10,20,0.55)]"
         role="menu"
       >
         <button

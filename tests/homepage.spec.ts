@@ -24,8 +24,9 @@ test.describe('Homepage — English', () => {
   })
 
   test('stats bar shows 4 stat blocks', async ({ page }) => {
-    const stats = page.locator('section').filter({ hasText: /17\+/ }).first()
-    await expect(stats).toBeVisible()
+    const stats = page.locator('section.stats-showcase')
+    await stats.scrollIntoViewIfNeeded()
+    await expect(page.locator('section.stats-showcase').filter({ hasText: /17\+/ }).first()).toBeVisible()
   })
 
   test('6 product category cards are rendered', async ({ page }) => {
@@ -40,14 +41,14 @@ test.describe('Homepage — English', () => {
   })
 
   test('"How we ship" section renders 4 pillars', async ({ page }) => {
-    const pillars = page.locator('h3').filter({ hasText: /FPGA|OS.less|Made in|Certified/i })
+    const pillars = page.locator('h3').filter({ hasText: /FPGA|OS.less|Made in|Trust/i })
     await expect(pillars).toHaveCount(4)
   })
 
-  test('"From the lab" section shows 4 blog article cards', async ({ page }) => {
+  test('"From the lab" section shows 2 blog article cards', async ({ page }) => {
     // ArticleCard elements are article.card-halo
     const cards = page.locator('article.card-halo')
-    await expect(cards).toHaveCount(4)
+    await expect(cards).toHaveCount(2)
   })
 
   test('"View all" blog link works', async ({ page }) => {

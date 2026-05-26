@@ -31,12 +31,7 @@
       aria-hidden="true"
     />
 
-    <!-- Ambient glow behind product -->
-    <div
-      class="absolute end-0 top-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-full pointer-events-none z-10"
-      style="background: radial-gradient(circle, rgba(0,229,255,0.06) 0%, transparent 65%); filter: blur(80px);"
-      aria-hidden="true"
-    />
+
 
     <!-- Content -->
     <div class="container-site relative z-20 py-12 md:py-24">
@@ -50,12 +45,12 @@
             <div :key="activeIdx" class="flex flex-col">
               
               <!-- Eyebrow badge -->
-              <div class="inline-flex items-center gap-2 mb-6 px-3 py-1.5 rounded-full border border-photon-500/25 bg-photon-500/8 backdrop-blur-sm self-start">
+              <div class="eyebrow inline-flex items-center gap-2 mb-6 self-start">
                 <span class="relative flex h-1.5 w-1.5">
                   <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-signal-500 opacity-75"></span>
                   <span class="relative inline-flex h-1.5 w-1.5 rounded-full bg-signal-500"></span>
                 </span>
-                <span class="text-[10px] font-mono uppercase tracking-widest text-photon-400">
+                <span class="text-[10px] font-mono uppercase tracking-widest">
                   {{ slides[activeIdx].eyebrow }}
                 </span>
               </div>
@@ -88,10 +83,10 @@
                 <div
                   v-for="tag in slides[activeIdx].trustTags"
                   :key="tag"
-                  class="flex items-center gap-1.5 px-3 py-1.5 rounded-md border border-[var(--border)] bg-[var(--bg-elevated)]/40 text-xs text-[var(--text-secondary)] backdrop-blur-sm transition-all duration-200 hover:border-photon-500/30 hover:bg-photon-500/5"
+                  class="flex items-center gap-1.5 px-3 py-1.5 rounded-none border border-[var(--border)] bg-[var(--bg-elevated)] text-xs text-[var(--text-secondary)] transition-all duration-200 hover:border-photon-500 hover:bg-photon-500/5"
                 >
-                  <svg class="w-3.5 h-3.5 text-photon-500 flex-shrink-0 animate-pulse" viewBox="0 0 12 12" fill="none">
-                    <path d="M2 6l3 3 5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                  <svg class="w-3.5 h-3.5 text-photon-500 flex-shrink-0" viewBox="0 0 12 12" fill="none">
+                    <path d="M2 6l3 3 5-5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
                   </svg>
                   {{ tag }}
                 </div>
@@ -108,31 +103,18 @@
           <div class="relative w-full max-w-[380px] sm:max-w-[420px] lg:max-w-[440px]">
             
             <!-- Outer glow ring -->
-            <div
-              class="absolute inset-0 rounded-2xl pointer-events-none z-0"
-              style="box-shadow: 0 0 0 1px rgba(0,229,255,0.12), 0 32px 80px rgba(0,229,255,0.08), 0 0 120px rgba(0,229,255,0.04);"
-              aria-hidden="true"
-            />
-
             <!-- Premium Elegant Card Transition -->
             <Transition name="card-fade" mode="out-in">
               <div
                 :key="activeIdx"
-                class="relative rounded-2xl overflow-hidden border border-[var(--border)] z-10 product-card-hero"
+                class="relative rounded-none overflow-hidden border border-[var(--border)] z-10 product-card-hero"
                 style="background: var(--bg-elevated);"
               >
-                <!-- Corner accent marks -->
-                <div class="absolute top-3 start-3 w-5 h-5 border-t-2 border-s-2 border-photon-500/40 rounded-ss z-20" />
-                <div class="absolute top-3 end-3 w-5 h-5 border-t-2 border-e-2 border-photon-500/40 rounded-se z-20" />
-                <div class="absolute bottom-3 start-3 w-5 h-5 border-b-2 border-s-2 border-photon-500/40 rounded-es z-20" />
-                <div class="absolute bottom-3 end-3 w-5 h-5 border-b-2 border-e-2 border-photon-500/40 rounded-ee z-20" />
-
-                <!-- Scan line overlay -->
-                <div
-                  class="absolute inset-0 pointer-events-none z-20"
-                  style="background: repeating-linear-gradient(0deg, rgba(0,229,255,0.015) 0px, rgba(0,229,255,0.015) 1px, transparent 1px, transparent 4px);"
-                  aria-hidden="true"
-                />
+                <!-- Corner accent marks (sharp, technical) -->
+                <div class="absolute top-3 start-3 w-3 h-3 border-t-2 border-s-2 border-photon-500/60 z-20" />
+                <div class="absolute top-3 end-3 w-3 h-3 border-t-2 border-e-2 border-photon-500/60 z-20" />
+                <div class="absolute bottom-3 start-3 w-3 h-3 border-b-2 border-s-2 border-photon-500/60 z-20" />
+                <div class="absolute bottom-3 end-3 w-3 h-3 border-b-2 border-e-2 border-photon-500/60 z-20" />
 
                 <!-- Product image -->
                 <div class="aspect-[4/3] flex items-center justify-center p-6 sm:p-8 relative">
@@ -181,8 +163,8 @@
             </Transition>
 
             <!-- Floating spec chips -->
-            <div class="absolute -top-3 -start-3 z-30 flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-photon-500/20 text-[10px] font-mono text-photon-400 backdrop-blur-sm bg-[var(--bg-elevated)]">
-              <span class="w-1.5 h-1.5 rounded-full bg-signal-500 animate-pulse" />
+            <div class="absolute -top-3 -start-3 z-30 flex items-center gap-1.5 px-3 py-1.5 rounded-none border border-photon-500/30 text-[10px] font-mono text-photon-400 bg-[var(--bg-elevated)]">
+              <span class="w-1.5 h-1.5 rounded-full bg-signal-500" />
               {{ slides[activeIdx].productBadge }}
             </div>
           </div>
@@ -362,14 +344,10 @@ function buildEdges(nodes: Point[], maxDist: number): Edge[] {
   return edges
 }
 
-function drawGlow(ctx: CanvasRenderingContext2D, x: number, y: number, r: number, alpha: number) {
-  const g = ctx.createRadialGradient(x, y, 0, x, y, r)
-  g.addColorStop(0, `rgba(0,229,255,${alpha})`)
-  g.addColorStop(1, 'rgba(0,229,255,0)')
-  ctx.fillStyle = g
-  ctx.beginPath()
-  ctx.arc(x, y, r, 0, Math.PI * 2)
-  ctx.fill()
+function drawPhoton(ctx: CanvasRenderingContext2D, x: number, y: number, alpha: number) {
+  ctx.fillStyle = document.documentElement.classList.contains('light') ? '#000000' : '#FFFFFF'
+  ctx.globalAlpha = alpha
+  ctx.fillRect(x - 3, y - 3, 6, 6)
 }
 
 function initCanvas() {
@@ -427,16 +405,9 @@ function initCanvas() {
       const pos = lerp(p.edge.a, p.edge.b, easeInOutCubic(Math.min(p.t, 1)))
       const fadeIn  = Math.min(1, p.t * 6)
       const fadeOut = Math.max(0, 1 - (p.t - 0.6) * 2.5)
-      const alpha = fadeIn * fadeOut * 0.85
+      const alpha = fadeIn * fadeOut * 0.95
       if (alpha > 0) {
-        ctx!.globalAlpha = 1
-        drawGlow(ctx!, pos.x, pos.y, 16, alpha * 0.3)
-        drawGlow(ctx!, pos.x, pos.y, 6, alpha * 0.7)
-        ctx!.globalAlpha = alpha
-        ctx!.fillStyle = '#00E5FF'
-        ctx!.beginPath()
-        ctx!.arc(pos.x, pos.y, 2.5, 0, Math.PI * 2)
-        ctx!.fill()
+        drawPhoton(ctx!, pos.x, pos.y, alpha)
       }
       if (p.t > 1.2) photons.splice(i, 1)
     }
@@ -514,31 +485,10 @@ function initCanvas() {
   transform: translateY(-10px) scale(1.03);
 }
 
-/* Hero headline — premium gradient text with subtle shine */
+/* Hero headline — solid flat Swiss text */
 .hero-headline {
-  background: linear-gradient(
-    180deg,
-    var(--text-primary) 0%,
-    var(--text-primary) 55%,
-    color-mix(in srgb, var(--text-primary) 75%, var(--accent) 25%) 100%
-  );
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  color: transparent;
+  color: var(--text-primary);
   position: relative;
-}
-/* Light-mode gets a slightly different gradient that pushes toward photon */
-:global(.light .hero-headline) {
-  background: linear-gradient(
-    180deg,
-    #0E1422 0%,
-    #1B2438 55%,
-    #0099B5 100%
-  );
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
 }
 </style>
 

@@ -28,10 +28,27 @@
   /* Headings */
   h1, h2, h3, h4, h5, h6 {
     font-family: 'Inter', system-ui, sans-serif;
-    font-weight: 700;
-    line-height: 1.15;
-    letter-spacing: 0;
+    font-weight: 900 !important;
+    line-height: 1.1 !important;
+    letter-spacing: -0.04em !important;
     color: var(--text-primary);
+  }
+
+  /* Stark Swiss absolute right-angles and flat blocks reset */
+  *, *::before, *::after {
+    border-radius: 0px !important;
+    box-shadow: none !important;
+  }
+
+  /* Maintain functional circular elements specifically */
+  .list-dot::before,
+  .eyebrow--live::before,
+  .status-dot,
+  .theme-toggle-knob,
+  .indicator-dot,
+  .rounded-full-dot,
+  .animate-spin {
+    border-radius: 9999px !important;
   }
 
   /* Links */
@@ -153,14 +170,13 @@
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    padding: 0.375rem 0.875rem;
-    border-radius: 9999px;
-    border: 1px solid rgba(14,165,233,0.22);
-    background: rgba(14,165,233,0.08);
-    color: var(--photon-400);
+    padding: 0.4rem 0.9rem;
+    border: 1px solid var(--accent);
+    background: rgba(255, 42, 58, 0.08);
+    color: var(--accent);
     font-size: 0.7rem;
-    font-weight: 600;
-    letter-spacing: 0.14em;
+    font-weight: 800;
+    letter-spacing: 0.16em;
     text-transform: uppercase;
   }
 
@@ -245,12 +261,12 @@
     line-height: 1.7;
   }
 
-  /* Hairline rule (gradient) */
+  /* Hairline rule (solid) */
   .hairline {
     border: none;
     height: 1px;
-    background: linear-gradient(90deg, transparent 0%, var(--photon-500) 50%, transparent 100%);
-    opacity: 0.18;
+    background: var(--border);
+    opacity: 1;
     margin-block: 0;
   }
 
@@ -269,11 +285,11 @@
   }
 
   .light .card-halo:hover {
-    border-color: rgba(2,132,199,0.3);
+    border-color: var(--brand-red) !important;
   }
 
   .light .product-card:hover {
-    border-color: rgba(2,132,199,0.35);
+    border-color: var(--brand-red) !important;
   }
 
   .light .spec-pill {
@@ -290,28 +306,23 @@
   .card-halo {
     background: var(--bg-elevated);
     border: 1px solid var(--border);
-    border-radius: 18px;
     transition: border-color var(--dur-base) var(--ease-hover),
-                box-shadow var(--dur-base) var(--ease-hover),
-                transform var(--dur-base) var(--ease-hover);
+                background-color var(--dur-base) var(--ease-hover);
   }
   .card-halo:hover {
-    border-color: rgba(14, 165, 233, 0.25);
+    border-color: var(--brand-red) !important;
+    background-color: var(--bg-modal);
   }
 
   /* Product card — premium tile */
   .product-card {
     background-color: var(--bg-elevated);
-    background-image: linear-gradient(180deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0) 36%), linear-gradient(180deg, var(--bg-elevated) 0%, color-mix(in srgb, var(--bg-elevated) 78%, var(--bg-page)) 100%);
     border: 1px solid var(--border);
-    border-radius: 20px;
-    transition: border-color 250ms var(--ease-hover),
-                box-shadow 250ms var(--ease-hover),
-                transform 250ms var(--ease-hover);
+    transition: border-color 200ms var(--ease-hover),
+                background-color 200ms var(--ease-hover);
   }
   .product-card:hover {
-    border-color: rgba(14, 165, 233, 0.28);
-    transform: translateY(-2px);
+    border-color: var(--brand-red) !important;
   }
 
   /* Shared long-form prose (product detail, industries, use-cases, glossary articles) */
@@ -462,13 +473,12 @@
 
   /* Product card CTA primary button */
   .card-cta-primary {
-    background-color: var(--photon-500);
-    box-shadow: 0 10px 24px rgba(0, 229, 255, 0.18);
-    transition: background-color 150ms var(--ease-hover), box-shadow 150ms var(--ease-hover);
+    background-color: var(--btn-primary-bg);
+    color: var(--btn-primary-text) !important;
+    transition: background-color 150ms var(--ease-hover);
   }
   .card-cta-primary:hover {
-    background-color: var(--photon-400);
-    box-shadow: 0 14px 28px rgba(0, 229, 255, 0.24);
+    background-color: var(--btn-primary-hover);
   }
 
   /* Spec pill (monospace metric chip) */
@@ -482,17 +492,13 @@
     color: var(--text-secondary);
     background: var(--bg-elevated);
     border: 1px solid var(--border);
-    border-radius: var(--r-full);
+    border-radius: 0px !important;
     padding: 0.25rem 0.75rem;
     max-width: 100%;
     letter-spacing: 0.02em;
     min-width: 0;
   }
 
-  /* Label stays on one line so the chip "shape" is preserved.
-     Value is allowed to wrap so long phrases (e.g. multi-clause spec values)
-     don't push the pill out of its container. The pill grows in height
-     instead of overflowing horizontally. */
   .spec-pill__label {
     white-space: nowrap;
     flex-shrink: 0;
@@ -502,10 +508,8 @@
     overflow-wrap: anywhere;
     min-width: 0;
   }
-  /* When the pill is part of a wrapping group, give it some breathing room
-     so long values get a sensible width rather than collapsing to a column. */
   .spec-pill:has(.spec-pill__value) {
-    border-radius: 12px;
+    border-radius: 0px !important;
   }
 
   /* Mobile: each pill takes a full row with label/value justified, so long
@@ -581,8 +585,25 @@
 /* ─── Utilities ─────────────────────────────────────────────────────────── */
 @layer utilities {
   /* Thin border with photon accent */
-  .border-photon { border-color: rgba(0, 229, 255, 0.2); }
-  .border-photon-strong { border-color: rgba(0, 229, 255, 0.5); }
+  .border-photon { border-color: var(--border) !important; }
+  .border-photon-strong { border-color: var(--border-strong) !important; }
+
+  /* Stark monochrome JIT compiler bypass class overrides */
+  .text-photon-400 { color: var(--text-secondary) !important; }
+  .text-photon-500 { color: var(--text-primary) !important; }
+  .text-photon-600 { color: var(--text-primary) !important; }
+  .text-photon-700 { color: var(--text-muted) !important; }
+  
+  .bg-photon-500 {
+    background-color: var(--btn-primary-bg) !important;
+    color: var(--btn-primary-text) !important;
+  }
+  .bg-photon-500:hover {
+    background-color: var(--btn-primary-hover) !important;
+  }
+  
+  .border-photon-500 { border-color: var(--border-strong) !important; }
+  .hover\:border-photon-500\/30:hover { border-color: var(--accent) !important; }
 
   /* Underline animation */
   .underline-photon {
@@ -596,12 +617,22 @@
     inset-inline-start: 0;
     width: 100%;
     height: 1.5px;
-    background: var(--photon-500);
+    background: var(--brand-red);
     transform: scaleX(0);
     transform-origin: inline-start;
     transition: transform var(--dur-base) var(--ease-entrance);
   }
   .underline-photon:hover::after { transform: scaleX(1); }
+
+  /* Reusable brand red elegant gradient divider */
+  .divider-gradient {
+    border: none;
+    height: 1px;
+    background: linear-gradient(90deg, transparent 0%, var(--brand-red) 50%, transparent 100%);
+    opacity: 0.35;
+    margin-block: 0;
+    width: 100%;
+  }
 
   /* Visually hidden (accessible) */
   .sr-only {

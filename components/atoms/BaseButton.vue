@@ -45,7 +45,7 @@ const tag = computed(() => {
 
 const classes = computed(() => {
   const base = [
-    'inline-flex items-center justify-center gap-2 font-semibold rounded-xl border',
+    'inline-flex items-center justify-center gap-2 font-semibold rounded-none border',
     'transition-all duration-200 ease-hover',
     'focus-visible:outline-2 focus-visible:outline-photon-500 focus-visible:outline-offset-2',
     'disabled:opacity-40 disabled:pointer-events-none active:translate-y-px',
@@ -60,9 +60,9 @@ const classes = computed(() => {
 
   const variants: Record<Variant, string> = {
     primary: [
-      'border-photon-500 bg-photon-500 text-ink-950 shadow-[0_12px_26px_rgba(0,229,255,0.18)]',
-      'hover:border-photon-400 hover:bg-photon-400 hover:shadow-[0_16px_30px_rgba(0,229,255,0.24)]',
-      'active:bg-photon-600',
+      'border-photon-500 bg-photon-500 text-white',
+      'hover:border-photon-600 hover:bg-photon-600',
+      'active:bg-photon-700',
     ].join(' '),
     outline: [
       'border-[var(--border-strong)] bg-transparent text-[var(--text-primary)]',

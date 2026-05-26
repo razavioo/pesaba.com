@@ -37,8 +37,8 @@ Pictures/
 *.ai
 *.zip
 
-# Blender renders (large, gitignored masters)
-blender/renders/
+# Blender source files and renders (large, gitignored)
+blender/
 *.blend1
 
 # Playwright

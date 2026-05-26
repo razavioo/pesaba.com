@@ -12,16 +12,16 @@
   --ink-100:   #E2E7F2;
   --ink-0:     #FFFFFF;
 
-  /* Photon (sky blue) */
-  --photon-400: #38BDF8;
-  --photon-500: #0EA5E9;
-  --photon-600: #0284C7;
-  --photon-700: #0369A1;
-  --photon-900: #0C4A6E;
+  /* Photon (Stark High-Contrast Neutral Monochrome / Silver) */
+  --photon-400: #F2F2F7;
+  --photon-500: #FFFFFF;
+  --photon-600: #E5E5EA;
+  --photon-700: #D1D1D6;
+  --photon-900: #8E8E93;
 
-  /* Signal (success / live) */
-  --signal-500: #00D88A;
-  --signal-700: #009E63;
+  /* Signal (success / live / online) */
+  --signal-500: #34C759; /* Crisp Technical Green for active indicators */
+  --signal-700: #248A3D;
 
   /* Warning */
   --warn-500: #FFB020;
@@ -29,52 +29,63 @@
   /* Critical */
   --critical-500: #FF4D5E;
 
+  /* Brand Red (Pesaba Logo Red) */
+  --brand-red:         #891D1E;
+  --brand-red-hover:   #A7282A;
+  --brand-red-alpha:   rgba(137, 29, 30, 0.15);
+  --brand-red-glow:    rgba(137, 29, 30, 0.4);
+
   /* Paper (light mode) */
-  --paper-50:  #F8FAFC;
-  --paper-100: #EEF2F8;
-  --paper-900: #0E1422;
+  --paper-50:  #FFFFFF;
+  --paper-100: #F2F2F7;
+  --paper-900: #000000;
 
   /* ─── Semantic tokens (dark-mode default) ────────────────────────────── */
-  --bg-page:      #08101C;
-  --bg-elevated:  #0D1726;
-  --bg-modal:     #111D2F;
-  --border:       #1C2940;
-  --border-strong:#2A3952;
-  --text-primary: #F2F6FC;
-  --text-secondary:#C3CEE2;
-  --text-muted:   #8896B0;
+  --bg-page:      #000000;
+  --bg-elevated:  #0C0C0E;
+  --bg-modal:     #121214;
+  --border:       #1F1F22;
+  --border-strong:#2C2C30;
+  --text-primary: #FFFFFF;
+  --text-secondary:#E5E5EA;
+  --text-muted:   #8E8E93;
   --accent:       var(--photon-500);
   --accent-hover: var(--photon-600);
-  --accent-bg:    rgba(0, 229, 255, 0.12);
+  --accent-bg:    rgba(255, 255, 255, 0.08);
+
+  /* Primary Button variables (Dark mode default) */
+  --btn-primary-bg:    #FFFFFF;
+  --btn-primary-text:  #000000;
+  --btn-primary-hover: #E5E5EA;
 
   /* ─── Spacing ─────────────────────────────────────────────────────────── */
-  --space-hero:    clamp(4.5rem, 8vw, 7rem);
-  --space-section: clamp(3rem, 5vw, 4.75rem);
-  --space-cta:     clamp(3.75rem, 7vw, 6rem);
-  --space-gap:     clamp(1.25rem, 2vw, 2rem);
+  --space-hero:    clamp(5.5rem, 10vw, 9rem);
+  --space-section: clamp(4rem, 7vw, 7.5rem);
+  --space-cta:     clamp(5rem, 9vw, 8.5rem);
+  --space-gap:     clamp(1.5rem, 3vw, 3rem);
 
   /* ─── Radius ──────────────────────────────────────────────────────────── */
-  --r-xs:   4px;
-  --r-sm:   8px;
-  --r-md:   12px;
-  --r-lg:   20px;
-  --r-2xl:  28px;
+  --r-xs:   0px;
+  --r-sm:   0px;
+  --r-md:   0px;
+  --r-lg:   0px;
+  --r-2xl:  0px;
   --r-full: 9999px;
 
   /* ─── Shadows ─────────────────────────────────────────────────────────── */
-  --glow-sm: 0 2px 8px rgba(4,10,20,.28), 0 8px 24px rgba(4,10,20,.20);
-  --glow-md: 0 4px 16px rgba(4,10,20,.32), 0 16px 42px rgba(4,10,20,.24);
-  --glow-lg: 0 0 0 1px rgba(14,165,233,.10), 0 26px 64px rgba(4, 10, 20, .48);
-  --glow-xl: 0 0 0 1px rgba(14,165,233,.14), 0 34px 90px rgba(4, 10, 20, .54);
+  --glow-sm: none;
+  --glow-md: none;
+  --glow-lg: none;
+  --glow-xl: none;
 
   /* ─── Motion ──────────────────────────────────────────────────────────── */
-  --ease-entrance: cubic-bezier(.32, .72, 0, 1);
-  --ease-hover:    cubic-bezier(.4, 0, .2, 1);
-  --ease-exit:     cubic-bezier(.2, 0, 1, .9);
-  --dur-fast:  120ms;
-  --dur-base:  200ms;
-  --dur-slow:  320ms;
-  --dur-enter: 320ms;
+  --ease-entrance: cubic-bezier(.16, 1, .3, 1);
+  --ease-hover:    cubic-bezier(.16, 1, .3, 1);
+  --ease-exit:     cubic-bezier(.3, 0, 0, 1);
+  --dur-fast:  150ms;
+  --dur-base:  250ms;
+  --dur-slow:  400ms;
+  --dur-enter: 450ms;
 
   /* ─── Grid ────────────────────────────────────────────────────────────── */
   --container:       1280px;
@@ -84,19 +95,29 @@
 
 /* Light mode overrides */
 .light {
-  --bg-page:      var(--paper-50);
-  --bg-elevated:  var(--paper-100);
+  --bg-page:      #FFFFFF;
+  --bg-elevated:  #F2F2F7;
   --bg-modal:     #FFFFFF;
-  --border:       #D0D9E8;
-  --text-primary:   var(--paper-900);
-  --text-secondary: #4A5673;
-  --text-muted:     #8A9AB8;
-  --accent:       #0284C7;
-  --accent-hover: #0369A1;
-  --accent-bg:    #E0F2FE;
-  --glow-sm: 0 2px 8px rgba(0,0,0,.06), 0 8px 24px rgba(0,0,0,.04);
-  --glow-md: 0 4px 16px rgba(0,0,0,.08), 0 16px 42px rgba(0,0,0,.06);
-  --glow-lg: 0 0 0 1px rgba(2,132,199,.12), 0 24px 60px rgba(0,0,0,.08);
+  --border:       #D1D1D6;
+  --text-primary:   #000000;
+  --text-secondary: #3A3A3C;
+  --text-muted:     #8E8E93;
+  --accent:       #000000;
+  --accent-hover: #1C1C1E;
+  --accent-bg:    rgba(0, 0, 0, 0.05);
+  --glow-sm: none;
+  --glow-md: none;
+  --glow-lg: none;
+  
+  --photon-400: #1C1C1E;
+  --photon-500: #000000;
+  --photon-600: #2C2C30;
+  --photon-700: #48484A;
+  --photon-900: #8E8E93;
+
+  --btn-primary-bg:    #000000;
+  --btn-primary-text:  #FFFFFF;
+  --btn-primary-hover: #1C1C1E;
 }
 
 /* Graph-paper background pattern */

@@ -4,7 +4,7 @@
 
     <StatsShowcase />
 
-    <section class="section border-b border-[var(--border)]">
+    <section class="section">
       <div class="container-site">
         <div class="mb-8">
           <div class="section-label mb-3">{{ locale === 'fa' ? 'خطوط محصول' : 'Product Lines' }}</div>
@@ -46,7 +46,9 @@
       </div>
     </section>
 
-    <section class="section border-b border-[var(--border)] bg-[var(--bg-elevated)]">
+    <div class="divider-gradient" />
+
+    <section class="section bg-[var(--bg-elevated)]">
       <div class="container-site">
         <div class="mb-10 grid gap-6 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:items-end">
           <div>
@@ -59,7 +61,7 @@
         </div>
         <div class="divide-y divide-[var(--border)] border border-[var(--border)] rounded-2xl overflow-hidden">
           <div v-for="pillar in buildPillars" :key="pillar.title" class="flex items-start gap-4 p-5">
-            <component :is="pillar.icon" class="mt-0.5 h-4 w-4 shrink-0 text-[var(--text-muted)]" />
+            <component :is="pillar.icon" class="mt-0.5 h-4 w-4 shrink-0 text-[var(--brand-red)]" />
             <div>
               <h3 class="mb-1 text-sm font-semibold text-[var(--text-primary)]">{{ pillar.title }}</h3>
               <p class="text-sm leading-relaxed text-[var(--text-secondary)]">{{ pillar.desc }}</p>
@@ -69,7 +71,9 @@
       </div>
     </section>
 
-    <section class="section border-b border-[var(--border)]">
+    <div class="divider-gradient" />
+
+    <section class="section">
       <div class="container-site">
         <div class="mb-8 flex items-end justify-between gap-6">
           <div>
@@ -85,7 +89,7 @@
           <NuxtLink
             v-if="featuredArticles?.[0]"
             :to="localePath(`/blog/${featuredArticles[0].slug}`)"
-            class="group relative overflow-hidden rounded-[20px] border border-[var(--border)] bg-[var(--bg-elevated)] xl:row-span-2"
+            class="group relative overflow-hidden rounded-[20px] border border-[var(--border)] bg-[var(--bg-elevated)] h-full flex flex-col"
           >
             <div class="relative h-full min-h-[24rem]">
               <NuxtImg
@@ -130,6 +134,8 @@
         </div>
       </div>
     </section>
+
+    <div class="divider-gradient" />
 
     <CTAStrip
       :headline="$t('home.cta_headline')"
