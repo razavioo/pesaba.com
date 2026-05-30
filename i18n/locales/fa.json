@@ -237,7 +237,7 @@
     "aes_256_encryption": "رمزنگاری شبکه AES-256",
     "scada_isolation": "ایزولاسیون SCADA",
     "cellular_quality_monitoring": "پایش کیفیت شبکه سلولی",
-    "5g_drive_testing": "درایو تست ۵G",
+    "5g_drive_testing": "درایو تست 5G",
     "packet_capture": "ضبط و تحلیل بسته",
     "ethernet_over_stm": "اترنت روی STM",
     "ethernet_over_e1": "اترنت روی E1",

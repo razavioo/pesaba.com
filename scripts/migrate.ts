@@ -274,6 +274,11 @@ interface SiteVarRaw {
 
 const SENSITIVE_KEYS = ['smtpPassword', 'smtp_password', 'password', 'secret', 'token', 'key']
 
+function toPersianDigits(str: string): string {
+  const digits = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹']
+  return str.replace(/[0-9]/g, w => digits[parseInt(w)])
+}
+
 function migrateVariables(): void {
   console.log('\n⚙️  Migrating site variables...')
   const raw: SiteVarRaw = JSON.parse(fs.readFileSync(path.join(DATA, 'site_variables.json'), 'utf-8'))
@@ -286,7 +291,11 @@ function migrateVariables(): void {
       redacted++
       continue
     }
-    safe[key] = { fa: val.value_fa || '', en: val.value_en || '' }
+    let faVal = val.value_fa || ''
+    if (['contact_fax', 'contact_phone', 'contact_address', 'contact_postalCode'].includes(key)) {
+      faVal = toPersianDigits(faVal)
+    }
+    safe[key] = { fa: faVal, en: val.value_en || '' }
   }
 
   const outPath = path.join(CONTENT, 'site.json')

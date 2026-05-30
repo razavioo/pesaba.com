@@ -8,8 +8,8 @@ export default defineI18nConfig(() => ({
       long:  { year: 'numeric', month: 'long',  day: 'numeric', weekday: 'short' },
     },
     fa: {
-      short: { year: 'numeric', month: 'short', day: 'numeric', calendar: 'persian', numberingSystem: 'latn' },
-      long:  { year: 'numeric', month: 'long',  day: 'numeric', calendar: 'persian', numberingSystem: 'latn' },
+      short: { year: 'numeric', month: 'short', day: 'numeric', calendar: 'persian', numberingSystem: 'arabext' },
+      long:  { year: 'numeric', month: 'long',  day: 'numeric', calendar: 'persian', numberingSystem: 'arabext' },
     },
   },
   numberFormats: {
@@ -19,7 +19,7 @@ export default defineI18nConfig(() => ({
     },
     fa: {
       decimal:  { style: 'decimal',  minimumFractionDigits: 0, maximumFractionDigits: 2 },
-      currency: { style: 'currency', currency: 'IRR', numberingSystem: 'latn' },
+      currency: { style: 'currency', currency: 'IRR', numberingSystem: 'arabext' },
     },
   },
 }))

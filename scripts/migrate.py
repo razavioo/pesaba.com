@@ -239,6 +239,11 @@ image: '{hero_image}'
 SENSITIVE = {'smtppassword', 'smtp_password', 'password', 'secret', 'token'}
 
 
+def to_persian_digits(s: str) -> str:
+    digits = {'0': '۰', '1': '۱', '2': '۲', '3': '۳', '4': '۴', '5': '۵', '6': '۶', '7': '۷', '8': '۸', '9': '۹'}
+    return ''.join(digits.get(c, c) for c in s)
+
+
 def migrate_variables():
     print('\n⚙️  Migrating site variables...')
     raw = json.loads((DATA / 'site_variables.json').read_text('utf-8'))
@@ -248,7 +253,10 @@ def migrate_variables():
         if any(s in key.lower() for s in SENSITIVE):
             redacted += 1
             continue
-        safe[key] = {'fa': val.get('value_fa', ''), 'en': val.get('value_en', '')}
+        fa_val = val.get('value_fa', '')
+        if key in {'contact_fax', 'contact_phone', 'contact_address', 'contact_postalCode'}:
+            fa_val = to_persian_digits(fa_val)
+        safe[key] = {'fa': fa_val, 'en': val.get('value_en', '')}
     out = CONTENT / 'site.json'
     out.write_text(json.dumps(safe, ensure_ascii=False, indent=2), encoding='utf-8')
     print(f'  ✓ content/site.json ({len(safe)} vars, {redacted} redacted)')
