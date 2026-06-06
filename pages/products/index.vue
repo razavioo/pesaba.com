@@ -59,6 +59,8 @@
               :category-label="$t(`products.categories.${cat.key}`)"
               :specs="p.specs?.slice(0, 2)"
               :image="p.photos?.[0] || p.images?.[0]"
+              :tags="productTags(p)"
+              :has-datasheet="hasDatasheet(p)"
             />
           </div>
         </div>
@@ -72,6 +74,12 @@ const { t, locale } = useI18n()
 const localePath = useLocalePath()
 const { isDark } = useDarkMode()
 const { withBase } = useBaseUrl()
+
+useHead({
+  link: [
+    { rel: 'preload', as: 'image', href: withBase('/images/products/products-hero.png') },
+  ],
+})
 
 const heroMediaStyle = computed(() => {
   const position = locale.value === 'fa' ? 'left center' : 'center'
@@ -100,6 +108,29 @@ useSeoMeta({
 
 const CATEGORY_KEYS = ['data-diodes', 'network-encryption', 'network-switching-filtering', 'telecom-transmission', 'cellular-monitoring', 'bio-monitoring']
 const { data: allProducts } = await useAsyncData('all-products', () => queryContent('products').find())
+
+interface ProductCardMeta {
+  category: string
+  schematic_pdf?: string
+  schematic_pdfs?: string[]
+}
+
+const CATEGORY_TAGS: Record<string, { fa: string[]; en: string[] }> = {
+  'data-diodes': { fa: ['یک‌طرفه', 'مرز OT', 'بدون سیستم‌عامل'], en: ['One-way', 'OT boundary', 'OS-less'] },
+  'network-encryption': { fa: ['AES-256', 'FPGA', 'لینک امن'], en: ['AES-256', 'FPGA', 'Secure links'] },
+  'cellular-monitoring': { fa: ['2G–5G', 'QoS', 'میدانی'], en: ['2G–5G', 'QoS', 'Field probes'] },
+  'network-switching-filtering': { fa: ['L2/L3', 'تفکیک شبکه', 'صنعتی'], en: ['L2/L3', 'Segmentation', 'Industrial'] },
+  'telecom-transmission': { fa: ['SDH/E1', 'اپراتوری', 'انتقال'], en: ['SDH/E1', 'Carrier', 'Transport'] },
+  'bio-monitoring': { fa: ['پایش آب', 'بلادرنگ', 'هشدار'], en: ['Water quality', 'Realtime', 'Alerting'] },
+}
+
+function productTags(product: ProductCardMeta) {
+  return CATEGORY_TAGS[product.category]?.[locale.value === 'fa' ? 'fa' : 'en'] || []
+}
+
+function hasDatasheet(product: ProductCardMeta) {
+  return Boolean(product.schematic_pdf || product.schematic_pdfs?.length)
+}
 
 const categories = computed(() =>
   CATEGORY_KEYS.map(key => ({

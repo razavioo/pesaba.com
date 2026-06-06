@@ -63,7 +63,10 @@
       <div class="flex items-center gap-2">
         <ThemeToggle />
         <LocaleSwitcher />
-        <BaseButton variant="outline" size="sm" :to="localePath('/company/contact')" class="hidden sm:inline-flex">
+        <BaseButton variant="primary" size="sm" :href="salesPhoneHref" class="hidden sm:inline-flex">
+          {{ $t('contact.call_sales') }}
+        </BaseButton>
+        <BaseButton variant="outline" size="sm" :to="localePath('/company/contact')" class="hidden xl:inline-flex">
           {{ $t('nav.talk_to_sales') }}
         </BaseButton>
         <button
@@ -123,8 +126,11 @@
           </div>
         </div>
 
-        <div class="pt-4">
-          <BaseButton variant="primary" size="lg" :to="localePath('/company/contact')" full>
+        <div class="grid gap-2 pt-4">
+          <BaseButton variant="primary" size="lg" :href="salesPhoneHref" full>
+            {{ $t('contact.call_sales_now') }}
+          </BaseButton>
+          <BaseButton variant="outline" size="lg" :to="localePath('/company/contact')" full>
             {{ $t('nav.talk_to_sales') }}
           </BaseButton>
         </div>
@@ -140,6 +146,7 @@ const { t, locale } = useI18n()
 const localePath = useLocalePath()
 
 const { isDark } = useDarkMode()
+const { salesPhoneHref } = useContactInfo()
 const NuxtLink = resolveComponent('NuxtLink')
 
 const headerRef = ref<HTMLElement | null>(null)
@@ -151,6 +158,7 @@ const expandedMobile = ref<string | null>(null)
 const route = useRoute()
 
 const navItems = computed(() => [
+  { key: 'home', to: '/', subItems: false, children: [] },
   {
     key: 'solutions',
     to: '/solutions',
@@ -207,7 +215,9 @@ function toggleMenu(key: string) {
 }
 
 function isItemActive(item: { key: string; to: string }) {
-  return route.path === localePath(item.to) || route.path.startsWith(`${localePath(item.to)}/`)
+  const target = localePath(item.to)
+  if (item.to === '/') return route.path === target || route.path === `${target}/`
+  return route.path === target || route.path.startsWith(`${target}/`)
 }
 
 function onScroll() {

@@ -15,8 +15,10 @@ test.describe('Homepage — English', () => {
     await expect(hero).toBeVisible()
   })
 
-  test('hero CTA buttons link to contact and products', async ({ page }) => {
+  test('hero CTA buttons link to phone, contact, and products', async ({ page }) => {
     // Hero CTAs are in the TopologyHero section (first major section)
+    const phoneLink = page.locator('a[href^="tel:"]').first()
+    await expect(phoneLink).toBeVisible()
     const contactLink = page.locator('a[href*="/company/contact"]').first()
     await expect(contactLink).toBeVisible()
     const productsLink = page.locator('a[href*="/products"]').first()
@@ -30,14 +32,20 @@ test.describe('Homepage — English', () => {
   })
 
   test('6 product category cards are rendered', async ({ page }) => {
-    // Category cards are NuxtLink elements with card-halo class pointing to product categories
-    const cards = page.locator('a.card-halo[href*="/products/"]')
+    // Category cards are NuxtLink elements with product-card + card-halo classes pointing to product categories.
+    const cards = page.locator('a.product-card.card-halo[href*="/products/"]')
     await expect(cards).toHaveCount(6)
   })
 
   test('product category card navigates on click', async ({ page }) => {
-    await page.locator('a.card-halo[href*="/products/"]').first().click()
+    await page.locator('a.product-card.card-halo[href*="/products/"]').first().click()
     await expect(page).toHaveURL(/\/products\//)
+  })
+
+  test('application-first use-case section renders benchmark-inspired cards', async ({ page }) => {
+    await expect(page.getByText(/Where Pesaba Fits/i)).toBeVisible()
+    await expect(page.getByText(/Secure operational-network boundaries/i)).toBeVisible()
+    await expect(page.locator('a[href*="/use-cases/one-way-data-transfer"]').first()).toBeVisible()
   })
 
   test('"How we ship" section renders 4 pillars', async ({ page }) => {
@@ -56,11 +64,11 @@ test.describe('Homepage — English', () => {
     await expect(viewAll).toHaveAttribute('href', /\/blog/)
   })
 
-  test('CTA strip at bottom is visible with contact link', async ({ page }) => {
+  test('CTA strip at bottom prioritizes phone and links to products', async ({ page }) => {
     await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight))
     await page.waitForTimeout(200)
-    const ctaLink = page.locator('a[href*="/company/contact"]').last()
-    await expect(ctaLink).toBeVisible()
+    await expect(page.locator('a[href^="tel:"]').last()).toBeVisible()
+    await expect(page.locator('a[href*="/products"]').last()).toBeVisible()
   })
 
   test('page has no broken images', async ({ page }) => {
@@ -99,13 +107,12 @@ test.describe('Homepage — Farsi (RTL)', () => {
   })
 
   test('locale switcher button shows current locale', async ({ page }) => {
-    // LocaleSwitcher shows "fa" text in the button
-    const switcher = page.locator('button').filter({ hasText: /^fa$/i })
+    const switcher = page.locator('header button[aria-label*="current: fa"]')
     await expect(switcher.first()).toBeVisible()
   })
 
   test('locale switcher opens dropdown with EN option', async ({ page }) => {
-    const switcher = page.locator('button').filter({ hasText: /^fa$/i }).first()
+    const switcher = page.locator('header button[aria-label*="current: fa"]').first()
     await switcher.click()
     await page.waitForTimeout(200)
     const enOption = page.getByRole('menuitem').filter({ hasText: /en|English/i })
@@ -126,7 +133,7 @@ test.describe('Homepage — Mobile', () => {
   })
 
   test('product category grid is visible on mobile', async ({ page }) => {
-    const firstCard = page.locator('a.card-halo[href*="/products/"]').first()
+    const firstCard = page.locator('a.product-card.card-halo[href*="/products/"]').first()
     await expect(firstCard).toBeVisible()
   })
 

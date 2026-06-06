@@ -6,12 +6,8 @@
       <Transition name="bg-slide">
         <div
           :key="activeIdx"
-          class="absolute inset-0 bg-cover bg-center ken-burns"
-          :style="{
-            backgroundImage: `url(${$withBase(slides[activeIdx].bgImage)})`,
-            opacity: isDark ? 0.38 : 0.26,
-            filter: isDark ? 'none' : 'invert(1) hue-rotate(180deg) brightness(1.02) contrast(0.95)'
-          }"
+          :class="['absolute inset-0 bg-cover bg-center', heroVisualReady ? 'ken-burns' : '']"
+          :style="heroBackgroundStyle"
         />
       </Transition>
       
@@ -70,7 +66,10 @@
 
               <!-- CTAs -->
               <div class="flex flex-wrap items-center gap-3.5 mb-8">
-                <BaseButton variant="primary" size="lg" :to="localePath('/company/contact')">
+                <BaseButton variant="primary" size="lg" :href="salesPhoneHref">
+                  {{ t('contact.call_sales_now') }}
+                </BaseButton>
+                <BaseButton variant="outline" size="lg" :to="`${localePath('/company/contact')}?dept=sales`">
                   {{ t('home.cta_quote') }}
                 </BaseButton>
                 <BaseButton variant="outline" size="lg" :to="localePath('/products')">
@@ -123,6 +122,8 @@
                     :alt="slides[activeIdx].productTitle"
                     class="max-w-[82%] max-h-[82%] object-contain drop-shadow-[0_12px_44px_rgba(0,229,255,0.22)] transform hover:scale-105 transition-transform duration-500"
                     loading="eager"
+                    fetchpriority="high"
+                    decoding="async"
                   />
                 </div>
 
@@ -204,15 +205,32 @@
 
 <script setup lang="ts">
 const { t, locale } = useI18n()
+const { withBase } = useBaseUrl()
 const localePath = useLocalePath()
 const { isDark } = useDarkMode()
+const { salesPhoneHref } = useContactInfo()
 const canvasRef = ref<HTMLCanvasElement | null>(null)
 const { reduced } = useMotionReduced()
 
 const activeIdx = ref(0)
 const progress = ref(0)
+const heroVisualReady = ref(false)
 const slideDuration = 8000 // 8 seconds per slide
 let autoTimer: ReturnType<typeof setInterval> | null = null
+let readyFallbackTimer: ReturnType<typeof setTimeout> | null = null
+
+useHead({
+  link: [
+    { rel: 'preload', as: 'image', href: withBase('/images/hero/slide-1-diodes.png') },
+    { rel: 'preload', as: 'image', href: withBase('/photos/k200/photo-1.webp') },
+  ],
+})
+
+const heroBackgroundStyle = computed(() => ({
+  backgroundImage: `url(${withBase(slides.value[activeIdx.value].bgImage)})`,
+  opacity: isDark.value ? 0.38 : 0.26,
+  filter: isDark.value ? 'none' : 'invert(1) hue-rotate(180deg) brightness(1.02) contrast(0.95)',
+}))
 
 const slides = computed(() => [
   {
@@ -286,26 +304,39 @@ function startTimer() {
 
 function nextSlide() {
   activeIdx.value = (activeIdx.value + 1) % slides.value.length
-  startTimer()
+  if (heroVisualReady.value) startTimer()
 }
 
 function prevSlide() {
   activeIdx.value = (activeIdx.value - 1 + slides.value.length) % slides.value.length
-  startTimer()
+  if (heroVisualReady.value) startTimer()
 }
 
 function selectSlide(i: number) {
   activeIdx.value = i
-  startTimer()
+  if (heroVisualReady.value) startTimer()
 }
 
+watch(activeIdx, () => {
+  progress.value = 0
+})
+
 onMounted(() => {
-  startTimer()
+  const firstBg = new Image()
+  firstBg.src = withBase(slides.value[0].bgImage)
+  firstBg.onload = () => { heroVisualReady.value = true }
+  firstBg.onerror = () => { heroVisualReady.value = true }
+  readyFallbackTimer = setTimeout(() => { heroVisualReady.value = true }, 1600)
   if (!reduced.value) initCanvas()
+})
+
+watch(heroVisualReady, (ready) => {
+  if (ready && !autoTimer) startTimer()
 })
 
 onUnmounted(() => {
   if (autoTimer) clearInterval(autoTimer)
+  if (readyFallbackTimer) clearTimeout(readyFallbackTimer)
   if (animId !== null) cancelAnimationFrame(animId)
   clearInterval(spawnIntervalRef)
   ro?.disconnect()

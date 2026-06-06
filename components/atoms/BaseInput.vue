@@ -13,6 +13,7 @@
       :placeholder="placeholder"
       :required="required"
       :disabled="disabled"
+      :readonly="readonly"
       :rows="multiline ? rows : undefined"
       :class="inputClass"
       @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)"
@@ -32,6 +33,7 @@ const props = withDefaults(defineProps<{
   placeholder?: string
   required?: boolean
   disabled?: boolean
+  readonly?: boolean
   multiline?: boolean
   rows?: number
   error?: string
@@ -55,6 +57,7 @@ const inputClass = computed(() => [
     ? 'border-critical-500 focus:border-critical-500 focus:ring-1 focus:ring-critical-500/30'
     : 'border-[var(--border)] focus:border-photon-500/60 focus:ring-1 focus:ring-photon-500/20',
   props.disabled ? 'opacity-50 cursor-not-allowed' : '',
+  props.readonly ? 'opacity-80 cursor-default' : '',
   props.multiline ? 'resize-y min-h-24' : '',
 ])
 </script>

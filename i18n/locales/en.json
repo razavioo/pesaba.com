@@ -1,5 +1,6 @@
 {
   "nav": {
+    "home": "Home",
     "solutions": "Solutions",
     "products": "Products",
     "technology": "Technology",
@@ -46,6 +47,9 @@
     "search_placeholder": "Search products, articles, glossary…",
     "request_quote": "Request Quote",
     "download_pdf": "Download Datasheet",
+    "datasheet_available": "Datasheet",
+    "direct_datasheet_note": "This opens the exact datasheet for this product.",
+    "call_for_datasheet": "For the latest datasheet, call sales engineering directly.",
     "download_schematic": "Download Schematic",
     "book_demo": "Book a Demo",
     "compare": "Compare",
@@ -132,6 +136,10 @@
     "headline": "Talk to our team",
     "sub": "For product quotes, technical demos, or guidance on selecting the right solution for your network.",
     "form_title": "Request a quote",
+    "call_sales": "Call Sales",
+    "call_sales_now": "Call Sales Now",
+    "phone_first_title": "Fastest path: call our sales team",
+    "phone_first_sub": "Pricing, product fit, and availability are usually confirmed faster by phone.",
     "send_request": "Send request",
     "name_placeholder": "Your name",
     "company_placeholder": "Company",

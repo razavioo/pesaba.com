@@ -48,6 +48,51 @@
 
     <div class="divider-gradient" />
 
+    <section class="section bg-[var(--bg-elevated)]/60">
+      <div class="container-site">
+        <div class="mb-10 grid gap-6 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:items-end">
+          <div>
+            <div class="section-label mb-3">{{ locale === 'fa' ? 'کاربردها' : 'Where Pesaba Fits' }}</div>
+            <h2 class="section-heading text-[var(--text-primary)]">
+              {{ locale === 'fa' ? 'از مسئله عملیاتی به محصول مناسب برسید.' : 'Move from operational problem to the right hardware.' }}
+            </h2>
+          </div>
+          <p class="section-copy max-w-2xl">
+            {{ locale === 'fa' ? 'مانند سایت‌های مرجع مخابراتی، مسیر انتخاب محصول را بر اساس کاربرد ساده کرده‌ایم: مرزبندی امن، انتقال مخابراتی، پایش سلولی و زیرساخت‌های حیاتی.' : 'Inspired by leading telecom hardware sites, discovery is organized by use case: secure boundaries, telecom transport, cellular monitoring, and critical-infrastructure operations.' }}
+          </p>
+        </div>
+
+        <div class="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+          <NuxtLink
+            v-for="item in applicationSegments"
+            :key="item.to"
+            :to="localePath(item.to)"
+            class="card-halo group flex h-full flex-col overflow-hidden p-5 transition-all duration-300 hover:-translate-y-1"
+          >
+            <div class="mb-4 flex items-center justify-between gap-3">
+              <div class="rounded-full border border-photon-500/25 bg-photon-500/8 px-3 py-1 text-[11px] font-mono uppercase tracking-wider text-photon-400">
+                {{ item.badge }}
+              </div>
+              <span class="text-sm text-[var(--text-muted)] transition-transform group-hover:translate-x-1 rtl:group-hover:-translate-x-1">→</span>
+            </div>
+            <h3 class="mb-2 text-lg font-semibold text-[var(--text-primary)]">{{ item.title }}</h3>
+            <p class="mb-4 flex-grow text-sm leading-relaxed text-[var(--text-secondary)]">{{ item.desc }}</p>
+            <div class="flex flex-wrap gap-2">
+              <span
+                v-for="tag in item.tags"
+                :key="tag"
+                class="rounded-full border border-[var(--border)] bg-[var(--bg-page)] px-2.5 py-1 text-[11px] text-[var(--text-secondary)]"
+              >
+                {{ tag }}
+              </span>
+            </div>
+          </NuxtLink>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider-gradient" />
+
     <section class="section bg-[var(--bg-elevated)]">
       <div class="container-site">
         <div class="mb-10 grid gap-6 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:items-end">
@@ -139,9 +184,9 @@
 
     <CTAStrip
       :headline="$t('home.cta_headline')"
-      :sub="$t('home.cta_sub')"
-      :primary-label="$t('home.cta_quote')"
-      :primary-href="localePath('/company/contact')"
+      :sub="$t('contact.phone_first_sub')"
+      :primary-label="$t('contact.call_sales_now')"
+      :primary-href="salesPhoneHref"
       :secondary-label="$t('home.cta_all_products')"
       :secondary-href="localePath('/products')"
     />
@@ -151,6 +196,7 @@
 <script setup lang="ts">
 const { t, locale } = useI18n()
 const localePath = useLocalePath()
+const { salesPhoneHref } = useContactInfo()
 const { emitOrganization, emitWebsite } = useSchemaOrg()
 
 useSeoMeta({
@@ -166,6 +212,94 @@ const { data: featuredArticles } = await useAsyncData('home-articles', () =>
   queryContent('articles').where({ locale: locale.value }).sort({ date: -1 }).limit(4).find()
 )
 
+
+const applicationSegments = computed(() => locale.value === 'fa' ? [
+  {
+    badge: 'OT/IT',
+    title: 'مرزبندی امن شبکه‌های عملیاتی',
+    desc: 'انتقال یک‌طرفه داده از محیط‌های حساس به شبکه سازمانی، بدون مسیر برگشت نرم‌افزاری.',
+    to: '/use-cases/one-way-data-transfer',
+    tags: ['دیتادیود', 'یک‌طرفه', 'SCADA'],
+  },
+  {
+    badge: 'AES',
+    title: 'رمزنگاری لینک‌های حساس',
+    desc: 'رمزنگاری سخت‌افزاری برای ارتباط بین سایت‌ها و لینک‌های زیرساختی با سطح حمله کوچک‌تر.',
+    to: '/use-cases/aes-256-network-encryption',
+    tags: ['AES-256', 'FPGA', 'بدون OS'],
+  },
+  {
+    badge: 'QoS',
+    title: 'پایش کیفیت شبکه سلولی',
+    desc: 'اندازه‌گیری KPI، پوشش و کیفیت تجربه از ابزار میدانی تا گزارش متمرکز.',
+    to: '/use-cases/cellular-quality-monitoring',
+    tags: ['2G–5G', 'QoS', 'میدانی'],
+  },
+  {
+    badge: 'SDH',
+    title: 'انتقال مخابراتی و شبکه اپراتوری',
+    desc: 'حفظ و نوسازی لایه‌های انتقال قدیمی و جدید با رابط‌های SDH، E1 و اترنت.',
+    to: '/products/telecom-transmission',
+    tags: ['SDH/E1', 'Carrier', 'Transport'],
+  },
+  {
+    badge: 'Grid',
+    title: 'زیرساخت‌های حیاتی و صنایع حساس',
+    desc: 'الگوهای استقرار برای برق، آب، دولت و محیط‌های صنعتی با نیاز به مستندسازی فنی.',
+    to: '/industries/power-grid',
+    tags: ['زیرساخت حیاتی', 'OT', 'اعتماد'],
+  },
+  {
+    badge: 'Water',
+    title: 'پایش زیست‌محیطی و کیفیت آب',
+    desc: 'تشخیص زودهنگام و هشدار بلادرنگ برای شبکه‌های توزیع و تأسیسات آب.',
+    to: '/use-cases/water-toxicity-monitoring',
+    tags: ['پایش آب', 'هشدار', 'بلادرنگ'],
+  },
+] : [
+  {
+    badge: 'OT/IT',
+    title: 'Secure operational-network boundaries',
+    desc: 'Move data from sensitive environments to enterprise networks with hardware-enforced one-way flow.',
+    to: '/use-cases/one-way-data-transfer',
+    tags: ['Data diode', 'One-way', 'SCADA'],
+  },
+  {
+    badge: 'AES',
+    title: 'Encrypt sensitive infrastructure links',
+    desc: 'FPGA-native network encryption for inter-site and backbone links with a smaller software attack surface.',
+    to: '/use-cases/aes-256-network-encryption',
+    tags: ['AES-256', 'FPGA', 'OS-less'],
+  },
+  {
+    badge: 'QoS',
+    title: 'Measure cellular network quality',
+    desc: 'Track coverage, KPIs, and QoE from field probes to centralized reporting.',
+    to: '/use-cases/cellular-quality-monitoring',
+    tags: ['2G–5G', 'QoS', 'Field'],
+  },
+  {
+    badge: 'SDH',
+    title: 'Modernize telecom transport',
+    desc: 'Bridge legacy and modern transport layers with SDH, E1, and Ethernet interfaces.',
+    to: '/products/telecom-transmission',
+    tags: ['SDH/E1', 'Carrier', 'Transport'],
+  },
+  {
+    badge: 'Grid',
+    title: 'Support critical infrastructure teams',
+    desc: 'Deployment patterns for power, water, government, and industrial environments that need technical proof.',
+    to: '/industries/power-grid',
+    tags: ['Critical infrastructure', 'OT', 'Trust'],
+  },
+  {
+    badge: 'Water',
+    title: 'Monitor environmental and water quality',
+    desc: 'Early anomaly detection and realtime alerting for distribution networks and water facilities.',
+    to: '/use-cases/water-toxicity-monitoring',
+    tags: ['Water quality', 'Alerting', 'Realtime'],
+  },
+])
 
 const productCategories = computed(() => [
   {

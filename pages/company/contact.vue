@@ -27,6 +27,22 @@
               </p>
             </div>
 
+            <!-- Phone-first sales route -->
+            <div class="card-halo p-6 bg-gradient-to-br from-photon-500/14 to-[var(--bg-elevated)] border-photon-500/30 relative overflow-hidden shadow-glow-md">
+              <div class="absolute -top-16 -end-16 h-40 w-40 rounded-full bg-photon-500/15 blur-3xl pointer-events-none" />
+              <div class="relative z-10 flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
+                <div>
+                  <div class="label-accent mb-2">{{ locale === 'fa' ? 'مسیر اصلی فروش' : 'Primary sales channel' }}</div>
+                  <h2 class="text-2xl font-bold text-[var(--text-primary)]">{{ $t('contact.phone_first_title') }}</h2>
+                  <p class="mt-2 text-sm leading-relaxed text-[var(--text-secondary)]">{{ $t('contact.phone_first_sub') }}</p>
+                </div>
+                <BaseButton variant="primary" size="lg" :href="salesPhoneHref" class="shrink-0">
+                  {{ $t('contact.call_sales_now') }}
+                  <span dir="ltr" class="font-mono text-sm">{{ salesPhoneDisplay }}</span>
+                </BaseButton>
+              </div>
+            </div>
+
             <!-- Pesaba Tehran HQ Node (Volumetric Circuit Card) -->
             <div class="card-halo p-6 bg-gradient-to-br from-[var(--bg-elevated)] to-[var(--bg-page)] border-[var(--border)] relative overflow-hidden group shadow-glow-sm hover:shadow-glow-md">
               <div class="absolute top-0 right-0 w-32 h-32 bg-photon-500/5 rounded-full blur-2xl pointer-events-none transition-opacity group-hover:bg-photon-500/10" />
@@ -103,8 +119,8 @@
                   </button>
                 </div>
                 <div class="label-meta mb-1">{{ $t('contact.email') }}</div>
-                <a href="mailto:admin@pesaba.com" class="text-sm font-semibold text-[var(--text-primary)] hover:text-photon-400 break-all transition-colors" dir="ltr">
-                  admin@pesaba.com
+                <a :href="salesEmailHref" class="text-sm font-semibold text-[var(--text-primary)] hover:text-photon-400 break-all transition-colors" dir="ltr">
+                  {{ salesEmail }}
                 </a>
               </div>
 
@@ -122,8 +138,8 @@
                   </button>
                 </div>
                 <div class="label-meta mb-1">{{ $t('footer.phone') }}</div>
-                <a href="tel:+982144215738" class="text-sm font-semibold text-[var(--text-primary)] hover:text-photon-400 transition-colors" dir="ltr">
-                  +98 21 4421 5738
+                <a :href="salesPhoneHref" class="text-sm font-semibold text-[var(--text-primary)] hover:text-photon-400 transition-colors" dir="ltr">
+                  {{ salesPhoneDisplayInternational }}
                 </a>
               </div>
             </div>
@@ -246,6 +262,15 @@
                     />
 
                     <BaseInput
+                      v-if="form.product"
+                      v-model="form.product"
+                      id="contact-product"
+                      name="product"
+                      :label="$t('contact.product')"
+                      readonly
+                    />
+
+                    <BaseInput
                       v-model="form.message"
                       id="contact-message"
                       name="message"
@@ -304,6 +329,7 @@
 <script setup lang="ts">
 const { t, locale } = useI18n()
 const route = useRoute()
+const { salesPhoneHref, salesPhoneDisplay, salesPhoneDisplayInternational, salesEmail, salesEmailHref } = useContactInfo()
 
 useSeoMeta({
   title: `${t('contact.title')} | Pesaba`,
@@ -314,6 +340,7 @@ const form = reactive({
   name: '',
   company: '',
   email: '',
+  product: '',
   message: '',
   department: 'sales'
 })
@@ -322,6 +349,13 @@ onMounted(() => {
   const deptQuery = route.query.dept as string
   if (deptQuery && ['sales', 'support', 'partnership'].includes(deptQuery)) {
     form.department = deptQuery
+  }
+  const productQuery = route.query.product as string
+  if (productQuery) {
+    form.product = productQuery
+    form.message = locale.value === 'fa'
+      ? `برای استعلام قیمت و راهنمایی خرید محصول ${productQuery} تماس می‌گیرم.`
+      : `I am asking about pricing and purchase guidance for ${productQuery}.`
   }
 })
 
@@ -365,13 +399,13 @@ const messagePlaceholder = computed(() => {
 
 
 function copyEmail() {
-  navigator.clipboard.writeText('admin@pesaba.com')
+  navigator.clipboard.writeText(salesEmail)
   copiedEmail.value = true
   setTimeout(() => { copiedEmail.value = false }, 2000)
 }
 
 function copyPhone() {
-  navigator.clipboard.writeText('+982144215738')
+  navigator.clipboard.writeText(salesPhoneDisplayInternational)
   copiedPhone.value = true
   setTimeout(() => { copiedPhone.value = false }, 2000)
 }
@@ -386,6 +420,7 @@ async function submitForm() {
         name: form.name,
         company: form.company,
         email: form.email,
+        product: form.product,
         message: form.message,
         department: form.department
       } 
@@ -401,7 +436,7 @@ async function submitForm() {
 }
 
 function resetForm() {
-  Object.assign(form, { name: '', company: '', email: '', message: '' })
+  Object.assign(form, { name: '', company: '', email: '', product: '', message: '' })
   submitStatus.value = null
   submitMessage.value = ''
 }

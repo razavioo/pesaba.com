@@ -15,6 +15,8 @@
           <!-- Left: text -->
           <div>
             <nav class="flex items-center gap-2 text-xs text-ink-500 mb-6" :aria-label="$t('common.breadcrumb')">
+              <NuxtLink :to="localePath('/')" class="hover:text-ink-300 transition-colors">{{ $t('common.home') }}</NuxtLink>
+              <span>/</span>
               <NuxtLink :to="localePath('/products')" class="hover:text-ink-300 transition-colors">{{ $t('products.title') }}</NuxtLink>
               <span>/</span>
               <span class="text-ink-300">{{ $t(`products.categories.${category}`) }}</span>
@@ -61,13 +63,20 @@
           <ProductCard v-for="p in products" :key="p._path" :title="p.title" :slug="p.slug"
             :href="localePath(`/products/${category}/${p.slug}`)" :description="p.description"
             :category-label="$t(`products.categories.${category}`)" :specs="p.specs?.slice(0, 3)"
-            :image="p.photos?.[0] || p.images?.[0]" />
+            :image="p.photos?.[0] || p.images?.[0]" :tags="productTags(p)" :has-datasheet="hasDatasheet(p)" />
         </div>
         <p v-else class="text-ink-500">{{ $t('common.no_results') }}</p>
       </div>
     </section>
 
-    <CTAStrip :headline="$t('products.category_cta')" :primary-label="$t('products.request_quote')" :primary-href="localePath('/company/contact')" />
+    <CTAStrip
+      :headline="$t('products.category_cta')"
+      :sub="$t('contact.phone_first_sub')"
+      :primary-label="$t('contact.call_sales_now')"
+      :primary-href="salesPhoneHref"
+      :secondary-label="$t('products.request_quote')"
+      :secondary-href="`${localePath('/company/contact')}?dept=sales`"
+    />
   </div>
 </template>
 
@@ -76,6 +85,7 @@ const { t, locale } = useI18n()
 const { isDark } = useDarkMode()
 const localePath = useLocalePath()
 const route = useRoute()
+const { salesPhoneHref } = useContactInfo()
 const { emitBreadcrumbs } = useSchemaOrg()
 const category = route.params.category as string
 
@@ -114,6 +124,29 @@ const HERO_SLUGS: Record<string, string[]> = {
   'network-switching-filtering': ['emx-9', 'emx-5', 'emx-4'],
   'telecom-transmission': ['sdx-1', 'sdx', 'emx-10'],
   'bio-monitoring': ['orazan'],
+}
+
+interface ProductCardMeta {
+  category: string
+  schematic_pdf?: string
+  schematic_pdfs?: string[]
+}
+
+const CATEGORY_TAGS: Record<string, { fa: string[]; en: string[] }> = {
+  'data-diodes': { fa: ['یک‌طرفه', 'مرز OT', 'بدون سیستم‌عامل'], en: ['One-way', 'OT boundary', 'OS-less'] },
+  'network-encryption': { fa: ['AES-256', 'FPGA', 'لینک امن'], en: ['AES-256', 'FPGA', 'Secure links'] },
+  'cellular-monitoring': { fa: ['2G–5G', 'QoS', 'میدانی'], en: ['2G–5G', 'QoS', 'Field probes'] },
+  'network-switching-filtering': { fa: ['L2/L3', 'تفکیک شبکه', 'صنعتی'], en: ['L2/L3', 'Segmentation', 'Industrial'] },
+  'telecom-transmission': { fa: ['SDH/E1', 'اپراتوری', 'انتقال'], en: ['SDH/E1', 'Carrier', 'Transport'] },
+  'bio-monitoring': { fa: ['پایش آب', 'بلادرنگ', 'هشدار'], en: ['Water quality', 'Realtime', 'Alerting'] },
+}
+
+function productTags(product: ProductCardMeta) {
+  return CATEGORY_TAGS[product.category]?.[locale.value === 'fa' ? 'fa' : 'en'] || []
+}
+
+function hasDatasheet(product: ProductCardMeta) {
+  return Boolean(product.schematic_pdf || product.schematic_pdfs?.length)
 }
 
 const HERO_PHOTOS: Record<string, string> = {

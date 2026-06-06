@@ -23,9 +23,8 @@ test.describe('Products index page', () => {
     await expect(page.getByRole('heading', { level: 1 })).toBeVisible()
   })
 
-  test('hero badge with pulsing dot renders', async ({ page }) => {
-    const badge = page.locator('.animate-pulse').first()
-    await expect(badge).toBeVisible()
+  test('hero product label renders', async ({ page }) => {
+    await expect(page.locator('.section-label').filter({ hasText: /Products/i }).first()).toBeVisible()
   })
 
   test('all 6 category section headers are rendered', async ({ page }) => {
@@ -40,9 +39,10 @@ test.describe('Products index page', () => {
     await expect(viewAllLinks).toHaveCount(CATEGORIES.length)
   })
 
-  test('product count badge renders next to each category', async ({ page }) => {
-    const badges = page.locator('span.font-mono').filter({ hasText: /^\d+$/ })
-    await expect(badges).toHaveCount(CATEGORIES.length)
+  test('product count label renders next to each category', async ({ page }) => {
+    const sections = page.locator('section.section').first()
+    const countLabels = sections.locator('.label-meta').filter({ hasText: /products/i })
+    await expect(countLabels).toHaveCount(CATEGORIES.length)
   })
 
   test('product cards render in the grid', async ({ page }) => {
@@ -78,7 +78,7 @@ test.describe('Product category page', () => {
   })
 
   test('breadcrumb "Products" link works', async ({ page }) => {
-    const productsLink = page.locator('nav[aria-label="Breadcrumb"] a').first()
+    const productsLink = page.locator('nav[aria-label="Breadcrumb"] a').filter({ hasText: /Products/i }).first()
     await productsLink.click()
     await page.waitForURL(/\/products$/)
   })
@@ -99,11 +99,11 @@ test.describe('Product category page', () => {
     expect(count).toBeGreaterThanOrEqual(2)
   })
 
-  test('CTA strip at bottom links to contact', async ({ page }) => {
+  test('CTA strip at bottom prioritizes phone and keeps quote link', async ({ page }) => {
     await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight))
     await page.waitForTimeout(200)
-    const cta = page.locator('a[href*="/company/contact"]').last()
-    await expect(cta).toBeVisible()
+    await expect(page.locator('a[href^="tel:"]').last()).toBeVisible()
+    await expect(page.locator('a[href*="/company/contact"]').last()).toBeVisible()
   })
 
   for (const cat of CATEGORIES) {
@@ -121,10 +121,11 @@ test.describe('Product detail page', () => {
     await goto(page, `${EN}/products/data-diodes/a10`)
   })
 
-  test('breadcrumb has 3 parts: Products > Data Diodes > product name', async ({ page }) => {
+  test('breadcrumb has Home > Products > Data Diodes > product name', async ({ page }) => {
     const breadcrumb = page.locator('nav[aria-label="Breadcrumb"]')
     const links = breadcrumb.getByRole('link')
-    await expect(links).toHaveCount(2)
+    await expect(links).toHaveCount(3)
+    await expect(links.first()).toContainText('Home')
     await expect(breadcrumb).toContainText('Data Diode A10')
   })
 
@@ -148,9 +149,21 @@ test.describe('Product detail page', () => {
     await expect(quoteBtn).toBeVisible()
   })
 
-  test('"Download Datasheet" CTA button links to datasheets', async ({ page }) => {
-    const pdfBtn = page.locator('a[href*="/resources/datasheets"]').first()
+  test('"Download Datasheet" CTA button links to exact product PDF', async ({ page }) => {
+    const pdfBtn = page.locator('a[href$="/schematics/a10/DD-A10.pdf"]').first()
     await expect(pdfBtn).toBeVisible()
+    await expect(pdfBtn).toHaveAttribute('href', /\/schematics\/a10\/DD-A10\.pdf$/)
+  })
+
+  test('datasheet CTA does not route to generic datasheets page', async ({ page }) => {
+    const genericDatasheetCtas = page.locator('section.page-hero a[href*="/resources/datasheets"]')
+    await expect(genericDatasheetCtas).toHaveCount(0)
+  })
+
+  test('phone-first sales CTA is visible on product detail', async ({ page }) => {
+    const phoneBtn = page.locator('section.page-hero a[href^="tel:"]').first()
+    await expect(phoneBtn).toBeVisible()
+    await expect(phoneBtn).toHaveAttribute('href', 'tel:+982144215738')
   })
 
   test('sticky tab bar renders', async ({ page }) => {
@@ -179,8 +192,15 @@ test.describe('Product detail page', () => {
   })
 
   test('image viewer renders with product image', async ({ page }) => {
-    const productImage = page.locator('img[src*="/products/a10"]').first()
+    const productImage = page.locator('img[src*="/photos/a10"]').first()
     await expect(productImage).toBeVisible()
+  })
+
+  test('gallery next button changes the main product image', async ({ page }) => {
+    const mainImage = page.locator('section.page-hero img[alt="Data Diode A10"]').first()
+    const firstSrc = await mainImage.getAttribute('src')
+    await page.getByRole('button', { name: /next image/i }).click()
+    await expect(mainImage).not.toHaveAttribute('src', firstSrc || '')
   })
 
   test('product detail page renders in Farsi', async ({ page }) => {

@@ -17,15 +17,21 @@ test.describe('Navigation header', () => {
 
   test('main nav items are visible on desktop', async ({ page }) => {
     // Products/Solutions have submenus so they render as <button>, not <a>
-    // Technology/Trust have no subItems so they render as <a> (NuxtLink)
+    // Home/Technology/Trust have no subItems so they render as <a> (NuxtLink)
     const nav = page.locator('header nav').first()
+    await expect(nav.getByRole('link', { name: /^Home$/i }).first()).toBeVisible()
     await expect(nav.locator('button').filter({ hasText: /Products/i }).first()).toBeVisible()
     await expect(nav.getByRole('link', { name: /Technology/i }).first()).toBeVisible()
     await expect(nav.locator('button').filter({ hasText: /Solutions/i }).first()).toBeVisible()
   })
 
-  test('"Talk to Sales" CTA button is in header', async ({ page }) => {
-    // Two contact links in header: desktop button (hidden sm:inline-flex) + mobile menu button
+  test('phone-first sales CTA is in header', async ({ page }) => {
+    const cta = page.locator('header a[href^="tel:"]').first()
+    await expect(cta).toBeVisible()
+    await expect(cta).toHaveAttribute('href', 'tel:+982144215738')
+  })
+
+  test('quote/contact CTA remains available in header on desktop', async ({ page }) => {
     const cta = page.locator('header a[href*="/company/contact"]').first()
     await expect(cta).toBeVisible()
     await expect(cta).toHaveAttribute('href', /\/company\/contact/)
@@ -84,16 +90,18 @@ test.describe('Navigation — Mobile menu', () => {
     await expect(desktopNav.first()).toBeHidden()
   })
 
-  test('hamburger opens mobile menu', async ({ page }) => {
+  test('hamburger opens mobile menu with Home link', async ({ page }) => {
     const burger = page.locator('header button[aria-label="Open"]')
     await burger.click()
-    await expect(page.getByRole('link', { name: /Products/i }).last()).toBeVisible()
+    const mobileNav = page.locator('div.fixed nav').first()
+    await expect(mobileNav.getByRole('link', { name: /^Home$/i })).toBeVisible()
+    await expect(mobileNav.getByRole('link', { name: /^Products$/i })).toBeVisible()
   })
 
   test('mobile menu closes after nav link click', async ({ page }) => {
     const burger = page.locator('header button[aria-label="Open"]')
     await burger.click()
-    const productsLink = page.getByRole('link', { name: /Products/i }).last()
+    const productsLink = page.locator('div.fixed nav').first().getByRole('link', { name: /^Products$/i })
     await productsLink.click()
     await page.waitForURL(/\/products/)
     expect(page.url()).toContain('/products')

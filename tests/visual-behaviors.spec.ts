@@ -15,24 +15,22 @@ test.describe('Product image viewer', () => {
     await goto(page, `${EN}/products/data-diodes/k200`)
   })
 
-  test('main image renders in 4:3 aspect container', async ({ page }) => {
-    // The image viewer is a div with aspect-[4/3] inside the hero section
-    // Use the one inside .space-y-3 (image viewer area), not the ProductCard links
-    const container = page.locator('section .space-y-3 .aspect-\\[4\\/3\\]')
+  test('main image renders in 16:10 aspect container', async ({ page }) => {
+    const container = page.locator('section.page-hero .aspect-\\[16\\/10\\]').first()
     await expect(container).toBeVisible()
   })
 
   test('product image is visible', async ({ page }) => {
-    const productImage = page.locator('img[src*="/products/k200"]').first()
+    const productImage = page.locator('img[src*="/photos/k200"]').first()
     await expect(productImage).toBeVisible()
   })
 
-  test('clicking thumbnail selects it (active border)', async ({ page }) => {
-    const thumbnails = page.locator('button').filter({ has: page.locator('img[src*="/products/k200"]') })
+  test('clicking thumbnail selects it (active current state)', async ({ page }) => {
+    const thumbnails = page.locator('button[aria-label^="Show image"]')
     if (await thumbnails.count() > 1) {
       const second = thumbnails.nth(1)
       await second.click()
-      await expect(second).toHaveClass(/border-photon-500/)
+      await expect(second).toHaveAttribute('aria-current', 'true')
     }
   })
 })
@@ -40,8 +38,9 @@ test.describe('Product image viewer', () => {
 test.describe('Stat block animation', () => {
   test('stat blocks render with numeric values', async ({ page }) => {
     await goto(page, EN)
-    const statsSection = page.locator('section').filter({ hasText: /17\+/ }).first()
-    await expect(statsSection).toBeVisible()
+    const statsSection = page.locator('section.stats-showcase')
+    await statsSection.scrollIntoViewIfNeeded()
+    await expect(statsSection).toContainText(/years/i)
   })
 })
 
@@ -59,16 +58,17 @@ test.describe('CTA strip', () => {
     await goto(page, EN)
     await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight))
     await page.waitForTimeout(200)
-    const strip = page.locator('section, div').filter({ has: page.locator('a[href*="/company/contact"]') }).last()
+    const strip = page.locator('section').filter({ has: page.locator('a[href^="tel:"]') }).last()
     await expect(strip).toBeVisible()
   })
 
-  test('CTA strip primary button links to contact', async ({ page }) => {
+  test('CTA strip primary button links to phone sales', async ({ page }) => {
     await goto(page, EN)
     await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight))
     await page.waitForTimeout(200)
-    const ctaBtn = page.locator('a[href*="/company/contact"]').last()
+    const ctaBtn = page.locator('a[href^="tel:"]').last()
     await expect(ctaBtn).toBeVisible()
+    await expect(ctaBtn).toHaveAttribute('href', 'tel:+982144215738')
   })
 })
 

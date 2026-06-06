@@ -20,25 +20,25 @@
           <div class="max-w-md">
             <div class="divide-y divide-[var(--border)] rounded-2xl border border-[var(--border)] bg-[var(--bg-elevated)]/30 overflow-hidden">
               <!-- Phone -->
-              <a href="tel:+982144215738" class="flex items-center justify-between px-4 py-3.5 text-sm text-[var(--text-secondary)] hover:bg-[var(--bg-elevated)]/50 hover:text-[var(--text-primary)] transition-all duration-200 group">
+              <a :href="salesPhoneHref" class="flex items-center justify-between px-4 py-3.5 text-sm text-[var(--text-secondary)] hover:bg-[var(--bg-elevated)]/50 hover:text-[var(--text-primary)] transition-all duration-200 group">
                 <div class="flex items-center gap-2.5">
                   <svg class="h-4 w-4 text-[var(--text-muted)] group-hover:text-[var(--accent)] transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.94.725l.548 2.2a1 1 0 01-.321.988l-1.305.98a10.582 10.582 0 004.872 4.872l.98-1.305a1 1 0 01.988-.321l2.2.548a1 1 0 01.725.94V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                   </svg>
                   <span class="font-medium text-[var(--text-secondary)] group-hover:text-[var(--text-primary)] transition-colors">{{ locale === 'fa' ? 'تلفن' : 'Phone' }}</span>
                 </div>
-                <div dir="ltr" class="font-mono text-xs text-[var(--text-muted)] group-hover:text-[var(--text-primary)] transition-colors">+98 21 4421 5738</div>
+                <div dir="ltr" class="font-mono text-xs text-[var(--text-muted)] group-hover:text-[var(--text-primary)] transition-colors">{{ salesPhoneDisplayInternational }}</div>
               </a>
 
               <!-- Email -->
-              <a href="mailto:admin@pesaba.com" class="flex items-center justify-between px-4 py-3.5 text-sm text-[var(--text-secondary)] hover:bg-[var(--bg-elevated)]/50 hover:text-[var(--text-primary)] transition-all duration-200 group">
+              <a :href="salesEmailHref" class="flex items-center justify-between px-4 py-3.5 text-sm text-[var(--text-secondary)] hover:bg-[var(--bg-elevated)]/50 hover:text-[var(--text-primary)] transition-all duration-200 group">
                 <div class="flex items-center gap-2.5">
                   <svg class="h-4 w-4 text-[var(--text-muted)] group-hover:text-[var(--accent)] transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                   </svg>
                   <span class="font-medium text-[var(--text-secondary)] group-hover:text-[var(--text-primary)] transition-colors">{{ locale === 'fa' ? 'ایمیل' : 'Email' }}</span>
                 </div>
-                <div dir="ltr" class="font-mono text-xs text-[var(--text-muted)] group-hover:text-[var(--text-primary)] transition-colors">admin@pesaba.com</div>
+                <div dir="ltr" class="font-mono text-xs text-[var(--text-muted)] group-hover:text-[var(--text-primary)] transition-colors">{{ salesEmail }}</div>
               </a>
 
               <!-- LinkedIn -->
@@ -105,6 +105,7 @@
 <script setup lang="ts">
 const { t, locale } = useI18n()
 const localePath = useLocalePath()
+const { salesPhoneHref, salesPhoneDisplayInternational, salesEmail, salesEmailHref } = useContactInfo()
 
 const productLinks = computed(() => [
   { to: '/products/data-diodes', label: t('products.categories.data-diodes') },

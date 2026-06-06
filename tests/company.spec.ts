@@ -24,6 +24,12 @@ test.describe('Contact page', () => {
   test('phone number is a tel link', async ({ page }) => {
     const phoneLink = page.locator('a[href^="tel:"]').first()
     await expect(phoneLink).toBeVisible()
+    await expect(phoneLink).toHaveAttribute('href', 'tel:+982144215738')
+  })
+
+  test('phone-first sales card is visible before the form', async ({ page }) => {
+    await expect(page.getByText(/Fastest path: call our sales team/i)).toBeVisible()
+    await expect(page.getByRole('link', { name: /Call Sales Now/i }).first()).toHaveAttribute('href', 'tel:+982144215738')
   })
 
   test('contact form has required name field', async ({ page }) => {

@@ -3,6 +3,8 @@
     <section class="border-b border-[var(--border)] bg-[var(--bg-elevated)]">
       <div class="container-site py-4">
         <nav class="flex items-center gap-2 text-sm text-[var(--text-muted)]" :aria-label="$t('common.breadcrumb')">
+          <NuxtLink :to="localePath('/')" class="transition-colors hover:text-[var(--text-secondary)]">{{ $t('common.home') }}</NuxtLink>
+          <span>/</span>
           <NuxtLink :to="localePath('/products')" class="transition-colors hover:text-[var(--text-secondary)]">{{ $t('products.title') }}</NuxtLink>
           <span>/</span>
           <NuxtLink :to="localePath(`/products/${product.category}`)" class="transition-colors hover:text-[var(--text-secondary)]">{{ $t(`products.categories.${product.category}`) }}</NuxtLink>
@@ -17,22 +19,47 @@
         <div class="grid gap-10 xl:grid-cols-[minmax(0,1.15fr)_minmax(18rem,0.85fr)]">
           <div class="space-y-4">
             <div class="rounded-[28px] border border-[var(--border)] bg-[linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0)),var(--bg-elevated)] p-5 shadow-[0_24px_70px_rgba(4,10,20,0.5)]">
-              <div :class="['aspect-[16/10] overflow-hidden rounded-[22px] border border-[var(--border)]', isDark ? 'bg-[linear-gradient(180deg,rgba(14,165,233,0.05),transparent)]' : 'bg-[var(--bg-page)]']">
-                <NuxtImg :src="activeImage || '/placeholder-product.svg'" :alt="product.title" class="h-full w-full object-contain p-8" />
+              <div :class="['relative aspect-[16/10] overflow-hidden rounded-[22px] border border-[var(--border)]', isDark ? 'bg-[linear-gradient(180deg,rgba(14,165,233,0.05),transparent)]' : 'bg-[var(--bg-page)]']">
+                <NuxtImg :src="activeGalleryImage || '/placeholder-product.svg'" :alt="product.title" class="h-full w-full object-contain p-8" loading="eager" fetchpriority="high" />
+                <div v-if="gallery.length > 1" class="pointer-events-none absolute inset-x-3 top-1/2 flex -translate-y-1/2 justify-between">
+                  <button
+                    type="button"
+                    class="pointer-events-auto inline-flex h-10 w-10 items-center justify-center rounded-full border border-[var(--border)] bg-[var(--bg-elevated)]/90 text-[var(--text-secondary)] shadow-lg backdrop-blur transition-colors hover:border-[var(--accent)] hover:text-[var(--accent)]"
+                    :aria-label="locale === 'fa' ? 'تصویر قبلی' : 'Previous image'"
+                    @click="prevImage"
+                  >
+                    <svg class="h-4 w-4" :class="locale === 'fa' ? 'rotate-180' : ''" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                      <path d="M12.5 4.5 7 10l5.5 5.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                  </button>
+                  <button
+                    type="button"
+                    class="pointer-events-auto inline-flex h-10 w-10 items-center justify-center rounded-full border border-[var(--border)] bg-[var(--bg-elevated)]/90 text-[var(--text-secondary)] shadow-lg backdrop-blur transition-colors hover:border-[var(--accent)] hover:text-[var(--accent)]"
+                    :aria-label="locale === 'fa' ? 'تصویر بعدی' : 'Next image'"
+                    @click="nextImage"
+                  >
+                    <svg class="h-4 w-4" :class="locale === 'fa' ? 'rotate-180' : ''" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                      <path d="m7.5 4.5 5.5 5.5-5.5 5.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                  </button>
+                </div>
               </div>
             </div>
 
-            <div v-if="gallery.length" class="flex gap-3 overflow-x-auto pb-2">
+            <div v-if="gallery.length > 1" class="flex gap-3 overflow-x-auto pb-2" :aria-label="locale === 'fa' ? 'گالری تصاویر محصول' : 'Product image gallery'">
               <button
                 v-for="(img, i) in gallery"
                 :key="img"
-                @click="activeImage = img"
+                type="button"
+                @click="selectImage(i)"
+                :aria-label="locale === 'fa' ? `نمایش تصویر ${i + 1}` : `Show image ${i + 1}`"
+                :aria-current="activeImageIndex === i ? 'true' : undefined"
                 :class="[
                   'h-20 w-20 flex-shrink-0 overflow-hidden rounded-2xl border p-1 transition-colors',
-                  activeImage === img ? 'border-[var(--accent)] bg-[var(--accent-bg)]' : 'border-[var(--border)] bg-[var(--bg-elevated)]',
+                  activeImageIndex === i ? 'border-[var(--accent)] bg-[var(--accent-bg)]' : 'border-[var(--border)] bg-[var(--bg-elevated)]',
                 ]"
               >
-                <NuxtImg :src="img.replace(/\.webp$/, '-thumb.webp')" :alt="`${product.title} ${i + 1}`" class="h-full w-full rounded-xl object-contain" />
+                <NuxtImg :src="thumbSrc(img)" :alt="`${product.title} ${i + 1}`" class="h-full w-full rounded-xl object-contain" loading="lazy" />
               </button>
             </div>
           </div>
@@ -62,13 +89,19 @@
               </div>
 
               <div id="quote" class="flex flex-wrap gap-3">
-                <BaseButton variant="primary" size="lg" :to="localePath('/company/contact')">
+                <BaseButton variant="primary" size="lg" :href="salesPhoneHref">
+                  {{ $t('contact.call_sales') }}
+                </BaseButton>
+                <BaseButton variant="outline" size="lg" :to="quoteHref">
                   {{ $t('products.request_quote') }}
                 </BaseButton>
-                <BaseButton variant="outline" size="lg" :to="localePath('/resources/datasheets')">
+                <BaseButton v-if="primaryDatasheetHref" variant="outline" size="lg" :href="primaryDatasheetHref" target="_blank" rel="noopener">
                   {{ $t('products.download_pdf') }}
                 </BaseButton>
               </div>
+              <p class="mt-3 text-xs leading-relaxed text-[var(--text-muted)]">
+                {{ productDatasheets.length ? $t('products.direct_datasheet_note') : $t('products.call_for_datasheet') }}
+              </p>
             </div>
           </div>
         </div>
@@ -165,7 +198,14 @@
       </div>
     </section>
 
-    <CTAStrip :headline="$t('products.order_cta')" :primary-label="$t('products.request_quote')" :primary-href="localePath('/company/contact')" />
+    <CTAStrip
+      :headline="$t('products.order_cta')"
+      :sub="$t('contact.phone_first_sub')"
+      :primary-label="$t('contact.call_sales_now')"
+      :primary-href="salesPhoneHref"
+      :secondary-label="$t('products.request_quote')"
+      :secondary-href="quoteHref"
+    />
   </div>
 
   <div v-else class="container-site py-24 text-center">
@@ -178,6 +218,8 @@ const { t, locale } = useI18n()
 const localePath = useLocalePath()
 const route = useRoute()
 const { isDark } = useDarkMode()
+const { withBase } = useBaseUrl()
+const { salesPhoneHref } = useContactInfo()
 const { emitProduct, emitBreadcrumbs } = useSchemaOrg()
 const { category, slug } = route.params as { category: string; slug: string }
 
@@ -186,19 +228,62 @@ const { data: product } = await useAsyncData(`product-${slug}-${locale.value}`, 
   return matches.find(p => locale.value === 'fa' ? p.locale === 'fa' : !p.locale) ?? matches[0] ?? null
 })
 
-const gallery = computed(() => [...(product.value?.photos || []), ...(product.value?.images || [])])
-const activeImage = ref<string | null>(null)
-watchEffect(() => {
-  activeImage.value = gallery.value[0] || null
-})
+function normalizeMedia(items?: unknown[]) {
+  const seen = new Set<string>()
+  return (items || [])
+    .filter((item): item is string => typeof item === 'string' && item.trim().length > 0)
+    .map(item => item.trim())
+    .filter((item) => {
+      if (seen.has(item)) return false
+      seen.add(item)
+      return true
+    })
+}
+
+const gallery = computed(() => normalizeMedia([...(product.value?.photos || []), ...(product.value?.images || [])]))
+const activeImageIndex = ref(0)
+const activeGalleryImage = computed(() => gallery.value[activeImageIndex.value] || gallery.value[0] || null)
+
+watch(gallery, (items) => {
+  if (!items.length) {
+    activeImageIndex.value = 0
+    return
+  }
+  if (activeImageIndex.value > items.length - 1) activeImageIndex.value = 0
+}, { immediate: true })
+
+function selectImage(index: number) {
+  if (!gallery.value.length) return
+  activeImageIndex.value = Math.min(Math.max(index, 0), gallery.value.length - 1)
+}
+
+function nextImage() {
+  if (gallery.value.length < 2) return
+  activeImageIndex.value = (activeImageIndex.value + 1) % gallery.value.length
+}
+
+function prevImage() {
+  if (gallery.value.length < 2) return
+  activeImageIndex.value = (activeImageIndex.value - 1 + gallery.value.length) % gallery.value.length
+}
+
+function thumbSrc(src: string) {
+  return src
+}
 
 const primarySpecs = computed(() => (product.value?.specs || []).slice(0, 4))
 const deploymentFit = computed(() => locale.value === 'fa'
   ? 'برای محیط‌های حساس که نیاز به رفتار قابل پیش‌بینی، مسیر داده شفاف، و مستندسازی فنی دارند.'
   : 'Designed for sensitive environments that require predictable behavior, explainable data paths, and technical buying documentation.')
 const documentationNote = computed(() => locale.value === 'fa'
-  ? 'دیتاشیت‌ها و مدارک فنی از بخش منابع در دسترس هستند؛ برای سناریوهای ارزیابی با تیم فروش تماس بگیرید.'
-  : 'Datasheets and technical material are available in Resources; contact sales engineering for evaluation-specific guidance.')
+  ? 'دیتاشیت مستقیم محصول، در صورت وجود، از همین صفحه در دسترس است؛ برای سناریوهای ارزیابی با فروش فنی تماس بگیرید.'
+  : 'The direct product datasheet is available on this page when published; call sales engineering for evaluation-specific guidance.')
+const productDatasheets = computed(() => normalizeMedia([
+  product.value?.schematic_pdf,
+  ...(Array.isArray(product.value?.schematic_pdfs) ? product.value.schematic_pdfs : []),
+]))
+const primaryDatasheetHref = computed(() => productDatasheets.value[0] ? withBase(productDatasheets.value[0]) : '')
+const quoteHref = computed(() => `${localePath('/company/contact')}?dept=sales&product=${encodeURIComponent(product.value?.slug || slug)}`)
 
 const { data: relatedProducts } = await useAsyncData(`related-${slug}-${locale.value}`, async () => {
   const all = await queryContent('products', category).where({ slug: { $ne: slug } }).find()
@@ -233,7 +318,7 @@ if (product.value) {
     ogImage: `https://pesaba.com/og/product/${product.value.slug}`,
     twitterCard: 'summary_large_image',
   })
-  emitProduct({ name: product.value.title, nameFa: product.value.title_fa, slug: product.value.slug, category: product.value.category, description: product.value.description, image: activeImage.value || undefined, specs: product.value.specs, locale: locale.value })
-  emitBreadcrumbs([{ name: 'Products', url: `/${locale.value}/products` }, { name: t(`products.categories.${product.value.category}`), url: `/${locale.value}/products/${product.value.category}` }, { name: product.value.title, url: `/${locale.value}/products/${product.value.category}/${slug}` }])
+  emitProduct({ name: product.value.title, nameFa: product.value.title_fa, slug: product.value.slug, category: product.value.category, description: product.value.description, image: activeGalleryImage.value || undefined, specs: product.value.specs, locale: locale.value })
+  emitBreadcrumbs([{ name: t('common.home'), url: `/${locale.value}` }, { name: 'Products', url: `/${locale.value}/products` }, { name: t(`products.categories.${product.value.category}`), url: `/${locale.value}/products/${product.value.category}` }, { name: product.value.title, url: `/${locale.value}/products/${product.value.category}/${slug}` }])
 }
 </script>

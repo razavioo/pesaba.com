@@ -26,6 +26,19 @@
         </p>
       </div>
 
+      <div v-if="tags?.length" class="flex flex-wrap gap-2">
+        <span
+          v-for="tag in tags.slice(0, 4)"
+          :key="tag"
+          class="rounded-full border border-[var(--border)] bg-[var(--bg-elevated)] px-2.5 py-1 text-[11px] font-medium text-[var(--text-secondary)]"
+        >
+          {{ tag }}
+        </span>
+        <span v-if="hasDatasheet" class="rounded-full border border-photon-500/25 bg-photon-500/8 px-2.5 py-1 text-[11px] font-medium text-photon-400">
+          {{ $t('products.datasheet_available') }}
+        </span>
+      </div>
+
       <div v-if="specs?.length" class="flex flex-wrap gap-2">
         <SpecPill
           v-for="spec in specs.slice(0, 3)"
@@ -42,12 +55,12 @@
         >
           {{ $t('common.learn_more') }}
         </NuxtLink>
-        <NuxtLink
-          :to="`${href}#quote`"
+        <a
+          :href="salesPhoneHref"
           class="card-cta-primary flex-1 rounded-xl px-3 py-2.5 text-center text-sm font-semibold text-ink-950"
         >
-          {{ $t('products.request_quote') }}
-        </NuxtLink>
+          {{ $t('contact.call_sales') }}
+        </a>
       </div>
 
       <div v-if="showCompare" class="pt-1">
@@ -66,6 +79,8 @@
 </template>
 
 <script setup lang="ts">
+const { salesPhoneHref } = useContactInfo()
+
 defineProps<{
   title: string
   slug: string
@@ -74,6 +89,8 @@ defineProps<{
   categoryLabel?: string
   image?: string
   specs?: Array<{ label: string; value: string }>
+  tags?: string[]
+  hasDatasheet?: boolean
   showCompare?: boolean
   compareSelected?: boolean
 }>()

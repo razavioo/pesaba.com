@@ -14,10 +14,10 @@
           </div>
         </div>
         <div class="flex flex-wrap gap-3 shrink-0">
-          <BaseButton v-if="primaryLabel" variant="primary" size="lg" :to="primaryHref">
+          <BaseButton v-if="primaryLabel" variant="primary" size="lg" v-bind="buttonLink(primaryHref)">
             {{ primaryLabel }}
           </BaseButton>
-          <BaseButton v-if="secondaryLabel" variant="outline" size="lg" :to="secondaryHref">
+          <BaseButton v-if="secondaryLabel" variant="outline" size="lg" v-bind="buttonLink(secondaryHref)">
             {{ secondaryLabel }}
           </BaseButton>
         </div>
@@ -35,4 +35,12 @@ defineProps<{
   secondaryLabel?: string
   secondaryHref?: string
 }>()
+
+function buttonLink(href?: string) {
+  if (!href) return {}
+  if (href.startsWith('tel:') || href.startsWith('mailto:') || href.startsWith('http') || href.endsWith('.pdf')) {
+    return { href }
+  }
+  return { to: href }
+}
 </script>
