@@ -1,7 +1,7 @@
-/* ─── Pesaba Design Tokens — Dark Infrastructure ─────────────────────────── */
+/* ─── Pesaba Design Tokens — Advenica-Aligned Blue System ────────────────── */
 
 :root {
-  /* Canvas / Ink */
+  /* Canvas / Ink (dark foundations) */
   --ink-1000:  #04070D;
   --ink-950:   #0A0F1A;
   --ink-900:   #0E1422;
@@ -12,15 +12,27 @@
   --ink-100:   #E2E7F2;
   --ink-0:     #FFFFFF;
 
-  /* Photon (Stark High-Contrast Neutral Monochrome / Silver) */
+  /* Photon (monochrome neutral scale) */
   --photon-400: #F2F2F7;
   --photon-500: #FFFFFF;
   --photon-600: #E5E5EA;
   --photon-700: #D1D1D6;
   --photon-900: #8E8E93;
 
+  /* ─── Advenica-Aligned Blue Design Palette ───────────────────────────── */
+  /* Mirrors Advenica's CSS custom properties */
+  --blue-whisper:    #FCFCFD;   /* --color-blue-5 / almost white */
+  --blue-pale:       #EFF4F6;   /* --color-blue-10 / very light bg */
+  --blue-mist:       #E6EEF1;   /* --color-blue-15 / light section bg */
+  --blue-sky:        #AAC5D0;   /* --color-blue-50 / sky blue */
+  --blue-medium:     #568CA3;   /* --color-blue-100 */
+  --blue-brand:      #1F7994;   /* --color-light-blue-100 / primary brand teal */
+  --blue-slate:      #467386;   /* --color-medium-blue-100 */
+  --blue-strong:     #165368;   /* --color-dark-blue-100 */
+  --blue-deep:       #093544;   /* --color-darker-blue-100 / footer/darkest text */
+
   /* Signal (success / live / online) */
-  --signal-500: #34C759; /* Crisp Technical Green for active indicators */
+  --signal-500: #34C759;
   --signal-700: #248A3D;
 
   /* Warning */
@@ -29,18 +41,18 @@
   /* Critical */
   --critical-500: #FF4D5E;
 
-  /* Brand Red (Pesaba Logo Red) */
+  /* Brand Red (kept for dark mode accent) */
   --brand-red:         #891D1E;
   --brand-red-hover:   #A7282A;
   --brand-red-alpha:   rgba(137, 29, 30, 0.15);
   --brand-red-glow:    rgba(137, 29, 30, 0.4);
 
-  /* Paper (light mode) */
+  /* Paper (light mode backgrounds) */
   --paper-50:  #FFFFFF;
-  --paper-100: #F2F2F7;
-  --paper-900: #000000;
+  --paper-100: #EFF4F6;
+  --paper-900: #093544;
 
-  /* ─── Semantic tokens (dark-mode default) ────────────────────────────── */
+  /* ─── Semantic tokens — DARK mode default ────────────────────────────── */
   --bg-page:      #000000;
   --bg-elevated:  #0C0C0E;
   --bg-modal:     #121214;
@@ -53,7 +65,7 @@
   --accent-hover: var(--photon-600);
   --accent-bg:    rgba(255, 255, 255, 0.08);
 
-  /* Primary Button variables (Dark mode default) */
+  /* Primary Button (dark mode) */
   --btn-primary-bg:    #FFFFFF;
   --btn-primary-text:  #000000;
   --btn-primary-hover: #E5E5EA;
@@ -93,40 +105,58 @@
   --container-prose: 720px;
 }
 
-/* Light mode overrides */
+/* ─── Light mode — Advenica blue palette ─────────────────────────────────── */
 .light {
+  /* Backgrounds — from Advenica's blue-tinted white system */
   --bg-page:      #FFFFFF;
-  --bg-elevated:  #F2F2F7;
+  --bg-elevated:  #EFF4F6;   /* blue-pale */
   --bg-modal:     #FFFFFF;
-  --border:       #D1D1D6;
-  --text-primary:   #000000;
-  --text-secondary: #3A3A3C;
-  --text-muted:     #8E8E93;
-  --accent:       #000000;
-  --accent-hover: #1C1C1E;
-  --accent-bg:    rgba(0, 0, 0, 0.05);
+
+  /* Borders — blue-tinted */
+  --border:        #C9DDE5;
+  --border-strong: #A3C5D1;
+
+  /* Typography — dark navy hierarchy */
+  --text-primary:   #093544;   /* blue-deep */
+  --text-secondary: #165368;   /* blue-strong */
+  --text-muted:     #467386;   /* blue-slate */
+
+  /* Accent — Advenica teal-blue primary */
+  --accent:       #1F7994;   /* blue-brand */
+  --accent-hover: #165368;   /* blue-strong */
+  --accent-bg:    rgba(31, 121, 148, 0.08);
+
+  /* Shadows off */
   --glow-sm: none;
   --glow-md: none;
   --glow-lg: none;
-  
-  --photon-400: #1C1C1E;
-  --photon-500: #000000;
-  --photon-600: #2C2C30;
-  --photon-700: #48484A;
-  --photon-900: #8E8E93;
+  --glow-xl: none;
 
-  --btn-primary-bg:    #000000;
+  /* Photon remapped to navy scale for light mode */
+  --photon-400: #093544;   /* deep navy */
+  --photon-500: #093544;   /* primary text / icon */
+  --photon-600: #165368;   /* hover text */
+  --photon-700: #467386;   /* muted text */
+  --photon-900: #568CA3;   /* very muted */
+
+  /* Primary Button — dark navy */
+  --btn-primary-bg:    #093544;
   --btn-primary-text:  #FFFFFF;
-  --btn-primary-hover: #1C1C1E;
+  --btn-primary-hover: #165368;
+
+  /* Paper remapped */
+  --paper-50:  #FFFFFF;
+  --paper-100: #EFF4F6;
+  --paper-900: #093544;
 }
 
-/* Graph-paper background pattern */
+/* ─── Graph-paper background pattern ─────────────────────────────────────── */
 .bg-graph-paper {
   background-image: radial-gradient(circle, rgba(148,161,189,0.045) 1px, transparent 1px);
   background-size: 36px 36px;
 }
 .light .bg-graph-paper {
-  background-image: radial-gradient(circle, rgba(0,0,0,0.10) 1px, transparent 1px);
+  background-image: radial-gradient(circle, rgba(31,121,148,0.06) 1px, transparent 1px);
 }
 
 /* ─── Light mode: remap hardcoded Tailwind ink-* utilities ──────────────── */
@@ -136,46 +166,46 @@
 .light .bg-ink-950\/96  { background-color: var(--paper-50) }
 .light .bg-ink-900      { background-color: var(--paper-100) }
 .light .bg-ink-800,
-.light .bg-ink-800\/60  { background-color: #E2E9F5 }
+.light .bg-ink-800\/60  { background-color: #E6EEF1 }
 
-/* Text remapping */
-.light .text-ink-100    { color: #0E1422 }
-.light .text-ink-200    { color: #1B2438 }
-.light .text-ink-300    { color: #4A5673 }
-.light .text-ink-400    { color: #5E6E8A }
-.light .text-ink-500    { color: #8A9AB8 }
+/* Text remapping — adapted to blue navy hierarchy */
+.light .text-ink-100    { color: #093544 }
+.light .text-ink-200    { color: #165368 }
+.light .text-ink-300    { color: #467386 }
+.light .text-ink-400    { color: #568CA3 }
+.light .text-ink-500    { color: #8AA8B8 }
 .light .text-ink-600    { color: #9CAABB }
 
-/* Border remapping */
-.light .border-ink-700   { border-color: #D0D9E8 }
-.light .border-ink-800   { border-color: #DDE5F0 }
-.light .border-ink-600   { border-color: #BCC8DC }
-.light .border-ink-500   { border-color: #A0B0C8 }
+/* Border remapping — blue-tinted */
+.light .border-ink-700   { border-color: #C9DDE5 }
+.light .border-ink-800   { border-color: #D9E9EE }
+.light .border-ink-600   { border-color: #A3C5D1 }
+.light .border-ink-500   { border-color: #8AB3C3 }
 
 /* Border opacity variants */
-.light .border-ink-700\/30 { border-color: rgba(208,217,232,0.3) }
-.light .border-ink-700\/40 { border-color: rgba(208,217,232,0.4) }
-.light .border-ink-700\/50 { border-color: rgba(208,217,232,0.5) }
-.light .border-ink-700\/60 { border-color: rgba(208,217,232,0.6) }
+.light .border-ink-700\/30 { border-color: rgba(201,221,229,0.3) }
+.light .border-ink-700\/40 { border-color: rgba(201,221,229,0.4) }
+.light .border-ink-700\/50 { border-color: rgba(201,221,229,0.5) }
+.light .border-ink-700\/60 { border-color: rgba(201,221,229,0.6) }
 
 /* Sticky tabs / bg-ink-950 opacity variants */
-.light .bg-ink-950\/95 { background-color: rgba(248,250,252,0.95) }
-.light .bg-ink-950\/40 { background-color: rgba(238,242,248,0.4) }
-.light .bg-ink-900\/20 { background-color: rgba(248,250,252,0.2) }
+.light .bg-ink-950\/95 { background-color: rgba(255,255,255,0.95) }
+.light .bg-ink-950\/40 { background-color: rgba(239,244,246,0.4) }
+.light .bg-ink-900\/20 { background-color: rgba(239,244,246,0.2) }
 
 /* Background opacity variants */
-.light .bg-ink-800\/80 { background-color: rgba(226,233,245,0.8) }
+.light .bg-ink-800\/80 { background-color: rgba(230,238,241,0.8) }
 
 /* Placeholder text remapping */
-.light .placeholder-ink-600::placeholder { color: #8A9AB8 }
+.light .placeholder-ink-600::placeholder { color: #568CA3 }
 
 /* Gradient remaps — via-ink-700 divider lines */
 .light .via-ink-700\/60 {
-  --tw-gradient-via: rgba(208,217,232,0.6) var(--tw-gradient-via-position);
-  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-via), var(--tw-gradient-to, rgba(208,217,232,0));
+  --tw-gradient-via: rgba(201,221,229,0.6) var(--tw-gradient-via-position);
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-via), var(--tw-gradient-to, rgba(201,221,229,0));
 }
 
-/* Gradient remap — blog hero overlay (from-ink-1000 / via-ink-1000/40) */
+/* Gradient remap — blog hero overlay */
 .light .from-ink-1000 {
   --tw-gradient-from: #F8FAFC var(--tw-gradient-from-position);
   --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(248,250,252,0));
@@ -185,9 +215,9 @@
   --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-via), var(--tw-gradient-to, rgba(248,250,252,0));
 }
 
-/* Hover states: these need !important because they compete with hover: utilities */
-.light .hover\:bg-ink-800:hover  { background-color: #E2E9F5 !important }
-.light .hover\:bg-ink-800\/60:hover { background-color: rgba(226,233,245,0.6) !important }
-.light .hover\:text-ink-100:hover { color: #0E1422 !important }
-.light .hover\:text-ink-300:hover { color: #4A5673 !important }
-.light .hover\:border-ink-500:hover { border-color: #A0B0C8 !important }
+/* Hover states */
+.light .hover\:bg-ink-800:hover  { background-color: #E6EEF1 !important }
+.light .hover\:bg-ink-800\/60:hover { background-color: rgba(230,238,241,0.6) !important }
+.light .hover\:text-ink-100:hover { color: #093544 !important }
+.light .hover\:text-ink-300:hover { color: #467386 !important }
+.light .hover\:border-ink-500:hover { border-color: #8AB3C3 !important }

@@ -85,10 +85,11 @@ export default defineNuxtConfig({
         { rel: 'apple-touch-icon', href: '/apple-touch-icon.png' },
         { rel: 'manifest', href: '/manifest.webmanifest' },
         { rel: 'alternate', type: 'application/rss+xml', title: 'Pesaba Blog', href: '/feed.xml' },
+
       ],
       meta: [
-        { name: 'theme-color', content: '#0A0F1A' },
-        { name: 'color-scheme', content: 'dark light' },
+        { name: 'theme-color', content: '#FFFFFF' },
+        { name: 'color-scheme', content: 'light dark' },
         { property: 'og:site_name', content: 'Pesaba' },
         { property: 'og:type', content: 'website' },
         { name: 'twitter:card', content: 'summary_large_image' },

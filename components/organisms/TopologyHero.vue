@@ -1,5 +1,6 @@
 <template>
-  <section class="relative overflow-hidden min-h-[820px] md:min-h-[90vh] flex flex-col justify-center bg-[var(--bg-page)]">
+  <!-- Always dark navy hero — Advenica pattern: hero is always dark, SVG wedge transitions to light content -->
+  <section class="relative overflow-hidden min-h-[820px] md:min-h-[90vh] flex flex-col justify-center bg-[#093544]">
     
     <!-- Background Slide Carousel -->
     <div class="absolute inset-0 pointer-events-none z-0">
@@ -11,13 +12,8 @@
         />
       </Transition>
       
-      <!-- Overlay: dark mode deep overlay, light mode subtle gradient -->
-      <div
-        class="absolute inset-0"
-        :style="isDark
-          ? 'background: linear-gradient(135deg, rgba(10,15,26,0.92) 0%, rgba(10,15,26,0.80) 50%, rgba(10,15,26,0.60) 100%);'
-          : 'background: linear-gradient(135deg, rgba(248,250,252,0.72) 0%, rgba(238,242,248,0.52) 100%);'"
-      />
+      <!-- Dark overlay — hero is always dark navy -->
+      <div class="absolute inset-0" style="background: linear-gradient(135deg, rgba(9,53,68,0.88) 0%, rgba(9,53,68,0.70) 50%, rgba(9,53,68,0.50) 100%);" />
     </div>
 
     <!-- Canvas — topology animation -->
@@ -60,7 +56,7 @@
               </h1>
 
               <!-- Sub-headline -->
-              <p class="text-base md:text-lg text-[var(--text-secondary)] leading-relaxed mb-8 max-w-2xl">
+              <p class="text-base md:text-lg text-white/70 leading-relaxed mb-8 max-w-2xl">
                 {{ slides[activeIdx].sub }}
               </p>
 
@@ -228,8 +224,8 @@ useHead({
 
 const heroBackgroundStyle = computed(() => ({
   backgroundImage: `url(${withBase(slides.value[activeIdx.value].bgImage)})`,
-  opacity: isDark.value ? 0.38 : 0.26,
-  filter: isDark.value ? 'none' : 'invert(1) hue-rotate(180deg) brightness(1.02) contrast(0.95)',
+  opacity: 0.35,
+  filter: 'none',
 }))
 
 const slides = computed(() => [

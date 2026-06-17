@@ -16,7 +16,7 @@
   body {
     background-color: var(--bg-page);
     color: var(--text-primary);
-    font-family: 'Inter', system-ui, sans-serif;
+    font-family: 'Jost', 'Inter', system-ui, sans-serif;
     font-size: 16px;
     line-height: 1.75;
     -webkit-font-smoothing: antialiased;
@@ -27,10 +27,10 @@
 
   /* Headings */
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Inter', system-ui, sans-serif;
-    font-weight: 900 !important;
+    font-family: 'Jost', 'Inter', system-ui, sans-serif;
+    font-weight: 800 !important;
     line-height: 1.1 !important;
-    letter-spacing: -0.04em !important;
+    letter-spacing: -0.03em !important;
     color: var(--text-primary);
   }
 
@@ -73,7 +73,8 @@
   }
 
   .light ::selection {
-    background-color: rgba(0, 153, 181, 0.2);
+    background-color: rgba(31, 121, 148, 0.2);
+    color: var(--text-primary);
   }
 
   /* Scrollbar */
@@ -250,8 +251,8 @@
   }
 
   .section-heading {
-    font-size: clamp(1.75rem, 3vw, 2.5rem);
-    line-height: 1.1;
+    font-size: clamp(2rem, 4vw, 3.25rem);
+    line-height: 1.08;
     letter-spacing: -0.03em;
   }
 
@@ -279,23 +280,23 @@
   }
 
   .light .eyebrow {
-    border-color: rgba(2,132,199,0.25);
-    background: rgba(2,132,199,0.08);
-    color: #0284C7;
+    border-color: rgba(31,121,148,0.25);
+    background: rgba(31,121,148,0.07);
+    color: var(--blue-brand);
   }
 
   .light .card-halo:hover {
-    border-color: var(--brand-red) !important;
+    border-color: var(--blue-brand) !important;
   }
 
   .light .product-card:hover {
-    border-color: var(--brand-red) !important;
+    border-color: var(--blue-brand) !important;
   }
 
   .light .spec-pill {
-    color: #0284C7;
-    background: rgba(2,132,199,0.07);
-    border-color: rgba(2,132,199,0.22);
+    color: var(--blue-brand);
+    background: rgba(31,121,148,0.07);
+    border-color: rgba(31,121,148,0.22);
   }
 
   [dir="rtl"] .hairline {
@@ -635,8 +636,9 @@
     transition: transform var(--dur-base) var(--ease-entrance);
   }
   .underline-photon:hover::after { transform: scaleX(1); }
+  .light .underline-photon::after { background: var(--blue-brand); }
 
-  /* Reusable brand red elegant gradient divider */
+  /* Section divider — adapts to mode */
   .divider-gradient {
     border: none;
     height: 1px;
@@ -644,6 +646,11 @@
     opacity: 0.35;
     margin-block: 0;
     width: 100%;
+  }
+
+  .light .divider-gradient {
+    background: linear-gradient(90deg, transparent 0%, var(--blue-brand) 50%, transparent 100%);
+    opacity: 0.25;
   }
 
   /* Visually hidden (accessible) */

@@ -1,66 +1,72 @@
 <template>
-  <footer class="relative z-10 mt-auto border-t border-[var(--border)] bg-[var(--bg-page)]">
-    <div class="container-site py-14">
-      <div class="grid gap-10 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,2fr)]">
-        <div class="space-y-6">
+  <!-- Advenica-style: always dark navy footer regardless of light/dark mode -->
+  <footer class="relative z-10 mt-auto bg-[#093544] text-white">
+    <div class="container-site py-14 lg:py-16">
+      <div class="grid gap-12 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,2fr)]">
+
+        <!-- Brand column -->
+        <div class="space-y-7">
           <NuxtLink :to="localePath('/')" class="inline-flex items-center gap-3">
-            <NuxtImg src="/logo.svg" alt="Pesaba" class="h-9 w-9" />
+            <NuxtImg src="/logo.svg" alt="Pesaba" class="h-10 w-10 brightness-0 invert" />
             <div>
-              <div class="text-lg font-semibold text-[var(--text-primary)]">Pesaba</div>
-              <div class="text-[11px] uppercase tracking-[0.2em] text-[var(--text-muted)]">
+              <div class="text-lg font-bold text-white tracking-wide">Pesaba</div>
+              <div class="text-[10px] uppercase tracking-[0.22em] font-medium text-white/50">
                 {{ locale === 'fa' ? 'شبکه‌های بدون شکست' : 'Networks That Cannot Fail' }}
               </div>
             </div>
           </NuxtLink>
 
-          <p class="!mt-3 max-w-md text-sm leading-relaxed text-[var(--text-secondary)]">
+          <p class="max-w-sm text-sm leading-relaxed text-white/60">
             {{ $t('footer.tagline') }}
           </p>
 
-          <div class="max-w-md">
-            <div class="divide-y divide-[var(--border)] rounded-2xl border border-[var(--border)] bg-[var(--bg-elevated)]/30 overflow-hidden">
-              <!-- Phone -->
-              <a :href="salesPhoneHref" class="flex items-center justify-between px-4 py-3.5 text-sm text-[var(--text-secondary)] hover:bg-[var(--bg-elevated)]/50 hover:text-[var(--text-primary)] transition-all duration-200 group">
-                <div class="flex items-center gap-2.5">
-                  <svg class="h-4 w-4 text-[var(--text-muted)] group-hover:text-[var(--accent)] transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.94.725l.548 2.2a1 1 0 01-.321.988l-1.305.98a10.582 10.582 0 004.872 4.872l.98-1.305a1 1 0 01.988-.321l2.2.548a1 1 0 01.725.94V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                  </svg>
-                  <span class="font-medium text-[var(--text-secondary)] group-hover:text-[var(--text-primary)] transition-colors">{{ locale === 'fa' ? 'تلفن' : 'Phone' }}</span>
-                </div>
-                <div dir="ltr" class="font-mono text-xs text-[var(--text-muted)] group-hover:text-[var(--text-primary)] transition-colors">{{ salesPhoneDisplayInternational }}</div>
-              </a>
+          <!-- Contact block -->
+          <div class="space-y-1">
+            <a
+              :href="salesPhoneHref"
+              class="flex items-center gap-3 py-3 text-sm text-white/60 hover:text-white transition-colors border-b border-white/8 group"
+            >
+              <svg class="h-4 w-4 text-white/30 group-hover:text-[#1F7994] transition-colors shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.94.725l.548 2.2a1 1 0 01-.321.988l-1.305.98a10.582 10.582 0 004.872 4.872l.98-1.305a1 1 0 01.988-.321l2.2.548a1 1 0 01.725.94V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+              </svg>
+              <span dir="ltr" class="font-medium">{{ salesPhoneDisplayInternational }}</span>
+            </a>
 
-              <!-- Email -->
-              <a :href="salesEmailHref" class="flex items-center justify-between px-4 py-3.5 text-sm text-[var(--text-secondary)] hover:bg-[var(--bg-elevated)]/50 hover:text-[var(--text-primary)] transition-all duration-200 group">
-                <div class="flex items-center gap-2.5">
-                  <svg class="h-4 w-4 text-[var(--text-muted)] group-hover:text-[var(--accent)] transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                  </svg>
-                  <span class="font-medium text-[var(--text-secondary)] group-hover:text-[var(--text-primary)] transition-colors">{{ locale === 'fa' ? 'ایمیل' : 'Email' }}</span>
-                </div>
-                <div dir="ltr" class="font-mono text-xs text-[var(--text-muted)] group-hover:text-[var(--text-primary)] transition-colors">{{ salesEmail }}</div>
-              </a>
+            <a
+              :href="salesEmailHref"
+              class="flex items-center gap-3 py-3 text-sm text-white/60 hover:text-white transition-colors border-b border-white/8 group"
+            >
+              <svg class="h-4 w-4 text-white/30 group-hover:text-[#1F7994] transition-colors shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+              </svg>
+              <span>{{ salesEmail }}</span>
+            </a>
 
-              <!-- LinkedIn -->
-              <a href="https://ir.linkedin.com/company/partov-ertebat-saba" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between px-4 py-3.5 text-sm text-[var(--text-secondary)] hover:bg-[var(--bg-elevated)]/50 hover:text-[var(--text-primary)] transition-all duration-200 group">
-                <div class="flex items-center gap-2.5">
-                  <svg class="h-4 w-4 text-[var(--text-muted)] group-hover:text-[var(--accent)] transition-colors" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
-                  </svg>
-                  <span class="font-medium text-[var(--text-secondary)] group-hover:text-[var(--text-primary)] transition-colors">{{ locale === 'fa' ? 'لینکدین' : 'LinkedIn' }}</span>
-                </div>
-                <div class="text-xs text-[var(--text-muted)] group-hover:text-[var(--text-primary)] transition-colors">{{ locale === 'fa' ? 'پرتو ارتباط صبا' : 'Partov Ertebat Saba' }}</div>
-              </a>
-            </div>
+            <a
+              href="https://ir.linkedin.com/company/partov-ertebat-saba"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="flex items-center gap-3 py-3 text-sm text-white/60 hover:text-white transition-colors group"
+              :aria-label="locale === 'fa' ? 'صفحه لینکدین پرتو ارتباط صبا' : 'Partov Ertebat Saba on LinkedIn'"
+            >
+              <svg class="h-4 w-4 text-white/30 group-hover:text-[#1F7994] transition-colors shrink-0" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+              </svg>
+              <span>{{ locale === 'fa' ? 'پرتو ارتباط صبا' : 'Partov Ertebat Saba' }}</span>
+            </a>
           </div>
         </div>
 
+        <!-- Links columns -->
         <div class="grid gap-8 sm:grid-cols-3">
           <div>
-            <h3 class="mb-4 label-meta">{{ $t('footer.products') }}</h3>
+            <h3 class="mb-5 text-[10px] font-semibold uppercase tracking-[0.18em] text-white/40">{{ $t('footer.products') }}</h3>
             <ul class="space-y-3">
               <li v-for="item in productLinks" :key="item.to">
-                <NuxtLink :to="localePath(item.to)" class="text-sm text-[var(--text-secondary)] transition-colors hover:text-[var(--text-primary)]">
+                <NuxtLink
+                  :to="localePath(item.to)"
+                  class="text-sm text-white/60 hover:text-white transition-colors"
+                >
                   {{ item.label }}
                 </NuxtLink>
               </li>
@@ -68,10 +74,13 @@
           </div>
 
           <div>
-            <h3 class="mb-4 label-meta">{{ $t('footer.solutions') }}</h3>
+            <h3 class="mb-5 text-[10px] font-semibold uppercase tracking-[0.18em] text-white/40">{{ $t('footer.solutions') }}</h3>
             <ul class="space-y-3">
               <li v-for="item in solutionLinks" :key="item.to">
-                <NuxtLink :to="localePath(item.to)" class="text-sm text-[var(--text-secondary)] transition-colors hover:text-[var(--text-primary)]">
+                <NuxtLink
+                  :to="localePath(item.to)"
+                  class="text-sm text-white/60 hover:text-white transition-colors"
+                >
                   {{ item.label }}
                 </NuxtLink>
               </li>
@@ -79,12 +88,15 @@
           </div>
 
           <div>
-            <h3 class="mb-4 label-meta">
-              {{ locale === 'fa' ? 'ارتباط با ما' : 'Contact Us' }}
+            <h3 class="mb-5 text-[10px] font-semibold uppercase tracking-[0.18em] text-white/40">
+              {{ locale === 'fa' ? 'شرکت' : 'Company' }}
             </h3>
             <ul class="space-y-3">
               <li v-for="item in companyLinks" :key="item.to">
-                <NuxtLink :to="localePath(item.to)" class="text-sm text-[var(--text-secondary)] transition-colors hover:text-[var(--text-primary)]">
+                <NuxtLink
+                  :to="localePath(item.to)"
+                  class="text-sm text-white/60 hover:text-white transition-colors"
+                >
                   {{ item.label }}
                 </NuxtLink>
               </li>
@@ -94,9 +106,20 @@
       </div>
     </div>
 
-    <div class="border-t border-[var(--border)]">
-      <div class="container-site py-4 text-center text-xs text-[var(--text-muted)]">
-        <p>{{ $t('footer.copyright', { year: new Date().getFullYear() }) }}</p>
+    <!-- Bottom bar -->
+    <div class="border-t border-white/8">
+      <div class="container-site flex flex-wrap items-center justify-between gap-4 py-5">
+        <p class="text-xs text-white/35">
+          {{ $t('footer.copyright', { year: new Date().getFullYear() }) }}
+        </p>
+        <div class="flex items-center gap-4">
+          <NuxtLink :to="localePath('/trust')" class="text-xs text-white/35 hover:text-white/70 transition-colors">
+            {{ $t('trust.title') }}
+          </NuxtLink>
+          <NuxtLink :to="localePath('/company/contact')" class="text-xs text-white/35 hover:text-white/70 transition-colors">
+            {{ locale === 'fa' ? 'تماس با ما' : 'Contact' }}
+          </NuxtLink>
+        </div>
       </div>
     </div>
   </footer>

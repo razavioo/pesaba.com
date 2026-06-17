@@ -1,6 +1,6 @@
 export function useDarkMode() {
   const mode = useCookie<'dark' | 'light'>('pesaba_theme', {
-    default: () => 'dark',
+    default: () => 'light',
     maxAge: 60 * 60 * 24 * 365,
     sameSite: 'lax',
   })

@@ -49,13 +49,26 @@ export default {
         },
         // Brand
         brand: {
-          red: '#891D1E',
+          red:  '#891D1E',
+          blue: '#1F7994',
+        },
+        // Advenica-aligned blue palette
+        blue: {
+          whisper: '#FCFCFD',
+          pale:    '#EFF4F6',
+          mist:    '#E6EEF1',
+          sky:     '#AAC5D0',
+          medium:  '#568CA3',
+          brand:   '#1F7994',
+          slate:   '#467386',
+          strong:  '#165368',
+          deep:    '#093544',
         },
         // Light mode paper
         paper: {
-          50:  '#F8FAFC',
-          100: '#EEF2F8',
-          900: '#0E1422',
+          50:  '#FFFFFF',
+          100: '#EFF4F6',
+          900: '#093544',
         },
       },
       fontFamily: {

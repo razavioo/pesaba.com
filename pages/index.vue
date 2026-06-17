@@ -2,6 +2,9 @@
   <div>
     <TopologyHero />
 
+    <!-- Advenica-signature: sector cards with grayscale-to-color hover -->
+    <IndustrySectors />
+
     <StatsShowcase />
 
     <section class="section">
@@ -62,26 +65,26 @@
           </p>
         </div>
 
-        <div class="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+        <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
           <NuxtLink
             v-for="item in applicationSegments"
             :key="item.to"
             :to="localePath(item.to)"
-            class="card-halo group flex h-full flex-col overflow-hidden p-5 transition-all duration-300 hover:-translate-y-1"
+            class="card-halo group flex h-full flex-col overflow-hidden p-6 transition-all duration-300 hover:-translate-y-1"
           >
-            <div class="mb-4 flex items-center justify-between gap-3">
-              <div class="rounded-full border border-photon-500/25 bg-photon-500/8 px-3 py-1 text-[11px] font-mono uppercase tracking-wider text-photon-400">
+            <div class="mb-5 flex items-start justify-between gap-3">
+              <span class="inline-block border border-[var(--accent)]/25 bg-[var(--accent)]/6 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-[var(--accent)]">
                 {{ item.badge }}
-              </div>
-              <span class="text-sm text-[var(--text-muted)] transition-transform group-hover:translate-x-1 rtl:group-hover:-translate-x-1">→</span>
+              </span>
+              <span class="text-[var(--text-muted)] opacity-0 transition-all duration-200 group-hover:opacity-100 group-hover:translate-x-1 rtl:group-hover:-translate-x-1 rtl:group-hover:translate-x-0">→</span>
             </div>
-            <h3 class="mb-2 text-lg font-semibold text-[var(--text-primary)]">{{ item.title }}</h3>
-            <p class="mb-4 flex-grow text-sm leading-relaxed text-[var(--text-secondary)]">{{ item.desc }}</p>
-            <div class="flex flex-wrap gap-2">
+            <h3 class="mb-2.5 text-lg font-bold text-[var(--text-primary)] leading-snug">{{ item.title }}</h3>
+            <p class="mb-5 flex-grow text-sm leading-relaxed text-[var(--text-secondary)]">{{ item.desc }}</p>
+            <div class="flex flex-wrap gap-1.5">
               <span
                 v-for="tag in item.tags"
                 :key="tag"
-                class="rounded-full border border-[var(--border)] bg-[var(--bg-page)] px-2.5 py-1 text-[11px] text-[var(--text-secondary)]"
+                class="border border-[var(--border)] bg-[var(--bg-page)] px-2.5 py-1 text-[10px] font-medium text-[var(--text-muted)]"
               >
                 {{ tag }}
               </span>
@@ -104,11 +107,21 @@
             {{ locale === 'fa' ? 'محصولات پرتو ارتباط صبا باید برای خریداران فنی قابل توجیه باشند: منطق سخت‌افزاری شفاف، وابستگی نرم‌افزاری کمتر، و مستندات اعتمادسازی قوی‌تر.' : 'Pesaba products need to be defensible to technical buyers: clearer hardware logic, fewer software dependencies, and stronger trust evidence.' }}
           </p>
         </div>
-        <div class="divide-y divide-[var(--border)] border border-[var(--border)] rounded-2xl overflow-hidden">
-          <div v-for="pillar in buildPillars" :key="pillar.title" class="flex items-start gap-4 p-5">
-            <component :is="pillar.icon" class="mt-0.5 h-4 w-4 shrink-0 text-[var(--brand-red)]" />
+        <div class="grid gap-0 md:grid-cols-2 border border-[var(--border)] overflow-hidden">
+          <div
+            v-for="(pillar, i) in buildPillars"
+            :key="pillar.title"
+            :class="[
+              'flex items-start gap-4 p-6 border-[var(--border)]',
+              i % 2 === 0 ? 'border-e' : '',
+              i < buildPillars.length - 2 ? 'border-b' : '',
+            ]"
+          >
+            <div class="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center bg-[var(--accent)]/8 border border-[var(--accent)]/20">
+              <component :is="pillar.icon" class="h-4 w-4 text-[var(--accent)]" />
+            </div>
             <div>
-              <h3 class="mb-1 text-sm font-semibold text-[var(--text-primary)]">{{ pillar.title }}</h3>
+              <h3 class="mb-1.5 text-base font-bold text-[var(--text-primary)]">{{ pillar.title }}</h3>
               <p class="text-sm leading-relaxed text-[var(--text-secondary)]">{{ pillar.desc }}</p>
             </div>
           </div>
@@ -125,7 +138,7 @@
             <div class="section-label mb-3">{{ locale === 'fa' ? 'تازه‌ها' : 'From the Lab' }}</div>
             <h2 class="section-heading text-[var(--text-primary)]">{{ $t('home.from_the_lab') }}</h2>
           </div>
-          <NuxtLink :to="localePath('/blog')" class="text-sm font-medium text-photon-400 transition-colors hover:text-photon-300">
+          <NuxtLink :to="localePath('/blog')" class="text-sm font-semibold text-[var(--accent)] transition-colors hover:text-[var(--accent-hover)] underline-photon">
             {{ $t('common.view_all') }}
           </NuxtLink>
         </div>
@@ -134,7 +147,7 @@
           <NuxtLink
             v-if="featuredArticles?.[0]"
             :to="localePath(`/blog/${featuredArticles[0].slug}`)"
-            class="group relative overflow-hidden rounded-[20px] border border-[var(--border)] bg-[var(--bg-elevated)] h-full flex flex-col"
+            class="group relative overflow-hidden border border-[var(--border)] bg-[var(--bg-elevated)] h-full flex flex-col"
           >
             <div class="relative h-full min-h-[24rem]">
               <NuxtImg
