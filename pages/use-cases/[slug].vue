@@ -64,10 +64,12 @@ const { data: useCase } = await useAsyncData(`use-case-${route.params.slug}-${lo
 )
 
 if (useCase.value) {
+  const config = useRuntimeConfig()
+  const siteUrl = (config.public.siteUrl || 'https://pesaba.com').replace(/\/$/, '')
   useSeoMeta({
     title: `${useCase.value.title} | Pesaba`,
     description: useCase.value.description,
-    ogImage: `https://pesaba.com/images/use-cases/${useCase.value.slug}.png`,
+    ogImage: `${siteUrl}/images/use-cases/${useCase.value.slug}.png`,
     twitterCard: 'summary_large_image',
   })
   emitBreadcrumbs([

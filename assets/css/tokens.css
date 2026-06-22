@@ -1,23 +1,23 @@
 /* ─── Pesaba Design Tokens — Advenica-Aligned Blue System ────────────────── */
 
 :root {
-  /* Canvas / Ink (dark foundations) */
-  --ink-1000:  #04070D;
-  --ink-950:   #0A0F1A;
-  --ink-900:   #0E1422;
-  --ink-800:   #131C2E;
-  --ink-700:   #1B2438;
-  --ink-500:   #4A5673;
-  --ink-300:   #94A1BD;
-  --ink-100:   #E2E7F2;
-  --ink-0:     #FFFFFF;
+  /* Ink remapped to light blue/navy system (space-separated RGB values for Tailwind) */
+  --ink-1000:  9 53 68;       /* deep navy #093544 */
+  --ink-950:   255 255 255;   /* white #FFFFFF */
+  --ink-900:   239 244 246;   /* blue-pale #EFF4F6 */
+  --ink-800:   230 238 241;   /* blue-mist #E6EEF1 */
+  --ink-700:   201 221 229;   /* blue-sky #C9DDE5 */
+  --ink-500:   138 168 184;   /* medium blue #8AA8B8 */
+  --ink-300:   70 115 134;    /* slate blue #467386 */
+  --ink-100:   9 53 68;       /* deep navy #093544 */
+  --ink-0:     9 53 68;       /* deep navy #093544 */
 
-  /* Photon (monochrome neutral scale) */
-  --photon-400: #F2F2F7;
-  --photon-500: #FFFFFF;
-  --photon-600: #E5E5EA;
-  --photon-700: #D1D1D6;
-  --photon-900: #8E8E93;
+  /* Photon remapped to navy scale for light mode (space-separated RGB values for Tailwind) */
+  --photon-400: 9 53 68;      /* deep navy #093544 */
+  --photon-500: 9 53 68;      /* deep navy #093544 */
+  --photon-600: 22 83 104;    /* strong blue #165368 */
+  --photon-700: 70 115 134;   /* slate blue #467386 */
+  --photon-900: 86 140 163;   /* medium blue #568CA3 */
 
   /* ─── Advenica-Aligned Blue Design Palette ───────────────────────────── */
   /* Mirrors Advenica's CSS custom properties */
@@ -41,72 +41,12 @@
   /* Critical */
   --critical-500: #FF4D5E;
 
-  /* Brand Red (kept for dark mode accent) */
+  /* Brand Red */
   --brand-red:         #891D1E;
   --brand-red-hover:   #A7282A;
   --brand-red-alpha:   rgba(137, 29, 30, 0.15);
   --brand-red-glow:    rgba(137, 29, 30, 0.4);
 
-  /* Paper (light mode backgrounds) */
-  --paper-50:  #FFFFFF;
-  --paper-100: #EFF4F6;
-  --paper-900: #093544;
-
-  /* ─── Semantic tokens — DARK mode default ────────────────────────────── */
-  --bg-page:      #000000;
-  --bg-elevated:  #0C0C0E;
-  --bg-modal:     #121214;
-  --border:       #1F1F22;
-  --border-strong:#2C2C30;
-  --text-primary: #FFFFFF;
-  --text-secondary:#E5E5EA;
-  --text-muted:   #8E8E93;
-  --accent:       var(--photon-500);
-  --accent-hover: var(--photon-600);
-  --accent-bg:    rgba(255, 255, 255, 0.08);
-
-  /* Primary Button (dark mode) */
-  --btn-primary-bg:    #FFFFFF;
-  --btn-primary-text:  #000000;
-  --btn-primary-hover: #E5E5EA;
-
-  /* ─── Spacing ─────────────────────────────────────────────────────────── */
-  --space-hero:    clamp(5.5rem, 10vw, 9rem);
-  --space-section: clamp(4rem, 7vw, 7.5rem);
-  --space-cta:     clamp(5rem, 9vw, 8.5rem);
-  --space-gap:     clamp(1.5rem, 3vw, 3rem);
-
-  /* ─── Radius ──────────────────────────────────────────────────────────── */
-  --r-xs:   0px;
-  --r-sm:   0px;
-  --r-md:   0px;
-  --r-lg:   0px;
-  --r-2xl:  0px;
-  --r-full: 9999px;
-
-  /* ─── Shadows ─────────────────────────────────────────────────────────── */
-  --glow-sm: none;
-  --glow-md: none;
-  --glow-lg: none;
-  --glow-xl: none;
-
-  /* ─── Motion ──────────────────────────────────────────────────────────── */
-  --ease-entrance: cubic-bezier(.16, 1, .3, 1);
-  --ease-hover:    cubic-bezier(.16, 1, .3, 1);
-  --ease-exit:     cubic-bezier(.3, 0, 0, 1);
-  --dur-fast:  150ms;
-  --dur-base:  250ms;
-  --dur-slow:  400ms;
-  --dur-enter: 450ms;
-
-  /* ─── Grid ────────────────────────────────────────────────────────────── */
-  --container:       1280px;
-  --container-wide:  1440px;
-  --container-prose: 720px;
-}
-
-/* ─── Light mode — Advenica blue palette ─────────────────────────────────── */
-.light {
   /* Backgrounds — from Advenica's blue-tinted white system */
   --bg-page:      #FFFFFF;
   --bg-elevated:  #EFF4F6;   /* blue-pale */
@@ -132,92 +72,38 @@
   --glow-lg: none;
   --glow-xl: none;
 
-  /* Photon remapped to navy scale for light mode */
-  --photon-400: #093544;   /* deep navy */
-  --photon-500: #093544;   /* primary text / icon */
-  --photon-600: #165368;   /* hover text */
-  --photon-700: #467386;   /* muted text */
-  --photon-900: #568CA3;   /* very muted */
-
   /* Primary Button — dark navy */
   --btn-primary-bg:    #093544;
   --btn-primary-text:  #FFFFFF;
   --btn-primary-hover: #165368;
 
-  /* Paper remapped */
+  /* Paper (light mode backgrounds) */
   --paper-50:  #FFFFFF;
   --paper-100: #EFF4F6;
   --paper-900: #093544;
+
+  /* ─── Spacing ─────────────────────────────────────────────────────────── */
+  --space-hero:    clamp(5.5rem, 10vw, 9rem);
+  --space-section: clamp(4rem, 7vw, 7.5rem);
+  --space-cta:     clamp(5rem, 9vw, 8.5rem);
+  --space-gap:     clamp(1.5rem, 3vw, 3rem);
+
+  /* ─── Radius ──────────────────────────────────────────────────────────── */
+  --r-xs:   0px;
+  --r-sm:   0px;
+  --r-md:   0px;
+  --r-lg:   0px;
+  --r-2xl:  0px;
+  --r-full: 9999px;
+
+  /* ─── Grid ────────────────────────────────────────────────────────────── */
+  --container:       1280px;
+  --container-wide:  1440px;
+  --container-prose: 720px;
 }
 
 /* ─── Graph-paper background pattern ─────────────────────────────────────── */
 .bg-graph-paper {
-  background-image: radial-gradient(circle, rgba(148,161,189,0.045) 1px, transparent 1px);
+  background-image: radial-gradient(circle, rgba(31,121,148,0.06) 1px, transparent 1px);
   background-size: 36px 36px;
 }
-.light .bg-graph-paper {
-  background-image: radial-gradient(circle, rgba(31,121,148,0.06) 1px, transparent 1px);
-}
-
-/* ─── Light mode: remap hardcoded Tailwind ink-* utilities ──────────────── */
-/* Background remapping */
-.light .bg-ink-1000\/70 { background-color: rgba(0, 0, 0, 0.4) }
-.light .bg-ink-950,
-.light .bg-ink-950\/96  { background-color: var(--paper-50) }
-.light .bg-ink-900      { background-color: var(--paper-100) }
-.light .bg-ink-800,
-.light .bg-ink-800\/60  { background-color: #E6EEF1 }
-
-/* Text remapping — adapted to blue navy hierarchy */
-.light .text-ink-100    { color: #093544 }
-.light .text-ink-200    { color: #165368 }
-.light .text-ink-300    { color: #467386 }
-.light .text-ink-400    { color: #568CA3 }
-.light .text-ink-500    { color: #8AA8B8 }
-.light .text-ink-600    { color: #9CAABB }
-
-/* Border remapping — blue-tinted */
-.light .border-ink-700   { border-color: #C9DDE5 }
-.light .border-ink-800   { border-color: #D9E9EE }
-.light .border-ink-600   { border-color: #A3C5D1 }
-.light .border-ink-500   { border-color: #8AB3C3 }
-
-/* Border opacity variants */
-.light .border-ink-700\/30 { border-color: rgba(201,221,229,0.3) }
-.light .border-ink-700\/40 { border-color: rgba(201,221,229,0.4) }
-.light .border-ink-700\/50 { border-color: rgba(201,221,229,0.5) }
-.light .border-ink-700\/60 { border-color: rgba(201,221,229,0.6) }
-
-/* Sticky tabs / bg-ink-950 opacity variants */
-.light .bg-ink-950\/95 { background-color: rgba(255,255,255,0.95) }
-.light .bg-ink-950\/40 { background-color: rgba(239,244,246,0.4) }
-.light .bg-ink-900\/20 { background-color: rgba(239,244,246,0.2) }
-
-/* Background opacity variants */
-.light .bg-ink-800\/80 { background-color: rgba(230,238,241,0.8) }
-
-/* Placeholder text remapping */
-.light .placeholder-ink-600::placeholder { color: #568CA3 }
-
-/* Gradient remaps — via-ink-700 divider lines */
-.light .via-ink-700\/60 {
-  --tw-gradient-via: rgba(201,221,229,0.6) var(--tw-gradient-via-position);
-  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-via), var(--tw-gradient-to, rgba(201,221,229,0));
-}
-
-/* Gradient remap — blog hero overlay */
-.light .from-ink-1000 {
-  --tw-gradient-from: #F8FAFC var(--tw-gradient-from-position);
-  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(248,250,252,0));
-}
-.light .via-ink-1000\/40 {
-  --tw-gradient-via: rgba(248,250,252,0.4) var(--tw-gradient-via-position);
-  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-via), var(--tw-gradient-to, rgba(248,250,252,0));
-}
-
-/* Hover states */
-.light .hover\:bg-ink-800:hover  { background-color: #E6EEF1 !important }
-.light .hover\:bg-ink-800\/60:hover { background-color: rgba(230,238,241,0.6) !important }
-.light .hover\:text-ink-100:hover { color: #093544 !important }
-.light .hover\:text-ink-300:hover { color: #467386 !important }
-.light .hover\:border-ink-500:hover { border-color: #8AB3C3 !important }

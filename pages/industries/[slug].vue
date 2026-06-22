@@ -127,10 +127,12 @@ const industryProducts = computed(() => {
 })
 
 if (industry.value) {
+  const config = useRuntimeConfig()
+  const siteUrl = (config.public.siteUrl || 'https://pesaba.com').replace(/\/$/, '')
   useSeoMeta({
     title: `${industry.value.title} | Pesaba`,
     description: industry.value.description,
-    ogImage: `https://pesaba.com/images/industries/${industry.value.slug}.png`,
+    ogImage: `${siteUrl}/images/industries/${industry.value.slug}.png`,
     twitterCard: 'summary_large_image',
   })
   emitBreadcrumbs([

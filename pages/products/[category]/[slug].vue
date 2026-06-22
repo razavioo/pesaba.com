@@ -19,7 +19,7 @@
         <div class="grid gap-10 xl:grid-cols-[minmax(0,1.15fr)_minmax(18rem,0.85fr)]">
           <div class="space-y-4">
             <div class="rounded-[28px] border border-[var(--border)] bg-[linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0)),var(--bg-elevated)] p-5 shadow-[0_24px_70px_rgba(4,10,20,0.5)]">
-              <div :class="['relative aspect-[16/10] overflow-hidden rounded-[22px] border border-[var(--border)]', isDark ? 'bg-[linear-gradient(180deg,rgba(14,165,233,0.05),transparent)]' : 'bg-[var(--bg-page)]']">
+              <div class="relative aspect-[16/10] overflow-hidden rounded-[22px] border border-[var(--border)] bg-[var(--bg-page)]">
                 <NuxtImg :src="activeGalleryImage || '/placeholder-product.svg'" :alt="product.title" class="h-full w-full object-contain p-8" loading="eager" fetchpriority="high" />
                 <div v-if="gallery.length > 1" class="pointer-events-none absolute inset-x-3 top-1/2 flex -translate-y-1/2 justify-between">
                   <button
@@ -108,7 +108,7 @@
       </div>
     </section>
 
-    <section :class="['sticky top-16 z-20 border-y border-[var(--border)] backdrop-blur-xl', isDark ? 'bg-[rgba(8,16,28,0.94)]' : 'bg-[rgba(248,250,252,0.94)]']">
+    <section class="sticky top-16 z-20 border-y border-[var(--border)] backdrop-blur-xl bg-[rgba(248,250,252,0.94)]">
       <div class="container-site">
         <div class="flex gap-2 overflow-x-auto py-3" role="tablist">
           <button
@@ -217,7 +217,6 @@
 const { t, locale } = useI18n()
 const localePath = useLocalePath()
 const route = useRoute()
-const { isDark } = useDarkMode()
 const { withBase } = useBaseUrl()
 const { salesPhoneHref } = useContactInfo()
 const { emitProduct, emitBreadcrumbs } = useSchemaOrg()
@@ -310,12 +309,14 @@ const genericFAQs = computed(() => locale.value === 'fa' ? [
 ])
 
 if (product.value) {
+  const config = useRuntimeConfig()
+  const siteUrl = (config.public.siteUrl || 'https://pesaba.com').replace(/\/$/, '')
   useSeoMeta({
     title: `${product.value.title} | Pesaba`,
     ogTitle: `${product.value.title} | Pesaba`,
     description: product.value.description,
     ogDescription: product.value.description,
-    ogImage: `https://pesaba.com/og/product/${product.value.slug}`,
+    ogImage: `${siteUrl}/og/product/${product.value.slug}.svg`,
     twitterCard: 'summary_large_image',
   })
   emitProduct({ name: product.value.title, nameFa: product.value.title_fa, slug: product.value.slug, category: product.value.category, description: product.value.description, image: activeGalleryImage.value || undefined, specs: product.value.specs, locale: locale.value })

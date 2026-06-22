@@ -168,12 +168,16 @@ async function shareArticle() {
 }
 
 if (article.value) {
+  const config = useRuntimeConfig()
+  const siteUrl = (config.public.siteUrl || 'https://pesaba.com').replace(/\/$/, '')
   useSeoMeta({
     title: `${article.value.title} | Pesaba`,
     ogTitle: `${article.value.title} | Pesaba`,
     description: article.value.description,
     ogDescription: article.value.description,
-    ogImage: article.value.image || `https://pesaba.com/og/article/${article.value.slug}`,
+    ogImage: article.value.image
+      ? (article.value.image.startsWith('http') ? article.value.image : `${siteUrl}${article.value.image}`)
+      : `${siteUrl}/og/article/${article.value.slug}.svg`,
     twitterCard: 'summary_large_image',
   })
   emitArticle({

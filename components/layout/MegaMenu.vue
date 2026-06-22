@@ -4,7 +4,7 @@
       <div
         v-if="active"
         :style="{ top: scrolled ? '64px' : '96px' }"
-        :class="['fixed inset-x-0 border-t border-[var(--border)] backdrop-blur-xl z-[9999]', isDark ? 'bg-[rgba(8,16,28,0.97)] shadow-[0_18px_48px_rgba(4,10,20,0.5)]' : 'bg-[rgba(248,250,252,0.97)] shadow-[0_18px_48px_rgba(0,0,0,0.08)]']"
+        class="fixed inset-x-0 border-t border-[var(--border)] backdrop-blur-xl z-[9999] bg-[rgba(248,250,252,0.97)] shadow-[0_18px_48px_rgba(0,0,0,0.08)]"
         @mouseenter="$emit('enter')"
         @mouseleave="$emit('leave')"
       >
@@ -103,7 +103,6 @@ defineEmits<{ close: []; enter: []; leave: [] }>()
 
 const { t, locale } = useI18n()
 const localePath = useLocalePath()
-const { isDark } = useDarkMode()
 
 const industries = [
   { slug: 'power-grid',      key: 'power_grid',       icon: resolveComponent('IconScadaController') },

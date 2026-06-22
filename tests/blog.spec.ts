@@ -84,14 +84,14 @@ test.describe('Blog article page', () => {
   })
 
   test('reading progress bar is present at top of page', async ({ page }) => {
-    // Progress bar: fixed div at top with bg-photon-500 class and width style
-    const bar = page.locator('.h-full.bg-photon-500').first()
+    // Progress bar: fixed div at top with h-full class and width style
+    const bar = page.locator('div.fixed.top-0.z-\\[60\\] div.h-full').first()
     await expect(bar).toBeAttached()
   })
 
   test('progress bar advances on scroll', async ({ page }) => {
     const getWidth = () => page.evaluate(() => {
-      const bar = document.querySelector('.bg-photon-500.transition-all') as HTMLElement | null
+      const bar = document.querySelector('div.fixed.top-0.z-\\[60\\] div.h-full') as HTMLElement | null
       return bar ? parseFloat(bar.style.width || '0') : 0
     })
     const initial = await getWidth()
@@ -136,7 +136,7 @@ test.describe('Blog article page', () => {
   })
 
   test('cover image container is at top', async ({ page }) => {
-    const coverContainer = page.locator('div[class*="aspect-video"]').first()
+    const coverContainer = page.locator('img.object-cover').first()
     await expect(coverContainer).toBeVisible()
   })
 })

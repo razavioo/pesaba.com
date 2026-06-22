@@ -1,4 +1,64 @@
+import fs from 'node:fs'
+import path from 'node:path'
 import { defineNuxtConfig } from 'nuxt/config'
+import { REDIRECTS } from './server/redirects-map'
+
+// Helper to get slugs from frontmatter
+function getSlugsFromContent(dir: string): string[] {
+  const fullPath = path.resolve(process.cwd(), dir)
+  if (!fs.existsSync(fullPath)) return []
+
+  const getFiles = (dirPath: string): string[] => {
+    let results: string[] = []
+    const list = fs.readdirSync(dirPath)
+    list.forEach((file) => {
+      const filePath = path.join(dirPath, file)
+      const stat = fs.statSync(filePath)
+      if (stat && stat.isDirectory()) {
+        results = results.concat(getFiles(filePath))
+      } else if (file.endsWith('.md')) {
+        results.push(filePath)
+      }
+    })
+    return results
+  }
+
+  const files = getFiles(fullPath)
+  const slugs = new Set<string>()
+  for (const file of files) {
+    try {
+      const content = fs.readFileSync(file, 'utf-8')
+      const match = content.match(/^slug:\s*['"]?([^'"\n]+)['"]?/m)
+      if (match && match[1]) {
+        slugs.add(match[1].trim())
+      }
+    } catch {
+      // ignore
+    }
+  }
+  return Array.from(slugs)
+}
+
+const articleSlugs = getSlugsFromContent('content/articles')
+const productSlugs = getSlugsFromContent('content/products')
+const glossarySlugs = getSlugsFromContent('content/glossary')
+
+const prerenderRoutes = ['/feed.xml', '/sitemap.xml', '/robots.txt']
+articleSlugs.forEach(slug => prerenderRoutes.push(`/og/article/${slug}.svg`))
+productSlugs.forEach(slug => prerenderRoutes.push(`/og/product/${slug}.svg`))
+glossarySlugs.forEach(slug => prerenderRoutes.push(`/og/glossary/${slug}.svg`))
+
+const redirectRules = Object.entries(REDIRECTS).reduce((acc, [from, to]) => {
+  acc[from] = { redirect: { to, statusCode: 301 } }
+  const decoded = decodeURIComponent(from)
+  if (decoded !== from) {
+    acc[decoded] = { redirect: { to, statusCode: 301 } }
+  }
+  return acc
+}, {} as Record<string, any>)
+
+// Add all redirect source routes to prerender list so Nitro generates fallback redirect HTML files
+Object.keys(redirectRules).forEach(route => prerenderRoutes.push(route))
 
 export default defineNuxtConfig({
   compatibilityDate: '2024-11-01',
@@ -107,6 +167,7 @@ export default defineNuxtConfig({
     contactEmail: process.env.CONTACT_EMAIL || 'admin@pesaba.com',
     public: {
       siteUrl: process.env.NUXT_PUBLIC_SITE_URL || 'https://razavioo.github.io/pesaba.com',
+      contactFormUrl: process.env.NUXT_PUBLIC_CONTACT_FORM_URL || '/api/contact',
       meilisearchHost: process.env.NUXT_PUBLIC_MEILISEARCH_HOST || '',
       meilisearchKey: process.env.NUXT_PUBLIC_MEILISEARCH_KEY || '',
     },
@@ -116,12 +177,13 @@ export default defineNuxtConfig({
   nitro: {
     preset: 'github-pages',
     prerender: {
-      routes: ['/feed.xml', '/sitemap.xml', '/robots.txt'],
+      routes: prerenderRoutes,
       failOnError: false,
       ignore: ['/_ipx/**'],
     },
     routeRules: {
       '/api/**': { cors: false },
+      ...redirectRules,
     },
   },
 

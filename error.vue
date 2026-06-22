@@ -1,5 +1,5 @@
 <template>
-  <div class="dark" :dir="dir">
+  <div class="light" :dir="dir">
     <div class="min-h-screen bg-ink-950 bg-graph-paper flex flex-col items-center justify-center px-6 text-center">
       <!-- Animated dropped packet -->
       <div class="mb-8 relative w-20 h-20">

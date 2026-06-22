@@ -1,5 +1,5 @@
 <template>
-  <div :class="colorScheme" :dir="dir">
+  <div class="light" :dir="dir">
     <NuxtLayout>
       <NuxtPage />
     </NuxtLayout>
@@ -8,16 +8,14 @@
 
 <script setup lang="ts">
 const { locale } = useI18n()
-const { mode } = useDarkMode()
 
-const colorScheme = computed(() => mode.value)
 const dir = computed(() => locale.value === 'fa' ? 'rtl' : 'ltr')
 
 useHead({
   htmlAttrs: {
     lang: () => locale.value === 'fa' ? 'fa-IR' : 'en-US',
     dir: () => locale.value === 'fa' ? 'rtl' : 'ltr',
-    class: () => mode.value,
+    class: 'light',
   },
 })
 </script>

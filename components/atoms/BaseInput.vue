@@ -16,6 +16,7 @@
       :readonly="readonly"
       :rows="multiline ? rows : undefined"
       :class="inputClass"
+      :dir="dir"
       @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)"
       @blur="$emit('blur', $event)"
     />
@@ -37,6 +38,7 @@ const props = withDefaults(defineProps<{
   multiline?: boolean
   rows?: number
   error?: string
+  dir?: 'ltr' | 'rtl' | 'auto'
 }>(), {
   type: 'text',
   rows: 4,

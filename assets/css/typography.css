@@ -1,3 +1,19 @@
+/* ─── FuturaBT (Geometric Latin — self-hosted, Advenica-aligned) ── */
+@font-face {
+  font-family: 'FuturaBT';
+  src: url('../../public/fonts/futurabt/FuturaBT-Book.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'FuturaBT';
+  src: url('../../public/fonts/futurabt/FuturaBT-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* ─── Jost (Geometric Latin — self-hosted, Futura-like, Advenica-aligned) ── */
 @font-face {
   font-family: 'Jost';
@@ -118,11 +134,11 @@
 }
 
 /* ─── Typography utilities ───────────────────────────────────────────────── */
-/* Default (LTR / English): Jost (Futura-like geometric) for display/headings, Inter for body */
-.font-display  { font-family: 'Jost', 'Inter', system-ui, sans-serif; }
-.font-heading  { font-family: 'Jost', 'Inter', system-ui, sans-serif; }
+/* Default (LTR / English): FuturaBT / Jost (Futura-like geometric) for display/headings/body */
+.font-display  { font-family: 'FuturaBT', 'Jost', 'Inter', system-ui, sans-serif; }
+.font-heading  { font-family: 'FuturaBT', 'Jost', 'Inter', system-ui, sans-serif; }
 .font-fa       { font-family: 'IRANYekanX', Tahoma, sans-serif; }
-.font-body     { font-family: 'Jost', 'Inter', system-ui, sans-serif; }
+.font-body     { font-family: 'FuturaBT', 'Jost', 'Inter', system-ui, sans-serif; }
 .font-mono     { font-family: 'JetBrains Mono', ui-monospace, 'Cascadia Code', 'Fira Code', monospace; }
 .font-editorial { font-family: 'Newsreader', Georgia, serif; font-style: italic; }
 

@@ -14,7 +14,7 @@
       </div>
     </section>
 
-    <section :class="['sticky top-16 z-20 border-b border-[var(--border)] backdrop-blur-xl', isDark ? 'bg-[rgba(8,16,28,0.95)]' : 'bg-[rgba(248,250,252,0.95)]']">
+    <section class="sticky top-16 z-20 border-b border-[var(--border)] backdrop-blur-xl bg-[rgba(248,250,252,0.95)]">
       <div class="container-site py-4">
         <div class="grid gap-4 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center">
           <input
@@ -75,10 +75,9 @@
 
 <script setup lang="ts">
 const { t, locale } = useI18n()
-const { isDark } = useDarkMode()
 const localePath = useLocalePath()
 
-useSeoMeta({ title: `${t('glossary.title')} | Pesaba`, description: 'Technical glossary for encryption, OT/ICS security, cellular monitoring, and telecom hardware — in Persian and English.' })
+useSeoMeta({ title: `${t('glossary.title')} | Pesaba`, ogTitle: `${t('glossary.title')} | Pesaba`, description: 'Technical glossary for encryption, OT/ICS security, cellular monitoring, and telecom hardware — in Persian and English.', ogDescription: 'Technical glossary for encryption, OT/ICS security, cellular monitoring, and telecom hardware — in Persian and English.' })
 
 const { data: terms } = await useAsyncData('glossary-all', () => queryContent('glossary').where({ locale: locale.value }).sort({ title: 1 }).find())
 const query = ref('')

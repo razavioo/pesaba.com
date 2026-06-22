@@ -1,7 +1,7 @@
 import { test } from '@playwright/test'
 import * as fs from 'fs'
 
-const BASE = 'http://localhost:3001'
+const BASE = 'http://localhost:3000'
 const OUT = '/tmp/ui_screenshots'
 fs.mkdirSync(OUT, { recursive: true })
 
@@ -20,15 +20,9 @@ const pages = [
 ]
 
 for (const pg of pages) {
-  test(`screenshot-dark-${pg.name}`, async ({ page }) => {
-    await page.context().addCookies([{ name: 'pesaba_theme', value: 'dark', domain: 'localhost', path: '/' }])
-    await page.goto(BASE + pg.url, { waitUntil: 'networkidle' })
-    await page.waitForTimeout(800)
-    await page.screenshot({ path: `${OUT}/${pg.name}-dark.png`, fullPage: true })
-  })
   test(`screenshot-light-${pg.name}`, async ({ page }) => {
     await page.context().addCookies([{ name: 'pesaba_theme', value: 'light', domain: 'localhost', path: '/' }])
-    await page.goto(BASE + pg.url, { waitUntil: 'networkidle' })
+    await page.goto(BASE + pg.url, { waitUntil: 'load' })
     await page.waitForTimeout(800)
     await page.screenshot({ path: `${OUT}/${pg.name}-light.png`, fullPage: true })
   })

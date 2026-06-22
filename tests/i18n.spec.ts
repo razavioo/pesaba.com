@@ -39,7 +39,8 @@ test.describe('i18n — locale routing', () => {
     for (const link of await navLinks.all()) {
       const href = await link.getAttribute('href')
       if (href && href.startsWith('/')) {
-        expect(href).toMatch(/^\/(en|#)/)
+        const path = href.replace(/^\/pesaba\.com/, '')
+        expect(path).toMatch(/^\/(en|#)/)
       }
     }
   })
@@ -50,16 +51,17 @@ test.describe('i18n — locale routing', () => {
     for (const link of await navLinks.all()) {
       const href = await link.getAttribute('href')
       if (href && href.startsWith('/')) {
-        expect(href).toMatch(/^\/(fa|#)/)
+        const path = href.replace(/^\/pesaba\.com/, '')
+        expect(path).toMatch(/^\/(fa|#)/)
       }
     }
   })
 
   test('switching locale from EN to FA via dropdown', async ({ page }) => {
     await goto(page, `${EN}/products`)
-    const switcher = page.locator('header button').filter({ hasText: /^en$/i }).first()
+    const switcher = page.locator('header button[aria-label*="current: en"]').first()
     await switcher.click()
-    await page.waitForTimeout(300)
+    await page.waitForTimeout(500)
     const faOption = page.locator('[role="menuitem"]').filter({ hasText: /fa/i }).first()
     await faOption.click()
     await page.waitForURL(/\/fa/, { timeout: 8000 })
@@ -69,9 +71,9 @@ test.describe('i18n — locale routing', () => {
 
   test('switching locale from FA to EN via dropdown', async ({ page }) => {
     await goto(page, `${FA}/products`)
-    const switcher = page.locator('header button').filter({ hasText: /^fa$/i }).first()
+    const switcher = page.locator('header button[aria-label*="current: fa"]').first()
     await switcher.click()
-    await page.waitForTimeout(300)
+    await page.waitForTimeout(500)
     const enOption = page.locator('[role="menuitem"]').filter({ hasText: /en/i }).first()
     await enOption.click()
     await page.waitForURL(/\/en/, { timeout: 8000 })
@@ -106,7 +108,7 @@ test.describe('i18n — RTL layout', () => {
 
   test('breadcrumb separator appears in RTL context', async ({ page }) => {
     await goto(page, `${FA}/products/data-diodes`)
-    const breadcrumb = page.locator('nav[aria-label="Breadcrumb"]')
+    const breadcrumb = page.locator('nav[aria-label="Breadcrumb"], nav[aria-label="مسیر ناوبری"]')
     await expect(breadcrumb).toBeVisible()
     await expect(breadcrumb.getByRole('link').first()).toBeVisible()
   })

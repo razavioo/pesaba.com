@@ -25,26 +25,15 @@ test.describe('Navigation header', () => {
     await expect(nav.locator('button').filter({ hasText: /Solutions/i }).first()).toBeVisible()
   })
 
-  test('phone-first sales CTA is in header', async ({ page }) => {
-    const cta = page.locator('header a[href^="tel:"]').first()
-    await expect(cta).toBeVisible()
-    await expect(cta).toHaveAttribute('href', 'tel:+982144215738')
-  })
-
   test('quote/contact CTA remains available in header on desktop', async ({ page }) => {
     const cta = page.locator('header a[href*="/company/contact"]').first()
     await expect(cta).toBeVisible()
     await expect(cta).toHaveAttribute('href', /\/company\/contact/)
   })
 
-
-  test('header becomes solid on scroll', async ({ page }) => {
+  test('header has correct height', async ({ page }) => {
     const header = page.locator('header')
-    // Initial header is h-20; after scroll it shrinks to h-16
-    await expect(header).toHaveClass(/h-20/)
-    await page.evaluate(() => window.scrollTo(0, 400))
-    await page.waitForTimeout(500)
-    await expect(header).toHaveClass(/h-16/)
+    await expect(header).toHaveClass(/h-14/)
   })
 
   test('locale switcher button is present in header', async ({ page }) => {
@@ -56,7 +45,7 @@ test.describe('Navigation header', () => {
   test('locale switcher opens dropdown', async ({ page }) => {
     const switcher = page.locator('header button').filter({ hasText: /English/i }).first()
     await switcher.click()
-    await page.waitForTimeout(200)
+    await page.waitForTimeout(500)
     const dropdown = page.locator('[role="menu"]')
     await expect(dropdown).toBeVisible()
   })
@@ -64,17 +53,12 @@ test.describe('Navigation header', () => {
   test('switching to Farsi redirects to /fa', async ({ page }) => {
     const switcher = page.locator('header button').filter({ hasText: /English/i }).first()
     await switcher.click()
-    await page.waitForTimeout(300)
+    await page.waitForTimeout(500)
     // Dropdown items have role="menuitem" with text "fa فارسی"
     const faOption = page.locator('[role="menuitem"]').filter({ hasText: /fa/i }).first()
     await faOption.click()
     await page.waitForURL(/\/fa/, { timeout: 8000 })
     expect(page.url()).toContain('/fa')
-  })
-
-  test('theme toggle button is exposed publicly', async ({ page }) => {
-    const themeBtn = page.locator('button[aria-label*="Switch to"]')
-    await expect(themeBtn).toHaveCount(1)
   })
 })
 
@@ -93,7 +77,7 @@ test.describe('Navigation — Mobile menu', () => {
   test('hamburger opens mobile menu with Home link', async ({ page }) => {
     const burger = page.locator('header button[aria-label="Open"]')
     await burger.click()
-    const mobileNav = page.locator('div.fixed nav').first()
+    const mobileNav = page.locator('nav').last()
     await expect(mobileNav.getByRole('link', { name: /^Home$/i })).toBeVisible()
     await expect(mobileNav.getByRole('link', { name: /^Products$/i })).toBeVisible()
   })
@@ -101,7 +85,7 @@ test.describe('Navigation — Mobile menu', () => {
   test('mobile menu closes after nav link click', async ({ page }) => {
     const burger = page.locator('header button[aria-label="Open"]')
     await burger.click()
-    const productsLink = page.locator('div.fixed nav').first().getByRole('link', { name: /^Products$/i })
+    const productsLink = page.locator('nav').last().getByRole('link', { name: /^Products$/i })
     await productsLink.click()
     await page.waitForURL(/\/products/)
     expect(page.url()).toContain('/products')

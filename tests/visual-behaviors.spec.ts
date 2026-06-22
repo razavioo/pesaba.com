@@ -2,11 +2,11 @@ import { test, expect } from '@playwright/test'
 import { goto, EN } from './helpers'
 
 test.describe('Theme mode', () => {
-  test('site stays in dark mode by default', async ({ page }) => {
+  test('site stays in light mode by default', async ({ page }) => {
     await goto(page, EN)
     const html = page.locator('html')
     const initialClass = await html.getAttribute('class') || ''
-    expect(initialClass).toContain('dark')
+    expect(initialClass).toContain('light')
   })
 })
 

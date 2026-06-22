@@ -5,8 +5,8 @@ export const FA = '/fa'
 
 /** Navigate and wait for Nuxt hydration */
 export async function goto(page: Page, path: string) {
-  await page.goto(path)
-  await page.waitForLoadState('networkidle')
+  await page.goto(path, { waitUntil: 'load' })
+  await page.waitForTimeout(800)
 }
 
 /** Assert no visible console errors (excluding known noise) */

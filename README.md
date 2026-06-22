@@ -142,6 +142,8 @@ Both scripts read from `../data/` (the original crawl).
 
 Accent color: `--photon-500: #00E5FF`. Canvas: `--ink-950: #0A0F1A`.
 
+For Advenica-aligned visual work, use `advenica-reference/style-guide.md` as the implementation brief. It documents the reference assets, typography, header/navigation rules, colors, layout rhythm, localization constraints, and verification checklist.
+
 ## Directory structure
 
 ```

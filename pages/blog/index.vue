@@ -67,7 +67,7 @@
 const { t, locale } = useI18n()
 const localePath = useLocalePath()
 
-useSeoMeta({ title: `${t('blog.title')} | Pesaba`, description: 'Technical articles on encryption, OT/ICS security, cellular network monitoring and telecom hardware.' })
+useSeoMeta({ title: `${t('blog.title')} | Pesaba`, ogTitle: `${t('blog.title')} | Pesaba`, description: 'Technical articles on encryption, OT/ICS security, cellular network monitoring and telecom hardware.', ogDescription: 'Technical articles on encryption, OT/ICS security, cellular network monitoring and telecom hardware.' })
 
 const { data: articles } = await useAsyncData('articles-list', () =>
   queryContent('articles').where({ locale: locale.value }).sort({ date: -1 }).find()

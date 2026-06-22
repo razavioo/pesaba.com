@@ -31,7 +31,14 @@ const route = useRoute()
 const { emitGlossaryTerm, emitBreadcrumbs } = useSchemaOrg()
 const { data: term } = await useAsyncData(`glossary-${route.params.slug}-${locale.value}`, () => queryContent('glossary').where({ slug: route.params.slug as string, locale: locale.value }).findOne())
 if (term.value) {
-  useSeoMeta({ title: `${term.value.title} — ${t('glossary.title')} | Pesaba`, description: term.value.short_definition || `Definition of ${term.value.title}.`, ogImage: `https://pesaba.com/og/glossary/${term.value.slug}`, twitterCard: 'summary_large_image' })
+  const config = useRuntimeConfig()
+  const siteUrl = (config.public.siteUrl || 'https://pesaba.com').replace(/\/$/, '')
+  useSeoMeta({
+    title: `${term.value.title} — ${t('glossary.title')} | Pesaba`,
+    description: term.value.short_definition || `Definition of ${term.value.title}.`,
+    ogImage: `${siteUrl}/og/glossary/${term.value.slug}.svg`,
+    twitterCard: 'summary_large_image'
+  })
   emitGlossaryTerm({ name: term.value.title, description: term.value.short_definition || '', url: `/${locale.value}/glossary/${term.value.slug}` })
   emitBreadcrumbs([{ name: t('glossary.title'), url: `/${locale.value}/glossary` }, { name: term.value.title, url: `/${locale.value}/glossary/${term.value.slug}` }])
 }

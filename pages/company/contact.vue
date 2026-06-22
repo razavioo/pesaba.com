@@ -250,16 +250,17 @@
                       />
                     </div>
 
-                    <BaseInput
-                      v-model="form.email"
-                      id="contact-email"
-                      name="email"
-                      type="email"
-                      :label="$t('contact.email')"
-                      required
-                      placeholder="you@company.com"
-                      class="email-input-field"
-                    />
+                     <BaseInput
+                       v-model="form.email"
+                       id="contact-email"
+                       name="email"
+                       type="email"
+                       :label="$t('contact.email')"
+                       required
+                       placeholder="you@company.com"
+                       class="email-input-field"
+                       dir="ltr"
+                     />
 
                     <BaseInput
                       v-if="form.product"
@@ -329,11 +330,14 @@
 <script setup lang="ts">
 const { t, locale } = useI18n()
 const route = useRoute()
+const config = useRuntimeConfig()
 const { salesPhoneHref, salesPhoneDisplay, salesPhoneDisplayInternational, salesEmail, salesEmailHref } = useContactInfo()
 
 useSeoMeta({
   title: `${t('contact.title')} | Pesaba`,
-  description: 'Contact Pesaba for secure network appliances, product quotes, engineering consultation, and demonstrations.'
+  ogTitle: `${t('contact.title')} | Pesaba`,
+  description: 'Contact Pesaba for secure network appliances, product quotes, engineering consultation, and demonstrations.',
+  ogDescription: 'Contact Pesaba for secure network appliances, product quotes, engineering consultation, and demonstrations.'
 })
 
 const form = reactive({
@@ -414,7 +418,7 @@ async function submitForm() {
   submitting.value = true
   submitStatus.value = null
   try {
-    await $fetch('/api/contact', { 
+    await $fetch(config.public.contactFormUrl || '/api/contact', { 
       method: 'POST', 
       body: { 
         name: form.name,

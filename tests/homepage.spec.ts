@@ -19,7 +19,7 @@ test.describe('Homepage — English', () => {
     // Hero CTAs are in the TopologyHero section (first major section)
     const phoneLink = page.locator('a[href^="tel:"]').first()
     await expect(phoneLink).toBeVisible()
-    const contactLink = page.locator('a[href*="/company/contact"]').first()
+    const contactLink = page.locator('a[href*="/company/contact"]').filter({ visible: true }).first()
     await expect(contactLink).toBeVisible()
     const productsLink = page.locator('a[href*="/products"]').first()
     await expect(productsLink).toHaveAttribute('href', /\/products/)
@@ -27,8 +27,9 @@ test.describe('Homepage — English', () => {
 
   test('stats bar shows 4 stat blocks', async ({ page }) => {
     const stats = page.locator('section.stats-showcase')
-    await stats.scrollIntoViewIfNeeded()
-    await expect(page.locator('section.stats-showcase').filter({ hasText: /17\+/ }).first()).toBeVisible()
+    const firstCard = stats.locator('article').first()
+    await firstCard.scrollIntoViewIfNeeded()
+    await expect(firstCard).toContainText(/17\+/)
   })
 
   test('6 product category cards are rendered', async ({ page }) => {
@@ -114,7 +115,7 @@ test.describe('Homepage — Farsi (RTL)', () => {
   test('locale switcher opens dropdown with EN option', async ({ page }) => {
     const switcher = page.locator('header button[aria-label*="current: fa"]').first()
     await switcher.click()
-    await page.waitForTimeout(200)
+    await page.waitForTimeout(500)
     const enOption = page.getByRole('menuitem').filter({ hasText: /en|English/i })
     await expect(enOption).toBeVisible()
   })

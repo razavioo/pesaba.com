@@ -3,7 +3,7 @@
     <!-- Category hero -->
     <section
       class="relative overflow-hidden border-b border-ink-700/30"
-      :style="isDark ? 'background: linear-gradient(160deg, #0A0F1A 0%, #060A12 100%)' : 'background: var(--bg-elevated)'"
+      style="background: var(--bg-elevated)"
     >
       <!-- Dot grid -->
       <div class="absolute inset-0 pointer-events-none" style="background-image: radial-gradient(circle, rgba(148,161,189,0.06) 1px, transparent 1px); background-size: 28px 28px;" aria-hidden="true" />
@@ -42,7 +42,7 @@
                 i === 0 ? '-translate-y-4' : '',
                 i === 2 ? 'translate-y-4' : '',
               ]"
-              :style="isDark ? 'background: linear-gradient(145deg, #0E1422 0%, #08101C 100%)' : 'background: var(--bg-page)'"
+              style="background: var(--bg-page)"
             >
               <NuxtImg
                 :src="heroPhotoSrc(slug)"
@@ -82,7 +82,6 @@
 
 <script setup lang="ts">
 const { t, locale } = useI18n()
-const { isDark } = useDarkMode()
 const localePath = useLocalePath()
 const route = useRoute()
 const { salesPhoneHref } = useContactInfo()

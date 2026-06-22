@@ -27,7 +27,7 @@ const CONTENT = path.join(ROOT, 'content')
 
 type Locale = 'en' | 'fa'
 type Viewport = 'desktop' | 'mobile'
-type Theme = 'dark' | 'light'
+type Theme = 'light'
 
 interface Args {
   locales: Locale[]
@@ -53,10 +53,10 @@ function parseArgs(): Args {
   return {
     locales: list<Locale>(argv.locales, ['en', 'fa']),
     viewports: list<Viewport>(argv.viewports, ['desktop', 'mobile']),
-    themes: list<Theme>(argv.themes, ['dark', 'light']),
+    themes: list<Theme>(argv.themes, ['light']),
     only: argv.only ?? null,
     out: argv.out ?? 'screenshots',
-    baseUrl: process.env.BASE_URL ?? 'http://localhost:3001',
+    baseUrl: process.env.BASE_URL ?? 'http://localhost:3000',
     concurrency: argv.concurrency ? Number(argv.concurrency) : 4,
     skipDynamic: argv['skip-dynamic'] === 'true',
     dryRun: argv['dry-run'] === 'true',
@@ -244,7 +244,9 @@ async function main() {
   }
 
   fs.mkdirSync(outRoot, { recursive: true })
-  const browser = await chromium.launch()
+  const browser = await chromium.launch({
+    args: ['--no-sandbox', '--disable-gpu', '--disable-setuid-sandbox']
+  })
   const failures: { job: Job; err: string }[] = []
   const t0 = Date.now()
 

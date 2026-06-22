@@ -1,19 +1,19 @@
 <template>
-  <!-- Advenica-style: fixed band, pill nav floats inside it -->
-  <div class="fixed inset-x-0 top-0 z-50 pointer-events-none">
-    <!-- Pill nav wrapper — pointerEvents re-enabled on pill only -->
-    <div class="container-wide px-4 sm:px-6 pt-4 pb-0">
+  <!-- Advenica-style: fixed band, header floats inside it -->
+  <div class="fixed inset-x-0 top-0 z-50 pointer-events-none transition-all duration-300">
+    <div
+      :class="[
+        'container-wide px-4 sm:px-6 transition-all duration-300',
+        scrolled ? 'pt-0' : 'pt-4 sm:pt-6 lg:pt-8'
+      ]"
+    >
       <header
         ref="headerRef"
         :class="[
-          'pointer-events-auto flex items-center h-14 px-4 sm:px-5 transition-all duration-300',
+          'pointer-events-auto flex items-center transition-all duration-300 w-full border rounded-[4px] shadow-sm',
           scrolled
-            ? isDark
-              ? 'bg-[#0E1422]/95 backdrop-blur-md shadow-md border border-white/8'
-              : 'bg-white/97 backdrop-blur-md shadow-md border border-[var(--border)]'
-            : isDark
-              ? 'bg-[#131C2E]/80 backdrop-blur-sm border border-white/6'
-              : 'bg-[#F6F6F6]/95 backdrop-blur-sm border border-[var(--border)]',
+            ? 'bg-white/97 backdrop-blur-md border-[var(--border)] h-14 px-4 md:px-6'
+            : 'bg-[#F6F6F6]/95 border-[var(--border)] h-14 md:h-[72px] px-4 md:px-6',
         ]"
         role="banner"
       >
@@ -21,12 +21,12 @@
         <NuxtLink :to="localePath('/')" class="flex items-center gap-2.5 shrink-0 me-4" :aria-label="$t('meta.site_name')">
           <NuxtImg src="/logo.svg" alt="Pesaba" class="h-8 w-8" />
           <div class="hidden sm:block">
-            <div :class="['text-sm font-bold tracking-wider', isDark ? 'text-white' : 'text-[#093544]']">Pesaba</div>
+            <div class="text-sm font-bold tracking-wider font-display text-[#093544]">Pesaba</div>
           </div>
         </NuxtLink>
 
         <!-- Desktop nav links -->
-        <nav class="hidden lg:flex flex-1 items-center gap-0" :aria-label="$t('nav.solutions')">
+        <nav class="hidden lg:flex flex-1 items-center gap-1 xl:gap-2 px-4" :aria-label="$t('nav.solutions')">
           <div
             v-for="item in navItems"
             :key="item.key"
@@ -36,16 +36,14 @@
           >
             <component
               :is="item.subItems ? 'button' : NuxtLink"
+              :class="[
+                'navigation-link inline-flex items-center gap-1.5 px-3.5 py-2.5 transition-colors duration-200',
+                isItemActive(item)
+                  ? 'text-[#1F7994]'
+                  : 'text-[#27282D] hover:text-[#1F7994]',
+              ]"
               v-bind="item.subItems ? { 'aria-expanded': activeMenu === item.key, 'aria-haspopup': true } : { to: localePath(item.to) }"
               @click="item.subItems ? toggleMenu(item.key) : undefined"
-              :class="[
-                'inline-flex items-center gap-1 px-3 py-2 text-sm font-medium transition-all duration-150',
-                isItemActive(item)
-                  ? isDark ? 'text-white' : 'text-[#093544]'
-                  : isDark
-                    ? 'text-white/60 hover:text-white'
-                    : 'text-[#467386] hover:text-[#093544]',
-              ]"
             >
               {{ $t(`nav.${item.key}`) }}
               <svg
@@ -59,7 +57,7 @@
             <!-- Active underline -->
             <span
               v-if="isItemActive(item)"
-              :class="['absolute inset-x-3 -bottom-px h-[2px]', isDark ? 'bg-white/80' : 'bg-[#1F7994]']"
+              class="absolute inset-x-3.5 -bottom-px h-[2px] bg-[#1F7994]"
             />
           </div>
         </nav>
@@ -67,40 +65,32 @@
         <div class="flex-1 lg:hidden" />
 
         <!-- Right cluster -->
-        <div class="flex items-center gap-2">
-          <ThemeToggle />
+        <div class="flex items-center gap-1.5 sm:gap-2">
           <LocaleSwitcher />
 
           <!-- Contact CTA pill button -->
           <NuxtLink
             :to="localePath('/company/contact')"
-            :class="[
-              'hidden sm:inline-flex items-center px-4 py-1.5 text-sm font-semibold transition-all duration-200',
-              isDark
-                ? 'bg-white text-black hover:bg-white/90'
-                : 'bg-[#093544] text-white hover:bg-[#165368]',
-            ]"
+            class="hidden sm:inline-flex items-center justify-center h-[46px] px-6 text-sm md:h-14 md:px-10 md:text-lg font-medium transition-all duration-300 button-cta bg-[#1F7994] text-white hover:bg-[#093544]"
           >
             {{ locale === 'fa' ? 'تماس با ما' : 'Contact us' }}
           </NuxtLink>
 
           <!-- Mobile hamburger -->
           <button
-            @click="mobileOpen = !mobileOpen"
-            :class="[
-              'inline-flex h-8 w-8 items-center justify-center transition-colors lg:hidden',
-              isDark ? 'text-white/70 hover:text-white' : 'text-[#467386] hover:text-[#093544]',
-            ]"
+            class="header-nav-buttons text-[#27282D] hover:text-[#1F7994] lg:hidden"
             :aria-label="mobileOpen ? $t('common.close') : $t('common.open')"
+            @click="mobileOpen = !mobileOpen"
           >
-            <svg class="h-5 w-5" viewBox="0 0 20 20" fill="none">
-              <template v-if="mobileOpen">
-                <path d="M4 4l12 12M16 4L4 16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-              </template>
-              <template v-else>
-                <path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-              </template>
+            <svg v-if="mobileOpen" class="w-5 h-5 shrink-0" viewBox="0 0 19 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M18.945 0.470703H16.125L9.50499 7.0907L2.88499 0.470703H0.0549927L8.08499 8.5007L0.114993 16.4707H2.94499L9.50499 9.9107L16.065 16.4707H18.885L10.915 8.5007L18.945 0.470703Z" fill="currentColor" />
             </svg>
+            <svg v-else class="w-[26px] h-[20px] shrink-0" viewBox="0 0 44 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M0 2H44" stroke="currentColor" stroke-width="3" />
+              <path d="M0 12.5H44" stroke="currentColor" stroke-width="3" />
+              <path d="M0 23H44" stroke="currentColor" stroke-width="3" />
+            </svg>
+            <span class="leading-[0.8] text-[0.875rem] font-medium">{{ mobileOpen ? 'Close' : 'Menu' }}</span>
           </button>
         </div>
       </header>
@@ -114,30 +104,25 @@
   <Transition name="slide-down">
     <div
       v-if="mobileOpen"
-      :class="[
-        'fixed inset-x-0 top-0 bottom-0 z-40 overflow-y-auto pt-24 px-4 pb-8 lg:hidden',
-        isDark
-          ? 'bg-[rgba(4,7,13,0.98)] backdrop-blur-xl'
-          : 'bg-[rgba(255,255,255,0.98)] backdrop-blur-xl',
-      ]"
+      class="fixed inset-x-0 top-0 bottom-0 z-40 overflow-y-auto pt-24 px-4 pb-8 lg:hidden bg-[rgba(255,255,255,0.98)] backdrop-blur-xl"
     >
       <nav class="space-y-1">
         <div
           v-for="item in navItems"
           :key="item.key"
-          :class="['border', isDark ? 'border-white/8 bg-white/4' : 'border-[var(--border)] bg-[var(--bg-elevated)]']"
+          class="border border-[var(--border)] bg-[var(--bg-elevated)]"
         >
           <div class="flex items-center gap-2 px-4 py-3">
             <NuxtLink
               :to="localePath(item.to)"
-              :class="['flex-1 text-base font-medium', isDark ? 'text-white' : 'text-[#093544]']"
+              class="flex-1 text-base font-medium text-[#093544]"
             >
               {{ $t(`nav.${item.key}`) }}
             </NuxtLink>
             <button
               v-if="item.subItems"
+              class="p-2 text-[#467386]"
               @click="expandedMobile = expandedMobile === item.key ? null : item.key"
-              :class="['p-2', isDark ? 'text-white/50' : 'text-[#467386]']"
             >
               <svg :class="['h-4 w-4 transition-transform', expandedMobile === item.key ? 'rotate-180' : '']" viewBox="0 0 12 12" fill="none">
                 <path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
@@ -149,7 +134,7 @@
               v-for="child in item.children"
               :key="child.to"
               :to="localePath(child.to)"
-              :class="['px-3 py-2 text-sm font-medium transition-colors', isDark ? 'text-white/60 hover:text-white' : 'text-[#467386] hover:text-[#093544]']"
+              class="px-3 py-2 text-sm font-medium transition-colors text-[#467386] hover:text-[#093544]"
             >
               {{ child.label }}
             </NuxtLink>
@@ -159,7 +144,7 @@
         <div class="grid gap-2 pt-4">
           <NuxtLink
             :to="localePath('/company/contact')"
-            :class="['flex items-center justify-center py-3 text-sm font-semibold', isDark ? 'bg-white text-black' : 'bg-[#093544] text-white']"
+            class="flex items-center justify-center py-3 text-sm font-semibold bg-[#093544] text-white"
           >
             {{ locale === 'fa' ? 'تماس با ما' : 'Contact us' }}
           </NuxtLink>
@@ -169,13 +154,12 @@
   </Transition>
 
   <!-- Spacer so content isn't hidden under fixed header -->
-  <div class="h-[4.5rem]" aria-hidden="true" />
+  <div class="h-[5.5rem] md:h-[7.5rem]" aria-hidden="true" />
 </template>
 
 <script setup lang="ts">
 const { t, locale } = useI18n()
 const localePath = useLocalePath()
-const { isDark } = useDarkMode()
 const NuxtLink = resolveComponent('NuxtLink')
 
 const headerRef = ref<HTMLElement | null>(null)

@@ -28,7 +28,7 @@ test.describe('Glossary index page', () => {
   })
 
   test('active letters are clickable (not disabled)', async ({ page }) => {
-    const activeLetters = page.locator('button[class*="text-photon"]')
+    const activeLetters = page.locator('button[class*="font-mono"]:not([disabled])')
     await expect(activeLetters.first()).toBeEnabled()
   })
 
@@ -44,10 +44,10 @@ test.describe('Glossary index page', () => {
     const letterC = page.locator('button[class*="font-mono"]').filter({ hasText: 'C' }).first()
     if (await letterC.isEnabled()) {
       await letterC.click()
-      await page.waitForTimeout(300)
-      // The letter heading should be in view
-      const heading = page.locator('h2').filter({ hasText: /^C$/ }).first()
-      await expect(heading).toBeInViewport()
+      await page.waitForTimeout(500)
+      // The letter section container should be in view
+      const section = page.locator('#letter-C')
+      await expect(section).toBeInViewport()
     }
   })
 
