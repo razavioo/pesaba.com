@@ -363,6 +363,11 @@ function resetConversation() {
   inputText.value = ''
   typing.value = false
 }
+
+const showAssistant = computed(() => {
+  if (useRoute().path.includes('/company/contact')) return false
+  return true
+})
 </script>
 
 <style scoped>
@@ -383,7 +388,3 @@ function resetConversation() {
 }
 .animate-bounce { animation: bounce-dot 1.2s infinite ease-in-out; }
 </style>
-const showAssistant = computed(() => {
-  if (useRoute().path.includes('/company/contact')) return false
-  return true
-})
