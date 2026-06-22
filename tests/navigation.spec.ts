@@ -122,7 +122,7 @@ test.describe('Footer', () => {
 
   test('footer contains Pesaba tagline', async ({ page }) => {
     const footer = page.locator('footer')
-    await expect(footer).toContainText(/Engineered for networks|مهندسی‌شده/)
+    await expect(footer).toContainText(/Securing critical networks|پاسداری از/)
   })
 
   test('footer navigation links work', async ({ page }) => {

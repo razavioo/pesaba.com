@@ -1,25 +1,30 @@
 <template>
   <div v-if="doc">
-    <section class="page-hero">
-      <div class="container-site section-hero">
+    <section class="page-hero relative">
+      <div class="container-site section-hero relative z-10">
         <div class="max-w-3xl">
           <div class="section-label mb-5">{{ locale === 'fa' ? 'درباره پرتو ارتباط صبا' : 'About Pesaba' }}</div>
-          <h1 class="mb-5 text-5xl font-extrabold leading-[1.02] tracking-[-0.03em] text-[var(--text-primary)] md:text-7xl">{{ doc.title }}</h1>
-          <p class="mb-8 text-lg leading-relaxed text-[var(--text-secondary)]">{{ doc.sub }}</p>
-          <div class="flex flex-wrap gap-x-10 gap-y-4 border-t border-[var(--border)] pt-6">
+          <h1 class="mb-5 text-5xl font-extrabold leading-[1.02] tracking-[-0.03em] text-white md:text-7xl">{{ doc.title }}</h1>
+          <p class="mb-8 text-lg leading-relaxed text-white/70">{{ doc.sub }}</p>
+          <div class="flex flex-wrap gap-x-10 gap-y-4 border-t border-white/15 pt-6">
             <div v-for="stat in aboutStats" :key="stat.label">
-              <div class="text-2xl font-bold text-[var(--text-primary)]">{{ stat.value }}</div>
-              <div class="text-xs text-[var(--text-muted)]">{{ stat.label }}</div>
+              <div class="text-2xl font-bold text-white">{{ stat.value }}</div>
+              <div class="text-xs text-white/50">{{ stat.label }}</div>
             </div>
           </div>
         </div>
+      </div>
+      <div class="absolute bottom-0 inset-x-0 z-20 pointer-events-none">
+        <svg viewBox="0 0 1440 56" preserveAspectRatio="none" class="w-full h-12 block">
+          <path d="M0,56 L1440,0 L1440,56 Z" fill="var(--bg-page)" />
+        </svg>
       </div>
     </section>
 
     <section class="section border-b border-[var(--border)]">
       <div class="container-site grid gap-5 md:grid-cols-2">
         <div v-for="card in whyCards" :key="card.title" class="flex gap-4">
-          <div class="w-0.5 shrink-0 self-stretch bg-photon-700/40" aria-hidden="true" />
+          <div class="w-0.5 shrink-0 self-stretch bg-[#AAC5D0]/50" aria-hidden="true" />
           <div class="py-1">
             <h2 class="mb-1 text-base font-semibold text-[var(--text-primary)]">{{ card.title }}</h2>
             <p class="text-sm leading-relaxed text-[var(--text-secondary)]">{{ card.body }}</p>
@@ -69,7 +74,7 @@
 
     <section class="section">
       <div class="container-site">
-        <div class="max-w-4xl prose text-[var(--text-secondary)] prose-headings:text-[var(--text-primary)] prose-strong:text-[var(--text-primary)] prose-a:text-photon-400">
+        <div class="max-w-4xl prose text-[var(--text-secondary)] prose-headings:text-[var(--text-primary)] prose-strong:text-[var(--text-primary)] prose-a:text-[#1F7994]">
           <ContentRenderer :value="doc" />
         </div>
       </div>

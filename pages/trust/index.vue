@@ -1,19 +1,24 @@
 <template>
   <div>
-    <section class="page-hero">
-      <div class="container-site section-hero">
+    <section class="page-hero relative">
+      <div class="container-site section-hero relative z-10">
         <div class="max-w-3xl">
           <div class="section-label mb-5">{{ $t('trust.title') }}</div>
-          <h1 class="mb-5 text-4xl font-extrabold leading-[1.04] tracking-[-0.02em] text-[var(--text-primary)] md:text-6xl">
+          <h1 class="mb-5 text-4xl font-extrabold leading-[1.04] tracking-[-0.02em] text-white md:text-6xl">
             {{ $t('trust.headline') }}
           </h1>
-          <p class="mb-6 max-w-2xl text-lg leading-relaxed text-[var(--text-secondary)]">
+          <p class="mb-6 max-w-2xl text-lg leading-relaxed text-white/70">
             {{ $t('trust.sub') }}
           </p>
-          <NuxtLink :to="localePath('/trust/compliance-matrix')" class="text-sm font-medium text-photon-400 transition-colors hover:text-photon-300">
-            {{ $t('trust.view_compliance') }}
+          <NuxtLink :to="localePath('/trust/compliance-matrix')" class="text-sm font-medium text-[#AAC5D0] transition-colors hover:text-white">
+            {{ $t('trust.view_compliance') }} →
           </NuxtLink>
         </div>
+      </div>
+      <div class="absolute bottom-0 inset-x-0 z-20 pointer-events-none">
+        <svg viewBox="0 0 1440 56" preserveAspectRatio="none" class="w-full h-12 block">
+          <path d="M0,56 L1440,0 L1440,56 Z" fill="var(--bg-page)" />
+        </svg>
       </div>
     </section>
 

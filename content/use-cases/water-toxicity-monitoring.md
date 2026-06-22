@@ -3,7 +3,7 @@ title: 'Water Toxicity Monitoring'
 title_fa: 'پایش سمیت آب'
 slug: 'water-toxicity-monitoring'
 description: 'Continuously monitor water quality parameters using hardware sensors and automated alerting.'
-tagline: 'Real-time detection. Zero false negatives.'
+tagline: 'Real-time monitoring. Zero false negatives.'
 locale: en
 products:
   - 'orazan'

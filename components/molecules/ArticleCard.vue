@@ -9,7 +9,7 @@
         loading="eager"
       />
       <div v-else class="flex h-full w-full items-center justify-center bg-[linear-gradient(180deg,rgba(14,165,233,0.05),transparent)]">
-        <IconPhoton class="h-12 w-12 text-photon-500/20" />
+        <IconPhoton class="h-12 w-12 text-[#AAC5D0]/40" />
       </div>
       <div class="absolute inset-x-0 bottom-0 h-10 bg-gradient-to-t from-[var(--bg-elevated)] to-transparent" />
       <div class="absolute start-4 top-4">

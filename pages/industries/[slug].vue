@@ -1,30 +1,29 @@
 <template>
   <div v-if="industry">
     <!-- Hero -->
-    <section class="relative overflow-hidden border-b border-[var(--border)] bg-[var(--bg-page)]" style="min-height: 440px; display: flex; flex-direction: column; justify-content: center;">
-      <div class="absolute inset-0" :style="heroMediaStyle" aria-hidden="true" />
-      <div class="absolute inset-0 pointer-events-none" :style="heroOverlayStyle" aria-hidden="true" />
-      <div class="absolute inset-0 pointer-events-none" style="background-image: radial-gradient(circle, rgba(148,161,189,0.05) 1px, transparent 1px); background-size: 28px 28px;" aria-hidden="true" />
-      <div class="absolute start-0 top-0 w-[400px] h-[400px] rounded-full pointer-events-none" style="background: radial-gradient(circle, color-mix(in srgb, var(--accent) 8%, transparent) 0%, transparent 65%); filter: blur(60px);" aria-hidden="true" />
+    <section class="relative overflow-hidden bg-[#093544]" style="min-height: 440px; display: flex; flex-direction: column; justify-content: center;">
+      <div class="absolute inset-0 opacity-30" :style="heroMediaStyle" aria-hidden="true" />
+      <div class="absolute inset-0 pointer-events-none" style="background: linear-gradient(90deg, rgba(9,53,68,0.88) 0%, rgba(9,53,68,0.45) 55%, transparent 100%);" aria-hidden="true" />
+      <div class="absolute inset-0 pointer-events-none" style="background-image: radial-gradient(circle, rgba(170,197,208,0.05) 1px, transparent 1px); background-size: 28px 28px;" aria-hidden="true" />
 
       <div class="container-site relative py-16 lg:py-24">
-        <nav class="flex items-center gap-2 text-xs text-[var(--text-muted)] mb-8" aria-label="breadcrumb">
-          <NuxtLink :to="localePath('/')" class="hover:text-[var(--text-secondary)] transition-colors">{{ $t('common.home') }}</NuxtLink>
+        <nav class="flex items-center gap-2 text-xs text-white/40 mb-8" aria-label="breadcrumb">
+          <NuxtLink :to="localePath('/')" class="hover:text-white/70 transition-colors">{{ $t('common.home') }}</NuxtLink>
           <span aria-hidden="true">/</span>
-          <NuxtLink :to="localePath('/industries')" class="hover:text-[var(--text-secondary)] transition-colors">{{ $t('nav.industries') }}</NuxtLink>
+          <NuxtLink :to="localePath('/industries')" class="hover:text-white/70 transition-colors">{{ $t('nav.industries') }}</NuxtLink>
           <span aria-hidden="true">/</span>
-          <span class="text-[var(--text-secondary)]">{{ industry.title }}</span>
+          <span class="text-white/60">{{ industry.title }}</span>
         </nav>
 
         <div class="max-w-2xl">
-          <BaseBadge color="photon" class="mb-5">{{ $t('nav.industries') }}</BaseBadge>
+          <div class="mb-5 inline-flex items-center px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] border border-[#AAC5D0]/30 text-[#AAC5D0]">{{ $t('nav.industries') }}</div>
           <h1
-            class="text-4xl md:text-5xl font-extrabold text-[var(--text-primary)] mb-5 leading-tight"
+            class="text-4xl md:text-5xl font-extrabold text-white mb-5 leading-tight"
             style="letter-spacing: -0.025em;"
           >
             {{ industry.title }}
           </h1>
-          <p v-if="industry.description" class="text-lg text-[var(--text-secondary)] leading-relaxed mb-8 max-w-xl">
+          <p v-if="industry.description" class="text-lg text-white/70 leading-relaxed mb-8 max-w-xl">
             {{ industry.description }}
           </p>
           <div class="flex flex-wrap gap-3">
@@ -32,6 +31,13 @@
             <BaseButton variant="outline" size="lg" :to="localePath('/products')">{{ $t('use_cases.explore_products') }}</BaseButton>
           </div>
         </div>
+      </div>
+
+      <!-- SVG wedge -->
+      <div class="absolute bottom-0 inset-x-0 z-20 pointer-events-none">
+        <svg viewBox="0 0 1440 56" preserveAspectRatio="none" class="w-full h-12 block">
+          <path d="M0,56 L1440,0 L1440,56 Z" fill="var(--bg-page)" />
+        </svg>
       </div>
     </section>
 
@@ -46,7 +52,7 @@
     <section v-if="industryProducts.length" class="border-t border-[var(--border)]">
       <div class="container-site py-16">
         <div class="flex items-center gap-3 mb-10">
-          <div class="h-6 w-0.5 bg-photon-500 rounded-full" aria-hidden="true" />
+          <div class="h-6 w-0.5 bg-[#1F7994] rounded-full" aria-hidden="true" />
           <h2 class="text-xl font-bold text-[var(--text-primary)]">
             {{ $t('industries.related_products') }}
           </h2>
@@ -72,7 +78,7 @@
     <section v-if="industry.faqs?.length" class="border-t border-[var(--border)]">
       <div class="container-site py-16">
         <div class="flex items-center gap-3 mb-8">
-          <div class="h-6 w-0.5 bg-photon-500 rounded-full" aria-hidden="true" />
+          <div class="h-6 w-0.5 bg-[#1F7994] rounded-full" aria-hidden="true" />
           <h2 class="text-xl font-bold text-[var(--text-primary)]">
             {{ $t('industries.faq_title') }}
           </h2>
@@ -133,24 +139,10 @@ if (industry.value) {
   ])
 }
 
-const { isDark } = useDarkMode()
 const { withBase } = useBaseUrl()
 
 const heroMediaStyle = computed(() => {
   const position = locale.value === 'fa' ? 'left center' : 'center'
-  const opacity = isDark.value ? '0.58' : '0.25'
-  return `background-image: url('${withBase(`/images/industries/${industry.value?.slug}.png`)}'); background-size: cover; background-position: ${position}; opacity: ${opacity};`
-})
-
-const heroOverlayStyle = computed(() => {
-  const direction = locale.value === 'fa' ? '270deg' : '90deg'
-  if (isDark.value) {
-    return `background:
-      linear-gradient(${direction}, rgba(10,15,26,0.88) 0%, rgba(10,15,26,0.52) 48%, rgba(10,15,26,0.12) 100%),
-      linear-gradient(135deg, color-mix(in srgb, var(--bg-page) 74%, transparent) 0%, color-mix(in srgb, var(--bg-page) 56%, transparent) 58%, color-mix(in srgb, var(--bg-page) 80%, var(--accent) 20%) 100%);`
-  }
-  return `background:
-    linear-gradient(${direction}, color-mix(in srgb, var(--bg-page) 82%, transparent) 0%, color-mix(in srgb, var(--bg-page) 45%, transparent) 55%, transparent 100%),
-    linear-gradient(135deg, color-mix(in srgb, var(--bg-page) 60%, transparent) 0%, color-mix(in srgb, var(--bg-page) 30%, transparent) 60%, transparent 100%);`
+  return `background-image: url('${withBase(`/images/industries/${industry.value?.slug}.png`)}'); background-size: cover; background-position: ${position};`
 })
 </script>

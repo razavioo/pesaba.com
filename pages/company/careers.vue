@@ -31,7 +31,7 @@
         <div>
           <div class="label-meta mb-4">{{ $t('careers.send_cv') }}</div>
           <p class="mb-4 text-sm leading-relaxed text-[var(--text-secondary)]">{{ $t('careers.send_cv_sub') }}</p>
-          <a href="mailto:admin@pesaba.com" class="text-base font-medium text-photon-400 hover:text-photon-300">admin@pesaba.com</a>
+          <a href="mailto:admin@pesaba.com" class="text-base font-medium text-[#1F7994] hover:text-[#AAC5D0]">admin@pesaba.com</a>
         </div>
         <div>
           <div class="label-meta mb-4">{{ locale === 'fa' ? 'حوزه‌های مورد علاقه' : 'Typical focus areas' }}</div>

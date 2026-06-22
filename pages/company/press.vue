@@ -12,7 +12,7 @@
 
     <section class="section border-b border-[var(--border)]">
       <div class="container-site grid gap-5 lg:grid-cols-[minmax(0,1fr)_20rem]">
-        <div class="max-w-4xl prose text-[var(--text-secondary)] prose-headings:text-[var(--text-primary)] prose-strong:text-[var(--text-primary)] prose-a:text-photon-400">
+        <div class="max-w-4xl prose text-[var(--text-secondary)] prose-headings:text-[var(--text-primary)] prose-strong:text-[var(--text-primary)] prose-a:text-[#1F7994]">
           <ContentRenderer :value="doc" />
         </div>
         <div class="border-s border-[var(--border)] ps-6">

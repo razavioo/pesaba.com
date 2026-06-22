@@ -1,15 +1,22 @@
 <template>
   <div>
-    <section class="page-hero">
-      <div class="container-site section-hero">
+    <section class="page-hero relative">
+      <div class="container-site section-hero relative z-10">
         <div class="max-w-3xl">
-          <h1 class="mb-4 text-5xl font-extrabold leading-[1.04] tracking-[-0.03em] text-[var(--text-primary)] md:text-7xl">
+          <div class="section-label mb-5">Solutions</div>
+          <h1 class="mb-4 text-5xl font-extrabold leading-[1.04] tracking-[-0.03em] text-white md:text-7xl">
             Mission-fit solutions for critical infrastructure
           </h1>
-          <p class="text-lg leading-relaxed text-[var(--text-secondary)]">
+          <p class="text-lg leading-relaxed text-white/70">
             Browse deployment paths by industry and operational scenario, from SCADA isolation to cellular quality monitoring.
           </p>
         </div>
+      </div>
+      <!-- SVG wedge to page bg -->
+      <div class="absolute bottom-0 inset-x-0 z-20 pointer-events-none">
+        <svg viewBox="0 0 1440 56" preserveAspectRatio="none" class="w-full h-12 block">
+          <path d="M0,56 L1440,0 L1440,56 Z" fill="var(--bg-page)" />
+        </svg>
       </div>
     </section>
 
@@ -27,7 +34,7 @@
                 <NuxtLink :to="localePath(item.href)" class="group flex items-start gap-5 border-b border-[var(--border)] py-5 last:border-none">
                   <span class="mt-0.5 shrink-0 font-mono text-[10px] text-[var(--text-muted)]">{{ String(i + 1).padStart(2, '0') }}</span>
                   <div>
-                    <div class="mb-1 text-base font-semibold text-[var(--text-primary)] transition-colors group-hover:text-photon-400">{{ item.title }}</div>
+                    <div class="mb-1 text-base font-semibold text-[var(--text-primary)] transition-colors group-hover:text-[#1F7994]">{{ item.title }}</div>
                     <div class="text-sm leading-relaxed text-[var(--text-secondary)]">{{ item.desc }}</div>
                   </div>
                 </NuxtLink>
@@ -49,7 +56,7 @@
                 <NuxtLink :to="localePath(item.href)" class="group flex items-start gap-5 border-b border-[var(--border)] py-5 last:border-none">
                   <span class="mt-0.5 shrink-0 font-mono text-[10px] text-[var(--text-muted)]">{{ String(i + 1).padStart(2, '0') }}</span>
                   <div>
-                    <div class="mb-1 text-base font-semibold text-[var(--text-primary)] transition-colors group-hover:text-photon-400">{{ item.title }}</div>
+                    <div class="mb-1 text-base font-semibold text-[var(--text-primary)] transition-colors group-hover:text-[#1F7994]">{{ item.title }}</div>
                     <div class="text-sm leading-relaxed text-[var(--text-secondary)]">{{ item.desc }}</div>
                   </div>
                 </NuxtLink>

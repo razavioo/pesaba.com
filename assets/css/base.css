@@ -162,9 +162,10 @@
 
   .page-hero {
     position: relative;
-    overflow: hidden;
-    border-bottom: 1px solid var(--border);
-    background: var(--bg-page);
+    overflow: visible;
+    border-bottom: none;
+    background: #093544;
+    padding-bottom: 3rem; /* space for SVG wedge */
   }
 
   .eyebrow {
@@ -214,7 +215,7 @@
     font-weight: 600;
     letter-spacing: 0.14em;
     text-transform: uppercase;
-    color: var(--photon-400);
+    color: var(--accent);
   }
   .label-status-active {
     font-size: 0.625rem;
@@ -276,7 +277,21 @@
   }
 
   .light .page-hero {
-    background: var(--paper-50);
+    background: #093544;
+  }
+
+  /* Page hero always uses white text regardless of theme */
+  .page-hero h1,
+  .page-hero h2 {
+    color: #ffffff !important;
+  }
+  .page-hero p,
+  .page-hero .section-copy {
+    color: rgba(255,255,255,0.70) !important;
+  }
+  .page-hero .section-label,
+  .page-hero .label-meta {
+    color: #AAC5D0 !important;
   }
 
   .light .eyebrow {
@@ -393,7 +408,7 @@
     width: 5px;
     height: 5px;
     border-radius: 50%;
-    background: var(--photon-500);
+    background: var(--accent);
     opacity: 0.7;
   }
   .prose-product ol,
@@ -414,14 +429,14 @@
   .prose-product a,
   .prose-custom a,
   .prose-article a {
-    color: var(--photon-500);
+    color: var(--accent);
     text-decoration: underline;
     text-decoration-thickness: 1px;
     text-underline-offset: 3px;
   }
   .prose-product a:hover,
   .prose-custom a:hover,
-  .prose-article a:hover { color: var(--photon-400); }
+  .prose-article a:hover { color: var(--accent-hover); }
   .prose-product h2 a,
   .prose-product h3 a,
   .prose-product h4 a,
@@ -439,8 +454,8 @@
   .prose-article blockquote {
     margin: 1.5rem 0;
     padding: 0.75rem 1.25rem;
-    border-inline-start: 3px solid var(--photon-500);
-    background: color-mix(in srgb, var(--photon-500) 5%, transparent);
+    border-inline-start: 3px solid var(--accent);
+    background: color-mix(in srgb, var(--accent) 5%, transparent);
     color: var(--text-primary);
     border-radius: 0 6px 6px 0;
   }
@@ -601,22 +616,44 @@
   .border-photon { border-color: var(--border) !important; }
   .border-photon-strong { border-color: var(--border-strong) !important; }
 
-  /* Stark monochrome JIT compiler bypass class overrides */
-  .text-photon-400 { color: var(--text-secondary) !important; }
-  .text-photon-500 { color: var(--text-primary) !important; }
-  .text-photon-600 { color: var(--text-primary) !important; }
+  /* Advenica blue — photon compat overrides */
+  .text-photon-300 { color: #AAC5D0 !important; }
+  .text-photon-400 { color: var(--accent) !important; }
+  .text-photon-500 { color: var(--accent) !important; }
+  .text-photon-600 { color: var(--accent-hover) !important; }
   .text-photon-700 { color: var(--text-muted) !important; }
-  
+
+  .group:hover .group-hover\:text-photon-300 { color: #AAC5D0 !important; }
+  .group:hover .group-hover\:text-photon-400 { color: var(--blue-brand) !important; }
+  .group:hover .group-hover\:text-photon-500 { color: var(--blue-brand) !important; }
+  .hover\:text-photon-300:hover { color: #AAC5D0 !important; }
+  .hover\:text-photon-400:hover { color: var(--blue-brand) !important; }
+  .hover\:text-photon-500:hover { color: var(--blue-strong) !important; }
+
+  /* photon background/border compat */
   .bg-photon-500 {
     background-color: var(--btn-primary-bg) !important;
-    color: var(--btn-primary-text) !important;
+    color: #ffffff !important;
   }
-  .bg-photon-500:hover {
-    background-color: var(--btn-primary-hover) !important;
-  }
-  
-  .border-photon-500 { border-color: var(--border-strong) !important; }
-  .hover\:border-photon-500\/30:hover { border-color: var(--accent) !important; }
+  .bg-photon-500:hover { background-color: var(--btn-primary-hover) !important; }
+  .bg-photon-500\/10 { background-color: rgba(31,121,148,0.10) !important; }
+  .bg-photon-500\/8  { background-color: rgba(31,121,148,0.08) !important; }
+  .bg-photon-500\/5  { background-color: rgba(31,121,148,0.05) !important; }
+  .bg-photon-500\/14 { background-color: rgba(31,121,148,0.14) !important; }
+  .bg-photon-500\/15 { background-color: rgba(31,121,148,0.15) !important; }
+  .bg-photon-500\/20 { background-color: rgba(31,121,148,0.20) !important; }
+  .from-photon-500\/14 { --tw-gradient-from: rgba(31,121,148,0.14) !important; }
+
+  .border-photon-500    { border-color: var(--border-strong) !important; }
+  .border-photon-500\/30 { border-color: rgba(31,121,148,0.30) !important; }
+  .border-photon-500\/20 { border-color: rgba(31,121,148,0.20) !important; }
+  .hover\:border-photon-500\/30:hover { border-color: rgba(31,121,148,0.40) !important; }
+  .hover\:border-photon-500\/40:hover { border-color: rgba(31,121,148,0.40) !important; }
+
+  /* photon opacity text variants */
+  .text-photon-500\/80 { color: rgba(31,121,148,0.80) !important; }
+  .text-photon-500\/60 { color: rgba(31,121,148,0.60) !important; }
+  .text-photon-400\/60 { color: rgba(31,121,148,0.60) !important; }
 
   /* Underline animation */
   .underline-photon {
@@ -651,6 +688,16 @@
   .light .divider-gradient {
     background: linear-gradient(90deg, transparent 0%, var(--blue-brand) 50%, transparent 100%);
     opacity: 0.25;
+  }
+
+  /* Advenica blinking product dot */
+  .product-dot {
+    animation: product-dot-blink 2s ease-in-out infinite;
+  }
+
+  @keyframes product-dot-blink {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.35; transform: scale(0.75); }
   }
 
   /* Visually hidden (accessible) */

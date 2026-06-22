@@ -1,26 +1,29 @@
 <template>
   <div>
-    <section class="page-hero relative overflow-hidden border-b border-[var(--border)] bg-[var(--bg-page)]" style="min-height: 440px; display: flex; flex-direction: column; justify-content: center;">
-      <!-- Hero Background & Overlays -->
-      <div class="absolute inset-0" :style="heroMediaStyle" aria-hidden="true" />
-      <div class="absolute inset-0 pointer-events-none" :style="heroOverlayStyle" aria-hidden="true" />
-      <div class="absolute inset-0 pointer-events-none" style="background-image: radial-gradient(circle, rgba(148,161,189,0.05) 1px, transparent 1px); background-size: 28px 28px;" aria-hidden="true" />
-      <div class="absolute start-0 top-0 w-[400px] h-[400px] rounded-full pointer-events-none" style="background: radial-gradient(circle, color-mix(in srgb, var(--accent) 8%, transparent) 0%, transparent 65%); filter: blur(60px);" aria-hidden="true" />
+    <section class="page-hero relative" style="min-height: 440px; display: flex; flex-direction: column; justify-content: center;">
+      <div class="absolute inset-0 opacity-20" :style="heroImgStyle" aria-hidden="true" />
+      <div class="absolute inset-0 pointer-events-none" style="background-image: radial-gradient(circle, rgba(170,197,208,0.06) 1px, transparent 1px); background-size: 28px 28px;" aria-hidden="true" />
 
       <div class="container-site section-hero relative z-10 py-16 lg:py-24">
         <div class="max-w-3xl">
-          <div class="section-label mb-5">{{ $t('nav.products') }}</div>
-          <h1 class="mb-4 text-5xl font-extrabold leading-[1.02] tracking-[-0.03em] text-[var(--text-primary)] md:text-7xl">
+          <div class="section-label mb-5" style="color:#AAC5D0">{{ $t('nav.products') }}</div>
+          <h1 class="mb-4 text-5xl font-extrabold leading-[1.02] tracking-[-0.03em] text-white md:text-7xl">
             {{ $t('products.title') }}
           </h1>
-          <p class="text-lg leading-relaxed text-[var(--text-secondary)]">
+          <p class="text-lg leading-relaxed text-white/70">
             {{ $t('products.index_sub') }}
           </p>
         </div>
       </div>
+
+      <div class="absolute bottom-0 inset-x-0 z-20 pointer-events-none">
+        <svg viewBox="0 0 1440 56" preserveAspectRatio="none" class="w-full h-12 block">
+          <path d="M0,56 L1440,0 L1440,56 Z" fill="var(--bg-page)" />
+        </svg>
+      </div>
     </section>
 
-    <section :class="['sticky top-16 z-20 border-b border-[var(--border)] backdrop-blur-xl', isDark ? 'bg-[rgba(8,16,28,0.95)]' : 'bg-[rgba(248,250,252,0.95)]']">
+    <section class="sticky top-16 z-20 border-b border-[var(--border)] bg-[var(--bg-page)]/95 backdrop-blur-xl">
       <div class="container-site">
         <div class="flex gap-2 overflow-x-auto py-3">
           <a
@@ -72,7 +75,6 @@
 <script setup lang="ts">
 const { t, locale } = useI18n()
 const localePath = useLocalePath()
-const { isDark } = useDarkMode()
 const { withBase } = useBaseUrl()
 
 useHead({
@@ -81,22 +83,9 @@ useHead({
   ],
 })
 
-const heroMediaStyle = computed(() => {
+const heroImgStyle = computed(() => {
   const position = locale.value === 'fa' ? 'left center' : 'center'
-  const opacity = isDark.value ? '0.35' : '0.12'
-  return `background-image: url('${withBase('/images/products/products-hero.png')}'); background-size: cover; background-position: ${position}; opacity: ${opacity};`
-})
-
-const heroOverlayStyle = computed(() => {
-  const direction = locale.value === 'fa' ? '270deg' : '90deg'
-  if (isDark.value) {
-    return `background:
-      linear-gradient(${direction}, rgba(10,15,26,0.92) 0%, rgba(10,15,26,0.65) 48%, rgba(10,15,26,0.2) 100%),
-      linear-gradient(135deg, color-mix(in srgb, var(--bg-page) 78%, transparent) 0%, color-mix(in srgb, var(--bg-page) 56%, transparent) 58%, color-mix(in srgb, var(--bg-page) 82%, var(--accent) 18%) 100%);`
-  }
-  return `background:
-    linear-gradient(${direction}, color-mix(in srgb, var(--bg-page) 88%, transparent) 0%, color-mix(in srgb, var(--bg-page) 55%, transparent) 55%, transparent 100%),
-    linear-gradient(135deg, color-mix(in srgb, var(--bg-page) 65%, transparent) 0%, color-mix(in srgb, var(--bg-page) 40%, transparent) 60%, transparent 100%);`
+  return `background-image: url('${withBase('/images/products/products-hero.png')}'); background-size: cover; background-position: ${position};`
 })
 
 useSeoMeta({

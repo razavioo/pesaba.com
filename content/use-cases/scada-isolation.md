@@ -3,7 +3,7 @@ title: 'SCADA Isolation'
 title_fa: 'ایزولاسیون SCADA'
 slug: 'scada-isolation'
 description: 'Physically isolate SCADA and ICS networks from enterprise IT while maintaining one-way telemetry export.'
-tagline: 'Your SCADA cannot be reached from outside — by design.'
+tagline: 'Absolute SCADA inaccessibility from external domains.'
 locale: en
 products:
   - 'data-diode-g200'

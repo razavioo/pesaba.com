@@ -13,7 +13,7 @@
     <section class="space-y-12">
       <div v-for="cat in categories" :key="cat.key">
         <div class="flex items-center gap-4 mb-5">
-          <div class="h-5 w-0.5 rounded-full bg-photon-500" />
+          <div class="h-5 w-0.5 rounded-full bg-[#1F7994]" />
           <h2 class="text-lg font-semibold text-[var(--text-primary)]">{{ $t(`products.categories.${cat.key}`) }}</h2>
           <span class="text-xs text-ink-600 font-mono bg-ink-900 border border-ink-700 rounded-full px-2.5 py-0.5">{{ cat.products.length }}</span>
         </div>
@@ -21,17 +21,17 @@
           <div
             v-for="p in cat.products"
             :key="p._path"
-            class="card-halo p-4 flex items-center justify-between gap-3 transition-colors hover:border-photon-500/40"
+            class="card-halo p-4 flex items-center justify-between gap-3 transition-colors hover:border-[#1F7994]/40"
           >
             <NuxtLink
               :to="localePath(`/products/${cat.key}/${p.slug}`)"
-              class="min-w-0 flex-1 hover:text-photon-400 transition-colors"
+              class="min-w-0 flex-1 hover:text-[#AAC5D0] transition-colors"
             >
               <p class="text-sm font-semibold text-[var(--text-primary)] truncate">{{ p.title }}</p>
               <p v-if="p.description" class="text-xs text-[var(--text-muted)] truncate">{{ p.description }}</p>
             </NuxtLink>
             <div class="flex items-center gap-2 shrink-0">
-              <NuxtLink :to="localePath(`/products/${cat.key}/${p.slug}`)" class="text-photon-500 text-sm hover:text-photon-400 transition-colors">
+              <NuxtLink :to="localePath(`/products/${cat.key}/${p.slug}`)" class="text-[#1F7994] text-sm hover:text-[#AAC5D0] transition-colors">
                 {{ $t('resources.specs_link') }}
               </NuxtLink>
               <a
@@ -40,7 +40,7 @@
                 target="_blank"
                 rel="noopener"
                 download
-                class="text-[10px] font-mono uppercase tracking-wider text-ink-400 hover:text-photon-400 transition-colors border border-ink-700 hover:border-photon-500/40 rounded-md px-1.5 py-0.5"
+                class="text-[10px] font-mono uppercase tracking-wider text-ink-400 hover:text-[#AAC5D0] transition-colors border border-ink-700 hover:border-[#1F7994]/40 rounded-md px-1.5 py-0.5"
               >PDF</a>
               <a
                 v-for="(pdf, i) in (p.schematic_pdfs || [])"
@@ -49,7 +49,7 @@
                 target="_blank"
                 rel="noopener"
                 download
-                class="text-[10px] font-mono uppercase tracking-wider text-ink-400 hover:text-photon-400 transition-colors border border-ink-700 hover:border-photon-500/40 rounded-md px-1.5 py-0.5"
+                class="text-[10px] font-mono uppercase tracking-wider text-ink-400 hover:text-[#AAC5D0] transition-colors border border-ink-700 hover:border-[#1F7994]/40 rounded-md px-1.5 py-0.5"
               >PDF {{ p.schematic_pdfs.length > 1 ? i + 1 : '' }}</a>
             </div>
           </div>
@@ -65,11 +65,11 @@
         {{ $t('resources.signed_pdf_desc') }}
       </p>
       <div class="flex flex-wrap gap-4 text-sm">
-        <a href="mailto:admin@pesaba.com" class="text-photon-500 hover:text-photon-400 transition-colors">admin@pesaba.com</a>
+        <a href="mailto:admin@pesaba.com" class="text-[#1F7994] hover:text-[#AAC5D0] transition-colors">admin@pesaba.com</a>
         <span class="text-[var(--text-muted)]">·</span>
-        <a href="tel:+982144215738" class="text-photon-500 hover:text-photon-400 transition-colors">+98 21 4421 5738</a>
+        <a href="tel:+982144215738" class="text-[#1F7994] hover:text-[#AAC5D0] transition-colors">+98 21 4421 5738</a>
         <span class="text-[var(--text-muted)]">·</span>
-        <NuxtLink :to="localePath('/company/contact')" class="text-photon-500 hover:text-photon-400 transition-colors">
+        <NuxtLink :to="localePath('/company/contact')" class="text-[#1F7994] hover:text-[#AAC5D0] transition-colors">
           {{ $t('resources.contact_form') }}
         </NuxtLink>
       </div>

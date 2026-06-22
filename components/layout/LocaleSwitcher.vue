@@ -2,7 +2,7 @@
   <div ref="rootRef" class="relative">
     <button
       @click="open = !open"
-      class="inline-flex h-9 items-center gap-2 rounded-none border border-[var(--border-strong)] bg-[var(--bg-elevated)] px-3 text-sm font-medium text-[var(--text-secondary)] transition-colors hover:border-photon-500/30 hover:text-[var(--text-primary)]"
+      class="inline-flex h-9 items-center gap-2 rounded-none border border-[var(--border-strong)] bg-[var(--bg-elevated)] px-3 text-sm font-medium text-[var(--text-secondary)] transition-colors hover:border-[#1F7994]/30 hover:text-[var(--text-primary)]"
       :aria-label="`Switch language, current: ${locale}`"
       :aria-expanded="open"
     >
@@ -31,7 +31,7 @@
           :class="[
             'flex w-full items-center justify-between px-4 py-3 text-sm transition-colors',
             locale === loc.code
-              ? 'bg-photon-500/10 text-photon-400'
+              ? 'bg-[rgba(31,121,148,0.10)] text-[#1F7994]'
               : 'text-[var(--text-secondary)] hover:bg-[var(--bg-elevated)] hover:text-[var(--text-primary)]',
           ]"
           role="menuitem"

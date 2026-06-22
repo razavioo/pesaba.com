@@ -1,8 +1,8 @@
 <template>
   <div class="relative min-h-screen bg-[var(--bg-page)] bg-graph-paper py-16 md:py-24">
     <!-- Neon Decorative Glow Blobs -->
-    <div class="absolute -top-12 -left-12 w-96 h-96 bg-photon-500/10 rounded-full blur-[100px] pointer-events-none" />
-    <div class="absolute bottom-1/4 -right-16 w-80 h-80 bg-photon-600/5 rounded-full blur-[80px] pointer-events-none" />
+    <div class="absolute -top-12 -left-12 w-96 h-96 bg-[rgba(31,121,148,0.10)] rounded-full blur-[100px] pointer-events-none" />
+    <div class="absolute bottom-1/4 -right-16 w-80 h-80 bg-[rgba(31,121,148,0.05)] rounded-full blur-[80px] pointer-events-none" />
 
     <div class="container-site relative z-10">
       <div class="grid gap-12 lg:grid-cols-12 items-start">
@@ -11,7 +11,7 @@
         <div class="lg:col-span-5 space-y-8 animate-fade-in">
           <div>
             <div class="mb-5 flex items-center gap-2">
-              <span class="h-1.5 w-1.5 rounded-full bg-photon-500 animate-pulse" />
+              <span class="h-1.5 w-1.5 rounded-full bg-[#1F7994] animate-pulse" />
               <div class="label-accent uppercase tracking-wider text-xs font-semibold">{{ $t('nav.resources') }}</div>
             </div>
             <h1 class="text-4xl md:text-5xl font-extrabold text-[var(--text-primary)] mb-5 leading-tight">
@@ -34,11 +34,11 @@
 
           <!-- Saba Technical Support CTA Card -->
           <div class="card-halo p-6 bg-gradient-to-br from-[var(--bg-elevated)] to-[var(--bg-page)]/90 border border-[var(--border)] relative overflow-hidden group shadow-glow-sm hover:shadow-glow-md">
-            <div class="absolute top-0 right-0 w-32 h-32 bg-photon-500/5 rounded-full blur-2xl pointer-events-none transition-opacity group-hover:bg-photon-500/10" />
+            <div class="absolute top-0 right-0 w-32 h-32 bg-[rgba(31,121,148,0.05)] rounded-full blur-2xl pointer-events-none transition-opacity group-hover:bg-[rgba(31,121,148,0.10)]" />
             
             <div class="flex items-center gap-3 mb-5">
               <!-- Technical Support Icon -->
-              <div class="p-2.5 rounded-lg bg-photon-500/10 text-photon-400 border border-photon-500/20">
+              <div class="p-2.5 rounded-lg bg-[rgba(31,121,148,0.10)] text-[#1F7994] border border-[#1F7994]/20">
                 <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z" />
                 </svg>
@@ -71,7 +71,7 @@
 
             <div class="mt-5 pt-4 border-t border-[var(--border)] flex items-center gap-2 justify-center text-[10px] text-[var(--text-muted)]">
               <!-- Clock/Response Icon -->
-              <svg class="w-3.5 h-3.5 text-photon-500/60" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <svg class="w-3.5 h-3.5 text-[#1F7994]/60" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
               <span>{{ locale === 'fa' ? 'پاسخگویی در کمتر از ۲۴ ساعت کاری' : 'Typical response time: < 24 business hours' }}</span>
@@ -85,7 +85,7 @@
           <!-- Requirements Section -->
           <section class="card-halo p-6 md:p-8 bg-gradient-to-b from-[var(--bg-elevated)] to-[var(--bg-page)]/85 border-[var(--border)] shadow-glow-sm">
             <div class="flex items-center gap-3 mb-6 pb-4 border-b border-[var(--border)]">
-              <div class="p-1.5 rounded-lg bg-photon-500/10 text-photon-400 border border-photon-500/20">
+              <div class="p-1.5 rounded-lg bg-[rgba(31,121,148,0.10)] text-[#1F7994] border border-[#1F7994]/20">
                 <!-- Checklist Icon -->
                 <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
@@ -97,8 +97,8 @@
             </div>
 
             <div class="grid gap-4 sm:grid-cols-2">
-              <div class="p-4 rounded-xl border border-[var(--border)] bg-[var(--bg-page)]/50 hover:border-photon-500/20 hover:bg-[var(--bg-elevated)] transition-all flex gap-3">
-                <span class="flex-shrink-0 flex items-center justify-center w-5 h-5 rounded-full bg-photon-500/10 text-photon-400 text-xs font-bold mt-0.5">۱</span>
+              <div class="p-4 rounded-xl border border-[var(--border)] bg-[var(--bg-page)]/50 hover:border-[#1F7994]/20 hover:bg-[var(--bg-elevated)] transition-all flex gap-3">
+                <span class="flex-shrink-0 flex items-center justify-center w-5 h-5 rounded-full bg-[rgba(31,121,148,0.10)] text-[#1F7994] text-xs font-bold mt-0.5">۱</span>
                 <div>
                   <h4 class="text-sm font-bold text-[var(--text-primary)] mb-1">
                     {{ locale === 'fa' ? 'اطلاعات هویت دستگاه' : 'Device Identity' }}
@@ -109,8 +109,8 @@
                 </div>
               </div>
 
-              <div class="p-4 rounded-xl border border-[var(--border)] bg-[var(--bg-page)]/50 hover:border-photon-500/20 hover:bg-[var(--bg-elevated)] transition-all flex gap-3">
-                <span class="flex-shrink-0 flex items-center justify-center w-5 h-5 rounded-full bg-photon-500/10 text-photon-400 text-xs font-bold mt-0.5">۲</span>
+              <div class="p-4 rounded-xl border border-[var(--border)] bg-[var(--bg-page)]/50 hover:border-[#1F7994]/20 hover:bg-[var(--bg-elevated)] transition-all flex gap-3">
+                <span class="flex-shrink-0 flex items-center justify-center w-5 h-5 rounded-full bg-[rgba(31,121,148,0.10)] text-[#1F7994] text-xs font-bold mt-0.5">۲</span>
                 <div>
                   <h4 class="text-sm font-bold text-[var(--text-primary)] mb-1">
                     {{ locale === 'fa' ? 'نسخه کنونی' : 'Current Version' }}
@@ -121,8 +121,8 @@
                 </div>
               </div>
 
-              <div class="p-4 rounded-xl border border-[var(--border)] bg-[var(--bg-page)]/50 hover:border-photon-500/20 hover:bg-[var(--bg-elevated)] transition-all flex gap-3">
-                <span class="flex-shrink-0 flex items-center justify-center w-5 h-5 rounded-full bg-photon-500/10 text-photon-400 text-xs font-bold mt-0.5">۳</span>
+              <div class="p-4 rounded-xl border border-[var(--border)] bg-[var(--bg-page)]/50 hover:border-[#1F7994]/20 hover:bg-[var(--bg-elevated)] transition-all flex gap-3">
+                <span class="flex-shrink-0 flex items-center justify-center w-5 h-5 rounded-full bg-[rgba(31,121,148,0.10)] text-[#1F7994] text-xs font-bold mt-0.5">۳</span>
                 <div>
                   <h4 class="text-sm font-bold text-[var(--text-primary)] mb-1">
                     {{ locale === 'fa' ? 'احراز هویت سازمانی' : 'Organizational Alignment' }}
@@ -133,8 +133,8 @@
                 </div>
               </div>
 
-              <div class="p-4 rounded-xl border border-[var(--border)] bg-[var(--bg-page)]/50 hover:border-photon-500/20 hover:bg-[var(--bg-elevated)] transition-all flex gap-3">
-                <span class="flex-shrink-0 flex items-center justify-center w-5 h-5 rounded-full bg-photon-500/10 text-photon-400 text-xs font-bold mt-0.5">۴</span>
+              <div class="p-4 rounded-xl border border-[var(--border)] bg-[var(--bg-page)]/50 hover:border-[#1F7994]/20 hover:bg-[var(--bg-elevated)] transition-all flex gap-3">
+                <span class="flex-shrink-0 flex items-center justify-center w-5 h-5 rounded-full bg-[rgba(31,121,148,0.10)] text-[#1F7994] text-xs font-bold mt-0.5">۴</span>
                 <div>
                   <h4 class="text-sm font-bold text-[var(--text-primary)] mb-1">
                     {{ locale === 'fa' ? 'دلیل به‌روزرسانی' : 'Reason for Update' }}
@@ -150,7 +150,7 @@
           <!-- Release Policy Section -->
           <section class="card-halo p-6 md:p-8 bg-gradient-to-b from-[var(--bg-elevated)] to-[var(--bg-page)]/85 border-[var(--border)] shadow-glow-sm">
             <div class="flex items-center gap-3 mb-6 pb-4 border-b border-[var(--border)]">
-              <div class="p-1.5 rounded-lg bg-photon-500/10 text-photon-400 border border-photon-500/20">
+              <div class="p-1.5 rounded-lg bg-[rgba(31,121,148,0.10)] text-[#1F7994] border border-[#1F7994]/20">
                 <!-- Shield Icon -->
                 <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
@@ -163,7 +163,7 @@
 
             <ul class="space-y-4">
               <!-- Signed releases -->
-              <li class="flex gap-4 items-start p-4 rounded-xl border border-[var(--border)] bg-[var(--bg-page)]/30 hover:border-photon-500/10 transition-all">
+              <li class="flex gap-4 items-start p-4 rounded-xl border border-[var(--border)] bg-[var(--bg-page)]/30 hover:border-[#1F7994]/10 transition-all">
                 <div class="mt-1 flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full bg-signal-500/10 text-signal-500 border border-signal-500/20">
                   <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
@@ -185,8 +185,8 @@
               </li>
 
               <!-- Critical releases -->
-              <li class="flex gap-4 items-start p-4 rounded-xl border border-[var(--border)] bg-[var(--bg-page)]/30 hover:border-photon-500/10 transition-all">
-                <div class="mt-1 flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full bg-photon-500/10 text-photon-400 border border-photon-500/20">
+              <li class="flex gap-4 items-start p-4 rounded-xl border border-[var(--border)] bg-[var(--bg-page)]/30 hover:border-[#1F7994]/10 transition-all">
+                <div class="mt-1 flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full bg-[rgba(31,121,148,0.10)] text-[#1F7994] border border-[#1F7994]/20">
                   <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
                   </svg>
@@ -202,7 +202,7 @@
               </li>
 
               <!-- JTAG flashing -->
-              <li class="flex gap-4 items-start p-4 rounded-xl border border-[var(--border)] bg-[var(--bg-page)]/30 hover:border-photon-500/10 transition-all">
+              <li class="flex gap-4 items-start p-4 rounded-xl border border-[var(--border)] bg-[var(--bg-page)]/30 hover:border-[#1F7994]/10 transition-all">
                 <div class="mt-1 flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full bg-warn-500/10 text-warn-500 border border-warn-500/20">
                   <!-- Exclamation Icon -->
                   <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">

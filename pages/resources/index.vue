@@ -20,7 +20,7 @@
           <div class="label-meta mb-3">{{ item.tag }}</div>
           <h2 class="mb-2 text-xl font-semibold text-[var(--text-primary)]">{{ item.title }}</h2>
           <p class="mb-4 text-sm leading-relaxed text-[var(--text-secondary)]">{{ item.desc }}</p>
-          <span class="text-sm font-medium text-photon-400">{{ locale === 'fa' ? 'باز کردن' : 'Open section' }}</span>
+          <span class="text-sm font-medium text-[#1F7994]">{{ locale === 'fa' ? 'باز کردن' : 'Open section' }}</span>
         </NuxtLink>
       </div>
     </section>
@@ -31,7 +31,7 @@
           <div class="label-meta mb-5">{{ locale === 'fa' ? 'ویژه' : 'Featured now' }}</div>
           <div class="divide-y divide-[var(--border)]">
             <NuxtLink v-for="item in featured" :key="item.href" :to="localePath(item.href)" class="group block py-4 first:pt-0 last:pb-0">
-              <div class="mb-0.5 text-base font-semibold text-[var(--text-primary)] group-hover:text-photon-400 transition-colors">{{ item.title }}</div>
+              <div class="mb-0.5 text-base font-semibold text-[var(--text-primary)] group-hover:text-[#1F7994] transition-colors">{{ item.title }}</div>
               <div class="text-sm leading-relaxed text-[var(--text-secondary)]">{{ item.desc }}</div>
             </NuxtLink>
           </div>

@@ -23,7 +23,7 @@
                   @click="$emit('close')"
                   class="group flex items-center gap-3 rounded-xl px-3 py-3 text-sm text-[var(--text-secondary)] transition-colors hover:bg-[var(--bg-elevated)] hover:text-[var(--text-primary)]"
                 >
-                  <span class="w-5 h-5 flex-shrink-0 text-photon-500/50 group-hover:text-[var(--brand-red)] transition-colors">
+                  <span class="w-5 h-5 flex-shrink-0 text-[#1F7994]/50 group-hover:text-[#1F7994] transition-colors">
                     <component :is="ind.icon" class="w-full h-full" />
                   </span>
                   {{ $t(`industries.${ind.key}`) }}
@@ -42,7 +42,7 @@
                   @click="$emit('close')"
                   class="group flex items-center gap-3 rounded-xl px-3 py-3 text-sm text-[var(--text-secondary)] transition-colors hover:bg-[var(--bg-elevated)] hover:text-[var(--text-primary)]"
                 >
-                  <span class="w-1.5 h-1.5 rounded-full bg-photon-500/40 group-hover:bg-[var(--brand-red)] flex-shrink-0 transition-colors" />
+                  <span class="w-1.5 h-1.5 rounded-full bg-[#1F7994]/40 group-hover:bg-[#1F7994] flex-shrink-0 transition-colors" />
                   {{ $t(`use_cases.${uc.key}`) }}
                 </NuxtLink>
               </li>
@@ -56,7 +56,7 @@
             <NuxtLink
               :to="localePath(`/products/${cat.key}`)"
               @click="$emit('close')"
-              class="label-accent mb-4 block transition-colors hover:text-photon-500"
+              class="label-accent mb-4 block transition-colors hover:text-[#1F7994]"
             >
               {{ $t(`products.categories.${cat.key}`) }}
             </NuxtLink>
@@ -67,7 +67,7 @@
                   @click="$emit('close')"
                   class="group flex items-start gap-2 rounded-xl px-3 py-2.5 transition-colors hover:bg-[var(--bg-elevated)]"
                 >
-                  <span class="w-1 h-1 rounded-full bg-[var(--text-muted)] group-hover:bg-[var(--brand-red)] mt-2 flex-shrink-0 transition-colors" />
+                  <span class="w-1 h-1 rounded-full bg-[var(--text-muted)] group-hover:bg-[#1F7994] mt-2 flex-shrink-0 transition-colors" />
                   <div>
                     <p class="text-sm leading-snug text-[var(--text-secondary)] transition-colors group-hover:text-[var(--text-primary)]">{{ prod.name }}</p>
                   </div>
@@ -83,9 +83,9 @@
             <NuxtLink
               :to="localePath(res.href)"
               @click="$emit('close')"
-              class="group flex flex-col gap-1 rounded-2xl border border-[var(--border)] bg-[var(--bg-elevated)]/55 p-4 transition-colors hover:border-photon-500/20 hover:bg-[var(--bg-elevated)]"
+              class="group flex flex-col gap-1 rounded-2xl border border-[var(--border)] bg-[var(--bg-elevated)]/55 p-4 transition-colors hover:border-[#1F7994]/20 hover:bg-[var(--bg-elevated)]"
             >
-              <span class="text-sm font-medium text-[var(--text-primary)] transition-colors group-hover:text-photon-400">{{ res.label }}</span>
+              <span class="text-sm font-medium text-[var(--text-primary)] transition-colors group-hover:text-[#1F7994]">{{ res.label }}</span>
               <span class="text-xs leading-relaxed text-[var(--text-muted)]">{{ res.desc }}</span>
             </NuxtLink>
           </div>

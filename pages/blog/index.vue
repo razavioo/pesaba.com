@@ -1,16 +1,21 @@
 <template>
   <div>
-    <section class="page-hero">
-      <div class="container-site section-hero">
+    <section class="page-hero relative">
+      <div class="container-site section-hero relative z-10">
         <div class="max-w-3xl">
           <div class="section-label mb-5">{{ locale === 'fa' ? 'مقالات فنی' : 'Technical Articles' }}</div>
-          <h1 class="mb-4 text-5xl font-extrabold leading-[1.04] tracking-[-0.03em] text-[var(--text-primary)] md:text-7xl">
+          <h1 class="mb-4 text-5xl font-extrabold leading-[1.04] tracking-[-0.03em] text-white md:text-7xl">
             {{ $t('blog.title') }}
           </h1>
-          <p class="text-lg leading-relaxed text-[var(--text-secondary)]">
+          <p class="text-lg leading-relaxed text-white/70">
             {{ $t('blog.sub') }}
           </p>
         </div>
+      </div>
+      <div class="absolute bottom-0 inset-x-0 z-20 pointer-events-none">
+        <svg viewBox="0 0 1440 56" preserveAspectRatio="none" class="w-full h-12 block">
+          <path d="M0,56 L1440,0 L1440,56 Z" fill="var(--bg-page)" />
+        </svg>
       </div>
     </section>
 

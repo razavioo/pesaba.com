@@ -3,7 +3,7 @@ title: 'One-Way Data Transfer'
 title_fa: 'انتقال یک‌طرفه داده'
 slug: 'one-way-data-transfer'
 description: 'Use hardware-enforced one-way data flow to permanently eliminate the attack surface between OT and IT networks.'
-tagline: 'Enforced through physics — not policy.'
+tagline: 'Physical separation, free from firewall policy vulnerabilities.'
 locale: en
 products:
   - 'data-diode-a10'

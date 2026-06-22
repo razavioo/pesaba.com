@@ -25,7 +25,7 @@
           :class="[
             'px-3 py-1.5 text-xs font-medium rounded-full border transition-all duration-150',
             activeCategory === cat.value
-              ? 'bg-photon-500/15 border-photon-500/60 text-photon-400'
+              ? 'bg-[rgba(31,121,148,0.15)] border-[#1F7994]/60 text-[#1F7994]'
               : 'border-ink-700 text-ink-400 hover:border-ink-500 hover:text-ink-200',
           ]"
         >
@@ -65,7 +65,7 @@
                 :to="localePath(`/products/${row.category}/${row.slug}`)"
                 class="group inline-flex flex-col"
               >
-                <span class="text-sm font-semibold text-ink-100 group-hover:text-photon-400 transition-colors">{{ row.name }}</span>
+                <span class="text-sm font-semibold text-ink-100 group-hover:text-[#1F7994] transition-colors">{{ row.name }}</span>
                 <span class="text-[10px] text-ink-600 capitalize">{{ row.category.replace(/-/g, ' ') }}</span>
               </NuxtLink>
             </td>

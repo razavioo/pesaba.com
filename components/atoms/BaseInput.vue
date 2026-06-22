@@ -55,7 +55,7 @@ const inputClass = computed(() => [
   'outline-none',
   props.error
     ? 'border-critical-500 focus:border-critical-500 focus:ring-1 focus:ring-critical-500/30'
-    : 'border-[var(--border)] focus:border-photon-500/60 focus:ring-1 focus:ring-photon-500/20',
+    : 'border-[var(--border)] focus:border-[#1F7994]/60 focus:ring-1 focus:ring-[#1F7994]/20',
   props.disabled ? 'opacity-50 cursor-not-allowed' : '',
   props.readonly ? 'opacity-80 cursor-default' : '',
   props.multiline ? 'resize-y min-h-24' : '',

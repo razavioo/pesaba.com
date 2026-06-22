@@ -6,21 +6,21 @@
         <defs>
           <pattern id="sg" x="0" y="0" width="44" height="44" patternUnits="userSpaceOnUse">
             <path d="M44 0L0 0 0 44" fill="none" stroke="var(--border)" stroke-width="0.5"/>
-            <circle cx="0" cy="0" r="1" fill="var(--photon-700)" opacity=".5"/>
+            <circle cx="0" cy="0" r="1" fill="var(--blue-dark)" opacity=".5"/>
           </pattern>
         </defs>
         <rect width="100%" height="100%" fill="url(#sg)"/>
       </svg>
     </div>
-    <div class="absolute inset-x-0 top-0 h-px" style="background:linear-gradient(90deg,transparent,var(--photon-500),transparent)" aria-hidden="true"/>
-    <div class="absolute inset-x-0 bottom-0 h-px" style="background:linear-gradient(90deg,transparent,var(--photon-500),transparent)" aria-hidden="true"/>
+    <div class="absolute inset-x-0 top-0 h-px" style="background:linear-gradient(90deg,transparent,var(--accent),transparent)" aria-hidden="true"/>
+    <div class="absolute inset-x-0 bottom-0 h-px" style="background:linear-gradient(90deg,transparent,var(--accent),transparent)" aria-hidden="true"/>
     <div class="absolute inset-0 pointer-events-none" style="background:radial-gradient(ellipse 70% 100% at 50% 50%,rgba(0,229,255,.04) 0%,transparent 70%)" aria-hidden="true"/>
 
     <div class="container-site relative z-10 py-10 md:py-14">
       <!-- eyebrow -->
       <div class="flex items-center justify-center gap-3 mb-8 md:mb-10">
         <span class="h-px w-10 bg-[var(--border)]"/>
-        <span class="text-[10px] md:text-xs font-mono uppercase tracking-[.3em] text-[var(--photon-500)]">
+        <span class="text-[10px] md:text-xs font-mono uppercase tracking-[.3em] text-[var(--accent)]">
           {{ locale === 'fa' ? 'پرتو ارتباط صبا • در یک نگاه' : 'Pesaba · At a Glance' }}
         </span>
         <span class="h-px w-10 bg-[var(--border)]"/>

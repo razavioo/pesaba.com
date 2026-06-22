@@ -1,7 +1,7 @@
 <template>
   <div v-if="article" class="min-h-screen">
     <div class="fixed top-0 inset-x-0 z-[60] h-0.5 bg-[var(--bg-elevated)]" aria-hidden="true">
-      <div class="h-full bg-photon-500 transition-all duration-75 ease-linear" :style="{ width: `${readingProgress}%` }" />
+      <div class="h-full bg-[#1F7994] transition-all duration-75 ease-linear" :style="{ width: `${readingProgress}%` }" />
     </div>
 
     <!-- Full-bleed cover image with editorial overlay -->
@@ -40,7 +40,7 @@
             </div>
 
             <div class="mt-10 flex items-center justify-between border-t border-[var(--border)] pt-6">
-              <NuxtLink :to="localePath('/blog')" class="text-sm font-medium text-photon-400 transition-colors hover:text-photon-300">
+              <NuxtLink :to="localePath('/blog')" class="text-sm font-medium text-[#1F7994] transition-colors hover:text-[#AAC5D0]">
                 {{ $t('blog.all_articles') }}
               </NuxtLink>
               <button class="text-sm text-[var(--text-secondary)] transition-colors hover:text-[var(--text-primary)]" @click="shareArticle">
@@ -60,7 +60,7 @@
                   :class="[
                     'block border-s-2 py-1 text-sm transition-colors',
                     h.depth === 3 ? 'ps-5' : 'ps-3',
-                    activeHeading === h.id ? 'border-photon-500 text-photon-400' : 'border-transparent text-[var(--text-secondary)] hover:text-[var(--text-primary)]',
+                    activeHeading === h.id ? 'border-[#1F7994] text-[#1F7994]' : 'border-transparent text-[var(--text-secondary)] hover:text-[var(--text-primary)]',
                   ]"
                 >
                   {{ h.text }}
@@ -218,7 +218,7 @@ if (article.value) {
 .prose-article ol { padding-inline-start: 1.35rem; }
 .prose-article li { margin-bottom: 0.55rem; }
 .prose-article strong { color: var(--text-primary); }
-.prose-article a { color: var(--photon-400); text-decoration: underline; text-underline-offset: 3px; }
+.prose-article a { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }
 .prose-article code {
   border-radius: 6px;
   background: var(--bg-elevated);

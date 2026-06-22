@@ -3,7 +3,7 @@ title: 'ایزولاسیون SCADA'
 title_en: 'SCADA Isolation'
 slug: 'scada-isolation'
 description: 'ایزولاسیون فیزیکی شبکه‌های SCADA و ICS از شبکه‌ی IT سازمانی، با حفظ صادرسازی یک‌طرفه‌ی تله‌متری.'
-tagline: 'دسترسی به SCADA شما از بیرون ممکن نیست — به‌صورت طراحی‌شده.'
+tagline: 'دسترسی‌ناپذیری مطلق سامانه اسکادا از خارج از شبکه'
 locale: fa
 products:
   - 'data-diode-g200'

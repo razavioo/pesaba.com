@@ -3,7 +3,7 @@ title: 'انتقال یک‌طرفه داده'
 title_en: 'One-Way Data Transfer'
 slug: 'one-way-data-transfer'
 description: 'استفاده از جریان یک‌طرفه‌ی داده با تضمین سخت‌افزاری برای حذف دائمی سطح حمله میان شبکه‌های OT و IT.'
-tagline: 'تضمین‌شده با فیزیک — نه با سیاست‌های نرم‌افزاری.'
+tagline: 'جداسازی فیزیکی واقعی، بدون وابستگی به تنظیمات فایروال'
 locale: fa
 products:
   - 'data-diode-a10'

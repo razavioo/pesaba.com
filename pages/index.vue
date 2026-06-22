@@ -32,6 +32,12 @@
                 i === 0 || i === 5 ? 'aspect-[21/9]' : 'aspect-[4/3]',
               ]">
                 <NuxtImg :src="cat.image" :alt="cat.title" class="h-full w-full object-contain p-8 transition-transform duration-500 group-hover:scale-[1.03]" loading="lazy" />
+                <!-- Advenica-style blinking dot indicator -->
+                <span class="product-dot absolute right-4 top-4 h-3.5 w-3.5 rounded-full bg-[#1F7994]" aria-hidden="true" />
+                <!-- Arrow on hover -->
+                <span class="absolute bottom-3 right-3 flex h-8 w-8 items-center justify-center rounded-full bg-[#093544] text-white opacity-0 transition-all duration-200 group-hover:opacity-100 group-hover:translate-x-0.5" aria-hidden="true">
+                  <svg class="h-4 w-4 rtl:rotate-180" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </span>
               </div>
               <div class="p-5 flex-grow">
                 <div class="mb-2 flex items-center justify-between gap-3">
@@ -49,9 +55,12 @@
       </div>
     </section>
 
-    <div class="divider-gradient" />
+    <!-- SVG wedge: white → blue-pale -->
+    <div class="w-full overflow-hidden leading-none" aria-hidden="true" style="background:var(--bg-page)">
+      <svg viewBox="0 0 1440 48" preserveAspectRatio="none" class="w-full h-10 block"><path d="M0,0 L1440,48 L0,48 Z" fill="var(--bg-elevated)"/></svg>
+    </div>
 
-    <section class="section bg-[var(--bg-elevated)]/60">
+    <section class="section bg-[var(--bg-elevated)]">
       <div class="container-site">
         <div class="mb-10 grid gap-6 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:items-end">
           <div>
@@ -94,9 +103,12 @@
       </div>
     </section>
 
-    <div class="divider-gradient" />
+    <!-- SVG wedge: blue-pale → white -->
+    <div class="w-full overflow-hidden leading-none" aria-hidden="true" style="background:var(--bg-elevated)">
+      <svg viewBox="0 0 1440 48" preserveAspectRatio="none" class="w-full h-10 block"><path d="M0,48 L1440,0 L1440,48 Z" fill="var(--bg-page)"/></svg>
+    </div>
 
-    <section class="section bg-[var(--bg-elevated)]">
+    <section class="section bg-[var(--bg-page)]">
       <div class="container-site">
         <div class="mb-10 grid gap-6 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:items-end">
           <div>
@@ -129,9 +141,12 @@
       </div>
     </section>
 
-    <div class="divider-gradient" />
+    <!-- SVG wedge: white → blue-pale for news section -->
+    <div class="w-full overflow-hidden leading-none" aria-hidden="true" style="background:var(--bg-page)">
+      <svg viewBox="0 0 1440 48" preserveAspectRatio="none" class="w-full h-10 block"><path d="M0,0 L1440,48 L0,48 Z" fill="var(--bg-elevated)"/></svg>
+    </div>
 
-    <section class="section">
+    <section class="section bg-[var(--bg-elevated)]">
       <div class="container-site">
         <div class="mb-8 flex items-end justify-between gap-6">
           <div>
@@ -162,17 +177,17 @@
               <div class="absolute inset-0 bg-gradient-to-t from-[rgba(4,10,20,0.92)] via-[rgba(4,10,20,0.45)] to-transparent" />
               <!-- Content pinned to bottom -->
               <div class="absolute inset-x-0 bottom-0 p-6">
-                <div class="mb-3 flex items-center gap-2 text-xs text-[var(--text-muted)]">
-                  <span class="label-meta text-photon-500/80">{{ $t('blog.badge') }}</span>
-                  <span class="h-px w-4 bg-[var(--border-strong)]" />
-                  <span>{{ formatDate(featuredArticles[0].date) }}</span>
+                <div class="mb-3 flex items-center gap-2 text-xs">
+                  <span class="text-[10px] font-semibold uppercase tracking-[0.14em] text-[#AAC5D0]">{{ $t('blog.badge') }}</span>
+                  <span class="h-px w-4 bg-white/20" />
+                  <span class="text-white/50">{{ formatDate(featuredArticles[0].date) }}</span>
                 </div>
-                <h3 class="mb-2 text-xl font-bold leading-snug text-white transition-colors group-hover:text-photon-300 md:text-2xl">
+                <h3 class="mb-2 text-xl font-bold leading-snug text-white transition-colors group-hover:text-[#AAC5D0] md:text-2xl">
                   {{ featuredArticles[0].title }}
                 </h3>
                 <p class="line-clamp-2 text-sm leading-relaxed text-white/60">{{ featuredArticles[0].description }}</p>
-                <div class="mt-4 text-sm font-medium text-photon-400 transition-colors group-hover:text-photon-300">
-                  {{ $t('blog.read_more') }}
+                <div class="mt-4 text-sm font-semibold text-[#AAC5D0] transition-colors group-hover:text-white">
+                  {{ $t('blog.read_more') }} →
                 </div>
               </div>
             </div>
@@ -193,7 +208,10 @@
       </div>
     </section>
 
-    <div class="divider-gradient" />
+    <!-- SVG wedge: blue-pale → page for CTAStrip -->
+    <div class="w-full overflow-hidden leading-none" aria-hidden="true" style="background:var(--bg-elevated)">
+      <svg viewBox="0 0 1440 48" preserveAspectRatio="none" class="w-full h-10 block"><path d="M1440,0 L0,48 L1440,48 Z" fill="var(--bg-page)"/></svg>
+    </div>
 
     <CTAStrip
       :headline="$t('home.cta_headline')"

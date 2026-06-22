@@ -1,34 +1,37 @@
 <template>
   <div>
-    <section class="page-hero relative overflow-hidden border-b border-[var(--border)] bg-[var(--bg-page)]" style="min-height: 440px; display: flex; flex-direction: column; justify-content: center;">
-      <!-- Hero Background & Overlays -->
-      <div class="absolute inset-0" :style="heroMediaStyle" aria-hidden="true" />
-      <div class="absolute inset-0 pointer-events-none" :style="heroOverlayStyle" aria-hidden="true" />
-      <div class="absolute inset-0 pointer-events-none" style="background-image: radial-gradient(circle, rgba(148,161,189,0.05) 1px, transparent 1px); background-size: 28px 28px;" aria-hidden="true" />
-      <div class="absolute start-0 top-0 w-[400px] h-[400px] rounded-full pointer-events-none" style="background: radial-gradient(circle, color-mix(in srgb, var(--accent) 8%, transparent) 0%, transparent 65%); filter: blur(60px);" aria-hidden="true" />
+    <section class="page-hero" style="min-height: 440px; display: flex; flex-direction: column; justify-content: center;">
+      <!-- Background image overlay on dark navy -->
+      <div class="absolute inset-0 opacity-20" :style="heroImgStyle" aria-hidden="true" />
+      <div class="absolute inset-0 pointer-events-none" style="background-image: radial-gradient(circle, rgba(170,197,208,0.06) 1px, transparent 1px); background-size: 28px 28px;" aria-hidden="true" />
 
       <div class="container-site section-hero relative z-10 py-16 lg:py-24">
         <div class="grid gap-10 lg:grid-cols-[minmax(0,1fr)_22rem] lg:items-end">
           <div>
-            <div class="section-label mb-5">{{ $t('nav.technology') }}</div>
-            <h1 class="mb-5 max-w-4xl border-s-2 border-photon-700/50 ps-4 text-4xl font-extrabold leading-[1.04] tracking-[-0.04em] text-[var(--text-primary)] md:text-6xl">
+            <div class="section-label mb-5" style="color:#AAC5D0">{{ $t('nav.technology') }}</div>
+            <h1 class="mb-5 max-w-4xl border-s-2 border-[#AAC5D0]/40 ps-4 text-4xl font-extrabold leading-[1.04] tracking-[-0.03em] text-white md:text-6xl">
               {{ $t('technology.headline') }}
             </h1>
-            <p class="max-w-3xl text-lg leading-relaxed text-[var(--text-secondary)]">
+            <p class="max-w-3xl text-lg leading-relaxed text-white/70">
               {{ $t('technology.sub') }}
             </p>
           </div>
-          <div class="border-s-2 border-photon-700/40 ps-5 bg-[var(--bg-elevated)]/60 backdrop-blur-md p-5 border border-[var(--border)]">
-            <div class="label-meta mb-2">{{ locale === 'fa' ? 'خلاصه معماری' : 'Architecture summary' }}</div>
-            <p class="text-sm leading-relaxed text-[var(--text-secondary)]">
+          <div class="border border-white/15 bg-white/8 backdrop-blur-md p-5">
+            <div class="label-meta mb-2" style="color:#AAC5D0">{{ locale === 'fa' ? 'خلاصه معماری' : 'Architecture summary' }}</div>
+            <p class="text-sm leading-relaxed text-white/65">
               {{ locale === 'fa' ? 'فناوری پرتو ارتباط صبا برای خریدار حرفه‌ای باید توضیح‌پذیر باشد: مسیر داده قابل‌ردیابی، سطح حمله کوچک، و رفتار قابل پیش‌بینی.' : 'Pesaba technology must be legible to professional buyers: traceable data paths, small attack surface, and predictable hardware behavior.' }}
             </p>
           </div>
         </div>
       </div>
-    </section>
 
-    <div class="divider-gradient" />
+      <!-- SVG wedge to white -->
+      <div class="absolute bottom-0 inset-x-0 z-20 pointer-events-none">
+        <svg viewBox="0 0 1440 56" preserveAspectRatio="none" class="w-full h-12 block">
+          <path d="M0,56 L1440,0 L1440,56 Z" fill="var(--bg-page)" />
+        </svg>
+      </div>
+    </section>
 
     <section class="section">
       <div class="container-site">
@@ -40,7 +43,7 @@
         </div>
         <div class="divide-y divide-[var(--border)]">
           <div v-for="pillar in pillars" :key="pillar.title" class="flex items-start gap-5 py-5 first:pt-0 last:pb-0">
-            <component :is="pillar.icon" class="mt-0.5 h-4 w-4 shrink-0 text-[var(--brand-red)]" />
+            <component :is="pillar.icon" class="mt-0.5 h-4 w-4 shrink-0 text-[var(--accent)]" />
             <div>
               <h3 class="mb-1 text-sm font-semibold text-[var(--text-primary)]">{{ pillar.title }}</h3>
               <p class="text-sm leading-relaxed text-[var(--text-secondary)]">{{ pillar.desc }}</p>
@@ -50,11 +53,14 @@
       </div>
     </section>
 
-    <div class="divider-gradient" />
+    <!-- SVG wedge: white → blue-pale -->
+    <div class="w-full overflow-hidden leading-none" aria-hidden="true" style="background:var(--bg-page)">
+      <svg viewBox="0 0 1440 48" preserveAspectRatio="none" class="w-full h-10 block"><path d="M0,0 L1440,48 L0,48 Z" fill="var(--bg-elevated)"/></svg>
+    </div>
 
-    <section class="section">
+    <section class="section bg-[var(--bg-elevated)]">
       <div class="container-site grid gap-8 lg:grid-cols-2 lg:items-center">
-        <div class="overflow-hidden rounded-3xl border border-[var(--border)]">
+        <div class="overflow-hidden border border-[var(--border)]">
           <NuxtImg
             src="/images/technology/air-gap-concept.png"
             :alt="locale === 'fa' ? 'معماری air-gap و جداسازی یک‌طرفه' : 'Air-gap architecture and one-way isolation'"
@@ -71,7 +77,7 @@
               : 'In key product lines, the security boundary is enforced in hardware. The data path is defined in FPGA logic, not in an operating system or software configuration.' }}
           </p>
           <div class="grid gap-4 sm:grid-cols-2">
-            <div v-for="proof in proofs" :key="proof.title" class="rounded-2xl border border-[var(--border)] bg-[var(--bg-elevated)] p-4">
+            <div v-for="proof in proofs" :key="proof.title" class="border border-[var(--border)] bg-[var(--bg-page)] p-4">
               <div class="label-meta mb-1">{{ proof.label }}</div>
               <h3 class="mb-1 text-sm font-semibold text-[var(--text-primary)]">{{ proof.title }}</h3>
               <p class="text-xs leading-relaxed text-[var(--text-secondary)]">{{ proof.desc }}</p>
@@ -81,20 +87,23 @@
       </div>
     </section>
 
-    <div class="divider-gradient" />
+    <!-- SVG wedge: blue-pale → deep navy -->
+    <div class="w-full overflow-hidden leading-none" aria-hidden="true" style="background:var(--bg-elevated)">
+      <svg viewBox="0 0 1440 48" preserveAspectRatio="none" class="w-full h-10 block"><path d="M1440,0 L0,48 L1440,48 Z" fill="#093544"/></svg>
+    </div>
 
-    <section class="section bg-[rgba(13,23,38,0.56)]">
+    <section class="section bg-[#093544]">
       <div class="container-site grid gap-8 lg:grid-cols-2 lg:items-center">
         <div>
-          <div class="section-label mb-3">{{ locale === 'fa' ? 'فیلترینگ شبکه' : 'Network filtering' }}</div>
-          <h2 class="section-heading mb-4 text-[var(--text-primary)]">{{ locale === 'fa' ? 'کنترل ترافیک در لایه سخت‌افزار' : 'Traffic control at the hardware layer' }}</h2>
-          <p class="text-sm leading-relaxed text-[var(--text-secondary)]">
+          <div class="section-label mb-3" style="color:#AAC5D0">{{ locale === 'fa' ? 'فیلترینگ شبکه' : 'Network filtering' }}</div>
+          <h2 class="section-heading mb-4 text-white">{{ locale === 'fa' ? 'کنترل ترافیک در لایه سخت‌افزار' : 'Traffic control at the hardware layer' }}</h2>
+          <p class="text-sm leading-relaxed text-white/65">
             {{ locale === 'fa'
               ? 'فیلترینگ بسته در FPGA بدون نیاز به CPU عمومی انجام می‌شود. این تضمین می‌کند که تصمیم‌های فیلترینگ از مسیر نرم‌افزاری که می‌توان به آن حمله کرد خارج بمانند.'
               : 'Packet filtering runs on the FPGA without a general-purpose CPU in the path. This ensures filtering decisions stay out of the software stack that can be exploited.' }}
           </p>
         </div>
-        <div class="overflow-hidden rounded-3xl border border-[var(--border)]">
+        <div class="overflow-hidden border border-white/15">
           <NuxtImg
             src="/images/technology/network-filtering.png"
             :alt="locale === 'fa' ? 'فیلترینگ شبکه در سطح سخت‌افزار' : 'Hardware-level network filtering'"
@@ -105,7 +114,10 @@
       </div>
     </section>
 
-    <div class="divider-gradient" />
+    <!-- SVG wedge: deep navy → page -->
+    <div class="w-full overflow-hidden leading-none" aria-hidden="true" style="background:#093544">
+      <svg viewBox="0 0 1440 48" preserveAspectRatio="none" class="w-full h-10 block"><path d="M0,0 L1440,48 L0,48 Z" fill="var(--bg-page)"/></svg>
+    </div>
 
     <CTAStrip :headline="$t('technology.compare_headline')" :sub="$t('technology.compare_desc')" :primary-label="$t('footer.compare_products')" :primary-href="localePath('/products/compare')" :secondary-label="$t('trust.title')" :secondary-href="localePath('/trust')" />
   </div>
@@ -114,25 +126,11 @@
 <script setup lang="ts">
 const { t, locale } = useI18n()
 const localePath = useLocalePath()
-const { isDark } = useDarkMode()
 const { withBase } = useBaseUrl()
 
-const heroMediaStyle = computed(() => {
+const heroImgStyle = computed(() => {
   const position = locale.value === 'fa' ? 'left center' : 'center'
-  const opacity = isDark.value ? '0.35' : '0.12'
-  return `background-image: url('${withBase('/images/technology/technology-hero.png')}'); background-size: cover; background-position: ${position}; opacity: ${opacity};`
-})
-
-const heroOverlayStyle = computed(() => {
-  const direction = locale.value === 'fa' ? '270deg' : '90deg'
-  if (isDark.value) {
-    return `background:
-      linear-gradient(${direction}, rgba(10,15,26,0.92) 0%, rgba(10,15,26,0.65) 48%, rgba(10,15,26,0.2) 100%),
-      linear-gradient(135deg, color-mix(in srgb, var(--bg-page) 78%, transparent) 0%, color-mix(in srgb, var(--bg-page) 62%, transparent) 58%, color-mix(in srgb, var(--bg-page) 82%, var(--accent) 18%) 100%);`
-  }
-  return `background:
-    linear-gradient(${direction}, color-mix(in srgb, var(--bg-page) 88%, transparent) 0%, color-mix(in srgb, var(--bg-page) 55%, transparent) 55%, transparent 100%),
-    linear-gradient(135deg, color-mix(in srgb, var(--bg-page) 65%, transparent) 0%, color-mix(in srgb, var(--bg-page) 40%, transparent) 60%, transparent 100%);`
+  return `background-image: url('${withBase('/images/technology/technology-hero.png')}'); background-size: cover; background-position: ${position};`
 })
 
 useSeoMeta({

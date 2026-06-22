@@ -73,14 +73,14 @@
                 </BaseButton>
               </div>
 
-              <!-- Trust signal pills -->
+              <!-- Trust signal pills — always white on dark hero -->
               <div class="flex flex-wrap items-center gap-2">
                 <div
                   v-for="tag in slides[activeIdx].trustTags"
                   :key="tag"
-                  class="flex items-center gap-1.5 px-3 py-1.5 rounded-none border border-[var(--border)] bg-[var(--bg-elevated)] text-xs text-[var(--text-secondary)] transition-all duration-200 hover:border-photon-500 hover:bg-photon-500/5"
+                  class="flex items-center gap-1.5 px-3 py-1.5 border border-white/15 bg-white/8 text-xs text-white/75 transition-all duration-200 hover:border-white/30 hover:bg-white/12"
                 >
-                  <svg class="w-3.5 h-3.5 text-photon-500 flex-shrink-0" viewBox="0 0 12 12" fill="none">
+                  <svg class="w-3.5 h-3.5 text-[#AAC5D0] flex-shrink-0" viewBox="0 0 12 12" fill="none">
                     <path d="M2 6l3 3 5-5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
                   </svg>
                   {{ tag }}
@@ -105,11 +105,11 @@
                 class="relative rounded-none overflow-hidden border border-[var(--border)] z-10 product-card-hero"
                 style="background: var(--bg-elevated);"
               >
-                <!-- Corner accent marks (sharp, technical) -->
-                <div class="absolute top-3 start-3 w-3 h-3 border-t-2 border-s-2 border-photon-500/60 z-20" />
-                <div class="absolute top-3 end-3 w-3 h-3 border-t-2 border-e-2 border-photon-500/60 z-20" />
-                <div class="absolute bottom-3 start-3 w-3 h-3 border-b-2 border-s-2 border-photon-500/60 z-20" />
-                <div class="absolute bottom-3 end-3 w-3 h-3 border-b-2 border-e-2 border-photon-500/60 z-20" />
+                <!-- Corner accent marks -->
+                <div class="absolute top-3 start-3 w-3 h-3 border-t-2 border-s-2 border-[#AAC5D0]/50 z-20" />
+                <div class="absolute top-3 end-3 w-3 h-3 border-t-2 border-e-2 border-[#AAC5D0]/50 z-20" />
+                <div class="absolute bottom-3 start-3 w-3 h-3 border-b-2 border-s-2 border-[#AAC5D0]/50 z-20" />
+                <div class="absolute bottom-3 end-3 w-3 h-3 border-b-2 border-e-2 border-[#AAC5D0]/50 z-20" />
 
                 <!-- Product image -->
                 <div class="aspect-[4/3] flex items-center justify-center p-6 sm:p-8 relative">
@@ -126,7 +126,7 @@
                 <!-- Product label bar -->
                 <div class="border-t border-[var(--border)] px-6 py-4 flex items-center justify-between bg-[var(--bg-elevated)] relative z-20">
                   <div>
-                    <p class="text-[10px] font-mono text-photon-500/80 uppercase tracking-widest mb-0.5">
+                    <p class="text-[10px] font-mono text-[#1F7994]/80 uppercase tracking-widest mb-0.5">
                       {{ slides[activeIdx].productCategory }}
                     </p>
                     <p class="text-base font-bold text-[var(--text-primary)]">
@@ -139,7 +139,7 @@
                     <button
                       @click="prevSlide"
                       aria-label="Previous Slide"
-                      class="w-7 h-7 rounded-full border border-[var(--border)] flex items-center justify-center text-[var(--text-muted)] hover:text-photon-400 hover:border-photon-500/40 bg-[var(--bg-page)]/50 transition-all"
+                      class="w-7 h-7 rounded-full border border-[var(--border)] flex items-center justify-center text-[var(--text-muted)] hover:text-[#1F7994] hover:border-[#1F7994]/40 bg-[var(--bg-page)]/50 transition-all"
                     >
                       <svg class="w-3.5 h-3.5 transform" :class="locale === 'fa' ? 'rotate-0' : 'rotate-180'" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7" />
@@ -148,7 +148,7 @@
                     <button
                       @click="nextSlide"
                       aria-label="Next Slide"
-                      class="w-7 h-7 rounded-full border border-[var(--border)] flex items-center justify-center text-[var(--text-muted)] hover:text-photon-400 hover:border-photon-500/40 bg-[var(--bg-page)]/50 transition-all"
+                      class="w-7 h-7 rounded-full border border-[var(--border)] flex items-center justify-center text-[var(--text-muted)] hover:text-[#1F7994] hover:border-[#1F7994]/40 bg-[var(--bg-page)]/50 transition-all"
                     >
                       <svg class="w-3.5 h-3.5 transform" :class="locale === 'fa' ? 'rotate-180' : 'rotate-0'" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7" />
@@ -160,7 +160,7 @@
             </Transition>
 
             <!-- Floating spec chips -->
-            <div class="absolute -top-3 -start-3 z-30 flex items-center gap-1.5 px-3 py-1.5 rounded-none border border-photon-500/30 text-[10px] font-mono text-photon-400 bg-[var(--bg-elevated)]">
+            <div class="absolute -top-3 -start-3 z-30 flex items-center gap-1.5 px-3 py-1.5 rounded-none border border-[#1F7994]/30 text-[10px] font-mono text-[#1F7994] bg-[var(--bg-elevated)]">
               <span class="w-1.5 h-1.5 rounded-full bg-signal-500" />
               {{ slides[activeIdx].productBadge }}
             </div>
@@ -168,6 +168,13 @@
         </div>
 
       </div>
+    </div>
+
+    <!-- SVG diagonal wedge — Advenica-style transition from dark hero to light content -->
+    <div class="absolute bottom-0 inset-x-0 z-30 pointer-events-none" aria-hidden="true">
+      <svg viewBox="0 0 1440 80" preserveAspectRatio="none" class="w-full h-16 md:h-20 block">
+        <path d="M0,80 L1440,0 L1440,80 Z" :fill="isDark ? '#000000' : '#FFFFFF'" />
+      </svg>
     </div>
 
     <!-- Slide Indicators & Progress Bar -->
@@ -178,12 +185,12 @@
           :key="i"
           @click="selectSlide(i)"
           :aria-label="`Go to slide ${i + 1}`"
-          class="relative h-2 rounded-full overflow-hidden transition-all duration-300 bg-ink-500 hover:bg-ink-300"
+          class="relative h-1.5 rounded-full overflow-hidden transition-all duration-300 bg-white/20 hover:bg-white/40"
           :style="{ width: i === activeIdx ? '36px' : '8px' }"
         >
           <div
             v-if="i === activeIdx"
-            class="absolute left-0 top-0 bottom-0 bg-photon-500"
+            class="absolute left-0 top-0 bottom-0 bg-[#AAC5D0]"
             :style="{ width: `${progress}%`, transition: progress === 0 ? 'none' : 'width 60ms linear' }"
           />
         </button>

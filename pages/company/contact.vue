@@ -1,14 +1,14 @@
 <template>
   <div class="relative min-h-screen bg-[var(--bg-page)] bg-graph-paper">
     <!-- Neon Decorative Glow Blobs -->
-    <div class="absolute -top-12 -left-12 w-96 h-96 bg-photon-500/10 rounded-full blur-[100px] pointer-events-none" />
-    <div class="absolute bottom-1/4 -right-16 w-80 h-80 bg-photon-600/5 rounded-full blur-[80px] pointer-events-none" />
+    <div class="absolute -top-12 -left-12 w-96 h-96 bg-[rgba(31,121,148,0.10)] rounded-full blur-[100px] pointer-events-none" />
+    <div class="absolute bottom-1/4 -right-16 w-80 h-80 bg-[rgba(31,121,148,0.05)] rounded-full blur-[80px] pointer-events-none" />
 
     <section class="section-hero">
       <div class="container-site">
         <!-- Breadcrumb / Meta Label -->
         <div class="mb-6 flex items-center gap-2">
-          <span class="h-1.5 w-1.5 rounded-full bg-photon-400" />
+          <span class="h-1.5 w-1.5 rounded-full bg-[#1F7994]" />
           <div class="label-accent uppercase tracking-wider text-xs">{{ locale === 'fa' ? 'ارتباط مستقیم' : 'Direct Channel' }}</div>
         </div>
 
@@ -28,8 +28,8 @@
             </div>
 
             <!-- Phone-first sales route -->
-            <div class="card-halo p-6 bg-gradient-to-br from-photon-500/14 to-[var(--bg-elevated)] border-photon-500/30 relative overflow-hidden shadow-glow-md">
-              <div class="absolute -top-16 -end-16 h-40 w-40 rounded-full bg-photon-500/15 blur-3xl pointer-events-none" />
+            <div class="card-halo p-6 bg-gradient-to-br from-[rgba(31,121,148,0.14)] to-[var(--bg-elevated)] border-[#1F7994]/30 relative overflow-hidden shadow-glow-md">
+              <div class="absolute -top-16 -end-16 h-40 w-40 rounded-full bg-[rgba(31,121,148,0.15)] blur-3xl pointer-events-none" />
               <div class="relative z-10 flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
                 <div>
                   <div class="label-accent mb-2">{{ locale === 'fa' ? 'مسیر اصلی فروش' : 'Primary sales channel' }}</div>
@@ -45,7 +45,7 @@
 
             <!-- Pesaba Tehran HQ Node (Volumetric Circuit Card) -->
             <div class="card-halo p-6 bg-gradient-to-br from-[var(--bg-elevated)] to-[var(--bg-page)] border-[var(--border)] relative overflow-hidden group shadow-glow-sm hover:shadow-glow-md">
-              <div class="absolute top-0 right-0 w-32 h-32 bg-photon-500/5 rounded-full blur-2xl pointer-events-none transition-opacity group-hover:bg-photon-500/10" />
+              <div class="absolute top-0 right-0 w-32 h-32 bg-[rgba(31,121,148,0.05)] rounded-full blur-2xl pointer-events-none transition-opacity group-hover:bg-[rgba(31,121,148,0.10)]" />
               
               <div class="flex items-start justify-between mb-5">
                 <div>
@@ -70,11 +70,11 @@
                 <div class="absolute inset-0 opacity-10 bg-[linear-gradient(to_right,#808080_1px,transparent_1px),linear-gradient(to_bottom,#808080_1px,transparent_1px)] bg-[size:14px_24px]" />
                 
                 <!-- Circuit lines & glowing node -->
-                <svg class="absolute inset-0 w-full h-full text-photon-500/20" xmlns="http://www.w3.org/2000/svg">
+                <svg class="absolute inset-0 w-full h-full text-[#1F7994]/20" xmlns="http://www.w3.org/2000/svg">
                   <path d="M 20 20 L 80 20 L 120 60 L 250 60" fill="none" stroke="currentColor" stroke-width="1.5" />
                   <path d="M 120 60 L 160 100 L 300 100" fill="none" stroke="currentColor" stroke-width="1.5" stroke-dasharray="4 4" />
-                  <circle cx="120" cy="60" r="5" fill="var(--photon-500)" class="animate-pulse" />
-                  <circle cx="120" cy="60" r="12" fill="none" stroke="var(--photon-500)" stroke-width="1" class="animate-ping" style="animation-duration: 2.5s" />
+                  <circle cx="120" cy="60" r="5" fill="#1F7994" class="animate-pulse" />
+                  <circle cx="120" cy="60" r="12" fill="none" stroke="#1F7994" stroke-width="1" class="animate-ping" style="animation-duration: 2.5s" />
                 </svg>
 
                 <div class="relative z-10 text-center flex flex-col items-center">
@@ -91,7 +91,7 @@
 
                 <!-- Action row -->
                 <div class="flex flex-wrap gap-3 pt-2">
-                  <a href="https://www.google.com/maps/place/%D9%BE%D8%B1%D8%AA%D9%88+%D8%A7%D8%B1%D8%AA%D8%A8%D8%A7%D8%B7+%D8%B5%D8%A8%D8%A7%E2%80%AD/@35.7315228,51.3446176,20z/data=!4m5!3m4!1s0x3f8dfd6fbc1bc0dd:0x928653e044a47e7c!8m2!3d35.7315228!4d51.3446176" target="_blank" class="inline-flex items-center gap-2 text-xs font-medium px-4 py-2.5 rounded-lg border border-[var(--border-strong)] bg-[var(--bg-page)] text-[var(--text-primary)] hover:border-photon-500/40 hover:bg-photon-500/8 hover:text-photon-400 transition-all duration-200 w-full sm:w-auto justify-center">
+                  <a href="https://www.google.com/maps/place/%D9%BE%D8%B1%D8%AA%D9%88+%D8%A7%D8%B1%D8%AA%D8%A8%D8%A7%D8%B7+%D8%B5%D8%A8%D8%A7%E2%80%AD/@35.7315228,51.3446176,20z/data=!4m5!3m4!1s0x3f8dfd6fbc1bc0dd:0x928653e044a47e7c!8m2!3d35.7315228!4d51.3446176" target="_blank" class="inline-flex items-center gap-2 text-xs font-medium px-4 py-2.5 rounded-lg border border-[var(--border-strong)] bg-[var(--bg-page)] text-[var(--text-primary)] hover:border-[#1F7994]/40 hover:bg-[rgba(31,121,148,0.08)] hover:text-[#1F7994] transition-all duration-200 w-full sm:w-auto justify-center">
                     <!-- Map Pin Icon -->
                     <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                       <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
@@ -106,39 +106,39 @@
             <!-- Channels Grid (Email & Phone as gorgeous mini cards) -->
             <div class="grid gap-4 sm:grid-cols-2">
               <!-- Email Card -->
-              <div class="card-halo p-5 bg-[var(--bg-elevated)]/60 relative group hover:border-photon-500/30 transition-all">
+              <div class="card-halo p-5 bg-[var(--bg-elevated)]/60 relative group hover:border-[#1F7994]/30 transition-all">
                 <div class="flex items-center justify-between mb-3">
-                  <div class="p-2 rounded-lg bg-photon-500/10 text-photon-400">
+                  <div class="p-2 rounded-lg bg-[rgba(31,121,148,0.10)] text-[#1F7994]">
                     <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                       <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                     </svg>
                   </div>
-                  <button @click="copyEmail" class="text-xs text-[var(--text-muted)] hover:text-photon-400 p-1">
+                  <button @click="copyEmail" class="text-xs text-[var(--text-muted)] hover:text-[#1F7994] p-1">
                     <span v-if="copiedEmail" class="text-signal-500 font-medium">{{ locale === 'fa' ? 'کپی شد!' : 'Copied!' }}</span>
                     <span v-else>{{ locale === 'fa' ? 'کپی' : 'Copy' }}</span>
                   </button>
                 </div>
                 <div class="label-meta mb-1">{{ $t('contact.email') }}</div>
-                <a :href="salesEmailHref" class="text-sm font-semibold text-[var(--text-primary)] hover:text-photon-400 break-all transition-colors" dir="ltr">
+                <a :href="salesEmailHref" class="text-sm font-semibold text-[var(--text-primary)] hover:text-[#1F7994] break-all transition-colors" dir="ltr">
                   {{ salesEmail }}
                 </a>
               </div>
 
               <!-- Phone Card -->
-              <div class="card-halo p-5 bg-[var(--bg-elevated)]/60 relative group hover:border-photon-500/30 transition-all">
+              <div class="card-halo p-5 bg-[var(--bg-elevated)]/60 relative group hover:border-[#1F7994]/30 transition-all">
                 <div class="flex items-center justify-between mb-3">
-                  <div class="p-2 rounded-lg bg-photon-500/10 text-photon-400">
+                  <div class="p-2 rounded-lg bg-[rgba(31,121,148,0.10)] text-[#1F7994]">
                     <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                       <path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.94.725l.548 2.2a1 1 0 01-.321.988l-1.305.98a10.582 10.582 0 004.872 4.872l.98-1.305a1 1 0 01.988-.321l2.2.548a1 1 0 01.725.94V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                     </svg>
                   </div>
-                  <button @click="copyPhone" class="text-xs text-[var(--text-muted)] hover:text-photon-400 p-1">
+                  <button @click="copyPhone" class="text-xs text-[var(--text-muted)] hover:text-[#1F7994] p-1">
                     <span v-if="copiedPhone" class="text-signal-500 font-medium">{{ locale === 'fa' ? 'کپی شد!' : 'Copied!' }}</span>
                     <span v-else>{{ locale === 'fa' ? 'کپی' : 'Copy' }}</span>
                   </button>
                 </div>
                 <div class="label-meta mb-1">{{ $t('footer.phone') }}</div>
-                <a :href="salesPhoneHref" class="text-sm font-semibold text-[var(--text-primary)] hover:text-photon-400 transition-colors" dir="ltr">
+                <a :href="salesPhoneHref" class="text-sm font-semibold text-[var(--text-primary)] hover:text-[#1F7994] transition-colors" dir="ltr">
                   {{ salesPhoneDisplayInternational }}
                 </a>
               </div>
@@ -151,7 +151,7 @@
               </h3>
               <ul class="space-y-4">
                 <li v-for="(item, idx) in expectations" :key="idx" class="flex gap-4 items-start">
-                  <div class="mt-1 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-photon-500/10 text-photon-400 border border-photon-500/20">
+                  <div class="mt-1 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-[rgba(31,121,148,0.10)] text-[#1F7994] border border-[#1F7994]/20">
                     <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
                       <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
                     </svg>
@@ -167,7 +167,7 @@
           <div class="order-1 lg:order-2">
             <div class="card-halo p-6 md:p-8 bg-gradient-to-b from-[var(--bg-elevated)] to-[var(--bg-page)]/85 border-[var(--border)] relative overflow-hidden shadow-glow-md">
               <!-- Decorative corner light -->
-              <div class="absolute -top-24 -right-24 w-48 h-48 bg-photon-500/10 rounded-full blur-[48px] pointer-events-none" />
+              <div class="absolute -top-24 -right-24 w-48 h-48 bg-[rgba(31,121,148,0.10)] rounded-full blur-[48px] pointer-events-none" />
 
               <div class="relative z-10">
                 <!-- Header -->
@@ -215,7 +215,7 @@
                       :class="[
                         'text-xs font-medium py-2 px-1 sm:px-2 rounded-lg transition-all duration-200 text-center',
                         form.department === dept.id 
-                          ? 'bg-photon-500 text-ink-1000 font-semibold shadow-glow-sm' 
+                          ? 'bg-[#093544] text-white font-semibold' 
                           : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-elevated)]'
                       ]"
                     >
@@ -310,7 +310,7 @@
                 <!-- Compliance / Secure note at the bottom of form -->
                 <div class="mt-5 pt-4 border-t border-[var(--border)] flex items-center gap-2 justify-center text-[10px] text-[var(--text-muted)]">
                   <!-- Lock Icon -->
-                  <svg class="w-3.5 h-3.5 text-photon-500/60" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <svg class="w-3.5 h-3.5 text-[#1F7994]/60" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                   </svg>
                   <span>{{ locale === 'fa' ? 'اطلاعات شما با پروتکل SSL رمزنگاری شده و محفوظ است.' : 'Your communication is secure and SSL-encrypted.' }}</span>

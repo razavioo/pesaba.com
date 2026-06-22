@@ -1,0 +1,133 @@
+{
+  "project": "Advenica Reference Design",
+  "version": "1.0.0",
+  "frameworks": {
+    "css": "TailwindCSS v4.0.12",
+    "cms": "Umbraco"
+  },
+  "typography": {
+    "font_family_sans": [
+      "FuturaBT",
+      "ui-sans-serif",
+      "system-ui",
+      "-apple-system",
+      "Segoe UI",
+      "Roboto",
+      "Helvetica Neue",
+      "Arial",
+      "sans-serif"
+    ],
+    "font_family_mono": [
+      "ui-monospace",
+      "SFMono-Regular",
+      "Menlo",
+      "Monaco",
+      "Consolas",
+      "monospace"
+    ],
+    "font_sizes": {
+      "xs": "1rem (line-height: 150%)",
+      "sm": "1.125rem (line-height: 160%)",
+      "base": "1.25rem (line-height: 160%)",
+      "lg": "1.375rem (line-height: 120%)",
+      "xl": "1.75rem (line-height: 130%)",
+      "4xl": "4rem (line-height: 120%)",
+      "6xl": "7.5rem (line-height: 108%)"
+    },
+    "font_weights": {
+      "normal": "400",
+      "medium": "500",
+      "bold": "700"
+    }
+  },
+  "colors": {
+    "brand_colors": {
+      "black": "#27282d",
+      "white": "#ffffff"
+    },
+    "blue_shades": {
+      "blue-5": "#fcfcfd",
+      "blue-10": "#eff4f6",
+      "blue-15": "#e6eef1",
+      "blue-50": "#aac5d0",
+      "blue-100": "#568ca3",
+      "light-blue-100": "#1f7994",
+      "medium-blue-100": "#467386",
+      "dark-blue-100": "#165368",
+      "darker-blue-100": "#093544",
+      "blue-500": "oklch(0.623 0.214 259.815)",
+      "blue-600": "oklch(0.546 0.245 262.881)"
+    },
+    "gray_shades": {
+      "gray-100": "oklch(0.967 0.003 264.542)",
+      "gray-200": "oklch(0.928 0.006 264.531)",
+      "gray-300": "oklch(0.872 0.01 258.338)",
+      "gray-400": "oklch(0.707 0.022 261.325)",
+      "gray-500": "oklch(0.551 0.027 264.364)",
+      "gray-600": "oklch(0.446 0.03 256.802)",
+      "gray-700": "oklch(0.373 0.034 259.733)",
+      "gray-800": "oklch(0.278 0.033 256.848)"
+    }
+  },
+  "assets": {
+    "logos": {
+      "blue": "https://advenica.com/media/3gdnredt/advenica_logo_blue_cmyk_print_250227.svg",
+      "white_tagline": "https://advenica.com/media/fwndntcf/advenica_logotype_with_tagline_white.svg",
+      "white_logo_only": "https://advenica.com/media/qbhlr5ra/logo-qhite.svg"
+    },
+    "fonts": {
+      "book": "https://advenica.com/fonts/FuturaBT/FuturaBT-Book.ttf",
+      "medium": "https://advenica.com/fonts/FuturaBT/FuturaBT-Medium.ttf"
+    },
+    "sector_images": {
+      "defence": {
+        "mono": "https://advenica.com/media/v20bpu3z/defence.jpg?format=webp",
+        "color": "https://advenica.com/media/jaznhpb4/defence-color.jpg?format=webp"
+      },
+      "authority": {
+        "mono": "https://advenica.com/media/5jxjviam/authority.jpg?format=webp",
+        "color": "https://advenica.com/media/54cpsey3/authority-color.jpg?format=webp"
+      },
+      "infrastructure": {
+        "mono": "https://advenica.com/media/qmim3cr4/infrastructure.jpg?format=webp",
+        "color": "https://advenica.com/media/lncfgqcy/infrastructure-color.jpg?format=webp"
+      },
+      "industry": {
+        "mono": "https://advenica.com/media/qrids3di/industry.jpg?format=webp",
+        "color": "https://advenica.com/media/amtcxwmm/industry-color.jpg?format=webp"
+      }
+    },
+    "product_images": {
+      "dd500e": "https://advenica.com/media/0tmjrxxj/dd500e_comp.png?format=webp",
+      "dd1000i": "https://advenica.com/media/zydjsy4i/dd1000i-1.png?format=webp",
+      "ddsfx_10g": "https://advenica.com/media/j3ile3up/ddsfx_1_11zon.png?format=webp",
+      "rad": "https://advenica.com/media/l2rhpcvz/rad_3_11zon.png?format=webp",
+      "file_scanner_kiosk": "https://advenica.com/media/jvnej4yg/untitled-design-1.png?format=webp",
+      "general_product": "https://advenica.com/media/ekdj2xvo/hero-image-product-page-7.png?width=506&height=506?format=webp"
+    }
+  },
+  "layout_rules": {
+    "header": {
+      "background": "#ffffff",
+      "height": "desktop fixed or fluid",
+      "logo_position": "left",
+      "menu_position": "right / center with dropdowns",
+      "nav_links": [
+        {"name": "Products & Solutions", "url": "/products-and-solutions/"},
+        {"name": "Sectors We Serve", "url": "/sectors-we-serve/"},
+        {"name": "Contact us", "url": "/about-us/contact/"}
+      ],
+      "actions": ["Language selector", "Search trigger", "Hamburger menu trigger"]
+    },
+    "footer": {
+      "background": "#093544 (darker-blue-100)",
+      "text_color": "#ffffff",
+      "logo": "logo-qhite.svg or white tagline",
+      "grid": "Multi-column layout: Newsletter signup + Link blocks + Social links + Partners logos (Soff, Cybernode)"
+    },
+    "sector_cards_interaction": {
+      "effect": "Grayscale to color transition",
+      "description": "On the homepage, the 4 sectors are displayed as large grid items with a gray/black-and-white background image. On hover, the image smoothly transitions to a color variant (e.g. defence.jpg -> defence-color.jpg)."
+    }
+  }
+}

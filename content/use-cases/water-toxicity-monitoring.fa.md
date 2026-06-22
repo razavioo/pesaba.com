@@ -3,7 +3,7 @@ title: 'پایش سمیت آب'
 title_en: 'Water Toxicity Monitoring'
 slug: 'water-toxicity-monitoring'
 description: 'پایش مداوم پارامترهای کیفیت آب با سنسورهای سخت‌افزاری و سامانه‌ی هشدار خودکار.'
-tagline: 'تشخیص بلادرنگ. صفر موارد عبور از غربال.'
+tagline: 'پایش بلادرنگ؛ بدون پاسخ منفی کاذب'
 locale: fa
 products:
   - 'orazan'

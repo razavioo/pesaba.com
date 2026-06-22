@@ -1,6 +1,6 @@
 <template>
   <article class="product-card group relative flex h-full flex-col overflow-hidden">
-    <div class="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-photon-500/40 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" aria-hidden="true" />
+    <div class="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#1F7994]/50 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" aria-hidden="true" />
 
     <NuxtLink :to="href" class="relative block aspect-[4/3] overflow-hidden border-b border-[var(--border)] bg-[var(--bg-elevated)]">
       <NuxtImg
@@ -18,7 +18,7 @@
 
     <div class="flex flex-1 flex-col gap-4 p-5">
       <div class="min-h-[6.5rem]">
-        <NuxtLink :to="href" class="mb-2 block text-lg font-semibold leading-snug text-[var(--text-primary)] transition-colors hover:text-photon-400">
+        <NuxtLink :to="href" class="mb-2 block text-lg font-semibold leading-snug text-[var(--text-primary)] transition-colors hover:text-[#1F7994]">
           {{ title }}
         </NuxtLink>
         <p class="line-clamp-3 text-sm leading-relaxed text-[var(--text-secondary)]">
@@ -34,7 +34,7 @@
         >
           {{ tag }}
         </span>
-        <span v-if="hasDatasheet" class="rounded-full border border-photon-500/25 bg-photon-500/8 px-2.5 py-1 text-[11px] font-medium text-photon-400">
+        <span v-if="hasDatasheet" class="rounded-full border border-[#1F7994]/25 bg-[rgba(31,121,148,0.08)] px-2.5 py-1 text-[11px] font-medium text-[#1F7994]">
           {{ $t('products.datasheet_available') }}
         </span>
       </div>
@@ -51,7 +51,7 @@
       <div class="mt-auto flex items-center gap-2 pt-2">
         <NuxtLink
           :to="href"
-          class="flex-1 rounded-xl border border-[var(--border-strong)] px-3 py-2.5 text-center text-sm font-medium text-[var(--text-secondary)] transition-colors hover:border-photon-500/30 hover:text-[var(--text-primary)]"
+          class="flex-1 border border-[var(--border-strong)] px-3 py-2.5 text-center text-sm font-medium text-[var(--text-secondary)] transition-colors hover:border-[#1F7994]/40 hover:text-[var(--text-primary)]"
         >
           {{ $t('common.learn_more') }}
         </NuxtLink>
@@ -69,7 +69,7 @@
             type="checkbox"
             :checked="compareSelected"
             @change="$emit('toggle-compare', slug)"
-            class="h-4 w-4 rounded border-[var(--border-strong)] bg-transparent text-photon-500 focus:ring-photon-500"
+            class="h-4 w-4 rounded border-[var(--border-strong)] bg-transparent text-[#1F7994] focus:ring-[#1F7994]"
           />
           {{ $t('products.compare') }}
         </label>

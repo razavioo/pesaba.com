@@ -59,7 +59,7 @@
             >
               <div class="mb-2 flex items-start justify-between gap-3">
                 <h3 class="text-lg font-semibold text-[var(--text-primary)]" dir="ltr">{{ term.title }}</h3>
-                <span class="text-[10px] font-mono uppercase tracking-[0.16em] text-photon-400">{{ letter }}</span>
+                <span class="text-[10px] font-mono uppercase tracking-[0.16em] text-[#1F7994]">{{ letter }}</span>
               </div>
               <p v-if="term.title_fa" class="mb-3 text-sm text-[var(--text-muted)]" dir="rtl">{{ term.title_fa }}</p>
               <p v-if="term.short_definition" class="text-sm leading-relaxed text-[var(--text-secondary)]">

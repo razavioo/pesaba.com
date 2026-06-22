@@ -176,7 +176,6 @@
 const { t, locale } = useI18n()
 const localePath = useLocalePath()
 const { isDark } = useDarkMode()
-const { salesPhoneHref } = useContactInfo()
 const NuxtLink = resolveComponent('NuxtLink')
 
 const headerRef = ref<HTMLElement | null>(null)

@@ -1,18 +1,23 @@
 <template>
   <div>
-    <section class="page-hero">
-      <div class="container-site section-hero">
+    <section class="page-hero relative">
+      <div class="container-site section-hero relative z-10">
         <div class="max-w-4xl">
           <div class="section-label mb-5">{{ locale === 'fa' ? 'سناریوهای استقرار' : 'Deployment Scenarios' }}</div>
-          <h1 class="mb-5 text-4xl font-extrabold leading-[1.04] text-[var(--text-primary)] md:text-5xl">
+          <h1 class="mb-5 text-4xl font-extrabold leading-[1.04] text-white md:text-5xl">
             {{ locale === 'fa' ? 'راهکارها بر اساس مسئله عملیاتی' : 'Solutions by operational problem' }}
           </h1>
-          <p class="max-w-3xl text-lg leading-relaxed text-[var(--text-secondary)]">
+          <p class="max-w-3xl text-lg leading-relaxed text-white/70">
             {{ locale === 'fa'
               ? 'سناریوی مناسب را انتخاب کنید تا معماری پیشنهادی، مزیت فنی و محصولات مرتبط پرتو ارتباط صبا را ببینید.'
               : 'Choose a scenario to review the recommended architecture, technical advantage, and matching Pesaba platforms.' }}
           </p>
         </div>
+      </div>
+      <div class="absolute bottom-0 inset-x-0 z-20 pointer-events-none">
+        <svg viewBox="0 0 1440 56" preserveAspectRatio="none" class="w-full h-12 block">
+          <path d="M0,56 L1440,0 L1440,56 Z" fill="var(--bg-page)" />
+        </svg>
       </div>
     </section>
 
@@ -34,7 +39,7 @@
           </div>
           <div class="p-5">
             <div class="label-meta mb-3">{{ locale === 'fa' ? 'کاربرد' : 'Use case' }}</div>
-            <h2 class="mb-2 text-xl font-semibold text-[var(--text-primary)] transition-colors group-hover:text-photon-400">
+            <h2 class="mb-2 text-xl font-semibold text-[var(--text-primary)] transition-colors group-hover:text-[#1F7994]">
               {{ item.title }}
             </h2>
             <p class="text-sm leading-relaxed text-[var(--text-secondary)]">

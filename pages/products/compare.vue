@@ -24,7 +24,7 @@
           :class="[
             'px-3 py-1.5 text-xs font-medium rounded-full border transition-all duration-150',
             isSelected(p)
-              ? 'bg-photon-500/15 border-photon-500/60 text-photon-400'
+              ? 'bg-[rgba(31,121,148,0.15)] border-[#1F7994]/60 text-[#1F7994]'
               : 'border-ink-700 text-ink-400 hover:border-ink-500 hover:text-ink-200',
           ]"
         >
@@ -33,7 +33,7 @@
       </div>
       <p class="text-xs text-ink-600">
         {{ $t('compare.selected', { n: selected.length }) }}
-        <button v-if="selected.length" @click="selected = []" class="ms-3 text-photon-500 hover:text-photon-400 transition-colors">
+        <button v-if="selected.length" @click="selected = []" class="ms-3 text-[#1F7994] hover:text-[#1F7994] transition-colors">
           {{ $t('compare.clear_all') }}
         </button>
       </p>
@@ -53,10 +53,10 @@
               class="py-4 px-4 text-center min-w-[180px]"
             >
               <NuxtLink :to="localePath(`/products/${p.category}/${p.slug}`)" class="group">
-                <div class="w-12 h-12 rounded-lg bg-ink-900 border border-ink-700 flex items-center justify-center mx-auto mb-2 group-hover:border-photon-500/40 transition-colors">
+                <div class="w-12 h-12 rounded-lg bg-ink-900 border border-ink-700 flex items-center justify-center mx-auto mb-2 group-hover:border-[#1F7994]/40 transition-colors">
                   <span class="text-xs font-mono text-ink-500">{{ (p.slug ?? '').toUpperCase().slice(0, 3) }}</span>
                 </div>
-                <p class="font-semibold text-ink-100 text-sm group-hover:text-photon-400 transition-colors">
+                <p class="font-semibold text-ink-100 text-sm group-hover:text-[#1F7994] transition-colors">
                   {{ locale === 'fa' && p.title_fa ? p.title_fa : p.title }}
                 </p>
                 <p class="text-xs text-ink-600 mt-0.5">{{ (p.category ?? '').replace(/-/g, ' ') }}</p>
@@ -93,7 +93,7 @@
               ]"
             >
               <span v-if="getSpec(p, label)" class="inline-flex items-center gap-1">
-                <span class="text-photon-500/40">▸</span>
+                <span class="text-[#1F7994]/40">▸</span>
                 {{ getSpec(p, label) }}
               </span>
               <span v-else>—</span>
@@ -131,7 +131,7 @@
             v-for="qs in quickStart"
             :key="qs.label"
             @click="loadQuickStart(qs.slugs)"
-            class="px-3.5 py-2 text-xs font-medium rounded-full border border-photon-500/30 bg-photon-500/5 text-photon-400 hover:bg-photon-500/15 hover:border-photon-500/60 transition-all"
+            class="px-3.5 py-2 text-xs font-medium rounded-full border border-[#1F7994]/30 bg-[rgba(31,121,148,0.05)] text-[#1F7994] hover:bg-[rgba(31,121,148,0.15)] hover:border-[#1F7994]/60 transition-all"
           >
             {{ qs.label }}
           </button>

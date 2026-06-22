@@ -14,7 +14,7 @@
     "industries": "Industries"
   },
   "home": {
-    "hero_headline": "Engineered for networks that can't fail.",
+    "hero_headline": "Securing critical networks, beyond software limits.",
     "hero_sub": "Pesaba designs and manufactures FPGA-native data diodes, network encryptors, telecom-transmission interfaces, and cellular-quality monitoring tools — deployed across critical infrastructure since 2008.",
     "cta_quote": "Request a Quote",
     "cta_products": "Explore Products",
@@ -28,7 +28,7 @@
     "from_the_lab": "From the Lab",
     "build_your_network": "Build your network in 4 questions",
     "products_sub": "Six product families for controlling and measuring critical networks.",
-    "cta_headline": "Build your network with Pesaba",
+    "cta_headline": "Lay a secure network foundation with Pesaba",
     "cta_sub": "Talk to our engineering team.",
     "cta_all_products": "Explore all products",
     "trust_osless_arch": "OS-Less Architecture",
@@ -101,7 +101,7 @@
   },
   "trust": {
     "title": "Trust Center",
-    "headline": "Technical transparency for professional buyers",
+    "headline": "Technical transparency for security decision-makers",
     "compliance_sub": "Compliance status of every Pesaba product against industry security standards and frameworks. ✓ certified · ◐ in progress · — not applicable.",
     "filter_by": "Filter by category",
     "product_col": "Product",
@@ -163,7 +163,7 @@
     "book_call": "Book a Call"
   },
   "footer": {
-    "tagline": "Engineered for networks that can't fail.",
+    "tagline": "Securing critical networks, beyond software limits.",
     "products": "Products",
     "solutions": "Solutions",
     "resources": "Resources",
@@ -222,7 +222,7 @@
     "sub": "Deployment patterns for power, telecom, water, government, defense, finance, and manufacturing networks.",
     "index_sub": "Pesaba network security solutions for every sector — data diodes, encryption, and monitoring.",
     "talk_specialist": "Talk to a specialist",
-    "cta_headline": "Secure your sector network",
+    "cta_headline": "Secure your critical industry networks",
     "cta_primary": "Talk to sales",
     "related_products": "Recommended Products",
     "faq_title": "Frequently Asked Questions",
@@ -295,7 +295,7 @@
     "usecase_desc_cellular": "Coverage and KPI analysis from field probes to centralized reporting."
   },
   "technology": {
-    "headline": "Purpose-built hardware logic, not general-purpose software",
+    "headline": "Security in hardware; independent of software layers",
     "sub": "Pesaba systems are designed around FPGA-native data paths, OS-less control surfaces, and a deliberately small attack surface.",
     "compare_headline": "Compare product families",
     "compare_desc": "Review architecture choices, link rates, and form factors side by side.",
