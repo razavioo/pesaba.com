@@ -11,11 +11,16 @@ test.describe('Navigation header', () => {
     await expect(logo).toBeVisible()
   })
 
-  test('logo text "Pesaba" is visible', async ({ page }) => {
-    await expect(page.locator('header').getByText('Pesaba').first()).toBeVisible()
+  test('logo text "Pesaba" is visible', async ({ page, isMobile }) => {
+    if (isMobile) {
+      await expect(page.locator('header').getByText('Pesaba').first()).toBeHidden()
+    } else {
+      await expect(page.locator('header').getByText('Pesaba').first()).toBeVisible()
+    }
   })
 
-  test('main nav items are visible on desktop', async ({ page }) => {
+  test('main nav items are visible on desktop', async ({ page, isMobile }) => {
+    test.skip(isMobile, 'Desktop navigation links are hidden on mobile viewports')
     // Products/Solutions have submenus so they render as <button>, not <a>
     // Home/Technology/Trust have no subItems so they render as <a> (NuxtLink)
     const nav = page.locator('header nav').first()
