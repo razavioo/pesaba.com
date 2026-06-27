@@ -20,20 +20,20 @@
         <button
           v-for="p in allProducts"
           :key="p.slug + p.category"
-          @click="toggleProduct(p)"
           :class="[
             'px-3 py-1.5 text-xs font-medium rounded-full border transition-all duration-150',
             isSelected(p)
               ? 'bg-[rgba(31,121,148,0.15)] border-[#1F7994]/60 text-[#1F7994]'
               : 'border-ink-700 text-ink-400 hover:border-ink-500 hover:text-ink-200',
           ]"
+          @click="toggleProduct(p)"
         >
           {{ locale === 'fa' && p.title_fa ? p.title_fa : p.title }}
         </button>
       </div>
       <p class="text-xs text-ink-600">
         {{ $t('compare.selected', { n: selected.length }) }}
-        <button v-if="selected.length" @click="selected = []" class="ms-3 text-[#1F7994] hover:text-[#1F7994] transition-colors">
+        <button v-if="selected.length" class="ms-3 text-[#1F7994] hover:text-[#1F7994] transition-colors" @click="selected = []">
           {{ $t('compare.clear_all') }}
         </button>
       </p>
@@ -61,7 +61,7 @@
                 </p>
                 <p class="text-xs text-ink-600 mt-0.5">{{ (p.category ?? '').replace(/-/g, ' ') }}</p>
               </NuxtLink>
-              <button @click="deselect(p)" class="mt-2 text-[10px] text-ink-600 hover:text-ink-400 transition-colors">
+              <button class="mt-2 text-[10px] text-ink-600 hover:text-ink-400 transition-colors" @click="deselect(p)">
                 {{ $t('compare.remove') }}
               </button>
             </th>
@@ -101,7 +101,7 @@
           </tr>
           <!-- CTA row -->
           <tr class="border-t border-ink-700">
-            <td class="py-6 pe-6 sticky start-0 bg-ink-950"></td>
+            <td class="py-6 pe-6 sticky start-0 bg-ink-950"/>
             <td v-for="p in selected" :key="p.slug" class="py-6 px-4 text-center">
               <BaseButton variant="primary" size="sm" :to="localePath(`/products/${p.category}/${p.slug}`)">
                 {{ $t('compare.view_product') }}
@@ -130,8 +130,8 @@
           <button
             v-for="qs in quickStart"
             :key="qs.label"
-            @click="loadQuickStart(qs.slugs)"
             class="px-3.5 py-2 text-xs font-medium rounded-full border border-[#1F7994]/30 bg-[rgba(31,121,148,0.05)] text-[#1F7994] hover:bg-[rgba(31,121,148,0.15)] hover:border-[#1F7994]/60 transition-all"
+            @click="loadQuickStart(qs.slugs)"
           >
             {{ qs.label }}
           </button>

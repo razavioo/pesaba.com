@@ -40,7 +40,7 @@
 
     <section class="section">
       <div class="container-site space-y-14">
-        <div v-for="cat in categories" :key="cat.key" :id="cat.key" class="scroll-mt-32">
+        <div v-for="cat in categories" :id="cat.key" :key="cat.key" class="scroll-mt-32">
           <div class="mb-6 flex items-end justify-between gap-6 border-b border-[var(--border)] pb-4">
             <div>
               <div class="label-meta mb-2">{{ cat.products.length }} {{ locale === 'fa' ? 'محصول' : 'products' }}</div>

@@ -5,7 +5,8 @@
       <div class="mb-8 relative w-20 h-20">
         <div class="absolute inset-0 rounded-md border border-photon-500/20 bg-ink-900 flex items-center justify-center">
           <svg class="w-8 h-8 text-photon-500/40" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+            <path
+stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
               d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2v-4M9 21H5a2 2 0 01-2-2v-4m0 0h18" />
           </svg>
         </div>
@@ -34,8 +35,8 @@
           Return Home
         </NuxtLink>
         <button
-          @click="clearError({ redirect: -1 })"
-          class="inline-flex items-center gap-2 px-5 py-2.5 border border-ink-700 text-ink-300 font-medium text-sm rounded-md hover:border-photon-500/40 hover:text-ink-100 transition-colors duration-200">
+          class="inline-flex items-center gap-2 px-5 py-2.5 border border-ink-700 text-ink-300 font-medium text-sm rounded-md hover:border-photon-500/40 hover:text-ink-100 transition-colors duration-200"
+          @click="clearError({ redirect: -1 })">
           Go Back
         </button>
       </div>

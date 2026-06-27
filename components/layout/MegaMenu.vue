@@ -18,8 +18,8 @@
               <li v-for="ind in industries" :key="ind.slug">
                 <NuxtLink
                   :to="localePath(`/industries/${ind.slug}`)"
-                  @click="$emit('close')"
                   class="group flex items-center gap-3 rounded-xl px-3 py-3 text-sm text-[var(--text-secondary)] transition-colors hover:bg-[var(--bg-elevated)] hover:text-[var(--text-primary)]"
+                  @click="$emit('close')"
                 >
                   <span class="w-5 h-5 flex-shrink-0 text-[#1F7994]/50 group-hover:text-[#1F7994] transition-colors">
                     <component :is="ind.icon" class="w-full h-full" />
@@ -37,8 +37,8 @@
               <li v-for="uc in useCases" :key="uc.slug">
                 <NuxtLink
                   :to="localePath(`/use-cases/${uc.slug}`)"
-                  @click="$emit('close')"
                   class="group flex items-center gap-3 rounded-xl px-3 py-3 text-sm text-[var(--text-secondary)] transition-colors hover:bg-[var(--bg-elevated)] hover:text-[var(--text-primary)]"
+                  @click="$emit('close')"
                 >
                   <span class="w-1.5 h-1.5 rounded-full bg-[#1F7994]/40 group-hover:bg-[#1F7994] flex-shrink-0 transition-colors" />
                   {{ $t(`use_cases.${uc.key}`) }}
@@ -53,8 +53,8 @@
           <div v-for="cat in productCategories" :key="cat.key">
             <NuxtLink
               :to="localePath(`/products/${cat.key}`)"
-              @click="$emit('close')"
               class="label-accent mb-4 block transition-colors hover:text-[#1F7994]"
+              @click="$emit('close')"
             >
               {{ $t(`products.categories.${cat.key}`) }}
             </NuxtLink>
@@ -62,8 +62,8 @@
               <li v-for="prod in cat.products" :key="prod.slug">
                 <NuxtLink
                   :to="localePath(`/products/${cat.key}/${prod.slug}`)"
-                  @click="$emit('close')"
                   class="group flex items-start gap-2 rounded-xl px-3 py-2.5 transition-colors hover:bg-[var(--bg-elevated)]"
+                  @click="$emit('close')"
                 >
                   <span class="w-1 h-1 rounded-full bg-[var(--text-muted)] group-hover:bg-[#1F7994] mt-2 flex-shrink-0 transition-colors" />
                   <div>
@@ -80,8 +80,8 @@
           <div v-for="res in resources" :key="res.key">
             <NuxtLink
               :to="localePath(res.href)"
-              @click="$emit('close')"
               class="group flex flex-col gap-1 rounded-2xl border border-[var(--border)] bg-[var(--bg-elevated)]/55 p-4 transition-colors hover:border-[#1F7994]/20 hover:bg-[var(--bg-elevated)]"
+              @click="$emit('close')"
             >
               <span class="text-sm font-medium text-[var(--text-primary)] transition-colors group-hover:text-[#1F7994]">{{ res.label }}</span>
               <span class="text-xs leading-relaxed text-[var(--text-muted)]">{{ res.desc }}</span>

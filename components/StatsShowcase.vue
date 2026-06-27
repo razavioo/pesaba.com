@@ -38,7 +38,7 @@
               :alt="locale === 'fa' ? 'سال‌های تجربه' : 'Years of Experience'"
               class="spec-image"
               loading="lazy"
-            />
+            >
           </div>
           <div class="spec-stat-zone">
             <div class="spec-sep"><span class="spec-tag">YR</span></div>
@@ -61,7 +61,7 @@
               :alt="locale === 'fa' ? 'محصولات فعال' : 'Active Products'"
               class="spec-image"
               loading="lazy"
-            />
+            >
           </div>
           <div class="spec-stat-zone">
             <div class="spec-sep"><span class="spec-tag">SKU</span></div>
@@ -83,7 +83,7 @@
               :alt="locale === 'fa' ? 'شاخه‌های محصول' : 'Product Categories'"
               class="spec-image"
               loading="lazy"
-            />
+            >
           </div>
           <div class="spec-stat-zone">
             <div class="spec-sep"><span class="spec-tag">CAT</span></div>
@@ -105,7 +105,7 @@
               :alt="locale === 'fa' ? 'گواهینامه‌ها' : 'Certifications'"
               class="spec-image"
               loading="lazy"
-            />
+            >
           </div>
           <div class="spec-stat-zone">
             <div class="spec-sep"><span class="spec-tag">CERT</span></div>

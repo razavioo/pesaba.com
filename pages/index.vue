@@ -27,7 +27,8 @@
               :to="localePath(`/products/${cat.key}`)"
               class="product-card card-halo group overflow-hidden flex flex-col h-full hover:-translate-y-1 transition-all duration-300"
             >
-              <div :class="[
+              <div
+:class="[
                 'relative border-b border-[var(--border)] bg-[var(--bg-elevated)] overflow-hidden',
                 i === 0 || i === 5 ? 'aspect-[21/9]' : 'aspect-[4/3]',
               ]">

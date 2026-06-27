@@ -21,13 +21,13 @@
         <button
           v-for="cat in categories"
           :key="cat.value"
-          @click="activeCategory = cat.value"
           :class="[
             'px-3 py-1.5 text-xs font-medium rounded-full border transition-all duration-150',
             activeCategory === cat.value
               ? 'bg-[rgba(31,121,148,0.15)] border-[#1F7994]/60 text-[#1F7994]'
               : 'border-ink-700 text-ink-400 hover:border-ink-500 hover:text-ink-200',
           ]"
+          @click="activeCategory = cat.value"
         >
           {{ cat.label }}
         </button>

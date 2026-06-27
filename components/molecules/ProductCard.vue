@@ -68,9 +68,9 @@
           <input
             type="checkbox"
             :checked="compareSelected"
-            @change="$emit('toggle-compare', slug)"
             class="h-4 w-4 rounded border-[var(--border-strong)] bg-transparent text-[#1F7994] focus:ring-[#1F7994]"
-          />
+            @change="$emit('toggle-compare', slug)"
+          >
           {{ $t('products.compare') }}
         </label>
       </div>

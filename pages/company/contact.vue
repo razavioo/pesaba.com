@@ -51,8 +51,8 @@
                 <div>
                   <div class="flex items-center gap-2 mb-1">
                     <span class="relative flex h-2 w-2">
-                      <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-signal-500 opacity-75"></span>
-                      <span class="relative inline-flex rounded-full h-2 w-2 bg-signal-500"></span>
+                      <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-signal-500 opacity-75"/>
+                      <span class="relative inline-flex rounded-full h-2 w-2 bg-signal-500"/>
                     </span>
                     <span class="label-status-active text-xs tracking-wider font-semibold">
                       {{ locale === 'fa' ? 'دفتر مرکزی' : 'Headquarters' }}
@@ -113,7 +113,7 @@
                       <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                     </svg>
                   </div>
-                  <button @click="copyEmail" class="text-xs text-[var(--text-muted)] hover:text-[#1F7994] p-1">
+                  <button class="text-xs text-[var(--text-muted)] hover:text-[#1F7994] p-1" @click="copyEmail">
                     <span v-if="copiedEmail" class="text-signal-500 font-medium">{{ locale === 'fa' ? 'کپی شد!' : 'Copied!' }}</span>
                     <span v-else>{{ locale === 'fa' ? 'کپی' : 'Copy' }}</span>
                   </button>
@@ -132,7 +132,7 @@
                       <path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.94.725l.548 2.2a1 1 0 01-.321.988l-1.305.98a10.582 10.582 0 004.872 4.872l.98-1.305a1 1 0 01.988-.321l2.2.548a1 1 0 01.725.94V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                     </svg>
                   </div>
-                  <button @click="copyPhone" class="text-xs text-[var(--text-muted)] hover:text-[#1F7994] p-1">
+                  <button class="text-xs text-[var(--text-muted)] hover:text-[#1F7994] p-1" @click="copyPhone">
                     <span v-if="copiedPhone" class="text-signal-500 font-medium">{{ locale === 'fa' ? 'کپی شد!' : 'Copied!' }}</span>
                     <span v-else>{{ locale === 'fa' ? 'کپی' : 'Copy' }}</span>
                   </button>
@@ -195,7 +195,7 @@
                     <p class="text-sm text-[var(--text-secondary)] max-w-sm mb-8 leading-relaxed">
                       {{ submitMessage }}
                     </p>
-                    <BaseButton @click="resetForm" variant="outline" size="md">
+                    <BaseButton variant="outline" size="md" @click="resetForm">
                       {{ locale === 'fa' ? 'ارسال پیام جدید' : 'Send Another Message' }}
                     </BaseButton>
                   </div>
@@ -211,13 +211,13 @@
                       v-for="dept in departments" 
                       :key="dept.id"
                       type="button"
-                      @click="form.department = dept.id"
                       :class="[
                         'text-xs font-medium py-2 px-1 sm:px-2 rounded-lg transition-all duration-200 text-center',
                         form.department === dept.id 
                           ? 'bg-[#093544] text-white font-semibold' 
                           : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-elevated)]'
                       ]"
+                      @click="form.department = dept.id"
                     >
                       {{ dept.label }}
                     </button>
@@ -233,8 +233,8 @@
 
                     <div class="grid gap-4 sm:grid-cols-2">
                       <BaseInput
-                        v-model="form.name"
                         id="contact-name"
+                        v-model="form.name"
                         name="name"
                         :label="$t('contact.name')"
                         required
@@ -242,8 +242,8 @@
                       />
                       
                       <BaseInput
-                        v-model="form.company"
                         id="contact-company"
+                        v-model="form.company"
                         name="company"
                         :label="$t('contact.company')"
                         :placeholder="$t('contact.company_placeholder')"
@@ -251,8 +251,8 @@
                     </div>
 
                      <BaseInput
-                       v-model="form.email"
                        id="contact-email"
+                       v-model="form.email"
                        name="email"
                        type="email"
                        :label="$t('contact.email')"
@@ -264,16 +264,16 @@
 
                     <BaseInput
                       v-if="form.product"
-                      v-model="form.product"
                       id="contact-product"
+                      v-model="form.product"
                       name="product"
                       :label="$t('contact.product')"
                       readonly
                     />
 
                     <BaseInput
-                      v-model="form.message"
                       id="contact-message"
+                      v-model="form.message"
                       name="message"
                       :multiline="true"
                       :rows="6"

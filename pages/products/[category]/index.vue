@@ -60,7 +60,8 @@
     <section class="section">
       <div class="container-site">
         <div v-if="products?.length" class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-          <ProductCard v-for="p in products" :key="p._path" :title="p.title" :slug="p.slug"
+          <ProductCard
+v-for="p in products" :key="p._path" :title="p.title" :slug="p.slug"
             :href="localePath(`/products/${category}/${p.slug}`)" :description="p.description"
             :category-label="$t(`products.categories.${category}`)" :specs="p.specs?.slice(0, 3)"
             :image="p.photos?.[0] || p.images?.[0]" :tags="productTags(p)" :has-datasheet="hasDatasheet(p)" />

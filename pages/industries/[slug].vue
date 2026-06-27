@@ -86,8 +86,8 @@
         <div class="max-w-3xl">
           <FAQItem
             v-for="(faq, i) in industry.faqs"
-            :key="i"
             :id="`faq-${i}`"
+            :key="i"
             :question="faq.q"
             :answer="faq.a"
           />

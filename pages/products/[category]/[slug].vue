@@ -51,13 +51,13 @@
                 v-for="(img, i) in gallery"
                 :key="img"
                 type="button"
-                @click="selectImage(i)"
                 :aria-label="locale === 'fa' ? `نمایش تصویر ${i + 1}` : `Show image ${i + 1}`"
                 :aria-current="activeImageIndex === i ? 'true' : undefined"
                 :class="[
                   'h-20 w-20 flex-shrink-0 overflow-hidden rounded-2xl border p-1 transition-colors',
                   activeImageIndex === i ? 'border-[var(--accent)] bg-[var(--accent-bg)]' : 'border-[var(--border)] bg-[var(--bg-elevated)]',
                 ]"
+                @click="selectImage(i)"
               >
                 <NuxtImg :src="thumbSrc(img)" :alt="`${product.title} ${i + 1}`" class="h-full w-full rounded-xl object-contain" loading="lazy" />
               </button>
@@ -69,7 +69,7 @@
               <div class="label-accent mb-4">{{ $t(`products.categories.${product.category}`) }}</div>
               <div class="mb-3 flex items-center gap-4">
                 <h1 class="text-4xl font-extrabold leading-[1.05] tracking-[-0.04em] text-[var(--text-primary)]">{{ product.title }}</h1>
-                <img v-if="product.logo" :src="$withBase(product.logo)" :alt="`${product.title} logo`" class="h-10 w-auto opacity-90" loading="lazy" />
+                <img v-if="product.logo" :src="$withBase(product.logo)" :alt="`${product.title} logo`" class="h-10 w-auto opacity-90" loading="lazy" >
               </div>
               <p class="mb-6 text-base leading-relaxed text-[var(--text-secondary)]">{{ product.card_summary || product.description }}</p>
 
@@ -114,7 +114,6 @@
           <button
             v-for="tab in tabs"
             :key="tab.key"
-            @click="activeTab = tab.key"
             :class="[
               'rounded-full border px-3 py-2 text-sm transition-colors',
               activeTab === tab.key
@@ -123,6 +122,7 @@
             ]"
             role="tab"
             :aria-selected="activeTab === tab.key"
+            @click="activeTab = tab.key"
           >
             {{ tab.label }}
           </button>
@@ -171,7 +171,7 @@
         </div>
 
         <div v-show="activeTab === 'faq'" class="max-w-3xl">
-          <FAQItem v-for="(faq, i) in genericFAQs" :key="i" :id="`faq-${i}`" :question="faq.q" :answer="faq.a" />
+          <FAQItem v-for="(faq, i) in genericFAQs" :id="`faq-${i}`" :key="i" :question="faq.q" :answer="faq.a" />
         </div>
       </div>
     </section>

@@ -4,11 +4,12 @@
       :id="`faq-btn-${id}`"
       :aria-expanded="open"
       :aria-controls="`faq-panel-${id}`"
-      @click="open = !open"
       class="w-full flex items-center justify-between py-5 text-start text-sm font-medium text-[var(--text-primary)] hover:text-[var(--text-primary)] transition-colors gap-4"
+      @click="open = !open"
     >
       <span>{{ question }}</span>
-      <svg :class="['w-4 h-4 text-[#1F7994] flex-shrink-0 transition-transform duration-200', open ? 'rotate-45' : '']"
+      <svg
+:class="['w-4 h-4 text-[#1F7994] flex-shrink-0 transition-transform duration-200', open ? 'rotate-45' : '']"
         viewBox="0 0 16 16" fill="none">
         <path d="M8 2v12M2 8h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
       </svg>

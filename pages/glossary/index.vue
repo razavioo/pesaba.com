@@ -22,12 +22,11 @@
             type="search"
             :placeholder="locale === 'fa' ? 'جستجوی واژه...' : 'Search glossary...'"
             class="w-full rounded-2xl border border-[var(--border-strong)] bg-[var(--bg-elevated)] px-4 py-3 text-sm text-[var(--text-primary)] outline-none transition-colors placeholder:text-[var(--text-muted)] focus:border-[var(--accent)]"
-          />
+          >
           <div class="flex flex-wrap gap-2" dir="ltr">
             <button
               v-for="letter in letters"
               :key="letter"
-              @click="scrollToLetter(letter)"
               :class="[
                 'h-9 w-9 rounded-xl border text-xs font-mono transition-colors',
                 activeLetters.has(letter)
@@ -35,6 +34,7 @@
                   : 'border-[var(--border)] text-[var(--text-muted)] opacity-35',
               ]"
               :disabled="!activeLetters.has(letter)"
+              @click="scrollToLetter(letter)"
             >
               {{ letter }}
             </button>
@@ -45,7 +45,7 @@
 
     <section class="section">
       <div class="container-site">
-        <div v-for="letter in activeLettersArray" :key="letter" :id="`letter-${letter}`" class="mb-10 scroll-mt-32">
+        <div v-for="letter in activeLettersArray" :id="`letter-${letter}`" :key="letter" class="mb-10 scroll-mt-32">
           <div class="mb-4 flex items-center gap-3 border-b border-[var(--border)] pb-2">
             <span class="text-sm font-mono uppercase tracking-[0.18em] text-[var(--accent)]">{{ letter }}</span>
             <span class="text-xs text-[var(--text-muted)]">{{ filteredByLetter[letter].length }}</span>

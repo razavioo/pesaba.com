@@ -37,7 +37,8 @@
       </div>
     </section>
 
-    <CTAStrip :headline="locale === 'fa' ? 'برای سناریوی شما چه چیزی مناسب است؟' : 'Need help mapping the right architecture?'"
+    <CTAStrip
+:headline="locale === 'fa' ? 'برای سناریوی شما چه چیزی مناسب است؟' : 'Need help mapping the right architecture?'"
       :sub="locale === 'fa' ? 'تیم فروش فنی پرتو ارتباط صبا می‌تواند سناریوی استقرار، حدود اعتماد و گزینه‌های محصول را با شما مرور کند.' : 'Pesaba sales engineering can map your deployment pattern, trust boundary, and product fit.'"
       :primary-label="$t('nav.talk_to_sales')" :primary-href="localePath('/company/contact')" />
   </div>

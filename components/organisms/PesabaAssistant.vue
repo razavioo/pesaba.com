@@ -3,7 +3,6 @@
     <!-- Floating trigger -->
     <button
       v-if="showAssistant"
-      @click="open = !open"
       :aria-expanded="open"
       :aria-label="$t('assistant.title')"
       :class="[
@@ -11,6 +10,7 @@
         'bg-ink-800 hover:bg-ink-700 border border-photon-500/30 hover:border-photon-500/50 text-photon-400 font-semibold text-sm shadow-md',
         open ? 'opacity-0 pointer-events-none scale-90' : 'opacity-100 scale-100',
       ]"
+      @click="open = !open"
     >
       <svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 16 16" fill="none">
         <path d="M2 3a1 1 0 011-1h10a1 1 0 011 1v7a1 1 0 01-1 1H9l-3 2.5V11H3a1 1 0 01-1-1V3z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
@@ -38,24 +38,24 @@
           <div class="flex-1 min-w-0">
             <p class="text-sm font-semibold text-ink-100 leading-none">{{ $t('assistant.title') }}</p>
             <p class="text-[10px] text-signal-500 mt-0.5 leading-none flex items-center gap-1">
-              <span class="inline-block w-1.5 h-1.5 rounded-full bg-signal-500"></span>
+              <span class="inline-block w-1.5 h-1.5 rounded-full bg-signal-500"/>
               {{ $t('assistant.online') }}
             </p>
           </div>
           <!-- Reset conversation button (only when messages exist) -->
           <button
             v-if="messages.length > 0"
-            @click="resetConversation"
             class="text-ink-500 hover:text-ink-300 transition-colors p-1 rounded"
             :aria-label="$t('assistant.reset')"
             :title="$t('assistant.reset')"
+            @click="resetConversation"
           >
             <svg class="w-4 h-4" viewBox="0 0 16 16" fill="none">
               <path d="M2 8a6 6 0 1 0 1.2-3.6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
               <path d="M2 4v4h4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
           </button>
-          <button @click="open = false" class="text-ink-500 hover:text-ink-300 transition-colors p-1 rounded" :aria-label="$t('common.close')">
+          <button class="text-ink-500 hover:text-ink-300 transition-colors p-1 rounded" :aria-label="$t('common.close')" @click="open = false">
             <svg class="w-4 h-4" viewBox="0 0 16 16" fill="none">
               <path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
             </svg>
@@ -116,8 +116,8 @@
                   v-for="p in msg.products"
                   :key="p.slug"
                   :to="localePath(`/products/${p.category}/${p.slug}`)"
-                  @click="open = false"
                   class="group flex items-start gap-3 p-3 rounded-xl bg-ink-800 border border-ink-700 hover:border-photon-500/40 hover:bg-ink-750 transition-all duration-150 block"
+                  @click="open = false"
                 >
                   <div class="w-9 h-9 rounded-lg bg-photon-500/8 border border-photon-500/20 flex items-center justify-center flex-shrink-0 group-hover:border-photon-500/40 transition-colors">
                     <span class="text-[10px] font-bold text-photon-500 font-mono leading-none">{{ p.slug.toUpperCase().slice(0, 3) }}</span>
@@ -155,9 +155,9 @@
                   class="rounded-xl bg-ink-800 border border-ink-700 overflow-hidden"
                 >
                   <button
-                    @click="faq._open = !faq._open"
                     class="w-full flex items-start gap-2.5 p-3 text-start hover:bg-ink-750 transition-colors"
                     :aria-expanded="faq._open"
+                    @click="faq._open = !faq._open"
                   >
                     <span class="flex-shrink-0 w-5 h-5 rounded-full bg-photon-500/10 border border-photon-500/25 flex items-center justify-center mt-0.5">
                       <svg :class="['w-2.5 h-2.5 text-photon-500 transition-transform duration-200', faq._open ? 'rotate-45' : '']" viewBox="0 0 10 10" fill="none">
@@ -196,8 +196,8 @@
             <button
               v-for="chip in quickChips"
               :key="chip.id"
-              @click="sendChip(chip)"
               class="text-[11px] text-ink-400 border border-ink-700 hover:border-photon-500/40 hover:text-photon-400 px-2.5 py-1.5 rounded-full transition-colors duration-150"
+              @click="sendChip(chip)"
             >
               {{ chip.label }}
             </button>
@@ -208,16 +208,16 @@
         <div class="border-t border-ink-700 px-3 py-2.5 flex items-center gap-2 flex-shrink-0 bg-ink-900">
           <input
             v-model="inputText"
-            @keydown.enter.prevent="sendMessage"
             type="text"
             :placeholder="$t('assistant.placeholder')"
             :disabled="typing"
             class="flex-1 bg-ink-800 border border-ink-700 rounded-lg px-3 py-2 text-sm text-ink-100 placeholder-ink-600 focus:outline-none focus:border-photon-500/60 transition-colors disabled:opacity-50"
-          />
+            @keydown.enter.prevent="sendMessage"
+          >
           <button
-            @click="sendMessage"
             :disabled="!inputText.trim() || typing"
             class="flex-shrink-0 w-8 h-8 rounded-lg bg-photon-500 hover:bg-photon-400 disabled:opacity-40 disabled:cursor-not-allowed transition-colors flex items-center justify-center"
+            @click="sendMessage"
           >
             <svg class="w-3.5 h-3.5 text-ink-950 rtl:rotate-180" viewBox="0 0 14 14" fill="none">
               <path d="M2 7h10M7 2l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
