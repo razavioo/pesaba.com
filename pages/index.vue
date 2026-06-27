@@ -5,6 +5,18 @@
     <!-- Advenica-signature: sector cards with grayscale-to-color hover -->
     <IndustrySectors />
 
+    <!-- Intro tagline + CTA — matches Advenica: text then single button after sector cards -->
+    <section class="section">
+      <div class="container-site max-w-2xl text-center">
+        <p class="text-base leading-relaxed text-[var(--text-secondary)] mb-6">
+          {{ $t('home.hero_sub') }}
+        </p>
+        <BaseButton variant="primary" size="lg" :to="localePath('/company/contact')">
+          {{ locale === 'fa' ? 'تماس با ما' : 'Contact us' }}
+        </BaseButton>
+      </div>
+    </section>
+
     <section class="section">
       <div class="container-site">
         <div class="mb-8">
