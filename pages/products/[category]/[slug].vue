@@ -16,7 +16,50 @@
 
     <section class="page-hero">
       <div class="container-site section-hero">
-        <div class="grid gap-10 xl:grid-cols-[minmax(0,1.15fr)_minmax(18rem,0.85fr)]">
+        <div class="grid gap-10 xl:grid-cols-[minmax(0,0.85fr)_minmax(18rem,1.15fr)]">
+          <!-- Text column (left — Advenica order) -->
+          <div class="xl:sticky xl:top-24 xl:self-start">
+            <div class="card-halo p-6">
+              <div class="label-accent mb-4">{{ $t(`products.categories.${product.category}`) }}</div>
+              <div class="mb-3 flex items-center gap-4">
+                <h1 class="text-4xl font-extrabold leading-[1.05] tracking-[-0.04em] text-[var(--text-primary)]">{{ product.title }}</h1>
+                <img v-if="product.logo" :src="$withBase(product.logo)" :alt="`${product.title} logo`" class="h-10 w-auto opacity-90" loading="lazy" />
+              </div>
+              <p class="mb-6 text-base leading-relaxed text-[var(--text-secondary)]">{{ product.card_summary || product.description }}</p>
+
+              <div v-if="primarySpecs.length" class="mb-6 flex flex-wrap gap-2">
+                <SpecPill v-for="spec in primarySpecs" :key="spec.label" :label="spec.label" :value="spec.value" />
+              </div>
+
+              <div class="mb-6 grid gap-3 sm:grid-cols-2">
+                <div class="rounded-[2px] border border-[var(--border)] bg-[var(--bg-page)] p-4">
+                  <div class="label-meta mb-1">{{ locale === 'fa' ? 'تناسب استقرار' : 'Deployment fit' }}</div>
+                  <div class="text-sm leading-relaxed text-[var(--text-secondary)]">{{ deploymentFit }}</div>
+                </div>
+                <div class="rounded-[2px] border border-[var(--border)] bg-[var(--bg-page)] p-4">
+                  <div class="label-meta mb-1">{{ locale === 'fa' ? 'مستندات' : 'Documentation' }}</div>
+                  <div class="text-sm leading-relaxed text-[var(--text-secondary)]">{{ documentationNote }}</div>
+                </div>
+              </div>
+
+              <div id="quote" class="flex flex-wrap gap-3">
+                <BaseButton variant="primary" size="lg" :href="salesPhoneHref">
+                  {{ $t('contact.call_sales') }}
+                </BaseButton>
+                <BaseButton variant="outline" size="lg" :to="quoteHref">
+                  {{ $t('products.request_quote') }}
+                </BaseButton>
+                <BaseButton v-if="primaryDatasheetHref" variant="outline" size="lg" :href="primaryDatasheetHref" target="_blank" rel="noopener">
+                  {{ $t('products.download_pdf') }}
+                </BaseButton>
+              </div>
+              <p class="mt-3 text-xs leading-relaxed text-[var(--text-muted)]">
+                {{ productDatasheets.length ? $t('products.direct_datasheet_note') : $t('products.call_for_datasheet') }}
+              </p>
+            </div>
+          </div>
+
+          <!-- Image column (right — Advenica order) -->
           <div class="space-y-4">
             <div class="rounded-[2px] border border-[var(--border)] bg-[var(--bg-elevated)] p-5 shadow-none">
               <div class="relative aspect-[16/10] overflow-hidden rounded-[2px] border border-[var(--border)] bg-[var(--bg-page)]">
@@ -61,47 +104,6 @@
               >
                 <NuxtImg :src="thumbSrc(img)" :alt="`${product.title} ${i + 1}`" class="h-full w-full rounded-[2px] object-contain" loading="lazy" />
               </button>
-            </div>
-          </div>
-
-          <div class="xl:sticky xl:top-24 xl:self-start">
-            <div class="card-halo p-6">
-              <div class="label-accent mb-4">{{ $t(`products.categories.${product.category}`) }}</div>
-              <div class="mb-3 flex items-center gap-4">
-                <h1 class="text-4xl font-extrabold leading-[1.05] tracking-[-0.04em] text-[var(--text-primary)]">{{ product.title }}</h1>
-                <img v-if="product.logo" :src="$withBase(product.logo)" :alt="`${product.title} logo`" class="h-10 w-auto opacity-90" loading="lazy" >
-              </div>
-              <p class="mb-6 text-base leading-relaxed text-[var(--text-secondary)]">{{ product.card_summary || product.description }}</p>
-
-              <div v-if="primarySpecs.length" class="mb-6 flex flex-wrap gap-2">
-                <SpecPill v-for="spec in primarySpecs" :key="spec.label" :label="spec.label" :value="spec.value" />
-              </div>
-
-              <div class="mb-6 grid gap-3 sm:grid-cols-2">
-                <div class="rounded-[2px] border border-[var(--border)] bg-[var(--bg-page)] p-4">
-                  <div class="label-meta mb-1">{{ locale === 'fa' ? 'تناسب استقرار' : 'Deployment fit' }}</div>
-                  <div class="text-sm leading-relaxed text-[var(--text-secondary)]">{{ deploymentFit }}</div>
-                </div>
-                <div class="rounded-[2px] border border-[var(--border)] bg-[var(--bg-page)] p-4">
-                  <div class="label-meta mb-1">{{ locale === 'fa' ? 'مستندات' : 'Documentation' }}</div>
-                  <div class="text-sm leading-relaxed text-[var(--text-secondary)]">{{ documentationNote }}</div>
-                </div>
-              </div>
-
-              <div id="quote" class="flex flex-wrap gap-3">
-                <BaseButton variant="primary" size="lg" :href="salesPhoneHref">
-                  {{ $t('contact.call_sales') }}
-                </BaseButton>
-                <BaseButton variant="outline" size="lg" :to="quoteHref">
-                  {{ $t('products.request_quote') }}
-                </BaseButton>
-                <BaseButton v-if="primaryDatasheetHref" variant="outline" size="lg" :href="primaryDatasheetHref" target="_blank" rel="noopener">
-                  {{ $t('products.download_pdf') }}
-                </BaseButton>
-              </div>
-              <p class="mt-3 text-xs leading-relaxed text-[var(--text-muted)]">
-                {{ productDatasheets.length ? $t('products.direct_datasheet_note') : $t('products.call_for_datasheet') }}
-              </p>
             </div>
           </div>
         </div>

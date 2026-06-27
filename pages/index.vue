@@ -45,6 +45,44 @@
       </div>
     </section>
 
+    <!-- About section — Advenica pattern: 2-col split, text left, image right -->
+    <section class="section">
+      <div class="container-site">
+        <div class="grid gap-10 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] lg:items-center">
+          <div>
+            <h2 class="text-2xl font-bold text-[var(--text-primary)] mb-5">
+              {{ locale === 'fa' ? 'درباره پرتو ارتباط صبا' : 'About Pesaba' }}
+            </h2>
+            <div class="space-y-4 text-sm leading-relaxed text-[var(--text-secondary)]">
+              <p>{{ locale === 'fa' ? 'پرتو ارتباط صبا (پصبا) یک شرکت دانش‌بنیان ایرانی است که از سال ۱۳۸۷ در زمینه طراحی و ساخت سخت‌افزارهای امنیت شبکه و تجهیزات مخابراتی فعالیت می‌کند. مأموریت ما ارائه راهکارهای مهندسی‌شده داخلی برای چالش‌های امنیت شبکه در محیط‌های صنعتی، دولتی و اپراتوری است.' : 'Partov Ertebat Saba (Pesaba) is an Iranian knowledge-based company founded in 2008, specialising in the design and manufacture of network security hardware. Our mission is to deliver domestically engineered solutions to the most demanding network security challenges in industrial, governmental, and operator environments.' }}</p>
+              <p>{{ locale === 'fa' ? 'تیم ما متشکل از فارغ‌التحصیلان دکتری و کارشناسی ارشد از دانشگاه‌های برتر ایران است که برای بومی‌سازی فناوری‌های امنیت شبکه فعالیت می‌کنند. با بیش از یک دهه تجربه در حوزه مخابرات و امنیت، پصبا مجموعه‌ای از محصولات شامل رمزکننده‌های سخت‌افزاری، دیتا دیودها، تجهیزات پایش شبکه و انتقال مخابراتی را ارائه می‌دهد.' : 'Our team of PhD and MSc graduates from Iran\'s leading universities works to localise critical network security technology. With over a decade of experience in communications and security, Pesaba delivers hardware encryption devices, data diodes, network monitoring equipment, and telecom transmission systems.' }}</p>
+            </div>
+            <NuxtLink :to="localePath('/company/about')" class="mt-6 inline-block text-sm font-medium text-[var(--accent)] hover:text-[var(--accent-hover)] transition-colors">
+              {{ locale === 'fa' ? 'اطلاعات بیشتر درباره شرکت' : 'Learn more about Pesaba' }} →
+            </NuxtLink>
+          </div>
+          <div class="relative aspect-[4/3] overflow-hidden border border-[var(--border)] bg-[var(--bg-elevated)]">
+            <NuxtImg src="/images/about/soc-operations.png" alt="Pesaba SOC Operations" class="h-full w-full object-cover" loading="lazy" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Product Spotlight — Advenica pattern: H2 + description + CTA -->
+    <section class="section bg-[var(--bg-elevated)]">
+      <div class="container-site max-w-2xl">
+        <h2 class="text-2xl font-bold text-[var(--text-primary)] mb-4">
+          {{ locale === 'fa' ? 'دیتا دیودهای سری G — مرز سخت‌افزاری یک‌طرفه' : 'Data Diode G-Series — Hardware One-Way Boundary' }}
+        </h2>
+        <p class="text-sm leading-relaxed text-[var(--text-secondary)] mb-6">
+          {{ locale === 'fa' ? 'دیتا دیودهای سری G پرتو ارتباط صبا جداسازی فیزیکی تضمین‌شده بین شبکه‌های حساس و شبکه‌های با سطح اطمینان پایین‌تر را فراهم می‌کنند. با معماری مبتنی بر FPGA و بدون سیستم‌عامل، انتقال یک‌طرفه داده بدون هیچ مسیر برگشت نرم‌افزاری تضمین می‌شود — مناسب برای محیط‌های OT، SCADA و زیرساخت‌های حیاتی.' : 'Pesaba G-Series data diodes provide guaranteed physical separation between sensitive networks and lower-trust environments. With FPGA-native architecture and no operating system, one-way data transfer is enforced in hardware with zero software back-channel — designed for OT, SCADA, and critical infrastructure environments.' }}
+        </p>
+        <BaseButton variant="primary" size="lg" :to="localePath('/products/data-diodes')">
+          {{ locale === 'fa' ? 'مشاهده دیتا دیودها' : 'Explore Data Diodes' }}
+        </BaseButton>
+      </div>
+    </section>
+
     <section class="section bg-[var(--bg-elevated)]">
       <div class="container-site">
         <div class="mb-10 grid gap-6 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:items-end">

@@ -41,6 +41,18 @@
       </div>
     </section>
 
+    <!-- In-page nav — Advenica pattern -->
+    <div class="anchor-nav">
+      <div class="container-site">
+        <div class="flex gap-2 overflow-x-auto py-3">
+          <a href="#products">{{ locale === 'fa' ? 'محصولات' : 'Products' }}</a>
+          <a href="#use-cases">{{ locale === 'fa' ? 'کاربردها' : 'Use Cases' }}</a>
+          <a href="#faq">{{ locale === 'fa' ? 'پرسش‌ها' : 'FAQ' }}</a>
+          <a href="#contact">{{ locale === 'fa' ? 'تماس' : 'Contact' }}</a>
+        </div>
+      </div>
+    </div>
+
     <!-- Prose: Challenge + Solution -->
     <section class="container-site py-16">
       <div class="max-w-3xl">
@@ -49,14 +61,12 @@
     </section>
 
     <!-- Recommended Products -->
-    <section v-if="industryProducts.length" class="border-t border-[var(--border)]">
+    <section id="products" v-if="industryProducts.length" class="border-t border-[var(--border)]">
       <div class="container-site py-16">
-        <div class="flex items-center gap-3 mb-10">
-          <div class="h-6 w-0.5 bg-[#1F7994] rounded-full" aria-hidden="true" />
-          <h2 class="text-xl font-bold text-[var(--text-primary)]">
+        <div class="mb-10">
+          <h2 class="text-2xl font-bold text-[var(--text-primary)]">
             {{ $t('industries.related_products') }}
           </h2>
-          <span class="font-mono text-xs text-[var(--text-muted)] tabular-nums">{{ industryProducts.length }}</span>
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
           <ProductCard
@@ -74,15 +84,49 @@
       </div>
     </section>
 
-    <!-- FAQ -->
-    <section v-if="industry.faqs?.length" class="border-t border-[var(--border)]">
+    <!-- Use Cases -->
+    <section id="use-cases" v-if="latestArticles.length" class="border-t border-[var(--border)]">
       <div class="container-site py-16">
-        <div class="flex items-center gap-3 mb-8">
-          <div class="h-6 w-0.5 bg-[#1F7994] rounded-full" aria-hidden="true" />
-          <h2 class="text-xl font-bold text-[var(--text-primary)]">
-            {{ $t('industries.faq_title') }}
-          </h2>
+        <h2 class="text-2xl font-bold text-[var(--text-primary)] mb-8">
+          {{ locale === 'fa' ? 'کاربردهای مرتبط' : 'Related Use Cases' }}
+        </h2>
+        <div class="grid gap-5 sm:grid-cols-2">
+          <NuxtLink
+            v-for="article in latestArticles"
+            :key="article._path"
+            :to="localePath(`/blog/${article.slug}`)"
+            class="card-halo group overflow-hidden"
+          >
+            <div class="relative aspect-[4/3] overflow-hidden bg-[var(--bg-elevated)]">
+              <NuxtImg
+                v-if="article.image"
+                :src="article.image"
+                :alt="article.title"
+                class="h-full w-full object-cover group-hover:scale-[1.03] transition-transform duration-500"
+                loading="lazy"
+              />
+              <div v-else class="flex h-full w-full items-center justify-center">
+                <IconPhoton class="h-12 w-12 text-[#AAC5D0]/40" />
+              </div>
+            </div>
+            <div class="p-5">
+              <h3 class="text-lg font-bold text-[var(--text-primary)] mb-2 group-hover:text-[var(--accent)] transition-colors">
+                {{ article.title }}
+              </h3>
+              <p class="text-sm leading-relaxed text-[var(--text-secondary)] line-clamp-2 mb-3">{{ article.description }}</p>
+              <span class="text-sm font-medium text-[var(--accent)]">{{ $t('blog.read_more') }}</span>
+            </div>
+          </NuxtLink>
         </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq" v-if="industry.faqs?.length" class="border-t border-[var(--border)]">
+      <div class="container-site py-16">
+        <h2 class="text-2xl font-bold text-[var(--text-primary)] mb-8">
+          {{ $t('industries.faq_title') }}
+        </h2>
         <div class="max-w-3xl">
           <FAQItem
             v-for="(faq, i) in industry.faqs"
@@ -115,6 +159,10 @@ const { data: industry } = await useAsyncData(`industry-${route.params.slug}-${l
 
 const { data: allProducts } = await useAsyncData(`products-${locale.value}`, () =>
   queryContent('products').where({ locale: locale.value }).find()
+)
+
+const { data: latestArticles } = await useAsyncData(`articles-${locale.value}-${route.params.slug}`, () =>
+  queryContent('articles').where({ locale: locale.value }).sort({ date: -1 }).limit(2).find()
 )
 
 const industryProducts = computed(() => {
