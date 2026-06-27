@@ -9,15 +9,7 @@
           :to="localePath(sector.to)"
           class="sector-card group"
           :aria-label="sector.title"
-          :style="{
-            '--hover-bg-from': sector.hoverBgFrom,
-            '--hover-bg-via': sector.hoverBgVia,
-            '--hover-bg-to': sector.hoverBgTo,
-            '--hover-border': sector.hoverBorder,
-            '--hover-tag': sector.hoverTag
-          }"
         >
-          <!-- Image with Advenica-style mix-blend-mode grayscale-to-color transition -->
           <div class="sector-card__image">
             <NuxtImg
               :src="sector.image"
@@ -32,19 +24,11 @@
           <!-- Dark gradient for text readability -->
           <div class="sector-card__overlay" />
 
-          <!-- Hover color reveal overlay -->
-          <div class="sector-card__hover-overlay" />
-
           <!-- Content -->
           <div class="sector-card__content">
             <div class="sector-card__tag">{{ sector.tag }}</div>
             <h3 class="sector-card__title">{{ sector.title }}</h3>
             <p class="sector-card__desc">{{ sector.desc }}</p>
-            <span class="sector-card__arrow" aria-hidden="true">
-              <svg class="h-5 w-5" viewBox="0 0 20 20" fill="none">
-                <path d="M4 10h12M10 4l6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </span>
           </div>
         </NuxtLink>
       </div>
@@ -63,11 +47,6 @@ const sectors = computed(() => locale.value === 'fa' ? [
     desc: 'حفاظت از سیستم‌های کنترل در صنعت برق با مرزبندی سخت‌افزاری',
     image: '/images/industries/power-grid.png',
     to: '/industries/power-grid',
-    hoverBgFrom: 'rgba(180, 83, 9, 0.9)',
-    hoverBgVia: 'rgba(180, 83, 9, 0.4)',
-    hoverBgTo: 'rgba(180, 83, 9, 0.05)',
-    hoverBorder: 'rgba(245, 158, 11, 0.6)',
-    hoverTag: '#F59E0B',
   },
   {
     tag: 'مخابرات',
@@ -75,11 +54,6 @@ const sectors = computed(() => locale.value === 'fa' ? [
     desc: 'رمزنگاری و یکپارچه‌سازی شبکه اپراتوری با راهکارهای سخت‌افزاری',
     image: '/images/industries/telecom-operators.png',
     to: '/industries/telecom-operators',
-    hoverBgFrom: 'rgba(14, 116, 144, 0.9)',
-    hoverBgVia: 'rgba(14, 116, 144, 0.4)',
-    hoverBgTo: 'rgba(14, 116, 144, 0.05)',
-    hoverBorder: 'rgba(6, 182, 212, 0.6)',
-    hoverTag: '#06B6D4',
   },
   {
     tag: 'دولتی',
@@ -87,11 +61,6 @@ const sectors = computed(() => locale.value === 'fa' ? [
     desc: 'تأمین امنیت شبکه‌های حساس دولتی با راهکارهای قابل ممیزی',
     image: '/images/industries/government.png',
     to: '/industries/government',
-    hoverBgFrom: 'rgba(153, 27, 27, 0.9)',
-    hoverBgVia: 'rgba(153, 27, 27, 0.4)',
-    hoverBgTo: 'rgba(153, 27, 27, 0.05)',
-    hoverBorder: 'rgba(239, 68, 68, 0.6)',
-    hoverTag: '#EF4444',
   },
   {
     tag: 'آب و محیط‌زیست',
@@ -99,11 +68,6 @@ const sectors = computed(() => locale.value === 'fa' ? [
     desc: 'پایش بلادرنگ کیفیت آب و تشخیص زودهنگام آلودگی',
     image: '/images/industries/water-utilities.png',
     to: '/use-cases/water-toxicity-monitoring',
-    hoverBgFrom: 'rgba(15, 118, 110, 0.9)',
-    hoverBgVia: 'rgba(15, 118, 110, 0.4)',
-    hoverBgTo: 'rgba(15, 118, 110, 0.05)',
-    hoverBorder: 'rgba(20, 184, 166, 0.6)',
-    hoverTag: '#14B8A6',
   },
 ] : [
   {
@@ -112,11 +76,6 @@ const sectors = computed(() => locale.value === 'fa' ? [
     desc: 'Protect control systems in the power sector with hardware-enforced network boundaries',
     image: '/images/industries/power-grid.png',
     to: '/industries/power-grid',
-    hoverBgFrom: 'rgba(180, 83, 9, 0.9)',
-    hoverBgVia: 'rgba(180, 83, 9, 0.4)',
-    hoverBgTo: 'rgba(180, 83, 9, 0.05)',
-    hoverBorder: 'rgba(245, 158, 11, 0.6)',
-    hoverTag: '#F59E0B',
   },
   {
     tag: 'Telecom',
@@ -124,11 +83,6 @@ const sectors = computed(() => locale.value === 'fa' ? [
     desc: 'Carrier-grade encryption and network integration for telecom operators',
     image: '/images/industries/telecom-operators.png',
     to: '/industries/telecom-operators',
-    hoverBgFrom: 'rgba(14, 116, 144, 0.9)',
-    hoverBgVia: 'rgba(14, 116, 144, 0.4)',
-    hoverBgTo: 'rgba(14, 116, 144, 0.05)',
-    hoverBorder: 'rgba(6, 182, 212, 0.6)',
-    hoverTag: '#06B6D4',
   },
   {
     tag: 'Government',
@@ -136,11 +90,6 @@ const sectors = computed(() => locale.value === 'fa' ? [
     desc: 'Secure sensitive government networks with auditable hardware solutions',
     image: '/images/industries/government.png',
     to: '/industries/government',
-    hoverBgFrom: 'rgba(153, 27, 27, 0.9)',
-    hoverBgVia: 'rgba(153, 27, 27, 0.4)',
-    hoverBgTo: 'rgba(153, 27, 27, 0.05)',
-    hoverBorder: 'rgba(239, 68, 68, 0.6)',
-    hoverTag: '#EF4444',
   },
   {
     tag: 'Water & Environment',
@@ -148,11 +97,6 @@ const sectors = computed(() => locale.value === 'fa' ? [
     desc: 'Real-time water quality monitoring with early anomaly detection and alerting',
     image: '/images/industries/water-utilities.png',
     to: '/use-cases/water-toxicity-monitoring',
-    hoverBgFrom: 'rgba(15, 118, 110, 0.9)',
-    hoverBgVia: 'rgba(15, 118, 110, 0.4)',
-    hoverBgTo: 'rgba(15, 118, 110, 0.05)',
-    hoverBorder: 'rgba(20, 184, 166, 0.6)',
-    hoverTag: '#14B8A6',
   },
 ])
 </script>
@@ -222,7 +166,7 @@ const sectors = computed(() => locale.value === 'fa' ? [
 }
 
 .sector-card:hover {
-  border-color: var(--hover-border);
+  border-color: var(--border);
 }
 
 /* Image container — dark teal background creates grayscale via blend mode */
@@ -267,24 +211,6 @@ const sectors = computed(() => locale.value === 'fa' ? [
   );
 }
 
-/* Hover: subtle color accent gradient from bottom */
-.sector-card__hover-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    to top,
-    var(--hover-bg-from) 0%,
-    var(--hover-bg-via) 50%,
-    var(--hover-bg-to) 100%
-  );
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.sector-card:hover .sector-card__hover-overlay {
-  opacity: 1;
-}
-
 /* Content anchored to bottom */
 .sector-card__content {
   position: absolute;
@@ -305,11 +231,6 @@ const sectors = computed(() => locale.value === 'fa' ? [
   text-transform: uppercase;
   color: rgba(170, 197, 208, 0.8);
   margin-bottom: 0.25rem;
-  transition: color 0.3s ease;
-}
-
-.sector-card:hover .sector-card__tag {
-  color: var(--hover-tag);
 }
 
 .sector-card__title {
@@ -332,35 +253,5 @@ const sectors = computed(() => locale.value === 'fa' ? [
   line-height: 1.55;
   color: rgba(255, 255, 255, 0.6);
   margin: 0;
-  max-height: 0;
-  overflow: hidden;
-  opacity: 0;
-  transition: max-height 0.4s ease, opacity 0.4s ease;
-}
-
-.sector-card:hover .sector-card__desc {
-  max-height: 5rem;
-  opacity: 1;
-}
-
-.sector-card__arrow {
-  display: inline-flex;
-  color: rgba(255, 255, 255, 0.5);
-  opacity: 0;
-  transition: opacity 0.2s ease, transform 0.2s ease;
-  margin-top: 0.25rem;
-}
-
-[dir="rtl"] .sector-card__arrow {
-  transform: scaleX(-1);
-}
-
-.sector-card:hover .sector-card__arrow {
-  opacity: 1;
-  color: var(--hover-tag);
-}
-
-[dir="rtl"] .sector-card:hover .sector-card__arrow {
-  transform: scaleX(-1);
 }
 </style>

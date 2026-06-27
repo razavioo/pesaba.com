@@ -1,8 +1,5 @@
 <template>
   <div class="relative min-h-screen bg-[var(--bg-page)] bg-graph-paper">
-    <!-- Neon Decorative Glow Blobs -->
-    <div class="absolute -top-12 -left-12 w-96 h-96 bg-[rgba(31,121,148,0.10)] rounded-full blur-[100px] pointer-events-none" />
-    <div class="absolute bottom-1/4 -right-16 w-80 h-80 bg-[rgba(31,121,148,0.05)] rounded-full blur-[80px] pointer-events-none" />
 
     <section class="section-hero">
       <div class="container-site">
@@ -28,9 +25,8 @@
             </div>
 
             <!-- Phone-first sales route -->
-            <div class="card-halo p-6 bg-gradient-to-br from-[rgba(31,121,148,0.14)] to-[var(--bg-elevated)] border-[#1F7994]/30 relative overflow-hidden shadow-glow-md">
-              <div class="absolute -top-16 -end-16 h-40 w-40 rounded-full bg-[rgba(31,121,148,0.15)] blur-3xl pointer-events-none" />
-              <div class="relative z-10 flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
+            <div class="card-halo p-6 border-[#1F7994]/30">
+              <div class="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
                 <div>
                   <div class="label-accent mb-2">{{ locale === 'fa' ? 'مسیر اصلی فروش' : 'Primary sales channel' }}</div>
                   <h2 class="text-2xl font-bold text-[var(--text-primary)]">{{ $t('contact.phone_first_title') }}</h2>
@@ -44,8 +40,7 @@
             </div>
 
             <!-- Pesaba Tehran HQ Node (Volumetric Circuit Card) -->
-            <div class="card-halo p-6 bg-gradient-to-br from-[var(--bg-elevated)] to-[var(--bg-page)] border-[var(--border)] relative overflow-hidden group shadow-glow-sm hover:shadow-glow-md">
-              <div class="absolute top-0 right-0 w-32 h-32 bg-[rgba(31,121,148,0.05)] rounded-full blur-2xl pointer-events-none transition-opacity group-hover:bg-[rgba(31,121,148,0.10)]" />
+            <div class="card-halo p-6 border-[var(--border)]">
               
               <div class="flex items-start justify-between mb-5">
                 <div>
@@ -61,26 +56,6 @@
                   <h3 class="text-xl font-bold text-[var(--text-primary)]">
                     {{ locale === 'fa' ? 'پرتو ارتباط صبا' : 'Pesaba Corporate' }}
                   </h3>
-                </div>
-              </div>
-
-              <!-- Stylized circuit map overlay -->
-              <div class="mb-5 rounded-xl border border-[var(--border-strong)] bg-[var(--bg-page)]/60 p-4 h-32 relative overflow-hidden flex items-center justify-center">
-                <!-- Circuit-like grids -->
-                <div class="absolute inset-0 opacity-10 bg-[linear-gradient(to_right,#808080_1px,transparent_1px),linear-gradient(to_bottom,#808080_1px,transparent_1px)] bg-[size:14px_24px]" />
-                
-                <!-- Circuit lines & glowing node -->
-                <svg class="absolute inset-0 w-full h-full text-[#1F7994]/20" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M 20 20 L 80 20 L 120 60 L 250 60" fill="none" stroke="currentColor" stroke-width="1.5" />
-                  <path d="M 120 60 L 160 100 L 300 100" fill="none" stroke="currentColor" stroke-width="1.5" stroke-dasharray="4 4" />
-                  <circle cx="120" cy="60" r="5" fill="#1F7994" class="animate-pulse" />
-                  <circle cx="120" cy="60" r="12" fill="none" stroke="#1F7994" stroke-width="1" class="animate-ping" style="animation-duration: 2.5s" />
-                </svg>
-
-                <div class="relative z-10 text-center flex flex-col items-center">
-                  <span class="text-sm font-semibold text-[var(--text-primary)] px-3 py-1 rounded-full bg-[var(--bg-elevated)] border border-[var(--border)]">
-                    {{ locale === 'fa' ? 'دفتر تهران — فعال' : 'Tehran Node - Online' }}
-                  </span>
                 </div>
               </div>
 
@@ -165,11 +140,9 @@
 
           <!-- Column 2: Interactive Smart Form (order-1 on mobile, order-2 on large screens) -->
           <div class="order-1 lg:order-2">
-            <div class="card-halo p-6 md:p-8 bg-gradient-to-b from-[var(--bg-elevated)] to-[var(--bg-page)]/85 border-[var(--border)] relative overflow-hidden shadow-glow-md">
-              <!-- Decorative corner light -->
-              <div class="absolute -top-24 -right-24 w-48 h-48 bg-[rgba(31,121,148,0.10)] rounded-full blur-[48px] pointer-events-none" />
+            <div class="card-halo p-6 md:p-8 border-[var(--border)]">
 
-              <div class="relative z-10">
+              <div>
                 <!-- Header -->
                 <div class="mb-6">
                   <h2 class="text-2xl font-bold text-[var(--text-primary)] mb-1">

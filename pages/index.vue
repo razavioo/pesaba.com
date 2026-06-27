@@ -23,53 +23,27 @@
           <div class="section-label mb-3">{{ locale === 'fa' ? 'خطوط محصول' : 'Product Lines' }}</div>
           <h2 class="section-heading text-[var(--text-primary)]">{{ $t('home.what_we_do') }}</h2>
         </div>
-        <div class="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-          <div
-            v-for="(cat, i) in productCategories"
+        <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <NuxtLink
+            v-for="cat in productCategories"
             :key="cat.key"
-            :class="[
-              'w-full transition-all duration-300',
-              i === 0 ? 'xl:col-span-2' : '',
-              i === 5 ? 'xl:col-span-2' : '',
-            ]"
+            :to="localePath(`/products/${cat.key}`)"
+            class="product-card card-halo group overflow-hidden"
           >
-            <NuxtLink
-              :to="localePath(`/products/${cat.key}`)"
-              class="product-card card-halo group overflow-hidden flex flex-col h-full hover:-translate-y-1 transition-all duration-300"
-            >
-              <div
-:class="[
-                'relative border-b border-[var(--border)] bg-[var(--bg-elevated)] overflow-hidden',
-                i === 0 || i === 5 ? 'aspect-[21/9]' : 'aspect-[4/3]',
-              ]">
-                <NuxtImg :src="cat.image" :alt="cat.title" class="h-full w-full object-contain p-8 transition-transform duration-500 group-hover:scale-[1.03]" loading="lazy" />
-                <!-- Advenica-style blinking dot indicator -->
-                <span class="product-dot absolute right-4 top-4 h-3.5 w-3.5 rounded-full bg-[#1F7994]" aria-hidden="true" />
-                <!-- Arrow on hover -->
-                <span class="absolute bottom-3 right-3 flex h-8 w-8 items-center justify-center rounded-full bg-[#093544] text-white opacity-0 transition-all duration-200 group-hover:opacity-100 group-hover:translate-x-0.5" aria-hidden="true">
-                  <svg class="h-4 w-4 rtl:rotate-180" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                </span>
+            <div class="relative aspect-[4/3] border-b border-[var(--border)] bg-[var(--bg-elevated)] overflow-hidden">
+              <NuxtImg :src="cat.image" :alt="cat.title" class="h-full w-full object-contain p-8" loading="lazy" />
+            </div>
+            <div class="p-5">
+              <h3 class="text-xl font-bold text-[var(--text-primary)] mb-2">{{ cat.title }}</h3>
+              <p class="text-sm leading-relaxed text-[var(--text-secondary)] mb-3">{{ cat.desc }}</p>
+              <div class="flex flex-wrap gap-2">
+                <SpecPill v-for="chip in cat.chips" :key="chip.label" :label="chip.label" :value="chip.value" />
               </div>
-              <div class="p-5 flex-grow">
-                <div class="mb-2 flex items-center justify-between gap-3">
-                  <h3 :class="['font-semibold text-[var(--text-primary)]', i === 0 || i === 5 ? 'text-2xl' : 'text-xl']">{{ cat.title }}</h3>
-                  <span class="label-meta shrink-0">{{ cat.stat }}</span>
-                </div>
-                <p class="mb-4 text-sm leading-relaxed text-[var(--text-secondary)]">{{ cat.desc }}</p>
-                <div class="flex flex-wrap gap-2">
-                  <SpecPill v-for="chip in cat.chips" :key="chip.label" :label="chip.label" :value="chip.value" />
-                </div>
-              </div>
-            </NuxtLink>
-          </div>
+            </div>
+          </NuxtLink>
         </div>
       </div>
     </section>
-
-    <!-- SVG wedge: white → blue-pale -->
-    <div class="w-full overflow-hidden leading-none" aria-hidden="true" style="background:var(--bg-page)">
-      <svg viewBox="0 0 1440 48" preserveAspectRatio="none" class="w-full h-10 block"><path d="M0,0 L1440,48 L0,48 Z" fill="var(--bg-elevated)"/></svg>
-    </div>
 
     <section class="section bg-[var(--bg-elevated)]">
       <div class="container-site">
@@ -114,11 +88,6 @@
       </div>
     </section>
 
-    <!-- SVG wedge: blue-pale → white -->
-    <div class="w-full overflow-hidden leading-none" aria-hidden="true" style="background:var(--bg-elevated)">
-      <svg viewBox="0 0 1440 48" preserveAspectRatio="none" class="w-full h-10 block"><path d="M0,48 L1440,0 L1440,48 Z" fill="var(--bg-page)"/></svg>
-    </div>
-
     <section class="section bg-[var(--bg-page)]">
       <div class="container-site">
         <div class="mb-10 grid gap-6 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:items-end">
@@ -130,32 +99,14 @@
             {{ locale === 'fa' ? 'محصولات پرتو ارتباط صبا باید برای خریداران فنی قابل توجیه باشند: منطق سخت‌افزاری شفاف، وابستگی نرم‌افزاری کمتر، و مستندات اعتمادسازی قوی‌تر.' : 'Pesaba products need to be defensible to technical buyers: clearer hardware logic, fewer software dependencies, and stronger trust evidence.' }}
           </p>
         </div>
-        <div class="grid gap-0 md:grid-cols-2 border border-[var(--border)] overflow-hidden">
-          <div
-            v-for="(pillar, i) in buildPillars"
-            :key="pillar.title"
-            :class="[
-              'flex items-start gap-4 p-6 border-[var(--border)]',
-              i % 2 === 0 ? 'border-e' : '',
-              i < buildPillars.length - 2 ? 'border-b' : '',
-            ]"
-          >
-            <div class="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center bg-[var(--accent)]/8 border border-[var(--accent)]/20">
-              <component :is="pillar.icon" class="h-4 w-4 text-[var(--accent)]" />
-            </div>
-            <div>
-              <h3 class="mb-1.5 text-base font-bold text-[var(--text-primary)]">{{ pillar.title }}</h3>
-              <p class="text-sm leading-relaxed text-[var(--text-secondary)]">{{ pillar.desc }}</p>
-            </div>
+        <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+          <div v-for="pillar in buildPillars" :key="pillar.title" class="space-y-2">
+            <h3 class="text-lg font-bold text-[var(--text-primary)]">{{ pillar.title }}</h3>
+            <p class="text-sm leading-relaxed text-[var(--text-secondary)]">{{ pillar.desc }}</p>
           </div>
         </div>
       </div>
     </section>
-
-    <!-- SVG wedge: white → blue-pale for news section -->
-    <div class="w-full overflow-hidden leading-none" aria-hidden="true" style="background:var(--bg-page)">
-      <svg viewBox="0 0 1440 48" preserveAspectRatio="none" class="w-full h-10 block"><path d="M0,0 L1440,48 L0,48 Z" fill="var(--bg-elevated)"/></svg>
-    </div>
 
     <section class="section bg-[var(--bg-elevated)]">
       <div class="container-site">
@@ -168,43 +119,9 @@
             {{ $t('common.view_all') }}
           </NuxtLink>
         </div>
-        <div class="grid gap-5 xl:grid-cols-[1.4fr_1fr_1fr]">
-          <!-- Featured article: editorial overlay style -->
-          <NuxtLink
-            v-if="featuredArticles?.[0]"
-            :to="localePath(`/blog/${featuredArticles[0].slug}`)"
-            class="group relative overflow-hidden border border-[var(--border)] bg-[var(--bg-elevated)] h-full flex flex-col"
-          >
-            <div class="relative h-full min-h-[24rem]">
-              <NuxtImg
-                v-if="featuredArticles[0].image"
-                :src="featuredArticles[0].image"
-                :alt="featuredArticles[0].title"
-                class="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
-                loading="eager"
-              />
-              <div v-else class="absolute inset-0 bg-[linear-gradient(180deg,rgba(14,165,233,0.08),transparent)]" />
-              <!-- Gradient overlay -->
-              <div class="absolute inset-0 bg-gradient-to-t from-[rgba(4,10,20,0.92)] via-[rgba(4,10,20,0.45)] to-transparent" />
-              <!-- Content pinned to bottom -->
-              <div class="absolute inset-x-0 bottom-0 p-6">
-                <div class="mb-3 flex items-center gap-2 text-xs">
-                  <span class="text-[10px] font-semibold uppercase tracking-[0.14em] text-[#AAC5D0]">{{ $t('blog.badge') }}</span>
-                  <span class="h-px w-4 bg-white/20" />
-                  <span class="text-white/50">{{ formatDate(featuredArticles[0].date) }}</span>
-                </div>
-                <h3 class="mb-2 text-xl font-bold leading-snug text-white transition-colors group-hover:text-[#AAC5D0] md:text-2xl">
-                  {{ featuredArticles[0].title }}
-                </h3>
-                <p class="line-clamp-2 text-sm leading-relaxed text-white/60">{{ featuredArticles[0].description }}</p>
-                <div class="mt-4 text-sm font-semibold text-[#AAC5D0] transition-colors group-hover:text-white">
-                  {{ $t('blog.read_more') }} →
-                </div>
-              </div>
-            </div>
-          </NuxtLink>
+        <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           <ArticleCard
-            v-for="article in featuredArticles?.slice(1, 3)"
+            v-for="article in featuredArticles?.slice(0, 3)"
             :key="article._path"
             :title="article.title"
             :slug="article.slug"
@@ -212,17 +129,10 @@
             :description="article.description"
             :date="article.date"
             :image="article.image"
-            :word-count="article.body?.children?.length ? article.body.children.length * 90 : undefined"
-            :category="$t('blog.badge')"
           />
         </div>
       </div>
     </section>
-
-    <!-- SVG wedge: blue-pale → page for CTAStrip -->
-    <div class="w-full overflow-hidden leading-none" aria-hidden="true" style="background:var(--bg-elevated)">
-      <svg viewBox="0 0 1440 48" preserveAspectRatio="none" class="w-full h-10 block"><path d="M1440,0 L0,48 L1440,48 Z" fill="var(--bg-page)"/></svg>
-    </div>
 
     <CTAStrip
       :headline="$t('home.cta_headline')"

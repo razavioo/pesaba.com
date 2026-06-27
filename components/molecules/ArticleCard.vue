@@ -8,25 +8,22 @@
         class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
         loading="eager"
       />
-      <div v-else class="flex h-full w-full items-center justify-center bg-[linear-gradient(180deg,rgba(14,165,233,0.05),transparent)]">
+      <div v-else class="flex h-full w-full items-center justify-center">
         <IconPhoton class="h-12 w-12 text-[#AAC5D0]/40" />
       </div>
-      <div class="absolute inset-x-0 bottom-0 h-10 bg-gradient-to-t from-[var(--bg-elevated)] to-transparent" />
-      <div class="absolute start-4 top-4">
-        <span class="rounded-full bg-[var(--bg-elevated)] bg-opacity-80 px-2.5 py-1 text-[10px] font-mono uppercase tracking-[0.16em] text-[var(--text-muted)]">
+      <div v-if="category" class="absolute start-4 top-4">
+        <span class="bg-[var(--bg-elevated)] px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.14em] text-[var(--text-muted)]">
           {{ category }}
         </span>
       </div>
     </NuxtLink>
 
     <div class="flex flex-1 flex-col p-5">
-      <div class="mb-3 flex items-center gap-2 text-xs text-[var(--text-muted)]">
+      <div class="mb-3 text-xs text-[var(--text-muted)]">
         <span>{{ formatDate(date) }}</span>
-        <span class="h-1 w-1 rounded-full bg-[var(--border-strong)]" />
-        <span>{{ readingTime }} {{ $t('blog.min_read') }}</span>
       </div>
 
-      <h3 class="mb-3 text-xl font-semibold leading-snug text-[var(--text-primary)] transition-colors group-hover:text-[var(--accent)]">
+      <h3 class="mb-3 text-xl font-bold leading-snug text-[var(--text-primary)] transition-colors group-hover:text-[var(--accent)]">
         <NuxtLink :to="href">{{ title }}</NuxtLink>
       </h3>
 
@@ -44,7 +41,7 @@
 <script setup lang="ts">
 const { locale } = useI18n()
 
-const props = defineProps<{
+defineProps<{
   title: string
   slug: string
   href: string
@@ -52,10 +49,7 @@ const props = defineProps<{
   category?: string
   image?: string
   date?: string
-  wordCount?: number
 }>()
-
-const readingTime = computed(() => Math.max(1, Math.ceil((props.wordCount || 500) / 200)))
 
 function formatDate(dateStr?: string) {
   if (!dateStr) return ''

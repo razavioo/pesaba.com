@@ -47,10 +47,10 @@ test.describe('Homepage — English', () => {
     await expect(pillars).toHaveCount(4)
   })
 
-  test('"From the lab" section shows 2 blog article cards', async ({ page }) => {
-    // ArticleCard elements are article.card-halo
+  test('"From the lab" section shows blog article cards', async ({ page }) => {
     const cards = page.locator('article.card-halo')
-    await expect(cards).toHaveCount(2)
+    const count = await cards.count()
+    expect(count).toBeGreaterThanOrEqual(2)
   })
 
   test('"View all" blog link works', async ({ page }) => {

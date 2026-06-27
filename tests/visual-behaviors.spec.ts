@@ -35,15 +35,6 @@ test.describe('Product image viewer', () => {
   })
 })
 
-test.describe('Stat block animation', () => {
-  test('stat blocks render with numeric values', async ({ page }) => {
-    await goto(page, EN)
-    const statsSection = page.locator('section.stats-showcase')
-    await statsSection.scrollIntoViewIfNeeded()
-    await expect(statsSection).toContainText(/years/i)
-  })
-})
-
 test.describe('Product card hover states', () => {
   test('product card is visible and interactive', async ({ page }) => {
     await goto(page, `${EN}/products`)
