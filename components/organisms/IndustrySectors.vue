@@ -210,13 +210,11 @@ const sectors = computed(() => locale.value === 'fa' ? [
   aspect-ratio: 3/4;
   cursor: pointer;
   text-decoration: none;
-  border-radius: 12px;
+  border-radius: var(--r-md, 0px);
   border: 1px solid var(--border);
   background: var(--bg-elevated);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
-              border-color 0.4s ease,
-              box-shadow 0.4s ease;
+  box-shadow: none;
+  transition: border-color 0.4s ease;
 }
 
 @media (min-width: 1024px) {
@@ -226,10 +224,7 @@ const sectors = computed(() => locale.value === 'fa' ? [
 }
 
 .sector-card:hover {
-  transform: translateY(-6px);
   border-color: var(--hover-border);
-  box-shadow: 0 12px 30px -10px var(--hover-bg-from),
-              0 0 0 1px var(--hover-border);
 }
 
 /* Image container */

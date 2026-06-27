@@ -18,8 +18,8 @@
       <div class="container-site section-hero">
         <div class="grid gap-10 xl:grid-cols-[minmax(0,1.15fr)_minmax(18rem,0.85fr)]">
           <div class="space-y-4">
-            <div class="rounded-[28px] border border-[var(--border)] bg-[linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0)),var(--bg-elevated)] p-5 shadow-[0_24px_70px_rgba(4,10,20,0.5)]">
-              <div class="relative aspect-[16/10] overflow-hidden rounded-[22px] border border-[var(--border)] bg-[var(--bg-page)]">
+            <div class="rounded-[2px] border border-[var(--border)] bg-[var(--bg-elevated)] p-5 shadow-none">
+              <div class="relative aspect-[16/10] overflow-hidden rounded-[2px] border border-[var(--border)] bg-[var(--bg-page)]">
                 <NuxtImg :src="activeGalleryImage || '/placeholder-product.svg'" :alt="product.title" class="h-full w-full object-contain p-8" loading="eager" fetchpriority="high" />
                 <div v-if="gallery.length > 1" class="pointer-events-none absolute inset-x-3 top-1/2 flex -translate-y-1/2 justify-between">
                   <button
@@ -51,15 +51,15 @@
                 v-for="(img, i) in gallery"
                 :key="img"
                 type="button"
+                @click="selectImage(i)"
                 :aria-label="locale === 'fa' ? `نمایش تصویر ${i + 1}` : `Show image ${i + 1}`"
                 :aria-current="activeImageIndex === i ? 'true' : undefined"
                 :class="[
-                  'h-20 w-20 flex-shrink-0 overflow-hidden rounded-2xl border p-1 transition-colors',
+                  'h-20 w-20 flex-shrink-0 overflow-hidden rounded-[2px] border p-1 transition-colors',
                   activeImageIndex === i ? 'border-[var(--accent)] bg-[var(--accent-bg)]' : 'border-[var(--border)] bg-[var(--bg-elevated)]',
                 ]"
-                @click="selectImage(i)"
               >
-                <NuxtImg :src="thumbSrc(img)" :alt="`${product.title} ${i + 1}`" class="h-full w-full rounded-xl object-contain" loading="lazy" />
+                <NuxtImg :src="thumbSrc(img)" :alt="`${product.title} ${i + 1}`" class="h-full w-full rounded-[2px] object-contain" loading="lazy" />
               </button>
             </div>
           </div>
@@ -78,11 +78,11 @@
               </div>
 
               <div class="mb-6 grid gap-3 sm:grid-cols-2">
-                <div class="rounded-2xl border border-[var(--border)] bg-[var(--bg-page)] p-4">
+                <div class="rounded-[2px] border border-[var(--border)] bg-[var(--bg-page)] p-4">
                   <div class="label-meta mb-1">{{ locale === 'fa' ? 'تناسب استقرار' : 'Deployment fit' }}</div>
                   <div class="text-sm leading-relaxed text-[var(--text-secondary)]">{{ deploymentFit }}</div>
                 </div>
-                <div class="rounded-2xl border border-[var(--border)] bg-[var(--bg-page)] p-4">
+                <div class="rounded-[2px] border border-[var(--border)] bg-[var(--bg-page)] p-4">
                   <div class="label-meta mb-1">{{ locale === 'fa' ? 'مستندات' : 'Documentation' }}</div>
                   <div class="text-sm leading-relaxed text-[var(--text-secondary)]">{{ documentationNote }}</div>
                 </div>
@@ -153,7 +153,7 @@
           </div>
         </div>
 
-        <div v-show="activeTab === 'specs'" class="overflow-x-auto rounded-[24px] border border-[var(--border)]">
+        <div v-show="activeTab === 'specs'" class="overflow-x-auto rounded-[2px] border border-[var(--border)]">
           <table class="w-full text-start text-sm">
             <thead class="bg-[var(--bg-elevated)]">
               <tr>

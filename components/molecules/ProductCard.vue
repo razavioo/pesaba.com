@@ -30,11 +30,11 @@
         <span
           v-for="tag in tags.slice(0, 4)"
           :key="tag"
-          class="rounded-full border border-[var(--border)] bg-[var(--bg-elevated)] px-2.5 py-1 text-[11px] font-medium text-[var(--text-secondary)]"
+          class="rounded-[2px] border border-[var(--border)] bg-[var(--bg-elevated)] px-2.5 py-1 text-[11px] font-medium text-[var(--text-secondary)]"
         >
           {{ tag }}
         </span>
-        <span v-if="hasDatasheet" class="rounded-full border border-[#1F7994]/25 bg-[rgba(31,121,148,0.08)] px-2.5 py-1 text-[11px] font-medium text-[#1F7994]">
+        <span v-if="hasDatasheet" class="rounded-[2px] border border-[#1F7994]/25 bg-[rgba(31,121,148,0.08)] px-2.5 py-1 text-[11px] font-medium text-[#1F7994]">
           {{ $t('products.datasheet_available') }}
         </span>
       </div>
@@ -51,13 +51,13 @@
       <div class="mt-auto flex items-center gap-2 pt-2">
         <NuxtLink
           :to="href"
-          class="flex-1 border border-[var(--border-strong)] px-3 py-2.5 text-center text-sm font-medium text-[var(--text-secondary)] transition-colors hover:border-[#1F7994]/40 hover:text-[var(--text-primary)]"
+          class="flex-1 border border-[var(--border-strong)] px-3 py-2.5 text-center text-sm font-medium text-[var(--text-secondary)] transition-colors hover:border-[#1F7994]/40 hover:text-[var(--text-primary)] rounded-[2px]"
         >
           {{ $t('common.learn_more') }}
         </NuxtLink>
         <a
           :href="salesPhoneHref"
-          class="card-cta-primary flex-1 rounded-xl px-3 py-2.5 text-center text-sm font-semibold text-ink-950"
+          class="card-cta-primary flex-1 rounded-[2px] px-3 py-2.5 text-center text-sm font-semibold text-ink-950"
         >
           {{ $t('contact.call_sales') }}
         </a>

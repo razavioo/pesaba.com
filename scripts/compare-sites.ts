@@ -12,52 +12,52 @@ const PAGES_MAP = [
   {
     name: 'homepage',
     advenica: 'https://advenica.com/',
-    pesaba: 'http://localhost:3000/en'
+    pesaba: 'http://localhost:3000/pesaba.com/en'
   },
   {
     name: 'products',
     advenica: 'https://advenica.com/products-and-solutions/',
-    pesaba: 'http://localhost:3000/en/products'
+    pesaba: 'http://localhost:3000/pesaba.com/en/products'
   },
   {
     name: 'data-diodes',
     advenica: 'https://advenica.com/products-and-solutions/data-diodes/',
-    pesaba: 'http://localhost:3000/en/products/data-diodes'
+    pesaba: 'http://localhost:3000/pesaba.com/en/products/data-diodes'
   },
   {
     name: 'encryption-systems',
     advenica: 'https://advenica.com/products-and-solutions/encryption-systems/',
-    pesaba: 'http://localhost:3000/en/products/network-encryption'
+    pesaba: 'http://localhost:3000/pesaba.com/en/products/network-encryption'
   },
   {
     name: 'sectors-we-serve',
     advenica: 'https://advenica.com/sectors-we-serve/',
-    pesaba: 'http://localhost:3000/en/industries'
+    pesaba: 'http://localhost:3000/pesaba.com/en/industries'
   },
   {
     name: 'contact',
     advenica: 'https://advenica.com/about-us/contact/',
-    pesaba: 'http://localhost:3000/en/company/contact'
+    pesaba: 'http://localhost:3000/pesaba.com/en/company/contact'
   },
   {
     name: 'about',
     advenica: 'https://advenica.com/about-us/',
-    pesaba: 'http://localhost:3000/en/company/about'
+    pesaba: 'http://localhost:3000/pesaba.com/en/company/about'
   },
   {
     name: 'news-and-press',
     advenica: 'https://advenica.com/about-us/news-and-press/',
-    pesaba: 'http://localhost:3000/en/company/press'
+    pesaba: 'http://localhost:3000/pesaba.com/en/company/press'
   },
   {
     name: 'careers',
     advenica: 'https://advenica.com/about-us/career/',
-    pesaba: 'http://localhost:3000/en/company/careers'
+    pesaba: 'http://localhost:3000/pesaba.com/en/company/careers'
   },
   {
     name: 'blog',
     advenica: 'https://advenica.com/learning-centre/articles/',
-    pesaba: 'http://localhost:3000/en/blog'
+    pesaba: 'http://localhost:3000/pesaba.com/en/blog'
   }
 ]
 
