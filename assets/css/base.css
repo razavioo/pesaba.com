@@ -16,28 +16,39 @@
   body {
     background-color: var(--bg-page);
     color: var(--text-primary);
-    font-family: 'Jost', 'Inter', system-ui, sans-serif;
-    font-size: 16px;
-    line-height: 1.75;
+    font-family: 'FuturaBT', 'Jost', 'Inter', system-ui, sans-serif;
+    font-size: 1.25rem;       /* Advenica: 20px base */
+    line-height: 1.6;         /* Advenica: 160% */
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
     overflow-x: hidden;
   }
 
-  /* Headings */
+  /* Headings — Advenica: font-weight medium (500) default, bold (700) for emphasis */
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Jost', 'Inter', system-ui, sans-serif;
-    font-weight: 800 !important;
-    line-height: 1.1 !important;
-    letter-spacing: -0.03em !important;
+    font-family: 'FuturaBT', 'Jost', 'Inter', system-ui, sans-serif;
+    font-weight: 500;
+    line-height: 1.3;
+    letter-spacing: 0;
     color: var(--text-primary);
   }
 
-  /* Stark Swiss absolute right-angles and flat blocks reset */
-  *, *::before, *::after {
-    border-radius: 0px !important;
+  h1 { font-weight: 700; line-height: 1.08; letter-spacing: -0.02em; }
+  h2 { font-weight: 700; line-height: 1.15; }
+
+  /* Sharp corners and flat surfaces — only for structural blocks, not inline elements */
+  *,
+  *::before,
+  *::after {
     box-shadow: none !important;
+  }
+
+  /* Structural containers: sharp geometric edges */
+  section, article, header, footer, nav, main,
+  .card-halo, .product-card, .sector-card,
+  table, thead, tbody, tr, th, td {
+    border-radius: 0px !important;
   }
 
   /* Maintain functional circular elements specifically */
@@ -167,14 +178,14 @@
     width: 100%;
     max-width: var(--container);
     margin-inline: auto;
-    padding-inline: clamp(1rem, 4vw, 3rem);
+    padding-inline: clamp(1.5rem, 3vw, 3rem);
   }
 
   .container-wide {
     width: 100%;
     max-width: var(--container-wide);
     margin-inline: auto;
-    padding-inline: clamp(1rem, 4vw, 3rem);
+    padding-inline: clamp(1.5rem, 5.5vw, 5.5rem);  /* Advenica: gutter-3xl = 88px */
   }
 
   .container-prose {

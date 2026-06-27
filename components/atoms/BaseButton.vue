@@ -45,39 +45,35 @@ const tag = computed(() => {
 
 const classes = computed(() => {
   const base = [
-    'inline-flex items-center justify-center gap-2 font-semibold rounded-none border',
-    'transition-all duration-200 ease-hover',
+    'inline-flex items-center justify-center gap-2 font-medium rounded-none border',
+    'transition-all duration-300 ease-in-out',
     'focus-visible:outline-2 focus-visible:outline-[#1F7994] focus-visible:outline-offset-2',
-    'disabled:opacity-40 disabled:pointer-events-none active:translate-y-px',
+    'disabled:opacity-40 disabled:pointer-events-none',
     props.full ? 'w-full' : '',
   ]
 
   const sizes: Record<Size, string> = {
-    sm: 'text-xs px-3.5 py-2 h-9',
-    md: 'text-sm px-5 py-2.5 h-11',
-    lg: 'text-base px-6 py-3 h-12',
+    sm: 'text-sm min-h-[2.75rem] px-6 py-2',
+    md: 'text-[1.125rem] min-h-[3.5rem] px-10 pt-2.5 pb-3 leading-none',
+    lg: 'text-[1.125rem] min-h-[3.5rem] px-10 pt-2.5 pb-3 leading-none',
   }
 
   const variants: Record<Variant, string> = {
     primary: [
-      'border-[#093544] bg-[#093544] text-white',
-      'hover:border-[#165368] hover:bg-[#165368]',
-      'active:bg-[#467386]',
+      'border-transparent bg-[#1F7994] text-white',
+      'hover:bg-[#093544]',
     ].join(' '),
     outline: [
       'border-[var(--border-strong)] bg-transparent text-[var(--text-primary)]',
-      'hover:border-[#1F7994]/50 hover:bg-[rgba(31,121,148,0.08)] hover:text-[#1F7994]',
-      'active:bg-[rgba(31,121,148,0.15)]',
+      'hover:border-[#1F7994] hover:text-[#1F7994]',
     ].join(' '),
     ghost: [
       'border-transparent text-[var(--text-secondary)]',
       'hover:text-[var(--text-primary)] hover:bg-[var(--bg-elevated)]',
-      'active:bg-[var(--bg-modal)]',
     ].join(' '),
     danger: [
-      'border-critical-500 bg-critical-500 text-white',
-      'hover:bg-red-400',
-      'active:bg-red-600',
+      'border-transparent bg-critical-500 text-white',
+      'hover:bg-red-600',
     ].join(' '),
   }
 

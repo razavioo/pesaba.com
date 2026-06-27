@@ -87,8 +87,8 @@
 
   /* ─── Spacing ─────────────────────────────────────────────────────────── */
   --space-hero:    clamp(5.5rem, 10vw, 9rem);
-  --space-section: clamp(4rem, 7vw, 7.5rem);
-  --space-cta:     clamp(5rem, 9vw, 8.5rem);
+  --space-section: clamp(4rem, 7vw, 6.25rem);  /* Advenica: 100px block */
+  --space-cta:     clamp(4rem, 7vw, 6.25rem);
   --space-gap:     clamp(1.5rem, 3vw, 3rem);
 
   /* ─── Radius ──────────────────────────────────────────────────────────── */
@@ -102,7 +102,7 @@
   /* ─── Grid ────────────────────────────────────────────────────────────── */
   --container:       1280px;
   --container-wide:  1440px;
-  --container-prose: 720px;
+  --container-prose: 960px;
 }
 
 /* ─── Graph-paper background pattern ─────────────────────────────────────── */

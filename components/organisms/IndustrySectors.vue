@@ -17,7 +17,7 @@
             '--hover-tag': sector.hoverTag
           }"
         >
-          <!-- Image with grayscale-to-color transition -->
+          <!-- Image with Advenica-style mix-blend-mode grayscale-to-color transition -->
           <div class="sector-card__image">
             <NuxtImg
               :src="sector.image"
@@ -27,14 +27,12 @@
               width="600"
               height="400"
             />
-            <!-- Color overlay — same image, clipped via opacity transition -->
-            <div class="sector-card__color-overlay" />
           </div>
 
-          <!-- Dark gradient overlay -->
+          <!-- Dark gradient for text readability -->
           <div class="sector-card__overlay" />
 
-          <!-- Hover color gradient overlay -->
+          <!-- Hover color reveal overlay -->
           <div class="sector-card__hover-overlay" />
 
           <!-- Content -->
@@ -227,39 +225,34 @@ const sectors = computed(() => locale.value === 'fa' ? [
   border-color: var(--hover-border);
 }
 
-/* Image container */
+/* Image container — dark teal background creates grayscale via blend mode */
 .sector-card__image {
   position: absolute;
   inset: 0;
   overflow: hidden;
+  background-color: #0f475a;
+  transition: background-color 0.3s ease;
 }
 
-/* Base image — starts grayscale, reveals color on hover */
+/* Base image — mix-blend-mode: luminosity + grayscale filter (Advenica technique) */
 .sector-card__img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
-  filter: grayscale(100%) contrast(0.95) brightness(0.9);
-  transition: filter 0.65s cubic-bezier(0.16, 1, 0.3, 1),
-              transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+  mix-blend-mode: luminosity;
+  filter: contrast(0.5) grayscale();
+  transition: all 0.3s ease;
+}
+
+.sector-card:hover .sector-card__image {
+  background-color: transparent;
 }
 
 .sector-card:hover .sector-card__img {
-  filter: grayscale(0%) contrast(1) brightness(1);
+  mix-blend-mode: normal;
+  filter: contrast(1) grayscale(0);
   transform: scale(1.04);
-}
-
-/* Subtle color tint overlay (fade out on hover, revealing true colors underneath) */
-.sector-card__color-overlay {
-  position: absolute;
-  inset: 0;
-  background: rgba(9, 53, 68, 0.2);
-  transition: opacity 0.65s ease;
-}
-
-.sector-card:hover .sector-card__color-overlay {
-  opacity: 0;
 }
 
 /* Dark gradient for text readability */
@@ -268,14 +261,13 @@ const sectors = computed(() => locale.value === 'fa' ? [
   inset: 0;
   background: linear-gradient(
     to top,
-    rgba(4, 7, 13, 0.90) 0%,
-    rgba(4, 7, 13, 0.45) 45%,
-    rgba(4, 7, 13, 0.05) 100%
+    rgba(4, 7, 13, 0.85) 0%,
+    rgba(4, 7, 13, 0.35) 50%,
+    rgba(4, 7, 13, 0) 100%
   );
-  transition: opacity 0.4s ease;
 }
 
-/* Hover color gradient overlay */
+/* Hover: subtle color accent gradient from bottom */
 .sector-card__hover-overlay {
   position: absolute;
   inset: 0;
@@ -286,7 +278,7 @@ const sectors = computed(() => locale.value === 'fa' ? [
     var(--hover-bg-to) 100%
   );
   opacity: 0;
-  transition: opacity 0.4s ease;
+  transition: opacity 0.3s ease;
 }
 
 .sector-card:hover .sector-card__hover-overlay {
@@ -353,24 +345,22 @@ const sectors = computed(() => locale.value === 'fa' ? [
 
 .sector-card__arrow {
   display: inline-flex;
-  color: rgba(255, 255, 255, 0.4);
-  transform: translateX(-4px);
+  color: rgba(255, 255, 255, 0.5);
   opacity: 0;
-  transition: transform 0.3s ease, opacity 0.3s ease, color 0.3s ease;
+  transition: opacity 0.2s ease, transform 0.2s ease;
   margin-top: 0.25rem;
 }
 
 [dir="rtl"] .sector-card__arrow {
-  transform: scaleX(-1) translateX(-4px);
+  transform: scaleX(-1);
 }
 
 .sector-card:hover .sector-card__arrow {
   opacity: 1;
-  transform: translateX(0);
   color: var(--hover-tag);
 }
 
 [dir="rtl"] .sector-card:hover .sector-card__arrow {
-  transform: scaleX(-1) translateX(0);
+  transform: scaleX(-1);
 }
 </style>
