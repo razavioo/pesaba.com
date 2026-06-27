@@ -116,10 +116,6 @@ function productTags(product: ProductCardMeta) {
   return CATEGORY_TAGS[product.category]?.[locale.value === 'fa' ? 'fa' : 'en'] || []
 }
 
-function hasDatasheet(product: ProductCardMeta) {
-  return Boolean(product.schematic_pdf || product.schematic_pdfs?.length)
-}
-
 const categories = computed(() =>
   CATEGORY_KEYS.map(key => ({
     key,

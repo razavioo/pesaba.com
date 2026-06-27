@@ -100,7 +100,7 @@ const TAGS: Record<string, { fa: string; en: string }> = {
 const categoryDesc = computed(() => locale.value === 'fa' ? DESCS[category]?.fa || '' : DESCS[category]?.en || '')
 const categoryTag = computed(() => locale.value === 'fa' ? TAGS[category]?.fa || '' : TAGS[category]?.en || '')
 
-function productTags(product: { category: string }) {
+function productTags(_product: { category: string }) {
   return [categoryTag.value]
 }
 
