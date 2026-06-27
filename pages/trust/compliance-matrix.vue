@@ -2,7 +2,7 @@
   <div>
     <section class="container-site pt-12 pb-6">
       <nav class="flex items-center gap-2 text-xs text-ink-500 mb-6">
-        <NuxtLink :to="localePath('/trust')" class="hover:text-ink-300 transition-colors">{{ $t('trust.title') }}</NuxtLink>
+        <NuxtLink :to="localePath('/trust')" class="hover:text-[var(--accent)] transition-colors">{{ $t('trust.title') }}</NuxtLink>
         <span>/</span>
         <span class="text-ink-300">{{ $t('trust.compliance') }}</span>
       </nav>
@@ -58,7 +58,7 @@
           <tr
             v-for="row in filteredRows"
             :key="row.slug"
-            class="border-t border-ink-800/80 hover:bg-ink-900/40 transition-colors"
+            class="border-t border-ink-800/80 hover:bg-[var(--accent-bg)] transition-colors"
           >
             <td class="py-3 pe-6 sticky start-0 bg-ink-950">
               <NuxtLink

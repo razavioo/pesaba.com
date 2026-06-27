@@ -25,13 +25,13 @@
   /* ─── Advenica-Aligned Blue Design Palette ───────────────────────────── */
   /* Mirrors Advenica's CSS custom properties */
   --blue-whisper:    #FCFCFD;   /* --color-blue-5 / almost white */
-  --blue-pale:       #EFF4F6;   /* --color-blue-10 / very light bg */
+  --blue-pale:       #E6EEF1;   /* --color-blue-10 / very light bg (Advenica blue-15) */
   --blue-mist:       #E6EEF1;   /* --color-blue-15 / light section bg */
   --blue-sky:        #AAC5D0;   /* --color-blue-50 / sky blue */
   --blue-medium:     #568CA3;   /* --color-blue-100 */
   --blue-brand:      #1F7994;   /* --color-light-blue-100 / primary brand teal */
   --blue-slate:      #467386;   /* --color-medium-blue-100 */
-  --blue-strong:     #165368;   /* --color-dark-blue-100 */
+  --blue-strong:     #093544;   /* --color-dark-blue-100 (Advenica: #093544 is the dark hover/nav accent) */
   --blue-deep:       #093544;   /* --color-darker-blue-100 / footer/darkest text */
 
   /* Signal (success / live / online) */
@@ -52,7 +52,7 @@
 
   /* Backgrounds — from Advenica's blue-tinted white system */
   --bg-page:      #FFFFFF;
-  --bg-elevated:  #EFF4F6;   /* blue-pale */
+  --bg-elevated:  #E6EEF1;   /* blue-mist — Advenica blue-15 (#e6eef1) */
   --bg-modal:     #FFFFFF;
 
   /* Borders — blue-tinted */
@@ -66,7 +66,7 @@
 
   /* Accent — Advenica teal-blue primary */
   --accent:       #1F7994;   /* blue-brand */
-  --accent-hover: #165368;   /* blue-strong */
+  --accent-hover: #1F7994;   /* blue-brand — Advenica links stay same teal on hover */
   --accent-bg:    rgba(31, 121, 148, 0.08);
 
   /* Shadows off */
@@ -78,7 +78,7 @@
   /* Primary Button — dark navy */
   --btn-primary-bg:    #093544;
   --btn-primary-text:  #FFFFFF;
-  --btn-primary-hover: #165368;
+  --btn-primary-hover: #093544;   /* Advenica: button hover = darker-blue-100 */
 
   /* Paper (light mode backgrounds) */
   --paper-50:  #FFFFFF;

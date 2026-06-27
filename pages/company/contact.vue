@@ -188,7 +188,7 @@
                         'text-xs font-medium py-2 px-1 sm:px-2 rounded-lg transition-all duration-200 text-center',
                         form.department === dept.id 
                           ? 'bg-[#093544] text-white font-semibold' 
-                          : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--bg-elevated)]'
+                          : 'text-[var(--text-secondary)] hover:text-[var(--accent)] hover:bg-[var(--bg-elevated)]'
                       ]"
                       @click="form.department = dept.id"
                     >

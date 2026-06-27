@@ -30,7 +30,7 @@
             v-for="cat in categories"
             :key="cat.key"
             :href="`#${cat.key}`"
-            class="whitespace-nowrap rounded-xl border border-[var(--border)] bg-[var(--bg-elevated)] px-4 py-1.5 text-sm font-medium text-[var(--text-secondary)] transition-all hover:border-[var(--accent)] hover:bg-[var(--accent-bg)] hover:text-[var(--text-primary)]"
+            class="whitespace-nowrap rounded-xl border border-[var(--border)] bg-[var(--bg-elevated)] px-4 py-1.5 text-sm font-medium text-[var(--text-secondary)] transition-all hover:border-[var(--accent)] hover:bg-[var(--accent-bg)] hover:text-[var(--accent)]"
           >
             {{ $t(`products.categories.${cat.key}`) }}
           </a>

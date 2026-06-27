@@ -32,7 +32,7 @@
             'flex w-full items-center justify-between px-4 py-3 text-sm transition-colors',
             locale === loc.code
               ? 'bg-[rgba(31,121,148,0.10)] text-[#1F7994]'
-              : 'text-[var(--text-secondary)] hover:bg-[var(--bg-elevated)] hover:text-[var(--text-primary)]',
+              : 'text-[var(--text-secondary)] hover:bg-[var(--bg-elevated)] hover:text-[var(--accent)]',
           ]"
           role="menuitem"
           @click="switchLocale(loc.code)"

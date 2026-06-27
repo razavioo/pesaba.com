@@ -30,7 +30,7 @@
               :class="[
                 'h-9 w-9 rounded-xl border text-xs font-mono transition-colors',
                 activeLetters.has(letter)
-                  ? 'border-[var(--border-strong)] text-[var(--text-secondary)] hover:border-[var(--accent)] hover:text-[var(--text-primary)]'
+                  ? 'border-[var(--border-strong)] text-[var(--text-secondary)] hover:border-[var(--accent)] hover:text-[var(--accent)]'
                   : 'border-[var(--border)] text-[var(--text-muted)] opacity-35',
               ]"
               :disabled="!activeLetters.has(letter)"

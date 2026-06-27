@@ -73,7 +73,7 @@ const classes = computed(() => {
     ].join(' '),
     danger: [
       'border-transparent bg-critical-500 text-white',
-      'hover:bg-red-600',
+      'hover:bg-[#A7282A]',
     ].join(' '),
   }
 

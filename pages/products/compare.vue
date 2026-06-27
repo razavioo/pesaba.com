@@ -2,7 +2,7 @@
   <div>
     <section class="container-site pt-12 pb-6">
       <nav class="flex items-center gap-2 text-xs text-ink-500 mb-6">
-        <NuxtLink :to="localePath('/products')" class="hover:text-ink-300 transition-colors">{{ $t('products.title') }}</NuxtLink>
+        <NuxtLink :to="localePath('/products')" class="hover:text-[var(--accent)] transition-colors">{{ $t('products.title') }}</NuxtLink>
         <span>/</span>
         <span class="text-ink-300">{{ $t('compare.title') }}</span>
       </nav>
@@ -61,7 +61,7 @@
                 </p>
                 <p class="text-xs text-ink-600 mt-0.5">{{ (p.category ?? '').replace(/-/g, ' ') }}</p>
               </NuxtLink>
-              <button class="mt-2 text-[10px] text-ink-600 hover:text-ink-400 transition-colors" @click="deselect(p)">
+              <button class="mt-2 text-[10px] text-ink-600 hover:text-[var(--accent)] transition-colors" @click="deselect(p)">
                 {{ $t('compare.remove') }}
               </button>
             </th>

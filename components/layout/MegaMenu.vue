@@ -18,7 +18,7 @@
               <li v-for="ind in industries" :key="ind.slug">
                 <NuxtLink
                   :to="localePath(`/industries/${ind.slug}`)"
-                  class="group flex items-center gap-3 rounded-xl px-3 py-3 text-sm text-[var(--text-secondary)] transition-colors hover:bg-[var(--bg-elevated)] hover:text-[var(--text-primary)]"
+                  class="group flex items-center gap-3 rounded-xl px-3 py-3 text-sm text-[var(--text-secondary)] transition-colors hover:bg-[var(--bg-elevated)] hover:text-[var(--accent)]"
                   @click="$emit('close')"
                 >
                   <span class="w-5 h-5 flex-shrink-0 text-[#1F7994]/50 group-hover:text-[#1F7994] transition-colors">
@@ -37,7 +37,7 @@
               <li v-for="uc in useCases" :key="uc.slug">
                 <NuxtLink
                   :to="localePath(`/use-cases/${uc.slug}`)"
-                  class="group flex items-center gap-3 rounded-xl px-3 py-3 text-sm text-[var(--text-secondary)] transition-colors hover:bg-[var(--bg-elevated)] hover:text-[var(--text-primary)]"
+                  class="group flex items-center gap-3 rounded-xl px-3 py-3 text-sm text-[var(--text-secondary)] transition-colors hover:bg-[var(--bg-elevated)] hover:text-[var(--accent)]"
                   @click="$emit('close')"
                 >
                   <span class="w-1.5 h-1.5 rounded-full bg-[#1F7994]/40 group-hover:bg-[#1F7994] flex-shrink-0 transition-colors" />
@@ -67,7 +67,7 @@
                 >
                   <span class="w-1 h-1 rounded-full bg-[var(--text-muted)] group-hover:bg-[#1F7994] mt-2 flex-shrink-0 transition-colors" />
                   <div>
-                    <p class="text-sm leading-snug text-[var(--text-secondary)] transition-colors group-hover:text-[var(--text-primary)]">{{ prod.name }}</p>
+                    <p class="text-sm leading-snug text-[var(--text-secondary)] transition-colors group-hover:text-[var(--accent)]">{{ prod.name }}</p>
                   </div>
                 </NuxtLink>
               </li>

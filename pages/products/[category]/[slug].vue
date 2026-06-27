@@ -120,7 +120,7 @@
               'rounded-full border px-3 py-2 text-sm transition-colors',
               activeTab === tab.key
                 ? 'border-[var(--accent)] bg-[var(--accent-bg)] text-[var(--accent)]'
-                : 'border-[var(--border-strong)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]',
+                : 'border-[var(--border-strong)] text-[var(--text-secondary)] hover:text-[var(--accent)]',
             ]"
             role="tab"
             :aria-selected="activeTab === tab.key"

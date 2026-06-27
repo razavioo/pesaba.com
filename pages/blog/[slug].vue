@@ -43,7 +43,7 @@
               <NuxtLink :to="localePath('/blog')" class="text-sm font-medium text-[#1F7994] transition-colors hover:text-[#AAC5D0]">
                 {{ $t('blog.all_articles') }}
               </NuxtLink>
-              <button class="text-sm text-[var(--text-secondary)] transition-colors hover:text-[var(--text-primary)]" @click="shareArticle">
+              <button class="text-sm text-[var(--text-secondary)] transition-colors hover:text-[var(--accent)]" @click="shareArticle">
                 {{ copied ? $t('common.copied') : $t('blog.share') }}
               </button>
             </div>
@@ -60,7 +60,7 @@
                   :class="[
                     'block border-s-2 py-1 text-sm transition-colors',
                     h.depth === 3 ? 'ps-5' : 'ps-3',
-                    activeHeading === h.id ? 'border-[#1F7994] text-[#1F7994]' : 'border-transparent text-[var(--text-secondary)] hover:text-[var(--text-primary)]',
+                    activeHeading === h.id ? 'border-[#1F7994] text-[#1F7994]' : 'border-transparent text-[var(--text-secondary)] hover:text-[var(--accent)]',
                   ]"
                 >
                   {{ h.text }}
@@ -246,8 +246,8 @@ if (article.value) {
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
 }
 .prose-article table thead {
-  background: linear-gradient(135deg, rgba(0, 229, 255, 0.08) 0%, rgba(0, 229, 255, 0.02) 100%);
-  border-bottom: 2px solid rgba(0, 229, 255, 0.2);
+  background: linear-gradient(135deg, rgba(31, 121, 148, 0.06) 0%, rgba(31, 121, 148, 0.02) 100%);
+  border-bottom: 2px solid rgba(31, 121, 148, 0.15);
 }
 .prose-article table th {
   padding: 1rem 1.25rem;
@@ -269,7 +269,7 @@ if (article.value) {
   background-color: rgba(255, 255, 255, 0.01);
 }
 .prose-article table tbody tr:hover {
-  background-color: rgba(0, 229, 255, 0.03);
+  background-color: rgba(31, 121, 148, 0.04);
 }
 @media (max-width: 768px) {
   .prose-article table {

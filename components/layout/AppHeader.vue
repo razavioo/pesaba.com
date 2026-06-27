@@ -145,7 +145,7 @@
           <div class="pt-6">
             <NuxtLink
               :to="localePath('/company/contact')"
-              class="button button-cta font-display w-full h-[56px] text-[1.125rem] font-medium flex items-center justify-center bg-[#1F7994] text-white hover:bg-[#0c4e61] rounded-[2px] transition-colors duration-300"
+              class="button button-cta font-display w-full h-[56px] text-[1.125rem] font-medium flex items-center justify-center bg-[#1F7994] text-white hover:bg-[#093544] rounded-[2px] transition-colors duration-300"
               @click="mobileOpen = false"
             >
               {{ locale === 'fa' ? 'تماس با ما' : 'Contact us' }}
