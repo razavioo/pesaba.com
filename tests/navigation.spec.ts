@@ -32,8 +32,8 @@ test.describe('Navigation header', () => {
   })
 
   test('header has correct height', async ({ page }) => {
-    const header = page.locator('header')
-    await expect(header).toHaveClass(/h-14/)
+    const nav = page.locator('#mainnav nav')
+    await expect(nav).toHaveClass(/h-14/)
   })
 
   test('locale switcher button is present in header', async ({ page }) => {

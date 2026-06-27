@@ -1,14 +1,12 @@
 <template>
-  <Teleport to="body">
-    <Transition name="mega">
-      <div
-        v-if="active"
-        :style="{ top: scrolled ? '64px' : '96px' }"
-        class="fixed inset-x-0 border-t border-[var(--border)] backdrop-blur-xl z-[9999] bg-[rgba(248,250,252,0.97)] shadow-[0_18px_48px_rgba(0,0,0,0.08)]"
-        @mouseenter="$emit('enter')"
-        @mouseleave="$emit('leave')"
-      >
-      <div class="container-site py-8">
+  <Transition name="mega">
+    <div
+      v-if="active"
+      class="absolute left-6 right-6 md:left-12 md:right-12 lg:left-[88px] lg:right-[88px] top-full border-t border-[var(--border)] z-40 bg-[#FFFFFF] shadow-lg rounded-b-[2px] pointer-events-auto"
+      @mouseenter="$emit('enter')"
+      @mouseleave="$emit('leave')"
+    >
+      <div class="px-6 md:px-12 py-8">
 
         <!-- Solutions: By Industry + By Use Case -->
         <div v-if="active === 'solutions'" class="grid grid-cols-2 gap-12">
@@ -92,13 +90,12 @@
         </div>
 
       </div>
-      </div>
-    </Transition>
-  </Teleport>
+    </div>
+  </Transition>
 </template>
 
 <script setup lang="ts">
-defineProps<{ active: string | null; scrolled: boolean }>()
+defineProps<{ active: string | null }>()
 defineEmits<{ close: []; enter: []; leave: [] }>()
 
 const { t, locale } = useI18n()

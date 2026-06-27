@@ -1,23 +1,26 @@
 /* ─── Pesaba Design Tokens — Advenica-Aligned Blue System ────────────────── */
 
 :root {
-  /* Ink remapped to light blue/navy system (space-separated RGB values for Tailwind) */
-  --ink-1000:  9 53 68;       /* deep navy #093544 */
+  /* Ink remapped to Advenica Reference colors (space-separated RGB values for Tailwind) */
+  --ink-1000:  39 40 45;      /* brand black #27282d */
   --ink-950:   255 255 255;   /* white #FFFFFF */
   --ink-900:   239 244 246;   /* blue-pale #EFF4F6 */
   --ink-800:   230 238 241;   /* blue-mist #E6EEF1 */
   --ink-700:   201 221 229;   /* blue-sky #C9DDE5 */
-  --ink-500:   138 168 184;   /* medium blue #8AA8B8 */
-  --ink-300:   70 115 134;    /* slate blue #467386 */
-  --ink-100:   9 53 68;       /* deep navy #093544 */
-  --ink-0:     9 53 68;       /* deep navy #093544 */
+  --ink-600:   176 179 181;   /* gray-400 #b0b3b5 */
+  --ink-500:   131 135 139;   /* gray-500 #83878b */
+  --ink-400:   102 106 109;   /* gray-600 #666a6d */
+  --ink-300:   83 86 89;      /* gray-700 #535659 */
+  --ink-200:   60 62 65;      /* gray-800 #3c3e41 */
+  --ink-100:   39 40 45;      /* brand black #27282d */
+  --ink-0:     39 40 45;      /* brand black #27282d */
 
-  /* Photon remapped to navy scale for light mode (space-separated RGB values for Tailwind) */
-  --photon-400: 9 53 68;      /* deep navy #093544 */
-  --photon-500: 9 53 68;      /* deep navy #093544 */
-  --photon-600: 22 83 104;    /* strong blue #165368 */
-  --photon-700: 70 115 134;   /* slate blue #467386 */
-  --photon-900: 86 140 163;   /* medium blue #568CA3 */
+  /* Photon remapped to Advenica gray/black scale (space-separated RGB values for Tailwind) */
+  --photon-400: 39 40 45;      /* brand black #27282d */
+  --photon-500: 39 40 45;      /* brand black #27282d */
+  --photon-600: 83 86 89;      /* gray-700 #535659 */
+  --photon-700: 102 106 109;   /* gray-600 #666a6d */
+  --photon-900: 131 135 139;   /* gray-500 #83878b */
 
   /* ─── Advenica-Aligned Blue Design Palette ───────────────────────────── */
   /* Mirrors Advenica's CSS custom properties */
@@ -56,10 +59,10 @@
   --border:        #C9DDE5;
   --border-strong: #A3C5D1;
 
-  /* Typography — dark navy hierarchy */
-  --text-primary:   #093544;   /* blue-deep */
-  --text-secondary: #165368;   /* blue-strong */
-  --text-muted:     #467386;   /* blue-slate */
+  /* Typography — Advenica Reference colors */
+  --text-primary:   #27282d;   /* brand black */
+  --text-secondary: #535659;   /* gray-700 */
+  --text-muted:     #83878b;   /* gray-500 */
 
   /* Accent — Advenica teal-blue primary */
   --accent:       #1F7994;   /* blue-brand */

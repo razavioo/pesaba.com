@@ -1,32 +1,24 @@
 <template>
-  <!-- Advenica-style: fixed band, header floats inside it -->
-  <div class="fixed inset-x-0 top-0 z-50 pointer-events-none transition-all duration-300">
+  <header
+    ref="headerRef"
+    class="sticky top-0 z-50 w-full max-w-[1440px] mx-auto mt-8 px-6 md:px-12 lg:px-[88px] pointer-events-none transition-all duration-300"
+    role="banner"
+  >
     <div
-      :class="[
-        'container-wide px-4 sm:px-6 transition-all duration-300',
-        scrolled ? 'pt-0' : 'pt-4 sm:pt-6 lg:pt-8'
-      ]"
+      id="mainnav"
+      class="pointer-events-auto w-full mx-auto flex items-center bg-[#F6F6F6] py-2 px-4 md:p-4 rounded-[2px]"
     >
-      <header
-        ref="headerRef"
-        :class="[
-          'pointer-events-auto flex items-center transition-all duration-300 w-full border rounded-[4px] shadow-sm',
-          scrolled
-            ? 'bg-white/97 backdrop-blur-md border-[var(--border)] h-14 px-4 md:px-6'
-            : 'bg-[#F6F6F6]/95 border-[var(--border)] h-14 md:h-[72px] px-4 md:px-6',
-        ]"
-        role="banner"
-      >
+      <nav aria-label="Main Menu" class="flex h-14 justify-between items-center w-full">
         <!-- Logo -->
         <NuxtLink :to="localePath('/')" class="flex items-center gap-2.5 shrink-0 me-4" :aria-label="$t('meta.site_name')">
           <NuxtImg src="/logo.svg" alt="Pesaba" class="h-8 w-8" />
           <div class="hidden sm:block">
-            <div class="text-sm font-bold tracking-wider font-display text-[#093544]">Pesaba</div>
+            <div class="text-sm font-bold tracking-wider font-display text-[#27282D]">Pesaba</div>
           </div>
         </NuxtLink>
 
         <!-- Desktop nav links -->
-        <nav class="hidden lg:flex flex-1 items-center gap-1 xl:gap-2 px-4" :aria-label="$t('nav.solutions')">
+        <div class="hidden lg:flex flex-1 items-center gap-0 px-4">
           <div
             v-for="item in navItems"
             :key="item.key"
@@ -37,7 +29,7 @@
             <component
               :is="item.subItems ? 'button' : NuxtLink"
               :class="[
-                'navigation-link inline-flex items-center gap-1.5 px-3.5 py-2.5 transition-colors duration-200',
+                'navigation-link inline-flex items-center gap-1.5 px-7 py-2.5 transition-colors duration-200',
                 isItemActive(item)
                   ? 'text-[#1F7994]'
                   : 'text-[#27282D] hover:text-[#1F7994]',
@@ -46,21 +38,9 @@
               @click="item.subItems ? toggleMenu(item.key) : undefined"
             >
               {{ $t(`nav.${item.key}`) }}
-              <svg
-                v-if="item.subItems"
-                :class="['h-3 w-3 transition-transform duration-200', activeMenu === item.key ? 'rotate-180' : '']"
-                viewBox="0 0 12 12" fill="none"
-              >
-                <path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-              </svg>
             </component>
-            <!-- Active underline -->
-            <span
-              v-if="isItemActive(item)"
-              class="absolute inset-x-3.5 -bottom-px h-[2px] bg-[#1F7994]"
-            />
           </div>
-        </nav>
+        </div>
 
         <div class="flex-1 lg:hidden" />
 
@@ -68,10 +48,10 @@
         <div class="flex items-center gap-1.5 sm:gap-2">
           <LocaleSwitcher />
 
-          <!-- Contact CTA pill button -->
+          <!-- Contact CTA button -->
           <NuxtLink
             :to="localePath('/company/contact')"
-            class="hidden sm:inline-flex items-center justify-center h-[46px] px-6 text-sm md:h-14 md:px-10 md:text-lg font-medium transition-all duration-300 button-cta bg-[#1F7994] text-white hover:bg-[#093544]"
+            class="button button-cta font-display !min-h-0 !min-w-0 h-[46px] md:h-[56px] px-6 md:px-10 text-[14px] md:text-[1.125rem] font-medium flex items-center justify-center bg-[#1F7994] text-white hover:bg-[#093544] rounded-[2px] transition-colors duration-300"
           >
             {{ locale === 'fa' ? 'تماس با ما' : 'Contact us' }}
           </NuxtLink>
@@ -79,7 +59,7 @@
           <!-- Mobile hamburger -->
           <button
             class="header-nav-buttons text-[#27282D] hover:text-[#1F7994] lg:hidden"
-            :aria-label="mobileOpen ? $t('common.close') : $t('common.open')"
+            :aria-label="$t('common.open')"
             @click="mobileOpen = !mobileOpen"
           >
             <svg v-if="mobileOpen" class="w-5 h-5 shrink-0" viewBox="0 0 19 17" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -93,68 +73,91 @@
             <span class="leading-[0.8] text-[0.875rem] font-medium">{{ mobileOpen ? 'Close' : 'Menu' }}</span>
           </button>
         </div>
-      </header>
+      </nav>
     </div>
 
     <!-- Mega menu (full-width, below pill) -->
-    <MegaMenu :active="activeMenu" :scrolled="scrolled" @close="activeMenu = null" @enter="cancelClose()" @leave="activeMenu = null" />
-  </div>
+    <MegaMenu :active="activeMenu" @close="activeMenu = null" @enter="cancelClose()" @leave="activeMenu = null" />
 
-  <!-- Mobile nav panel -->
-  <Transition name="slide-down">
-    <div
-      v-if="mobileOpen"
-      class="fixed inset-x-0 top-0 bottom-0 z-40 overflow-y-auto pt-24 px-4 pb-8 lg:hidden bg-[rgba(255,255,255,0.98)] backdrop-blur-xl"
-    >
-      <nav class="space-y-1">
-        <div
-          v-for="item in navItems"
-          :key="item.key"
-          class="border border-[var(--border)] bg-[var(--bg-elevated)]"
-        >
-          <div class="flex items-center gap-2 px-4 py-3">
-            <NuxtLink
-              :to="localePath(item.to)"
-              class="flex-1 text-base font-medium text-[#093544]"
-            >
-              {{ $t(`nav.${item.key}`) }}
-            </NuxtLink>
-            <button
-              v-if="item.subItems"
-              class="p-2 text-[#467386]"
-              @click="expandedMobile = expandedMobile === item.key ? null : item.key"
-            >
-              <svg :class="['h-4 w-4 transition-transform', expandedMobile === item.key ? 'rotate-180' : '']" viewBox="0 0 12 12" fill="none">
-                <path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-              </svg>
-            </button>
-          </div>
-          <div v-if="item.subItems && expandedMobile === item.key" class="grid gap-0.5 px-3 pb-3">
-            <NuxtLink
-              v-for="child in item.children"
-              :key="child.to"
-              :to="localePath(child.to)"
-              class="px-3 py-2 text-sm font-medium transition-colors text-[#467386] hover:text-[#093544]"
-            >
-              {{ child.label }}
-            </NuxtLink>
-          </div>
-        </div>
-
-        <div class="grid gap-2 pt-4">
-          <NuxtLink
-            :to="localePath('/company/contact')"
-            class="flex items-center justify-center py-3 text-sm font-semibold bg-[#093544] text-white"
-          >
-            {{ locale === 'fa' ? 'تماس با ما' : 'Contact us' }}
+    <!-- Mobile nav panel -->
+    <Transition name="slide-down">
+      <div
+        v-if="mobileOpen"
+        class="fixed inset-0 z-50 overflow-y-auto bg-[#093544] text-white p-6 md:p-12 flex flex-col pointer-events-auto"
+      >
+        <!-- Header inside mobile menu drawer -->
+        <div class="flex justify-between items-center mb-12">
+          <NuxtLink :to="localePath('/')" class="flex items-center gap-2.5" @click="mobileOpen = false">
+            <NuxtImg src="/logo.svg" alt="Pesaba" class="h-8 w-8 brightness-0 invert" />
+            <div class="text-sm font-bold tracking-wider font-display text-white">Pesaba</div>
           </NuxtLink>
+
+          <button
+            class="header-nav-buttons text-white/80 hover:text-white flex flex-col items-center justify-center gap-1"
+            :aria-label="$t('common.close')"
+            @click="mobileOpen = false"
+          >
+            <svg class="w-5 h-5 shrink-0" viewBox="0 0 19 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M18.945 0.470703H16.125L9.50499 7.0907L2.88499 0.470703H0.0549927L8.08499 8.5007L0.114993 16.4707H2.94499L9.50499 9.9107L16.065 16.4707H18.885L10.915 8.5007L18.945 0.470703Z" fill="currentColor" />
+            </svg>
+            <span class="leading-[0.8] text-[0.875rem] font-medium">Close</span>
+          </button>
         </div>
-      </nav>
-    </div>
-  </Transition>
+
+        <!-- Links list -->
+        <nav class="space-y-4 flex-1">
+          <div
+            v-for="item in navItems"
+            :key="item.key"
+            class="border-b border-white/10 pb-4"
+          >
+            <div class="flex items-center justify-between">
+              <NuxtLink
+                :to="localePath(item.to)"
+                class="text-xl font-medium text-white hover:text-[#1F7994] transition-colors"
+                @click="mobileOpen = false"
+              >
+                {{ $t(`nav.${item.key}`) }}
+              </NuxtLink>
+              <button
+                v-if="item.subItems"
+                class="p-2 text-white/60 hover:text-white"
+                @click="expandedMobile = expandedMobile === item.key ? null : item.key"
+              >
+                <svg :class="['h-4 w-4 transition-transform', expandedMobile === item.key ? 'rotate-180' : '']" viewBox="0 0 12 12" fill="none">
+                  <path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                </svg>
+              </button>
+            </div>
+            <div v-if="item.subItems && expandedMobile === item.key" class="grid gap-2 pl-4 pt-3">
+              <NuxtLink
+                v-for="child in item.children"
+                :key="child.to"
+                :to="localePath(child.to)"
+                class="text-sm font-medium text-white/70 hover:text-white transition-colors"
+                @click="mobileOpen = false"
+              >
+                {{ child.label }}
+              </NuxtLink>
+            </div>
+          </div>
+
+          <div class="pt-6">
+            <NuxtLink
+              :to="localePath('/company/contact')"
+              class="button button-cta font-display w-full h-[56px] text-[1.125rem] font-medium flex items-center justify-center bg-[#1F7994] text-white hover:bg-[#0c4e61] rounded-[2px] transition-colors duration-300"
+              @click="mobileOpen = false"
+            >
+              {{ locale === 'fa' ? 'تماس با ما' : 'Contact us' }}
+            </NuxtLink>
+          </div>
+        </nav>
+      </div>
+    </Transition>
+  </header>
 
   <!-- Spacer so content isn't hidden under fixed header -->
-  <div class="h-[5.5rem] md:h-[7.5rem]" aria-hidden="true" />
+  <div class="h-[104px] md:h-[120px]" aria-hidden="true" />
 </template>
 
 <script setup lang="ts">
