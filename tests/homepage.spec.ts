@@ -25,13 +25,6 @@ test.describe('Homepage — English', () => {
     await expect(productsLink).toHaveAttribute('href', /\/products/)
   })
 
-  test('stats bar shows 4 stat blocks', async ({ page }) => {
-    const stats = page.locator('section.stats-showcase')
-    const firstCard = stats.locator('article').first()
-    await firstCard.scrollIntoViewIfNeeded()
-    await expect(firstCard).toContainText(/17\+/)
-  })
-
   test('6 product category cards are rendered', async ({ page }) => {
     // Category cards are NuxtLink elements with product-card + card-halo classes pointing to product categories.
     const cards = page.locator('a.product-card.card-halo[href*="/products/"]')

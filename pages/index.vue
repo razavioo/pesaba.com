@@ -5,8 +5,6 @@
     <!-- Advenica-signature: sector cards with grayscale-to-color hover -->
     <IndustrySectors />
 
-    <StatsShowcase />
-
     <section class="section">
       <div class="container-site">
         <div class="mb-8">
