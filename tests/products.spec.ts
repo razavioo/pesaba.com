@@ -89,7 +89,7 @@ test.describe('Product category page', () => {
   })
 
   test('category tag badge is visible', async ({ page }) => {
-    const badge = page.locator('.font-mono').filter({ hasText: /Hardware Security/i }).first()
+    const badge = page.locator('.section-label').filter({ hasText: /Hardware Security/i }).first()
     await expect(badge).toBeVisible()
   })
 

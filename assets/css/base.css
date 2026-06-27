@@ -611,6 +611,88 @@
     border-radius: var(--r-full);
   }
 
+  /* ─── Breadcrumbs (Advenica: 1rem, 400 weight, 1.6 line-height) ───── */
+  .breadcrumbs {
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.6;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-muted);
+  }
+  .breadcrumbs a {
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: color var(--dur-fast) var(--ease-hover);
+  }
+  .breadcrumbs a:hover {
+    color: var(--text-secondary);
+  }
+  .breadcrumbs .current {
+    color: var(--text-secondary);
+  }
+
+  /* ─── FAQ Accordion (Advenica: details/summary pattern) ─────────────── */
+  .faq-details {
+    border-bottom: 1px solid var(--border);
+  }
+  .faq-details summary {
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-block: 1.25rem;
+    font-size: 1.125rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    transition: color var(--dur-fast) var(--ease-hover);
+  }
+  .faq-details summary::-webkit-details-marker {
+    display: none;
+  }
+  .faq-details summary::marker {
+    content: none;
+  }
+  .faq-details summary:hover {
+    color: var(--accent);
+  }
+  .faq-details .faq-icon-plus { display: block; }
+  .faq-details .faq-icon-minus { display: none; }
+  .faq-details[open] .faq-icon-plus { display: none; }
+  .faq-details[open] .faq-icon-minus { display: block; }
+  .faq-details .faq-content {
+    padding-bottom: 1.5rem;
+    font-size: 1rem;
+    line-height: 1.7;
+    color: var(--text-secondary);
+  }
+
+  /* ─── Anchor nav bar (sticky, below hero) ────────────────────────────── */
+  .anchor-nav {
+    position: sticky;
+    top: 4rem;
+    z-index: 20;
+    border-bottom: 1px solid var(--border);
+    background: rgba(255,255,255,0.95);
+    backdrop-filter: blur(12px);
+  }
+  .anchor-nav a {
+    white-space: nowrap;
+    border: 1px solid var(--border);
+    background: var(--bg-elevated);
+    padding: 0.375rem 1rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    transition: all var(--dur-fast) var(--ease-hover);
+  }
+  .anchor-nav a:hover {
+    border-color: var(--accent);
+    background: var(--accent-bg);
+    color: var(--text-primary);
+  }
   /* Stagger reveal (animate on scroll) */
   .reveal {
     opacity: 0;

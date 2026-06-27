@@ -1,72 +1,53 @@
 <template>
   <div>
-    <!-- Category hero -->
-    <section
-      class="relative overflow-hidden border-b border-ink-700/30"
-      style="background: var(--bg-elevated)"
-    >
-      <!-- Dot grid -->
-      <div class="absolute inset-0 pointer-events-none" style="background-image: radial-gradient(circle, rgba(148,161,189,0.06) 1px, transparent 1px); background-size: 28px 28px;" aria-hidden="true" />
-      <!-- Glow -->
-      <div class="absolute end-0 top-0 w-[500px] h-[500px] rounded-full pointer-events-none" style="background: radial-gradient(circle, rgba(14,165,233,0.06) 0%, transparent 65%); filter: blur(60px);" aria-hidden="true" />
+    <!-- Breadcrumbs -->
+    <section class="border-b border-[var(--border)] bg-[var(--bg-elevated)]">
+      <div class="container-site py-4">
+        <nav class="breadcrumbs" :aria-label="$t('common.breadcrumb')">
+          <NuxtLink :to="localePath('/')">{{ $t('common.home') }}</NuxtLink>
+          <span>/</span>
+          <NuxtLink :to="localePath('/products')">{{ $t('products.title') }}</NuxtLink>
+          <span>/</span>
+          <span class="current">{{ $t(`products.categories.${category}`) }}</span>
+        </nav>
+      </div>
+    </section>
 
-      <div class="container-site relative py-16 lg:py-20">
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
-          <!-- Left: text -->
-          <div>
-            <nav class="flex items-center gap-2 text-xs text-ink-500 mb-6" :aria-label="$t('common.breadcrumb')">
-              <NuxtLink :to="localePath('/')" class="hover:text-ink-300 transition-colors">{{ $t('common.home') }}</NuxtLink>
-              <span>/</span>
-              <NuxtLink :to="localePath('/products')" class="hover:text-ink-300 transition-colors">{{ $t('products.title') }}</NuxtLink>
-              <span>/</span>
-              <span class="text-ink-300">{{ $t(`products.categories.${category}`) }}</span>
-            </nav>
-            <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-[var(--accent)]/20 bg-[var(--accent-bg)] text-[10px] font-mono text-[var(--accent)] uppercase tracking-widest mb-5">
-              <span class="w-1.5 h-1.5 rounded-full bg-[var(--accent)]" />
-              {{ categoryTag }}
-            </div>
-            <h1 class="text-4xl md:text-5xl font-extrabold text-ink-100 mb-5 leading-tight" style="letter-spacing: -0.025em;">
-              {{ $t(`products.categories.${category}`) }}
-            </h1>
-            <p class="text-ink-400 text-lg leading-relaxed max-w-xl">{{ categoryDesc }}</p>
-          </div>
-
-          <!-- Right: product grid preview -->
-          <div v-if="heroSlugs.length" class="relative hidden lg:flex items-center justify-end gap-4">
-            <div
-              v-for="(slug, i) in heroSlugs"
-              :key="slug"
-              :class="[
-                'relative rounded-xl border border-ink-700/50 flex items-center justify-center overflow-hidden transition-transform',
-                i === 1 ? 'w-44 h-44 z-10 shadow-[0_0_0_1px_rgba(14,165,233,0.15),0_16px_48px_rgba(14,165,233,0.07)]' : 'w-32 h-32 opacity-60',
-                i === 0 ? '-translate-y-4' : '',
-                i === 2 ? 'translate-y-4' : '',
-              ]"
-              style="background: var(--bg-page)"
-            >
-              <NuxtImg
-                :src="heroPhotoSrc(slug)"
-                :alt="slug"
-                class="w-full h-full object-contain p-4 drop-shadow-[0_4px_16px_rgba(14,165,233,0.10)]"
-                loading="eager"
-              />
-            </div>
-          </div>
+    <!-- Hero -->
+    <section class="page-hero bg-[#093544]">
+      <div class="container-site relative z-10 py-16 lg:py-24">
+        <div class="max-w-3xl">
+          <div class="section-label mb-5" style="color:#AAC5D0">{{ categoryTag }}</div>
+          <h1 class="text-4xl md:text-5xl font-extrabold text-white mb-4 leading-tight" style="letter-spacing: -0.02em;">
+            {{ $t(`products.categories.${category}`) }}
+          </h1>
+          <p class="text-lg text-white/70 leading-relaxed">{{ categoryDesc }}</p>
         </div>
+      </div>
+      <div class="absolute bottom-0 inset-x-0 z-20 pointer-events-none">
+        <svg viewBox="0 0 1440 56" preserveAspectRatio="none" class="w-full h-12 block">
+          <path d="M0,56 L1440,0 L1440,56 Z" fill="var(--bg-page)" />
+        </svg>
       </div>
     </section>
 
     <!-- Product grid -->
     <section class="section">
       <div class="container-site">
-        <div v-if="products?.length" class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        <div v-if="products?.length" class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           <ProductCard
-v-for="p in products" :key="p._path" :title="p.title" :slug="p.slug"
-            :href="localePath(`/products/${category}/${p.slug}`)" :description="p.description"
-            :category-label="$t(`products.categories.${category}`)" :specs="p.specs?.slice(0, 3)"
-            :image="p.photos?.[0] || p.images?.[0]" :tags="productTags(p)" :has-datasheet="hasDatasheet(p)" />
+            v-for="p in products"
+            :key="p._path"
+            :title="p.title"
+            :slug="p.slug"
+            :href="localePath(`/products/${category}/${p.slug}`)"
+            :description="p.card_summary || p.description"
+            :specs="p.specs?.slice(0, 3)"
+            :image="p.photos?.[0] || p.images?.[0]"
+            :tags="productTags(p)"
+          />
         </div>
-        <p v-else class="text-ink-500">{{ $t('common.no_results') }}</p>
+        <p v-else class="text-[var(--text-muted)]">{{ $t('common.no_results') }}</p>
       </div>
     </section>
 
@@ -93,7 +74,6 @@ const { data: products } = await useAsyncData(`category-${category}-${locale.val
   const all = await queryContent('products')
     .where({ category, active: { $ne: false } })
     .find()
-
   return all
     .filter(p => locale.value === 'fa' ? p.locale === 'fa' : !p.locale)
     .sort((a, b) => (a.priority ?? 999) - (b.priority ?? 999))
@@ -117,61 +97,18 @@ const TAGS: Record<string, { fa: string; en: string }> = {
   'bio-monitoring': { fa: 'پایش اینترنت اشیا', en: 'IoT · Water Quality' },
 }
 
-const HERO_SLUGS: Record<string, string[]> = {
-  'data-diodes': ['a10', 'k200', 'g200'],
-  'network-encryption': ['emx-6', 'umx-6', 'emx-8'],
-  'cellular-monitoring': ['capella', 'auriga'],
-  'network-switching-filtering': ['emx-9', 'emx-5', 'emx-4'],
-  'telecom-transmission': ['sdx-1', 'sdx', 'emx-10'],
-  'bio-monitoring': ['orazan'],
+const categoryDesc = computed(() => locale.value === 'fa' ? DESCS[category]?.fa || '' : DESCS[category]?.en || '')
+const categoryTag = computed(() => locale.value === 'fa' ? TAGS[category]?.fa || '' : TAGS[category]?.en || '')
+
+function productTags(product: { category: string }) {
+  return [categoryTag.value]
 }
 
-interface ProductCardMeta {
-  category: string
-  schematic_pdf?: string
-  schematic_pdfs?: string[]
+if (products.value?.length) {
+  emitBreadcrumbs([
+    { name: t('common.home'), url: `/${locale.value}` },
+    { name: 'Products', url: `/${locale.value}/products` },
+    { name: t(`products.categories.${category}`), url: `/${locale.value}/products/${category}` },
+  ])
 }
-
-const CATEGORY_TAGS: Record<string, { fa: string[]; en: string[] }> = {
-  'data-diodes': { fa: ['یک‌طرفه', 'مرز OT', 'بدون سیستم‌عامل'], en: ['One-way', 'OT boundary', 'OS-less'] },
-  'network-encryption': { fa: ['AES-256', 'FPGA', 'لینک امن'], en: ['AES-256', 'FPGA', 'Secure links'] },
-  'cellular-monitoring': { fa: ['2G–5G', 'QoS', 'میدانی'], en: ['2G–5G', 'QoS', 'Field probes'] },
-  'network-switching-filtering': { fa: ['L2/L3', 'تفکیک شبکه', 'صنعتی'], en: ['L2/L3', 'Segmentation', 'Industrial'] },
-  'telecom-transmission': { fa: ['SDH/E1', 'اپراتوری', 'انتقال'], en: ['SDH/E1', 'Carrier', 'Transport'] },
-  'bio-monitoring': { fa: ['پایش آب', 'بلادرنگ', 'هشدار'], en: ['Water quality', 'Realtime', 'Alerting'] },
-}
-
-function productTags(product: ProductCardMeta) {
-  return CATEGORY_TAGS[product.category]?.[locale.value === 'fa' ? 'fa' : 'en'] || []
-}
-
-function hasDatasheet(product: ProductCardMeta) {
-  return Boolean(product.schematic_pdf || product.schematic_pdfs?.length)
-}
-
-const HERO_PHOTOS: Record<string, string> = {
-  'a10': '/photos/a10/photo-1.webp',
-  'a100': '/photos/a100/photo-1.webp',
-  'g200': '/photos/g200/photo-1.webp',
-  'g300': '/photos/g300/photo-1.webp',
-  'k200': '/photos/k200/photo-1.webp',
-  'emx-6': '/photos/emx-6/photo-1.webp',
-  'umx-6': '/photos/umx-6/photo-1.webp',
-  'emx-8': '/photos/emx-8/photo-1.webp',
-  'emx-9': '/photos/emx-9/photo-1.webp',
-  'sdx-1': '/photos/sdx-1/photo-1.webp',
-  'sdx': '/photos/sdx/photo-1.webp',
-  'emx-10': '/photos/emx-10/photo-1.webp',
-  'capella': '/photos/capella/photo-1.webp',
-  'orazan': '/photos/orazan/photo-1.webp',
-}
-
-const heroPhotoSrc = (slug: string) => HERO_PHOTOS[slug] || '/placeholder-product.svg'
-
-const categoryDesc = computed(() => (DESCS[category]?.[locale.value === 'fa' ? 'fa' : 'en']) || '')
-const categoryTag = computed(() => (TAGS[category]?.[locale.value === 'fa' ? 'fa' : 'en']) || '')
-const heroSlugs = computed(() => (HERO_SLUGS[category] || []).slice(0, 3))
-
-useSeoMeta({ title: `${t(`products.categories.${category}`)} | Pesaba`, ogTitle: `${t(`products.categories.${category}`)} | Pesaba`, description: categoryDesc.value, ogDescription: categoryDesc.value })
-emitBreadcrumbs([{ name: t('products.title'), url: `/${locale.value}/products` }, { name: t(`products.categories.${category}`), url: `/${locale.value}/products/${category}` }])
 </script>

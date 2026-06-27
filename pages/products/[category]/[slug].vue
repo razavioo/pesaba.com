@@ -2,14 +2,14 @@
   <div v-if="product">
     <section class="border-b border-[var(--border)] bg-[var(--bg-elevated)]">
       <div class="container-site py-4">
-        <nav class="flex items-center gap-2 text-sm text-[var(--text-muted)]" :aria-label="$t('common.breadcrumb')">
-          <NuxtLink :to="localePath('/')" class="transition-colors hover:text-[var(--text-secondary)]">{{ $t('common.home') }}</NuxtLink>
+        <nav class="breadcrumbs" :aria-label="$t('common.breadcrumb')">
+          <NuxtLink :to="localePath('/')">{{ $t('common.home') }}</NuxtLink>
           <span>/</span>
-          <NuxtLink :to="localePath('/products')" class="transition-colors hover:text-[var(--text-secondary)]">{{ $t('products.title') }}</NuxtLink>
+          <NuxtLink :to="localePath('/products')">{{ $t('products.title') }}</NuxtLink>
           <span>/</span>
-          <NuxtLink :to="localePath(`/products/${product.category}`)" class="transition-colors hover:text-[var(--text-secondary)]">{{ $t(`products.categories.${product.category}`) }}</NuxtLink>
+          <NuxtLink :to="localePath(`/products/${product.category}`)">{{ $t(`products.categories.${product.category}`) }}</NuxtLink>
           <span>/</span>
-          <span class="text-[var(--text-secondary)]">{{ product.title }}</span>
+          <span class="current">{{ product.title }}</span>
         </nav>
       </div>
     </section>
@@ -171,7 +171,7 @@
         </div>
 
         <div v-show="activeTab === 'faq'" class="max-w-3xl">
-          <FAQItem v-for="(faq, i) in genericFAQs" :id="`faq-${i}`" :key="i" :question="faq.q" :answer="faq.a" />
+          <FAQItem v-for="(faq, i) in genericFAQs" :key="i" :question="faq.q" :answer="faq.a" />
         </div>
       </div>
     </section>

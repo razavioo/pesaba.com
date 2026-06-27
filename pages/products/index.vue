@@ -44,14 +44,14 @@
           <div class="mb-6 flex items-end justify-between gap-6 border-b border-[var(--border)] pb-4">
             <div>
               <div class="label-meta mb-2">{{ cat.products.length }} {{ locale === 'fa' ? 'محصول' : 'products' }}</div>
-              <h2 class="text-2xl font-semibold text-[var(--text-primary)]">{{ $t(`products.categories.${cat.key}`) }}</h2>
+              <h2 class="text-2xl font-bold text-[var(--text-primary)]">{{ $t(`products.categories.${cat.key}`) }}</h2>
             </div>
             <NuxtLink :to="localePath(`/products/${cat.key}`)" class="text-sm font-medium text-[var(--accent)] transition-colors hover:text-[var(--accent-hover)]">
               {{ $t('common.view_all') }}
             </NuxtLink>
           </div>
 
-          <div :class="['grid gap-5', cat.products.length === 1 ? 'max-w-md' : 'md:grid-cols-2']">
+          <div :class="['grid gap-5 sm:grid-cols-2 lg:grid-cols-3']">
             <ProductCard
               v-for="p in cat.products"
               :key="p._path"
@@ -63,7 +63,6 @@
               :specs="p.specs?.slice(0, 2)"
               :image="p.photos?.[0] || p.images?.[0]"
               :tags="productTags(p)"
-              :has-datasheet="hasDatasheet(p)"
             />
           </div>
         </div>
