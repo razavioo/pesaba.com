@@ -109,7 +109,7 @@ test.describe('Homepage — Farsi (RTL)', () => {
     const switcher = page.locator('header button[aria-label*="current: fa"]').first()
     await switcher.click()
     await page.waitForTimeout(500)
-    const enOption = page.getByRole('menuitem').filter({ hasText: /en|English/i })
+    const enOption = page.getByRole('menuitem').filter({ hasText: /en|English|انگلیسی/i })
     await expect(enOption).toBeVisible()
   })
 })

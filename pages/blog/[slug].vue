@@ -10,7 +10,7 @@
       <div class="absolute inset-0 bg-gradient-to-t from-[var(--bg-page)] via-[rgba(4,10,20,0.3)] to-transparent" />
     </div>
 
-    <section class="page-hero border-none" :class="article.image ? 'pt-8 pb-10' : ''">
+    <section class="page-hero border-none" :class="article.image ? '!mt-[-136px] md:!mt-[-152px] pt-8 pb-10' : ''">
       <div class="container-site" :class="article.image ? '' : 'section-hero'">
         <div class="mx-auto max-w-3xl">
           <div class="mb-5 flex flex-wrap items-center gap-3 text-xs text-[var(--text-muted)]">

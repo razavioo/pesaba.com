@@ -1,7 +1,7 @@
 <template>
   <!-- Advenica-signature: sector cards with B&W → color hover transition -->
   <section class="industries-section">
-    <div class="container-site">
+    <div class="container-wide">
       <div class="industries-grid">
         <NuxtLink
           v-for="sector in sectors"
