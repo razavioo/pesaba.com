@@ -19,6 +19,7 @@
               width="600"
               height="400"
             />
+            <div :class="['sector-card__color-overlay', `sector-card__color-overlay--${sector.color}`]" />
           </div>
 
           <!-- Dark gradient for text readability -->
@@ -47,6 +48,7 @@ const sectors = computed(() => locale.value === 'fa' ? [
     desc: 'حفاظت از سیستم‌های کنترل در صنعت برق با مرزبندی سخت‌افزاری',
     image: '/images/industries/power-grid.png',
     to: '/industries/power-grid',
+    color: 'red',
   },
   {
     tag: 'مخابرات',
@@ -54,6 +56,7 @@ const sectors = computed(() => locale.value === 'fa' ? [
     desc: 'رمزنگاری و یکپارچه‌سازی شبکه اپراتوری با راهکارهای سخت‌افزاری',
     image: '/images/industries/telecom-operators.png',
     to: '/industries/telecom-operators',
+    color: 'blue',
   },
   {
     tag: 'دولتی',
@@ -61,6 +64,7 @@ const sectors = computed(() => locale.value === 'fa' ? [
     desc: 'تأمین امنیت شبکه‌های حساس دولتی با راهکارهای قابل ممیزی',
     image: '/images/industries/government.png',
     to: '/industries/government',
+    color: 'green',
   },
   {
     tag: 'آب و محیط‌زیست',
@@ -68,6 +72,7 @@ const sectors = computed(() => locale.value === 'fa' ? [
     desc: 'پایش بلادرنگ کیفیت آب و تشخیص زودهنگام آلودگی',
     image: '/images/industries/water-utilities.png',
     to: '/use-cases/water-toxicity-monitoring',
+    color: 'yellow',
   },
 ] : [
   {
@@ -76,6 +81,7 @@ const sectors = computed(() => locale.value === 'fa' ? [
     desc: 'Protect control systems in the power sector with hardware-enforced network boundaries',
     image: '/images/industries/power-grid.png',
     to: '/industries/power-grid',
+    color: 'red',
   },
   {
     tag: 'Telecom',
@@ -83,6 +89,7 @@ const sectors = computed(() => locale.value === 'fa' ? [
     desc: 'Carrier-grade encryption and network integration for telecom operators',
     image: '/images/industries/telecom-operators.png',
     to: '/industries/telecom-operators',
+    color: 'blue',
   },
   {
     tag: 'Government',
@@ -90,6 +97,7 @@ const sectors = computed(() => locale.value === 'fa' ? [
     desc: 'Secure sensitive government networks with auditable hardware solutions',
     image: '/images/industries/government.png',
     to: '/industries/government',
+    color: 'green',
   },
   {
     tag: 'Water & Environment',
@@ -97,6 +105,7 @@ const sectors = computed(() => locale.value === 'fa' ? [
     desc: 'Real-time water quality monitoring with early anomaly detection and alerting',
     image: '/images/industries/water-utilities.png',
     to: '/use-cases/water-toxicity-monitoring',
+    color: 'yellow',
   },
 ])
 </script>
@@ -253,5 +262,35 @@ const sectors = computed(() => locale.value === 'fa' ? [
   line-height: 1.55;
   color: rgba(255, 255, 255, 0.6);
   margin: 0;
+}
+
+.sector-card__color-overlay {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  mix-blend-mode: color;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.sector-card:hover .sector-card__color-overlay {
+  opacity: 0.75;
+}
+
+.sector-card__color-overlay--red {
+  background-color: #ef4444; /* red */
+}
+
+.sector-card__color-overlay--blue {
+  background-color: #3b82f6; /* blue */
+}
+
+.sector-card__color-overlay--green {
+  background-color: #10b981; /* green */
+}
+
+.sector-card__color-overlay--yellow {
+  background-color: #f59e0b; /* yellow/orange */
 }
 </style>
