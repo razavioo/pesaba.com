@@ -6,7 +6,6 @@
 
       <div class="container-site section-hero relative z-10 py-16 lg:py-24">
         <div class="max-w-3xl">
-          <div class="section-label mb-5" style="color:#AAC5D0">{{ $t('nav.products') }}</div>
           <h1 class="mb-4 text-5xl font-extrabold leading-[1.02] tracking-[-0.03em] text-white md:text-7xl">
             {{ $t('products.title') }}
           </h1>
@@ -43,7 +42,7 @@
         <div v-for="cat in categories" :id="cat.key" :key="cat.key" class="scroll-mt-32">
           <div class="mb-6 flex items-end justify-between gap-6 border-b border-[var(--border)] pb-4">
             <div>
-              <div class="label-meta mb-2">{{ cat.products.length }} {{ locale === 'fa' ? 'محصول' : 'products' }}</div>
+              <div class="label-meta mb-2 text-sm md:text-base">{{ cat.products.length }} {{ locale === 'fa' ? 'محصول' : 'products' }}</div>
               <h2 class="text-2xl font-bold text-[var(--text-primary)]">{{ $t(`products.categories.${cat.key}`) }}</h2>
             </div>
             <NuxtLink :to="localePath(`/products/${cat.key}`)" class="text-sm font-medium text-[var(--accent)] transition-colors hover:text-[var(--accent-hover)]">

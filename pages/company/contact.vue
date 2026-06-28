@@ -2,11 +2,11 @@
   <div class="relative min-h-screen bg-[var(--bg-page)] bg-graph-paper">
 
     <section class="page-hero relative">
-      <div class="container-site">
+      <div class="container-site pt-8 md:pt-10">
         <!-- Breadcrumb / Meta Label -->
         <div class="mb-6 flex items-center gap-2">
           <span class="h-1.5 w-1.5 rounded-full bg-[#1F7994]" />
-          <div class="label-accent uppercase tracking-wider text-xs">{{ locale === 'fa' ? 'ارتباط مستقیم' : 'Direct Channel' }}</div>
+          <div class="label-accent text-sm uppercase tracking-wider md:text-base">{{ locale === 'fa' ? 'ارتباط مستقیم' : 'Direct Channel' }}</div>
         </div>
 
         <div class="grid gap-12 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)] lg:items-start">
@@ -28,7 +28,7 @@
             <div class="card-halo p-6 border-[#1F7994]/30">
               <div class="flex flex-col gap-4">
                 <div>
-                  <div class="label-accent mb-2">{{ locale === 'fa' ? 'مسیر اصلی فروش' : 'Primary sales channel' }}</div>
+                  <div class="label-accent mb-2 text-sm md:text-base">{{ locale === 'fa' ? 'مسیر اصلی فروش' : 'Primary sales channel' }}</div>
                   <h2 class="text-2xl font-bold text-[var(--text-primary)]">{{ $t('contact.phone_first_title') }}</h2>
                   <p class="mt-2 text-sm leading-relaxed text-[var(--text-secondary)]">{{ $t('contact.phone_first_sub') }}</p>
                 </div>

@@ -10,7 +10,7 @@
         loading="lazy"
       />
       <div v-if="categoryLabel" class="absolute start-4 top-4">
-        <span class="bg-[var(--bg-page)] px-2 py-0.5 text-[10px] font-mono text-[var(--text-muted)]">
+        <span class="bg-[var(--bg-page)] px-2.5 py-1 text-xs font-mono text-[var(--text-muted)]">
           {{ categoryLabel }}
         </span>
       </div>
