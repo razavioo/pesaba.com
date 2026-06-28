@@ -9,10 +9,17 @@ export default defineConfig({
   reporter: [['html', { open: 'never' }], ['list']],
 
   use: {
-    baseURL: process.env.BASE_URL || 'http://localhost:3000',
+    baseURL: process.env.BASE_URL || 'http://localhost:3000/pesaba.com/',
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
     video: 'on-first-retry',
+  },
+
+  webServer: {
+    command: 'npm run dev',
+    url: 'http://localhost:3000/pesaba.com/',
+    reuseExistingServer: !process.env.CI,
+    timeout: 120000,
   },
 
   projects: [

@@ -58,7 +58,7 @@
               <p>{{ locale === 'fa' ? 'تیم ما متشکل از فارغ‌التحصیلان دکتری و کارشناسی ارشد از دانشگاه‌های برتر ایران است که برای بومی‌سازی فناوری‌های امنیت شبکه فعالیت می‌کنند. با بیش از یک دهه تجربه در حوزه مخابرات و امنیت، پصبا مجموعه‌ای از محصولات شامل رمزکننده‌های سخت‌افزاری، دیتا دیودها، تجهیزات پایش شبکه و انتقال مخابراتی را ارائه می‌دهد.' : 'Our team of PhD and MSc graduates from Iran\'s leading universities works to localise critical network security technology. With over a decade of experience in communications and security, Pesaba delivers hardware encryption devices, data diodes, network monitoring equipment, and telecom transmission systems.' }}</p>
             </div>
             <NuxtLink :to="localePath('/company/about')" class="mt-6 inline-block text-sm font-medium text-[var(--accent)] hover:text-[var(--accent-hover)] transition-colors">
-              {{ locale === 'fa' ? 'اطلاعات بیشتر درباره شرکت' : 'Learn more about Pesaba' }} →
+              {{ locale === 'fa' ? 'اطلاعات بیشتر درباره شرکت' : 'Learn more about Pesaba' }} {{ locale === 'fa' ? '←' : '→' }}
             </NuxtLink>
           </div>
           <div class="relative aspect-[4/3] overflow-hidden border border-[var(--border)] bg-[var(--bg-elevated)]">
@@ -108,7 +108,7 @@
               <span class="inline-block border border-[var(--accent)]/25 bg-[var(--accent)]/6 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-[var(--accent)]">
                 {{ item.badge }}
               </span>
-              <span class="text-[var(--text-muted)] opacity-0 transition-all duration-200 group-hover:opacity-100 group-hover:translate-x-1 rtl:group-hover:-translate-x-1 rtl:group-hover:translate-x-0">→</span>
+              <span class="text-[var(--text-muted)] opacity-0 transition-all duration-200 group-hover:opacity-100 group-hover:translate-x-1 rtl:group-hover:-translate-x-1 rtl:group-hover:translate-x-0">{{ locale === 'fa' ? '←' : '→' }}</span>
             </div>
             <h3 class="mb-2.5 text-lg font-bold text-[var(--text-primary)] leading-snug">{{ item.title }}</h3>
             <p class="mb-5 flex-grow text-sm leading-relaxed text-[var(--text-secondary)]">{{ item.desc }}</p>

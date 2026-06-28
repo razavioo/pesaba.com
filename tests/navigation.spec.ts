@@ -59,8 +59,8 @@ test.describe('Navigation header', () => {
     const switcher = page.locator('header button').filter({ hasText: /English/i }).first()
     await switcher.click()
     await page.waitForTimeout(500)
-    // Dropdown items have role="menuitem" with text "fa فارسی"
-    const faOption = page.locator('[role="menuitem"]').filter({ hasText: /fa/i }).first()
+    // Dropdown items have role="menuitem" with data-locale attribute
+    const faOption = page.locator('[role="menuitem"][data-locale="fa"]')
     await faOption.click()
     await page.waitForURL(/\/fa/, { timeout: 8000 })
     expect(page.url()).toContain('/fa')

@@ -26,16 +26,18 @@
 
             <!-- Phone-first sales route -->
             <div class="card-halo p-6 border-[#1F7994]/30">
-              <div class="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
+              <div class="flex flex-col gap-4">
                 <div>
                   <div class="label-accent mb-2">{{ locale === 'fa' ? 'مسیر اصلی فروش' : 'Primary sales channel' }}</div>
                   <h2 class="text-2xl font-bold text-[var(--text-primary)]">{{ $t('contact.phone_first_title') }}</h2>
                   <p class="mt-2 text-sm leading-relaxed text-[var(--text-secondary)]">{{ $t('contact.phone_first_sub') }}</p>
                 </div>
-                <BaseButton variant="primary" size="lg" :href="salesPhoneHref" class="shrink-0">
-                  {{ $t('contact.call_sales_now') }}
-                  <span dir="ltr" class="font-mono text-sm">{{ salesPhoneDisplay }}</span>
-                </BaseButton>
+                <div>
+                  <BaseButton variant="primary" size="lg" :href="salesPhoneHref" class="w-full sm:w-auto">
+                    {{ $t('contact.call_sales_now') }}
+                    <span dir="ltr" class="font-mono text-sm ml-2">{{ salesPhoneDisplay }}</span>
+                  </BaseButton>
+                </div>
               </div>
             </div>
 

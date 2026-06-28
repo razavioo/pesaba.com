@@ -2,7 +2,7 @@
   <Transition name="mega">
     <div
       v-if="active"
-      class="absolute left-6 right-6 md:left-12 md:right-12 lg:left-[88px] lg:right-[88px] top-full border-t border-[var(--border)] z-40 bg-[#FFFFFF] shadow-lg rounded-b-[2px] pointer-events-auto"
+      class="absolute left-0 right-0 top-full border-t border-[var(--border)] z-40 bg-[#F6F6F6] shadow-lg rounded-b-[2px] pointer-events-auto"
       @mouseenter="$emit('enter')"
       @mouseleave="$emit('leave')"
     >

@@ -98,7 +98,7 @@
 
             <div class="grid gap-4 sm:grid-cols-2">
               <div class="p-4 rounded-xl border border-[var(--border)] bg-[var(--bg-page)]/50 hover:border-[#1F7994]/20 hover:bg-[var(--bg-elevated)] transition-all flex gap-3">
-                <span class="flex-shrink-0 flex items-center justify-center w-5 h-5 rounded-full bg-[rgba(31,121,148,0.10)] text-[#1F7994] text-xs font-bold mt-0.5">۱</span>
+                <span class="flex-shrink-0 flex items-center justify-center w-5 h-5 rounded-full bg-[rgba(31,121,148,0.10)] text-[#1F7994] text-xs font-bold mt-0.5">{{ locale === 'fa' ? '۱' : '1' }}</span>
                 <div>
                   <h4 class="text-sm font-bold text-[var(--text-primary)] mb-1">
                     {{ locale === 'fa' ? 'اطلاعات هویت دستگاه' : 'Device Identity' }}
@@ -110,7 +110,7 @@
               </div>
 
               <div class="p-4 rounded-xl border border-[var(--border)] bg-[var(--bg-page)]/50 hover:border-[#1F7994]/20 hover:bg-[var(--bg-elevated)] transition-all flex gap-3">
-                <span class="flex-shrink-0 flex items-center justify-center w-5 h-5 rounded-full bg-[rgba(31,121,148,0.10)] text-[#1F7994] text-xs font-bold mt-0.5">۲</span>
+                <span class="flex-shrink-0 flex items-center justify-center w-5 h-5 rounded-full bg-[rgba(31,121,148,0.10)] text-[#1F7994] text-xs font-bold mt-0.5">{{ locale === 'fa' ? '۲' : '2' }}</span>
                 <div>
                   <h4 class="text-sm font-bold text-[var(--text-primary)] mb-1">
                     {{ locale === 'fa' ? 'نسخه کنونی' : 'Current Version' }}
@@ -122,7 +122,7 @@
               </div>
 
               <div class="p-4 rounded-xl border border-[var(--border)] bg-[var(--bg-page)]/50 hover:border-[#1F7994]/20 hover:bg-[var(--bg-elevated)] transition-all flex gap-3">
-                <span class="flex-shrink-0 flex items-center justify-center w-5 h-5 rounded-full bg-[rgba(31,121,148,0.10)] text-[#1F7994] text-xs font-bold mt-0.5">۳</span>
+                <span class="flex-shrink-0 flex items-center justify-center w-5 h-5 rounded-full bg-[rgba(31,121,148,0.10)] text-[#1F7994] text-xs font-bold mt-0.5">{{ locale === 'fa' ? '۳' : '3' }}</span>
                 <div>
                   <h4 class="text-sm font-bold text-[var(--text-primary)] mb-1">
                     {{ locale === 'fa' ? 'احراز هویت سازمانی' : 'Organizational Alignment' }}
@@ -134,7 +134,7 @@
               </div>
 
               <div class="p-4 rounded-xl border border-[var(--border)] bg-[var(--bg-page)]/50 hover:border-[#1F7994]/20 hover:bg-[var(--bg-elevated)] transition-all flex gap-3">
-                <span class="flex-shrink-0 flex items-center justify-center w-5 h-5 rounded-full bg-[rgba(31,121,148,0.10)] text-[#1F7994] text-xs font-bold mt-0.5">۴</span>
+                <span class="flex-shrink-0 flex items-center justify-center w-5 h-5 rounded-full bg-[rgba(31,121,148,0.10)] text-[#1F7994] text-xs font-bold mt-0.5">{{ locale === 'fa' ? '۴' : '4' }}</span>
                 <div>
                   <h4 class="text-sm font-bold text-[var(--text-primary)] mb-1">
                     {{ locale === 'fa' ? 'دلیل به‌روزرسانی' : 'Reason for Update' }}

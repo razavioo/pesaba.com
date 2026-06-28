@@ -11,7 +11,7 @@
             {{ $t('trust.sub') }}
           </p>
           <NuxtLink :to="localePath('/trust/compliance-matrix')" class="text-sm font-medium text-[#AAC5D0] transition-colors hover:text-white">
-            {{ $t('trust.view_compliance') }} →
+            {{ $t('trust.view_compliance') }} {{ locale === 'fa' ? '←' : '→' }}
           </NuxtLink>
         </div>
       </div>

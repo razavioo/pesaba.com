@@ -214,6 +214,15 @@
     border-bottom: none;
     background: #093544;
     padding-bottom: 3rem; /* space for SVG wedge */
+    margin-top: -136px;
+    padding-top: 136px;
+  }
+
+  @media (min-width: 48rem) {
+    .page-hero {
+      margin-top: -152px;
+      padding-top: 152px;
+    }
   }
 
   .eyebrow {
@@ -794,6 +803,17 @@
   @keyframes product-dot-blink {
     0%, 100% { opacity: 1; transform: scale(1); }
     50% { opacity: 0.35; transform: scale(0.75); }
+  }
+
+  /* Language drawer — keep header below drawer when open */
+  .drawer-language-show header {
+    top: 56px;
+    transition-duration: 500ms;
+  }
+  @media (min-width: 48rem) {
+    .drawer-language-show header {
+      top: 200px;
+    }
   }
 
   /* Visually hidden (accessible) */
