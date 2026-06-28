@@ -808,11 +808,13 @@
   /* Language drawer — keep header below drawer when open */
   .drawer-language-show header {
     top: 56px;
+    margin-top: 0px !important;
     transition-duration: 500ms;
   }
   @media (min-width: 48rem) {
     .drawer-language-show header {
       top: 200px;
+      margin-top: 0px !important;
     }
   }
 
