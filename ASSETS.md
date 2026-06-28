@@ -53,7 +53,7 @@ schematic_image: '/schematics/{slug}/{name}.webp'  # rasterized inline schematic
 logo: '/brand/{slug}-logo.svg'                    # product logo near title
 ```
 
-The "Download Schematic" CTA, the inline diagram on the Overview tab, and the "PDF" badge on `/resources/datasheets` all appear automatically when the corresponding field is set.
+The "Download Schematic" CTA, the inline diagram on the Overview tab, and the downloads list on the product detail page all appear automatically when the corresponding field is set.
 
 ## Embedding Images in Markdown Body
 

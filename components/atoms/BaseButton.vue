@@ -77,6 +77,6 @@ const classes = computed(() => {
     ].join(' '),
   }
 
-  return [...base, sizes[props.size], variants[props.variant]]
+  return [...base, sizes[props.size], variants[props.variant], `btn-${props.variant}`]
 })
 </script>

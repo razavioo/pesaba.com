@@ -53,13 +53,12 @@ const localePath = useLocalePath()
 
 useSeoMeta({
   title: `${t('nav.resources')} | Pesaba`,
-  description: 'Articles, glossary, datasheets, and firmware resources for Pesaba products and technologies.',
+  description: 'Articles, glossary, and firmware resources for Pesaba products and technologies.',
 })
 
 const items = computed(() => [
   { to: '/blog', title: t('blog.title'), desc: t('resources.blog_desc'), tag: locale.value === 'fa' ? 'تحلیل' : 'Analysis' },
   { to: '/glossary', title: t('glossary.title'), desc: t('resources.glossary_desc'), tag: locale.value === 'fa' ? 'مرجع' : 'Reference' },
-  { to: '/resources/datasheets', title: t('resources.datasheets'), desc: t('resources.datasheets_desc'), tag: locale.value === 'fa' ? 'مستندات' : 'Documents' },
   { to: '/resources/firmware', title: t('resources.firmware'), desc: t('resources.firmware_desc'), tag: locale.value === 'fa' ? 'نسخه‌ها' : 'Releases' },
 ])
 
@@ -67,12 +66,10 @@ const featured = computed(() => locale.value === 'fa'
   ? [
       { href: '/blog/what-is-a-data-diode-and-why-do-industrial-networks-need-one-way-data-transfer', title: 'چرا شبکه‌های صنعتی به انتقال یک‌طرفه داده نیاز دارند؟', desc: 'مقاله‌ای برای خریداران و معماران شبکه که بین فایروال و دیتا دیود مردد هستند.' },
       { href: '/glossary/data-diode', title: 'واژه‌نامه: Data Diode', desc: 'تعریف سریع، کاربردها و جایگاه در معماری‌های با اطمینان بالا.' },
-      { href: '/resources/datasheets', title: 'دیتاشیت‌های محصول', desc: 'مشخصات فنی، فرم‌فکتور و راه‌های ارزیابی محصول در یک بخش.' },
     ]
   : [
       { href: '/blog/what-is-a-data-diode-and-why-do-industrial-networks-need-one-way-data-transfer', title: 'Why industrial networks need one-way data transfer', desc: 'A practical explainer for buyers deciding between firewalls and physical one-way enforcement.' },
       { href: '/glossary/data-diode', title: 'Glossary: Data Diode', desc: 'Quick definition, deployment role, and boundary implications for high-assurance environments.' },
-      { href: '/resources/datasheets', title: 'Product datasheets', desc: 'Specifications, form factors, and evaluation material organized in one place.' },
     ]
 )
 
@@ -80,12 +77,12 @@ const buyerTasks = computed(() => locale.value === 'fa'
   ? [
       'انتخاب بین محصولات برای سناریوی استقرار و نرخ لینک.',
       'دسترسی به واژه‌نامه و مقالات برای تیم فنی و خرید.',
-      'دانلود دیتاشیت و بررسی مسیر به‌روزرسانی فریم‌ور.',
+      'بررسی مسیر به‌روزرسانی فریم‌ور.',
     ]
   : [
       'Compare product fit by deployment pattern and link speed.',
       'Give technical and procurement teams shared language via glossary and explainers.',
-      'Download datasheets and review firmware/update expectations before purchase.',
+      'Review firmware/update expectations before purchase.',
     ]
 )
 </script>

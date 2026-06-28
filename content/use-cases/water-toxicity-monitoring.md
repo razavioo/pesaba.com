@@ -7,12 +7,12 @@ tagline: 'Real-time monitoring. Zero false negatives.'
 locale: en
 products:
   - 'orazan'
-hero_image: '/illustrations/orazan-dam.webp'
+hero_image: '/photos/orazan/photo-1.webp'
 ---
 
 ## What It Is
 
-![Orazan deployment at a dam reservoir — multi-parameter water quality monitoring](/illustrations/orazan-dam.webp)
+![Orazan deployment at a dam reservoir - multi-parameter water quality monitoring](/photos/orazan/photo-1.webp)
 
 Water toxicity monitoring is the continuous, automated measurement of water quality parameters — turbidity, pH, conductivity, free chlorine, dissolved oxygen, and contaminant-specific indicators — at key points in a water distribution system. Orazan combines multi-parameter sensors with real-time anomaly detection to identify contamination events in minutes rather than hours, before treated water reaches consumers.
 

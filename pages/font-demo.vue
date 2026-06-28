@@ -77,14 +77,9 @@ definePageMeta({ layout: false })
 
 const fonts = [
   {
-    id: 'IRANSansX (فعلی)',
-    family: 'IRANSansX',
+    id: 'IRANYekanX (فعلی)',
+    family: 'IRANYekanXFaNum',
     note: 'فونت فعلی پروژه',
-  },
-  {
-    id: 'IRANSansX Pro — Black D4',
-    family: 'IRANSansXProFaNum',
-    note: 'نسخه Pro با ارقام فارسی',
   },
   {
     id: 'IRANYekanX FaNum',
@@ -92,85 +87,26 @@ const fonts = [
     note: 'یکان X با ارقام فارسی — Bold/Regular',
   },
   {
-    id: 'IRANMarker',
-    family: 'IRANMarker',
-    note: 'ماژیک‌وار — display',
-  },
-  {
-    id: 'Maneli',
-    family: 'Maneli',
-    note: 'display',
-  },
-  {
-    id: 'ZahraRoosta',
-    family: 'ZahraRoosta',
-    note: 'display / دکوراتیو',
-  },
-  {
-    id: 'Vazirmatn (body)',
-    family: 'Vazirmatn',
-    note: 'فونت body فعلی',
+    id: 'FuturaBT',
+    family: 'FuturaBT',
+    note: 'فونت لاتین پروژه',
   },
 ]
 </script>
 
 <style scoped>
 @font-face {
-  font-family: 'IRANSansXProFaNum';
-  src: url('/fonts/iransansx-pro/IRANSansXFaNum-RegularD4.woff') format('woff');
-  font-weight: 400;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'IRANSansXProFaNum';
-  src: url('/fonts/iransansx-pro/IRANSansXFaNum-BoldD4.woff') format('woff');
-  font-weight: 700;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'IRANSansXProFaNum';
-  src: url('/fonts/iransansx-pro/IRANSansXFaNum-ExtraBoldD4.woff') format('woff');
-  font-weight: 800;
-  font-display: swap;
-}
-@font-face {
-  font-family: 'IRANSansXProFaNum';
-  src: url('/fonts/iransansx-pro/IRANSansXFaNum-BlackD4.woff') format('woff');
-  font-weight: 900;
-  font-display: swap;
-}
-
-@font-face {
   font-family: 'IRANYekanXFaNum';
   src: url('/fonts/iranyekanx/IRANYekanXFaNum-Regular.woff2') format('woff2');
   font-weight: 400;
   font-display: swap;
+  size-adjust: 85%;
 }
 @font-face {
   font-family: 'IRANYekanXFaNum';
   src: url('/fonts/iranyekanx/IRANYekanXFaNum-Bold.woff2') format('woff2');
   font-weight: 700 900;
   font-display: swap;
-}
-
-@font-face {
-  font-family: 'IRANMarker';
-  src: url('/fonts/iranmarker/IRANMarker.ttf') format('truetype');
-  font-weight: 400;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Maneli';
-  src: url('/fonts/maneli/Maneli.ttf') format('truetype');
-  font-weight: 400 900;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'ZahraRoosta';
-  src: url('/fonts/zahraroosta/ZahraRoosta.ttf') format('truetype');
-  font-weight: 400;
-  font-display: swap;
+  size-adjust: 85%;
 }
 </style>

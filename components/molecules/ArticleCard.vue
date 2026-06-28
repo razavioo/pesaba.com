@@ -1,6 +1,6 @@
 <template>
-  <article class="card-halo group flex h-full flex-col overflow-hidden">
-    <NuxtLink :to="href" class="relative block aspect-[16/10] overflow-hidden bg-[var(--bg-elevated)]">
+  <article class="card-halo group flex h-full flex-col overflow-hidden bg-white">
+    <NuxtLink :to="href" class="relative block aspect-[4/3] overflow-hidden bg-[var(--bg-elevated)]">
       <NuxtImg
         v-if="image"
         :src="image"
@@ -18,12 +18,12 @@
       </div>
     </NuxtLink>
 
-    <div class="flex flex-1 flex-col p-5">
+    <div class="flex flex-1 flex-col p-6">
       <div class="mb-3 text-xs text-[var(--text-muted)]">
         <span>{{ formatDate(date) }}</span>
       </div>
 
-      <h3 class="mb-3 text-xl font-bold leading-snug text-[var(--text-primary)] transition-colors group-hover:text-[var(--accent)]">
+      <h3 class="mb-3 text-lg font-medium leading-snug text-[var(--text-primary)] transition-colors group-hover:text-[var(--accent)]">
         <NuxtLink :to="href">{{ title }}</NuxtLink>
       </h3>
 

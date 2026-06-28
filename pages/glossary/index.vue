@@ -58,10 +58,10 @@
               class="product-card p-5"
             >
               <div class="mb-2 flex items-start justify-between gap-3">
-                <h3 class="text-lg font-semibold text-[var(--text-primary)]" dir="ltr">{{ term.title }}</h3>
+                <h3 class="text-lg font-semibold text-[var(--text-primary)]" :dir="locale === 'fa' ? 'rtl' : 'ltr'">{{ term.title }}</h3>
                 <span class="text-[10px] font-mono uppercase tracking-[0.16em] text-[#1F7994]">{{ letter }}</span>
               </div>
-              <p v-if="term.title_fa" class="mb-3 text-sm text-[var(--text-muted)]" dir="rtl">{{ term.title_fa }}</p>
+              <p v-if="locale === 'fa' && term.title_en" class="mb-3 text-sm text-[var(--text-muted)]" dir="ltr">{{ term.title_en }}</p>
               <p v-if="term.short_definition" class="text-sm leading-relaxed text-[var(--text-secondary)]">
                 {{ term.short_definition }}
               </p>

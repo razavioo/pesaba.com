@@ -25,15 +25,15 @@ test.describe('Homepage — English', () => {
     await expect(productsLink).toHaveAttribute('href', /\/products/)
   })
 
-  test('6 product category cards are rendered', async ({ page }) => {
-    // Category cards are NuxtLink elements with product-card + card-halo classes pointing to product categories.
-    const cards = page.locator('a.product-card.card-halo[href*="/products/"]')
-    await expect(cards).toHaveCount(6)
+  test('5 featured product cards are rendered', async ({ page }) => {
+    // Featured product cards are NuxtLink elements with product-card + card-halo classes pointing to products.
+    const cards = page.locator('a.product-card.card-halo[href*="/products"]')
+    await expect(cards).toHaveCount(5)
   })
 
   test('product category card navigates on click', async ({ page }) => {
-    await page.locator('a.product-card.card-halo[href*="/products/"]').first().click()
-    await expect(page).toHaveURL(/\/products\//)
+    await page.locator('a.product-card.card-halo[href*="/products"]').first().click()
+    await expect(page).toHaveURL(/\/products/)
   })
 
   test('application-first use-case section renders benchmark-inspired cards', async ({ page }) => {
@@ -96,7 +96,7 @@ test.describe('Homepage — Farsi (RTL)', () => {
   })
 
   test('product category cards link to /fa/ paths', async ({ page }) => {
-    const cards = page.locator('a.card-halo[href*="/products/"]')
+    const cards = page.locator('a.card-halo[href*="/products"]')
     await expect(cards.first()).toBeVisible()
   })
 
@@ -127,7 +127,7 @@ test.describe('Homepage — Mobile', () => {
   })
 
   test('product category grid is visible on mobile', async ({ page }) => {
-    const firstCard = page.locator('a.product-card.card-halo[href*="/products/"]').first()
+    const firstCard = page.locator('a.product-card.card-halo[href*="/products"]').first()
     await expect(firstCard).toBeVisible()
   })
 

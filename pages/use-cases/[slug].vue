@@ -1,7 +1,7 @@
 <template>
   <div v-if="useCase">
     <!-- Hero with image -->
-    <section class="relative overflow-hidden bg-[#093544]" style="min-height: 440px; display: flex; flex-direction: column; justify-content: center;">
+    <section class="page-hero relative overflow-hidden" style="min-height: 440px; display: flex; flex-direction: column; justify-content: center;">
       <div class="absolute inset-0 opacity-30" :style="heroMediaStyle" aria-hidden="true" />
       <div class="absolute inset-0 pointer-events-none" style="background: linear-gradient(90deg, rgba(9,53,68,0.88) 0%, rgba(9,53,68,0.45) 55%, transparent 100%);" aria-hidden="true" />
       <div class="absolute inset-0 pointer-events-none" style="background-image: radial-gradient(circle, rgba(170,197,208,0.05) 1px, transparent 1px); background-size: 28px 28px;" aria-hidden="true" />

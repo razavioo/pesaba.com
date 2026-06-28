@@ -1,21 +1,16 @@
 <template>
   <div v-if="product">
-    <section class="border-b border-[var(--border)] bg-[var(--bg-elevated)]">
-      <div class="container-site py-4">
-        <nav class="breadcrumbs" :aria-label="$t('common.breadcrumb')">
-          <NuxtLink :to="localePath('/')">{{ $t('common.home') }}</NuxtLink>
-          <span>/</span>
-          <NuxtLink :to="localePath('/products')">{{ $t('products.title') }}</NuxtLink>
-          <span>/</span>
-          <NuxtLink :to="localePath(`/products/${product.category}`)">{{ $t(`products.categories.${product.category}`) }}</NuxtLink>
-          <span>/</span>
-          <span class="current">{{ product.title }}</span>
-        </nav>
-      </div>
-    </section>
-
     <section class="page-hero">
       <div class="container-site section-hero">
+        <nav class="mb-8 flex items-center gap-2 text-xs text-white/40" :aria-label="$t('common.breadcrumb')">
+          <NuxtLink :to="localePath('/')" class="hover:text-white/70 transition-colors">{{ $t('common.home') }}</NuxtLink>
+          <span>/</span>
+          <NuxtLink :to="localePath('/products')" class="hover:text-white/70 transition-colors">{{ $t('products.title') }}</NuxtLink>
+          <span>/</span>
+          <NuxtLink :to="localePath(`/products/${product.category}`)" class="hover:text-white/70 transition-colors">{{ $t(`products.categories.${product.category}`) }}</NuxtLink>
+          <span>/</span>
+          <span class="text-white/60">{{ product.title }}</span>
+        </nav>
         <div class="grid gap-10 xl:grid-cols-[minmax(0,0.85fr)_minmax(18rem,1.15fr)]">
           <!-- Text column (left — Advenica order) -->
           <div class="xl:sticky xl:top-24 xl:self-start">
@@ -23,7 +18,7 @@
               <div class="label-accent mb-4">{{ $t(`products.categories.${product.category}`) }}</div>
               <div class="mb-3 flex items-center gap-4">
                 <h1 class="text-4xl font-extrabold leading-[1.05] tracking-[-0.04em] text-[var(--text-primary)]">{{ product.title }}</h1>
-                <img v-if="product.logo" :src="$withBase(product.logo)" :alt="`${product.title} logo`" class="h-10 w-auto opacity-90" loading="lazy" />
+                <img v-if="product.logo" :src="$withBase(product.logo)" :alt="`${product.title} logo`" class="h-10 w-auto opacity-90" loading="lazy">
               </div>
               <p class="mb-6 text-base leading-relaxed text-[var(--text-secondary)]">{{ product.card_summary || product.description }}</p>
 
@@ -31,14 +26,16 @@
                 <SpecPill v-for="spec in primarySpecs" :key="spec.label" :label="spec.label" :value="spec.value" />
               </div>
 
-              <div class="mb-6 grid gap-3 sm:grid-cols-2">
+              <div class="mb-6 grid gap-3" :class="productDatasheets.length ? 'sm:grid-cols-2' : 'grid-cols-1'">
                 <div class="rounded-[2px] border border-[var(--border)] bg-[var(--bg-page)] p-4">
                   <div class="label-meta mb-1">{{ locale === 'fa' ? 'تناسب استقرار' : 'Deployment fit' }}</div>
                   <div class="text-sm leading-relaxed text-[var(--text-secondary)]">{{ deploymentFit }}</div>
                 </div>
-                <div class="rounded-[2px] border border-[var(--border)] bg-[var(--bg-page)] p-4">
+                <div v-if="productDatasheets.length" class="rounded-[2px] border border-[var(--border)] bg-[var(--bg-page)] p-4">
                   <div class="label-meta mb-1">{{ locale === 'fa' ? 'مستندات' : 'Documentation' }}</div>
-                  <div class="text-sm leading-relaxed text-[var(--text-secondary)]">{{ documentationNote }}</div>
+                  <div class="text-sm leading-relaxed text-[var(--text-secondary)]">
+                    {{ locale === 'fa' ? 'دیتاشیت رسمی محصول برای دانلود در دسترس است.' : 'Official product datasheet is available for download.' }}
+                  </div>
                 </div>
               </div>
 
@@ -94,13 +91,13 @@
                 v-for="(img, i) in gallery"
                 :key="img"
                 type="button"
-                @click="selectImage(i)"
                 :aria-label="locale === 'fa' ? `نمایش تصویر ${i + 1}` : `Show image ${i + 1}`"
                 :aria-current="activeImageIndex === i ? 'true' : undefined"
                 :class="[
                   'h-20 w-20 flex-shrink-0 overflow-hidden rounded-[2px] border p-1 transition-colors',
                   activeImageIndex === i ? 'border-[var(--accent)] bg-[var(--accent-bg)]' : 'border-[var(--border)] bg-[var(--bg-elevated)]',
                 ]"
+                @click="selectImage(i)"
               >
                 <NuxtImg :src="thumbSrc(img)" :alt="`${product.title} ${i + 1}`" class="h-full w-full rounded-[2px] object-contain" loading="lazy" />
               </button>
@@ -148,9 +145,24 @@
                 </div>
               </dl>
             </div>
-            <div class="card-halo p-5">
+            <div v-if="productDatasheets.length" class="card-halo p-5">
               <div class="label-meta mb-3">{{ locale === 'fa' ? 'دانلود و ارزیابی' : 'Downloads & evaluation' }}</div>
-              <p class="text-sm leading-relaxed text-[var(--text-secondary)]">{{ documentationNote }}</p>
+              <ul class="space-y-2">
+                <li v-for="(pdf, i) in productDatasheets" :key="pdf">
+                  <a
+                    :href="withBase(pdf)"
+                    target="_blank"
+                    rel="noopener"
+                    download
+                    class="inline-flex items-center gap-2 text-sm text-[#1F7994] hover:text-[#AAC5D0] transition-colors"
+                  >
+                    <svg class="h-4 w-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                    <span>{{ productDatasheets.length > 1 ? `${t('products.download_pdf')} ${i + 1}` : t('products.download_pdf') }}</span>
+                  </a>
+                </li>
+              </ul>
             </div>
           </div>
         </div>
@@ -159,8 +171,8 @@
           <table class="w-full text-start text-sm">
             <thead class="bg-[var(--bg-elevated)]">
               <tr>
-                <th class="label-meta px-5 py-4 text-start">{{ locale === 'fa' ? 'پارامتر' : 'Parameter' }}</th>
-                <th class="label-meta px-5 py-4 text-start">{{ locale === 'fa' ? 'مقدار' : 'Value' }}</th>
+                <th class="text-xs font-semibold uppercase tracking-wider text-[var(--text-secondary)] px-5 py-4 text-start">{{ locale === 'fa' ? 'پارامتر' : 'Parameter' }}</th>
+                <th class="text-xs font-semibold uppercase tracking-wider text-[var(--text-secondary)] px-5 py-4 text-start">{{ locale === 'fa' ? 'مقدار' : 'Value' }}</th>
               </tr>
             </thead>
             <tbody>
@@ -276,9 +288,6 @@ const primarySpecs = computed(() => (product.value?.specs || []).slice(0, 4))
 const deploymentFit = computed(() => locale.value === 'fa'
   ? 'برای محیط‌های حساس که نیاز به رفتار قابل پیش‌بینی، مسیر داده شفاف، و مستندسازی فنی دارند.'
   : 'Designed for sensitive environments that require predictable behavior, explainable data paths, and technical buying documentation.')
-const documentationNote = computed(() => locale.value === 'fa'
-  ? 'دیتاشیت مستقیم محصول، در صورت وجود، از همین صفحه در دسترس است؛ برای سناریوهای ارزیابی با فروش فنی تماس بگیرید.'
-  : 'The direct product datasheet is available on this page when published; call sales engineering for evaluation-specific guidance.')
 const productDatasheets = computed(() => normalizeMedia([
   product.value?.schematic_pdf,
   ...(Array.isArray(product.value?.schematic_pdfs) ? product.value.schematic_pdfs : []),

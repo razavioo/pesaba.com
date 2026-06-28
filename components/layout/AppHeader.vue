@@ -1,12 +1,12 @@
 <template>
   <header
     ref="headerRef"
-    class="sticky top-0 z-50 w-full max-w-[1440px] mx-auto mt-8 px-6 md:px-12 lg:px-[88px] pointer-events-none transition-all duration-300"
+    class="sticky top-0 z-50 w-full max-w-[1440px] mx-auto pt-8 px-6 md:px-12 lg:px-[88px] pointer-events-none transition-all duration-300"
     role="banner"
   >
     <div
       id="mainnav"
-      class="pointer-events-auto w-full mx-auto flex items-center bg-[#F6F6F6] py-2 px-4 md:p-4 rounded-[2px]"
+      class="pointer-events-auto w-full mx-auto flex items-center bg-[#F6F6F6] py-2 px-4 md:p-4 rounded-[2px] border border-black/5"
     >
       <nav aria-label="Main Menu" class="flex h-14 justify-between items-center w-full">
         <!-- Logo -->
@@ -18,7 +18,7 @@
         </NuxtLink>
 
         <!-- Desktop nav links -->
-        <div class="hidden lg:flex flex-1 items-center gap-0 px-4">
+          <div class="hidden xl:flex flex-1 items-center gap-0 px-4">
           <div
             v-for="item in navItems"
             :key="item.key"
@@ -42,7 +42,7 @@
           </div>
         </div>
 
-        <div class="flex-1 lg:hidden" />
+        <div class="flex-1 xl:hidden" />
 
         <!-- Right cluster -->
         <div class="flex items-center gap-1.5 sm:gap-2">
@@ -58,7 +58,7 @@
 
           <!-- Mobile hamburger -->
           <button
-            class="header-nav-buttons text-[#27282D] hover:text-[#1F7994] lg:hidden"
+            class="header-nav-buttons text-[#27282D] hover:text-[#1F7994] xl:hidden"
             :aria-label="$t('common.open')"
             @click="mobileOpen = !mobileOpen"
           >
@@ -155,9 +155,6 @@
       </div>
     </Transition>
   </header>
-
-  <!-- Spacer so content isn't hidden under fixed header -->
-  <div class="h-[104px] md:h-[120px]" aria-hidden="true" />
 </template>
 
 <script setup lang="ts">
@@ -205,7 +202,6 @@ const navItems = computed(() => [
     children: [
       { to: '/blog', label: t('blog.title') },
       { to: '/glossary', label: t('glossary.title') },
-      { to: '/resources/datasheets', label: t('footer.datasheets') },
       { to: '/resources/firmware', label: t('footer.firmware') },
     ],
   },

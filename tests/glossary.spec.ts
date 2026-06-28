@@ -51,12 +51,12 @@ test.describe('Glossary index page', () => {
     }
   })
 
-  test('term cards are rendered with title and Farsi title', async ({ page }) => {
+  test('term cards do not render Farsi title on English page', async ({ page }) => {
     const termCards = page.locator('a[href*="/en/glossary/"]')
     await expect(termCards.first()).toBeVisible()
-    // Farsi title displayed alongside English
+    // Farsi title should not be displayed on the English page
     const farsiTitle = termCards.first().locator('[dir="rtl"]')
-    await expect(farsiTitle).toBeVisible()
+    await expect(farsiTitle).not.toBeVisible()
   })
 
   test('term card shows short definition', async ({ page }) => {
@@ -77,6 +77,9 @@ test.describe('Glossary index page', () => {
     await expect(page.getByRole('heading', { level: 1 })).toBeVisible()
     const terms = page.locator('a[href*="/fa/glossary/"]')
     await expect(terms.first()).toBeVisible()
+    // English title displayed alongside Farsi on the Farsi page
+    const englishTitle = terms.first().locator('[dir="ltr"]')
+    await expect(englishTitle).toBeVisible()
   })
 })
 

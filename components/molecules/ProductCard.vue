@@ -1,12 +1,12 @@
 <template>
-  <article class="product-card group block h-full overflow-hidden border border-[var(--border)] bg-[var(--bg-elevated)] transition-colors hover:border-[#1F7994]">
+  <article class="product-card group block h-full min-h-[28rem] overflow-hidden border border-[var(--border)] bg-[var(--bg-elevated)] transition-colors hover:border-[#1F7994]">
     <NuxtLink :to="href" class="block h-full">
     <!-- Image -->
-    <div class="relative aspect-[4/3] overflow-hidden bg-[var(--bg-elevated)]">
+    <div class="relative flex min-h-[15rem] items-center justify-center overflow-hidden bg-[var(--bg-elevated)] pt-10">
       <NuxtImg
         :src="image || '/placeholder-product.svg'"
         :alt="title"
-        class="h-full w-full object-contain p-6 transition-transform duration-500 group-hover:scale-[1.03]"
+        class="h-full max-h-[16rem] w-full object-contain p-8 transition-transform duration-500 group-hover:scale-[1.03]"
         loading="lazy"
       />
       <div v-if="categoryLabel" class="absolute start-4 top-4">
@@ -17,8 +17,8 @@
     </div>
 
     <!-- Content -->
-    <div class="p-5 space-y-3">
-      <h3 class="text-xl font-bold leading-snug text-[var(--text-primary)] transition-colors group-hover:text-[#1F7994]">
+    <div class="p-6 md:p-7 space-y-3 pb-20">
+      <h3 class="text-[1.45rem] font-medium leading-snug text-[var(--text-primary)] transition-colors group-hover:text-[#1F7994]">
         {{ title }}
       </h3>
       <p v-if="description" class="text-sm leading-relaxed text-[var(--text-secondary)] line-clamp-2">

@@ -10,7 +10,7 @@
             <NuxtImg src="/logo.svg" alt="Pesaba" class="h-10 w-10 brightness-0 invert" />
             <div>
               <div class="text-lg font-bold text-white tracking-wide">Pesaba</div>
-              <div class="text-[10px] uppercase tracking-[0.22em] font-medium text-white/50">
+              <div class="text-xs uppercase tracking-[0.22em] font-medium text-white/50">
                 {{ locale === 'fa' ? 'شبکه‌های بدون شکست' : 'Networks That Cannot Fail' }}
               </div>
             </div>
@@ -62,7 +62,7 @@
         <!-- Links columns -->
         <div class="grid gap-8 sm:grid-cols-3">
           <div>
-            <h3 class="mb-5 text-[10px] font-semibold uppercase tracking-[0.18em] text-white/40">{{ $t('footer.products') }}</h3>
+            <h3 class="mb-5 text-xs font-semibold uppercase tracking-[0.18em] text-white/40">{{ $t('footer.products') }}</h3>
             <ul class="space-y-3">
               <li v-for="item in productLinks" :key="item.to">
                 <NuxtLink
@@ -76,7 +76,7 @@
           </div>
 
           <div>
-            <h3 class="mb-5 text-[10px] font-semibold uppercase tracking-[0.18em] text-white/40">{{ $t('footer.solutions') }}</h3>
+            <h3 class="mb-5 text-xs font-semibold uppercase tracking-[0.18em] text-white/40">{{ $t('footer.solutions') }}</h3>
             <ul class="space-y-3">
               <li v-for="item in solutionLinks" :key="item.to">
                 <NuxtLink
@@ -90,7 +90,7 @@
           </div>
 
           <div>
-            <h3 class="mb-5 text-[10px] font-semibold uppercase tracking-[0.18em] text-white/40">
+            <h3 class="mb-5 text-xs font-semibold uppercase tracking-[0.18em] text-white/40">
               {{ locale === 'fa' ? 'شرکت' : 'Company' }}
             </h3>
             <ul class="space-y-3">
@@ -146,7 +146,6 @@ const solutionLinks = computed(() => [
   { to: '/industries/telecom-operators', label: t('industries.telecom_operators') },
   { to: '/industries/government', label: t('industries.government') },
   { to: '/use-cases/one-way-data-transfer', label: t('use_cases.one_way_data_transfer') },
-  { to: '/resources/datasheets', label: t('footer.datasheets') },
   { to: '/resources/firmware', label: t('footer.firmware') },
 ])
 

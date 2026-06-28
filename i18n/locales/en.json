@@ -36,7 +36,9 @@
     "showcase_badge_k200": "Hardware One-Way",
     "showcase_badge_emx6": "AES-256 OS-Less",
     "showcase_badge_auriga": "2G–5G NR",
-    "showcase_badge_orazan": "Water Quality"
+    "showcase_badge_orazan": "Water Quality",
+    "featured_products": "Featured Products",
+    "explore_all_products_solutions": "Explore our full range of products & solutions"
   },
   "products": {
     "title": "Products",

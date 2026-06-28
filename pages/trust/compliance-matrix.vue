@@ -1,17 +1,19 @@
 <template>
   <div>
-    <section class="container-site pt-12 pb-6">
-      <nav class="flex items-center gap-2 text-xs text-ink-500 mb-6">
-        <NuxtLink :to="localePath('/trust')" class="hover:text-[var(--accent)] transition-colors">{{ $t('trust.title') }}</NuxtLink>
+    <section class="page-hero">
+      <div class="container-site pt-12 pb-6">
+      <nav class="flex items-center gap-2 text-xs text-white/40 mb-6">
+        <NuxtLink :to="localePath('/trust')" class="hover:text-white/70 transition-colors">{{ $t('trust.title') }}</NuxtLink>
         <span>/</span>
-        <span class="text-ink-300">{{ $t('trust.compliance') }}</span>
+        <span class="text-white/60">{{ $t('trust.compliance') }}</span>
       </nav>
-      <h1 class="text-4xl md:text-5xl font-extrabold text-ink-100 mb-3" style="letter-spacing: -0.02em;">
+      <h1 class="text-4xl md:text-5xl font-extrabold text-white mb-3" style="letter-spacing: -0.02em;">
         {{ $t('trust.compliance') }}
       </h1>
-      <p class="text-ink-400 text-base max-w-2xl leading-relaxed">
+      <p class="text-white/70 text-base max-w-2xl leading-relaxed">
         {{ $t('trust.compliance_sub') }}
       </p>
+      </div>
     </section>
 
     <!-- Filter row -->
@@ -101,15 +103,15 @@
         </h3>
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs">
           <div class="flex items-center gap-2">
-            <span class="inline-flex items-center justify-center w-7 h-7 rounded-md bg-signal-500/15 text-signal-500 font-mono">✓</span>
+            <span class="inline-flex items-center justify-center w-7 h-7 rounded-md bg-emerald-100 text-emerald-800 font-mono font-bold">✓</span>
             <span class="text-ink-400">{{ $t('trust.certified') }}</span>
           </div>
           <div class="flex items-center gap-2">
-            <span class="inline-flex items-center justify-center w-7 h-7 rounded-md bg-warn-500/15 text-warn-500 font-mono">◐</span>
+            <span class="inline-flex items-center justify-center w-7 h-7 rounded-md bg-amber-100 text-amber-800 font-mono font-bold">◐</span>
             <span class="text-ink-400">{{ $t('trust.in_progress') }}</span>
           </div>
           <div class="flex items-center gap-2">
-            <span class="inline-flex items-center justify-center w-7 h-7 rounded-md bg-ink-800 text-ink-700 font-mono">—</span>
+            <span class="inline-flex items-center justify-center w-7 h-7 rounded-md bg-ink-800 text-ink-400 font-mono font-bold">—</span>
             <span class="text-ink-400">{{ $t('trust.not_applicable') }}</span>
           </div>
         </div>
@@ -209,10 +211,10 @@ function cellSymbol(s: Status) {
 
 function cellClass(s: Status) {
   return s === 'certified'
-    ? 'bg-signal-500/15 text-signal-500'
+    ? 'bg-emerald-100 text-emerald-800 font-bold'
     : s === 'progress'
-    ? 'bg-warn-500/15 text-warn-500'
-    : 'bg-ink-800 text-ink-700'
+    ? 'bg-amber-100 text-amber-800 font-bold'
+    : 'bg-ink-800 text-ink-400 font-bold'
 }
 
 function cellTitle(s: Status) {

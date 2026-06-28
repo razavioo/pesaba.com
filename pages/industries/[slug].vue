@@ -1,7 +1,7 @@
 <template>
   <div v-if="industry">
     <!-- Hero -->
-    <section class="relative overflow-hidden bg-[#093544]" style="min-height: 440px; display: flex; flex-direction: column; justify-content: center;">
+    <section class="page-hero relative overflow-hidden" style="min-height: 440px; display: flex; flex-direction: column; justify-content: center;">
       <div class="absolute inset-0 opacity-30" :style="heroMediaStyle" aria-hidden="true" />
       <div class="absolute inset-0 pointer-events-none" style="background: linear-gradient(90deg, rgba(9,53,68,0.88) 0%, rgba(9,53,68,0.45) 55%, transparent 100%);" aria-hidden="true" />
       <div class="absolute inset-0 pointer-events-none" style="background-image: radial-gradient(circle, rgba(170,197,208,0.05) 1px, transparent 1px); background-size: 28px 28px;" aria-hidden="true" />
@@ -61,7 +61,7 @@
     </section>
 
     <!-- Recommended Products -->
-    <section id="products" v-if="industryProducts.length" class="border-t border-[var(--border)]">
+    <section v-if="industryProducts.length" id="products" class="border-t border-[var(--border)]">
       <div class="container-site py-16">
         <div class="mb-10">
           <h2 class="text-2xl font-bold text-[var(--text-primary)]">
@@ -85,7 +85,7 @@
     </section>
 
     <!-- Use Cases -->
-    <section id="use-cases" v-if="latestArticles.length" class="border-t border-[var(--border)]">
+    <section v-if="latestArticles.length" id="use-cases" class="border-t border-[var(--border)]">
       <div class="container-site py-16">
         <h2 class="text-2xl font-bold text-[var(--text-primary)] mb-8">
           {{ locale === 'fa' ? 'کاربردهای مرتبط' : 'Related Use Cases' }}
@@ -122,7 +122,7 @@
     </section>
 
     <!-- FAQ -->
-    <section id="faq" v-if="industry.faqs?.length" class="border-t border-[var(--border)]">
+    <section v-if="industry.faqs?.length" id="faq" class="border-t border-[var(--border)]">
       <div class="container-site py-16">
         <h2 class="text-2xl font-bold text-[var(--text-primary)] mb-8">
           {{ $t('industries.faq_title') }}

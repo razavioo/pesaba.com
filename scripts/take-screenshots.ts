@@ -105,7 +105,6 @@ function enumerateRoutes(skipDynamic: boolean): { name: string; path: string }[]
   add('blog', '/blog')
   add('industries', '/industries')
   add('resources', '/resources')
-  add('resources-datasheets', '/resources/datasheets')
   add('resources-firmware', '/resources/firmware')
   add('trust', '/trust')
   add('trust-compliance-matrix', '/trust/compliance-matrix')

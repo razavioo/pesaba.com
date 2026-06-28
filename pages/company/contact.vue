@@ -122,18 +122,18 @@
             </div>
 
             <!-- What you get section -->
-            <div class="border-t border-[var(--border)] pt-8">
-              <h3 class="label-meta mb-4 text-sm font-semibold text-[var(--text-primary)]">
+            <div class="border-t border-white/10 pt-8">
+              <h3 class="label-meta mb-4 text-sm font-semibold text-[#AAC5D0]">
                 {{ locale === 'fa' ? 'پس از تماس شما' : 'What you can expect' }}
               </h3>
               <ul class="space-y-4">
                 <li v-for="(item, idx) in expectations" :key="idx" class="flex gap-4 items-start">
-                  <div class="mt-1 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-[rgba(31,121,148,0.10)] text-[#1F7994] border border-[#1F7994]/20">
+                  <div class="mt-1 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-[#1F7994]/20 text-sky-300 border border-[#1F7994]/30">
                     <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
                       <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
                     </svg>
                   </div>
-                  <span class="text-sm text-[var(--text-secondary)] leading-relaxed">{{ item }}</span>
+                  <span class="text-sm text-white/70 leading-relaxed">{{ item }}</span>
                 </li>
               </ul>
             </div>
@@ -282,15 +282,6 @@
                     </span>
                   </BaseButton>
                 </form>
-
-                <!-- Compliance / Secure note at the bottom of form -->
-                <div class="mt-5 pt-4 border-t border-[var(--border)] flex items-center gap-2 justify-center text-[10px] text-[var(--text-muted)]">
-                  <!-- Lock Icon -->
-                  <svg class="w-3.5 h-3.5 text-[#1F7994]/60" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                  </svg>
-                  <span>{{ locale === 'fa' ? 'اطلاعات شما با پروتکل SSL رمزنگاری شده و محفوظ است.' : 'Your communication is secure and SSL-encrypted.' }}</span>
-                </div>
 
               </div>
             </div>

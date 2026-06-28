@@ -112,3 +112,16 @@ const aboutStats = computed(() => locale.value === 'fa'
 
 useSeoMeta({ title: doc.value?.seo_title ?? `About | Pesaba`, description: doc.value?.seo_desc })
 </script>
+
+<style scoped>
+h1, h2, h3, h4, h5, h6,
+:deep(h1),
+:deep(h2),
+:deep(h3),
+:deep(h4),
+:deep(h5),
+:deep(h6) {
+  border-bottom: none !important;
+  text-decoration: none !important;
+}
+</style>

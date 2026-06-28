@@ -1,17 +1,24 @@
 <template>
   <div>
-    <section class="page-hero relative" style="min-height: 440px; display: flex; flex-direction: column; justify-content: center;">
-      <div class="absolute inset-0 opacity-20" :style="heroImgStyle" aria-hidden="true" />
-      <div class="absolute inset-0 pointer-events-none" style="background-image: radial-gradient(circle, rgba(170,197,208,0.06) 1px, transparent 1px); background-size: 28px 28px;" aria-hidden="true" />
+    <section class="page-hero relative overflow-hidden">
+      <div class="absolute inset-0 pointer-events-none" style="background-image: radial-gradient(circle, rgba(170,197,208,0.045) 1px, transparent 1px); background-size: 28px 28px;" aria-hidden="true" />
 
-      <div class="container-site section-hero relative z-10 py-16 lg:py-24">
+      <div class="container-wide section-hero relative z-10 grid gap-12 py-20 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,0.8fr)] lg:items-center lg:py-28">
         <div class="max-w-3xl">
-          <h1 class="mb-4 text-5xl font-extrabold leading-[1.02] tracking-[-0.03em] text-white md:text-7xl">
+          <h1 class="mb-5 text-[clamp(3rem,7vw,7.5rem)] font-medium leading-[1.08] text-[#FCFCFD]">
             {{ $t('products.title') }}
           </h1>
-          <p class="text-lg leading-relaxed text-white/70">
+          <p class="max-w-2xl text-lg leading-relaxed text-[#D7E6EC]">
             {{ $t('products.index_sub') }}
           </p>
+        </div>
+        <div class="relative hidden lg:block">
+          <div class="absolute -end-8 -top-8 text-[#AAC5D0]/30" aria-hidden="true">
+            <svg width="198" height="94" viewBox="0 0 198 94" fill="currentColor">
+              <rect v-for="(_, index) in 32" :key="index" :x="(index % 8) * 26" :y="Math.floor(index / 8) * 26" width="16" height="16" rx="1" />
+            </svg>
+          </div>
+          <NuxtImg src="/images/products/products-hero.png" alt="Pesaba products" class="relative z-10 ms-auto max-h-[420px] w-full object-contain" loading="eager" />
         </div>
       </div>
 
@@ -22,14 +29,14 @@
       </div>
     </section>
 
-    <section class="sticky top-16 z-20 border-b border-[var(--border)] bg-[var(--bg-page)]/95 backdrop-blur-xl">
+    <section class="sticky top-24 z-20 border-b border-[var(--border)] bg-[var(--bg-page)]/95 backdrop-blur-xl">
       <div class="container-site">
         <div class="flex gap-2 overflow-x-auto py-3">
           <a
             v-for="cat in categories"
             :key="cat.key"
             :href="`#${cat.key}`"
-            class="whitespace-nowrap rounded-xl border border-[var(--border)] bg-[var(--bg-elevated)] px-4 py-1.5 text-sm font-medium text-[var(--text-secondary)] transition-all hover:border-[var(--accent)] hover:bg-[var(--accent-bg)] hover:text-[var(--accent)]"
+            class="whitespace-nowrap border border-[var(--border)] bg-[var(--bg-elevated)] px-4 py-1.5 text-sm font-medium text-[var(--text-secondary)] transition-colors hover:border-[var(--accent)] hover:bg-[var(--accent-bg)] hover:text-[var(--accent)]"
           >
             {{ $t(`products.categories.${cat.key}`) }}
           </a>
@@ -40,17 +47,17 @@
     <section class="section">
       <div class="container-site space-y-14">
         <div v-for="cat in categories" :id="cat.key" :key="cat.key" class="scroll-mt-32">
-          <div class="mb-6 flex items-end justify-between gap-6 border-b border-[var(--border)] pb-4">
+          <div class="mb-6 flex items-end justify-between gap-6 border-b border-[var(--border)] pb-5">
             <div>
               <div class="label-meta mb-2 text-sm md:text-base">{{ cat.products.length }} {{ locale === 'fa' ? 'محصول' : 'products' }}</div>
-              <h2 class="text-2xl font-bold text-[var(--text-primary)]">{{ $t(`products.categories.${cat.key}`) }}</h2>
+              <h2 class="text-3xl font-medium text-[var(--text-primary)]">{{ $t(`products.categories.${cat.key}`) }}</h2>
             </div>
             <NuxtLink :to="localePath(`/products/${cat.key}`)" class="text-sm font-medium text-[var(--accent)] transition-colors hover:text-[var(--accent-hover)]">
               {{ $t('common.view_all') }}
             </NuxtLink>
           </div>
 
-          <div :class="['grid gap-5 sm:grid-cols-2 lg:grid-cols-3']">
+          <div :class="['grid gap-4 sm:grid-cols-2 lg:grid-cols-3']">
             <ProductCard
               v-for="p in cat.products"
               :key="p._path"
@@ -79,11 +86,6 @@ useHead({
   link: [
     { rel: 'preload', as: 'image', href: withBase('/images/products/products-hero.png') },
   ],
-})
-
-const heroImgStyle = computed(() => {
-  const position = locale.value === 'fa' ? 'left center' : 'center'
-  return `background-image: url('${withBase('/images/products/products-hero.png')}'); background-size: cover; background-position: ${position};`
 })
 
 useSeoMeta({

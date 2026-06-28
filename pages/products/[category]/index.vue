@@ -1,21 +1,15 @@
 <template>
   <div>
-    <!-- Breadcrumbs -->
-    <section class="border-b border-[var(--border)] bg-[var(--bg-elevated)]">
-      <div class="container-site py-4">
-        <nav class="breadcrumbs" :aria-label="$t('common.breadcrumb')">
-          <NuxtLink :to="localePath('/')">{{ $t('common.home') }}</NuxtLink>
-          <span>/</span>
-          <NuxtLink :to="localePath('/products')">{{ $t('products.title') }}</NuxtLink>
-          <span>/</span>
-          <span class="current">{{ $t(`products.categories.${category}`) }}</span>
-        </nav>
-      </div>
-    </section>
-
     <!-- Hero -->
     <section class="page-hero bg-[#093544]">
       <div class="container-site relative z-10 py-16 lg:py-24">
+        <nav class="mb-8 flex items-center gap-2 text-xs text-white/40" :aria-label="$t('common.breadcrumb')">
+          <NuxtLink :to="localePath('/')" class="hover:text-white/70 transition-colors">{{ $t('common.home') }}</NuxtLink>
+          <span>/</span>
+          <NuxtLink :to="localePath('/products')" class="hover:text-white/70 transition-colors">{{ $t('products.title') }}</NuxtLink>
+          <span>/</span>
+          <span class="text-white/60">{{ $t(`products.categories.${category}`) }}</span>
+        </nav>
         <div class="max-w-3xl">
           <div class="section-label mb-5" style="color:#AAC5D0">{{ categoryTag }}</div>
           <h1 class="text-4xl md:text-5xl font-extrabold text-white mb-4 leading-tight" style="letter-spacing: -0.02em;">

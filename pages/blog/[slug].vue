@@ -4,14 +4,10 @@
       <div class="h-full bg-[#1F7994] transition-all duration-75 ease-linear" :style="{ width: `${readingProgress}%` }" />
     </div>
 
-    <!-- Full-bleed cover image with editorial overlay -->
-    <div v-if="article.image" class="relative h-[38vh] min-h-[240px] overflow-hidden border-b border-[var(--border)] md:h-[50vh]">
-      <NuxtImg :src="article.image" :alt="article.title" class="h-full w-full object-cover" loading="eager" />
-      <div class="absolute inset-0 bg-gradient-to-t from-[var(--bg-page)] via-[rgba(4,10,20,0.3)] to-transparent" />
-    </div>
-
-    <section class="page-hero border-none" :class="article.image ? '!mt-[-136px] md:!mt-[-152px] pt-8 pb-10' : ''">
-      <div class="container-site" :class="article.image ? '' : 'section-hero'">
+    <section class="page-hero border-none overflow-hidden">
+      <NuxtImg v-if="article.image" :src="article.image" :alt="article.title" class="absolute inset-0 h-full w-full object-cover opacity-30" loading="eager" />
+      <div v-if="article.image" class="absolute inset-0 bg-[#093544]/75" aria-hidden="true" />
+      <div class="container-site relative z-10 section-hero">
         <div class="mx-auto max-w-3xl">
           <div class="mb-5 flex flex-wrap items-center gap-3 text-xs text-[var(--text-muted)]">
             <span class="label-accent">{{ $t('blog.badge') }}</span>
@@ -20,10 +16,10 @@
             <span class="h-px w-4 bg-[var(--border-strong)]" />
             <span>{{ readingTime }} {{ $t('blog.min_read') }}</span>
           </div>
-          <h1 class="mb-5 text-4xl font-extrabold leading-[1.04] tracking-[-0.04em] text-[var(--text-primary)] md:text-5xl">
+          <h1 class="mb-5 text-4xl font-extrabold leading-[1.04] tracking-[-0.04em] text-white md:text-5xl">
             {{ article.title }}
           </h1>
-          <p v-if="article.description" class="max-w-2xl text-lg leading-relaxed text-[var(--text-secondary)]">
+          <p v-if="article.description" class="max-w-2xl text-lg leading-relaxed text-white/70">
             {{ article.description }}
           </p>
         </div>

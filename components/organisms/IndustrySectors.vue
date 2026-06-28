@@ -115,21 +115,21 @@ const sectors = computed(() => locale.value === 'fa' ? [
   background: transparent;
   position: relative;
   z-index: 40;
-  margin-top: -3.5rem;
-  margin-bottom: 2.5rem;
+  margin-top: -4.25rem;
+  margin-bottom: 4rem;
 }
 
 @media (min-width: 768px) {
   .industries-section {
-    margin-top: -6rem;
-    margin-bottom: 3.5rem;
+    margin-top: -7rem;
+    margin-bottom: 5rem;
   }
 }
 
 @media (min-width: 1024px) {
   .industries-section {
-    margin-top: -8rem;
-    margin-bottom: 4.5rem;
+    margin-top: -9rem;
+    margin-bottom: 5.75rem;
   }
 }
 
@@ -142,7 +142,7 @@ const sectors = computed(() => locale.value === 'fa' ? [
 @media (min-width: 1024px) {
   .industries-grid {
     grid-template-columns: repeat(4, 1fr);
-    gap: 1.5rem;
+    gap: 0.5rem;
   }
 }
 
@@ -159,10 +159,11 @@ const sectors = computed(() => locale.value === 'fa' ? [
   display: block;
   overflow: hidden;
   aspect-ratio: 3/4;
+  min-height: 230px;
   cursor: pointer;
   text-decoration: none;
   border-radius: var(--r-md, 0px);
-  border: 1px solid var(--border);
+  border: 0;
   background: var(--bg-elevated);
   box-shadow: none;
   transition: border-color 0.4s ease;
@@ -171,6 +172,7 @@ const sectors = computed(() => locale.value === 'fa' ? [
 @media (min-width: 1024px) {
   .sector-card {
     aspect-ratio: 2/3;
+    min-height: 430px;
   }
 }
 
@@ -213,10 +215,10 @@ const sectors = computed(() => locale.value === 'fa' ? [
   position: absolute;
   inset: 0;
   background: linear-gradient(
-    to top,
-    rgba(4, 7, 13, 0.85) 0%,
-    rgba(4, 7, 13, 0.35) 50%,
-    rgba(4, 7, 13, 0) 100%
+    to right,
+    rgba(9, 53, 68, 0.88) 0%,
+    rgba(9, 53, 68, 0.42) 46%,
+    rgba(9, 53, 68, 0.06) 100%
   );
 }
 
@@ -225,7 +227,9 @@ const sectors = computed(() => locale.value === 'fa' ? [
   position: absolute;
   inset-inline-start: 0;
   inset-inline-end: 0;
-  bottom: 0;
+  top: 50%;
+  bottom: auto;
+  transform: translateY(-50%);
   padding: 1.75rem 1.5rem;
   display: flex;
   flex-direction: column;
@@ -238,7 +242,7 @@ const sectors = computed(() => locale.value === 'fa' ? [
   font-weight: 600;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: rgba(170, 197, 208, 0.8);
+  color: #AAC5D0;
   margin-bottom: 0.25rem;
 }
 
@@ -246,8 +250,8 @@ const sectors = computed(() => locale.value === 'fa' ? [
   font-size: 1.125rem;
   font-weight: 700;
   line-height: 1.25;
-  color: #ffffff;
-  letter-spacing: -0.02em;
+  color: #FCFCFD;
+  letter-spacing: 0;
   margin: 0;
 }
 

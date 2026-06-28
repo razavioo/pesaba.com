@@ -48,17 +48,15 @@ articleSlugs.forEach(slug => prerenderRoutes.push(`/og/article/${slug}.svg`))
 productSlugs.forEach(slug => prerenderRoutes.push(`/og/product/${slug}.svg`))
 glossarySlugs.forEach(slug => prerenderRoutes.push(`/og/glossary/${slug}.svg`))
 
+type RouteRule = { redirect: { to: string; statusCode: number } }
+
 const redirectRules = Object.entries(REDIRECTS).reduce((acc, [from, to]) => {
   acc[from] = { redirect: { to, statusCode: 301 } }
-  const decoded = decodeURIComponent(from)
-  if (decoded !== from) {
-    acc[decoded] = { redirect: { to, statusCode: 301 } }
-  }
   return acc
-}, {} as Record<string, any>)
+}, {} as Record<string, RouteRule>)
 
 // Add all redirect source routes to prerender list so Nitro generates fallback redirect HTML files
-Object.keys(redirectRules).forEach(route => prerenderRoutes.push(route))
+Object.keys(REDIRECTS).forEach(route => prerenderRoutes.push(route))
 
 export default defineNuxtConfig({
   compatibilityDate: '2024-11-01',

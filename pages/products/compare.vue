@@ -1,17 +1,19 @@
 <template>
   <div>
-    <section class="container-site pt-12 pb-6">
-      <nav class="flex items-center gap-2 text-xs text-ink-500 mb-6">
-        <NuxtLink :to="localePath('/products')" class="hover:text-[var(--accent)] transition-colors">{{ $t('products.title') }}</NuxtLink>
+    <section class="page-hero">
+      <div class="container-site pt-12 pb-20">
+      <nav class="flex items-center gap-2 text-xs text-white/40 mb-6">
+        <NuxtLink :to="localePath('/products')" class="hover:text-white/70 transition-colors">{{ $t('products.title') }}</NuxtLink>
         <span>/</span>
-        <span class="text-ink-300">{{ $t('compare.title') }}</span>
+        <span class="text-white/60">{{ $t('compare.title') }}</span>
       </nav>
-      <h1 class="text-4xl font-extrabold text-ink-100 mb-3">
+      <h1 class="text-4xl font-extrabold text-white mb-3">
         {{ $t('compare.title') }}
       </h1>
-      <p class="text-ink-400 text-base max-w-2xl">
+      <p class="text-white/70 text-base max-w-2xl">
         {{ $t('compare.sub') }}
       </p>
+      </div>
     </section>
 
     <!-- Product picker -->

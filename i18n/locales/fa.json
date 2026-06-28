@@ -36,7 +36,9 @@
     "showcase_badge_k200": "یک‌طرفه سخت‌افزاری",
     "showcase_badge_emx6": "AES-256 بدون OS",
     "showcase_badge_auriga": "2G تا 5G NR",
-    "showcase_badge_orazan": "کیفیت آب"
+    "showcase_badge_orazan": "کیفیت آب",
+    "featured_products": "محصولات برگزیده",
+    "explore_all_products_solutions": "مشاهده محدوده کامل محصولات و راهکارها"
   },
   "products": {
     "title": "محصولات",

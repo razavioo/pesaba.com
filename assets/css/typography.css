@@ -53,7 +53,7 @@
   font-weight: 400;
   font-style: normal;
   font-display: swap;
-  size-adjust: 110%;
+  size-adjust: 85%;
 }
 @font-face {
   font-family: 'IRANYekanX';
@@ -61,7 +61,7 @@
   font-weight: 600 900;
   font-style: normal;
   font-display: swap;
-  size-adjust: 110%;
+  size-adjust: 85%;
 }
 
 /* ─── Inter (Latin body — self-hosted variable) ──────────────────────────── */
@@ -191,18 +191,18 @@ html[dir="rtl"] .spec-value {
   font-family: 'IRANYekanX', Tahoma, sans-serif;
 }
 
-/* Persian line-height corrections — size-adjust: 110% makes glyphs ~10% taller
-   than Latin, so the tight display line-heights clip bold Persian text. */
-html[dir="rtl"] .text-10xl { font-size: clamp(3rem, 7vw, 5.5rem) !important; line-height: 1.22 !important; }
-html[dir="rtl"] .text-9xl  { font-size: clamp(2.75rem, 6.5vw, 5rem) !important; line-height: 1.22 !important; }
-html[dir="rtl"] .text-8xl  { font-size: clamp(2.5rem, 6vw, 4.5rem) !important; line-height: 1.25 !important; }
-html[dir="rtl"] .text-7xl  { font-size: clamp(2.25rem, 5.5vw, 4rem) !important; line-height: 1.28 !important; }
-html[dir="rtl"] .text-6xl  { font-size: clamp(2rem, 5vw, 3.5rem) !important; line-height: 1.32 !important; }
-html[dir="rtl"] .text-5xl  { font-size: clamp(1.75rem, 4.5vw, 3rem) !important; line-height: 1.35 !important; }
-html[dir="rtl"] .text-4xl  { font-size: clamp(1.5rem, 4vw, 2.5rem) !important; line-height: 1.42 !important; }
-html[dir="rtl"] .text-3xl  { font-size: clamp(1.35rem, 3.5vw, 2.125rem) !important; line-height: 1.5  !important; }
-html[dir="rtl"] .text-2xl  { line-height: 1.6  !important; }
-html[dir="rtl"] .text-xl   { line-height: 1.7  !important; }
+/* Persian line-height corrections — size-adjust: 92% harmonizes visual sizes,
+   and line-heights are set to generous values to prevent overlapping lines in RTL script. */
+html[dir="rtl"] .text-10xl { font-size: clamp(2.75rem, 6.5vw, 5rem) !important; line-height: 1.45 !important; }
+html[dir="rtl"] .text-9xl  { font-size: clamp(2.5rem, 6vw, 4.5rem) !important; line-height: 1.45 !important; }
+html[dir="rtl"] .text-8xl  { font-size: clamp(2.25rem, 5.5vw, 4rem) !important; line-height: 1.45 !important; }
+html[dir="rtl"] .text-7xl  { font-size: clamp(2rem, 5vw, 3.5rem) !important; line-height: 1.45 !important; }
+html[dir="rtl"] .text-6xl  { font-size: clamp(1.75rem, 4.5vw, 3.125rem) !important; line-height: 1.45 !important; }
+html[dir="rtl"] .text-5xl  { font-size: clamp(1.6rem, 4vw, 2.625rem) !important; line-height: 1.48 !important; }
+html[dir="rtl"] .text-4xl  { font-size: clamp(1.4rem, 3.5vw, 2.25rem) !important; line-height: 1.5 !important; }
+html[dir="rtl"] .text-3xl  { font-size: clamp(1.25rem, 3vw, 1.875rem) !important; line-height: 1.55 !important; }
+html[dir="rtl"] .text-2xl  { line-height: 1.65 !important; }
+html[dir="rtl"] .text-xl   { line-height: 1.75 !important; }
 html[dir="rtl"] .text-lg   { line-height: 1.85 !important; }
 html[dir="rtl"] .text-base { line-height: 1.85 !important; }
 
@@ -212,7 +212,7 @@ html[dir="rtl"] h3,
 html[dir="rtl"] h4,
 html[dir="rtl"] h5,
 html[dir="rtl"] h6 {
-  line-height: 1.4;
+  line-height: 1.5;
 }
 
 /* Monospace spec values always in Latin digits */

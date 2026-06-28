@@ -2,7 +2,7 @@
   <Transition name="mega">
     <div
       v-if="active"
-      class="absolute left-0 right-0 top-full border-t border-[var(--border)] z-40 bg-[#F6F6F6] shadow-lg rounded-b-[2px] pointer-events-auto"
+      class="absolute left-0 right-0 top-full border-t border-[var(--border)] z-40 bg-[#F6F6F6] rounded-b-[2px] pointer-events-auto"
       @mouseenter="$emit('enter')"
       @mouseleave="$emit('leave')"
     >
@@ -18,7 +18,7 @@
               <li v-for="ind in industries" :key="ind.slug">
                 <NuxtLink
                   :to="localePath(`/industries/${ind.slug}`)"
-                  class="group flex items-center gap-3 rounded-xl px-3 py-3 text-sm text-[var(--text-secondary)] transition-colors hover:bg-[var(--bg-elevated)] hover:text-[var(--accent)]"
+                  class="group flex items-center gap-3 px-3 py-3 text-sm text-[var(--text-secondary)] transition-colors hover:bg-[var(--bg-elevated)] hover:text-[var(--accent)]"
                   @click="$emit('close')"
                 >
                   <span class="w-5 h-5 flex-shrink-0 text-[#1F7994]/50 group-hover:text-[#1F7994] transition-colors">
@@ -37,7 +37,7 @@
               <li v-for="uc in useCases" :key="uc.slug">
                 <NuxtLink
                   :to="localePath(`/use-cases/${uc.slug}`)"
-                  class="group flex items-center gap-3 rounded-xl px-3 py-3 text-sm text-[var(--text-secondary)] transition-colors hover:bg-[var(--bg-elevated)] hover:text-[var(--accent)]"
+                  class="group flex items-center gap-3 px-3 py-3 text-sm text-[var(--text-secondary)] transition-colors hover:bg-[var(--bg-elevated)] hover:text-[var(--accent)]"
                   @click="$emit('close')"
                 >
                   <span class="w-1.5 h-1.5 rounded-full bg-[#1F7994]/40 group-hover:bg-[#1F7994] flex-shrink-0 transition-colors" />
@@ -62,7 +62,7 @@
               <li v-for="prod in cat.products" :key="prod.slug">
                 <NuxtLink
                   :to="localePath(`/products/${cat.key}/${prod.slug}`)"
-                  class="group flex items-start gap-2 rounded-xl px-3 py-2.5 transition-colors hover:bg-[var(--bg-elevated)]"
+                  class="group flex items-start gap-2 px-3 py-2.5 transition-colors hover:bg-[var(--bg-elevated)]"
                   @click="$emit('close')"
                 >
                   <span class="w-1 h-1 rounded-full bg-[var(--text-muted)] group-hover:bg-[#1F7994] mt-2 flex-shrink-0 transition-colors" />
@@ -80,7 +80,7 @@
           <div v-for="res in resources" :key="res.key">
             <NuxtLink
               :to="localePath(res.href)"
-              class="group flex flex-col gap-1 rounded-2xl border border-[var(--border)] bg-[var(--bg-elevated)]/55 p-4 transition-colors hover:border-[#1F7994]/20 hover:bg-[var(--bg-elevated)]"
+              class="group flex flex-col gap-1 border border-[var(--border)] bg-[var(--bg-elevated)]/55 p-4 transition-colors hover:border-[#1F7994]/20 hover:bg-[var(--bg-elevated)]"
               @click="$emit('close')"
             >
               <span class="text-sm font-medium text-[var(--text-primary)] transition-colors group-hover:text-[#1F7994]">{{ res.label }}</span>
@@ -140,7 +140,6 @@ const productCategories = computed(() =>
 const resources = computed(() => [
   { key: 'blog',       label: t('blog.title'),     href: '/blog',                 desc: locale.value === 'fa' ? 'مقالات و تحلیل‌ها' : 'Articles & insights' },
   { key: 'glossary',   label: t('glossary.title'), href: '/glossary',             desc: locale.value === 'fa' ? 'اصطلاحات فنی' : 'Technical terms' },
-  { key: 'datasheets', label: locale.value === 'fa' ? 'دیتاشیت‌ها' : 'Datasheets', href: '/resources/datasheets', desc: locale.value === 'fa' ? 'PDF محصولات' : 'Product PDFs' },
   { key: 'firmware',   label: locale.value === 'fa' ? 'فریم‌ور' : 'Firmware',      href: '/resources/firmware',   desc: locale.value === 'fa' ? 'به‌روزرسانی امضاشده' : 'Signed releases' },
 ])
 </script>

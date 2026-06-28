@@ -79,7 +79,7 @@ test.describe('Product category page', () => {
 
   test('breadcrumb "Products" link works', async ({ page }) => {
     const productsLink = page.locator('nav[aria-label="Breadcrumb"] a').filter({ hasText: /Products/i }).first()
-    await productsLink.click()
+    await productsLink.evaluate(el => (el as HTMLElement).click())
     await page.waitForURL(/\/products$/)
   })
 
@@ -153,6 +153,12 @@ test.describe('Product detail page', () => {
     const pdfBtn = page.locator('a[href$="/schematics/a10/DD-A10.pdf"]').first()
     await expect(pdfBtn).toBeVisible()
     await expect(pdfBtn).toHaveAttribute('href', /\/schematics\/a10\/DD-A10\.pdf$/)
+  })
+
+  test('datasheet link is visible under Downloads & evaluation card', async ({ page }) => {
+    const card = page.locator('.card-halo', { hasText: /Downloads & evaluation/i })
+    const pdfLink = card.locator('a[href$="/schematics/a10/DD-A10.pdf"]')
+    await expect(pdfLink).toBeVisible()
   })
 
   test('datasheet CTA does not route to generic datasheets page', async ({ page }) => {

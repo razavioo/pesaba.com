@@ -1,17 +1,17 @@
 <template>
-  <section class="section bg-[var(--bg-elevated)]">
-    <div class="container-site max-w-2xl text-center">
-      <h2 class="text-2xl font-bold text-[var(--text-primary)] mb-3">
+  <section class="section bg-[#093544] text-[#FCFCFD]">
+    <div class="container-site max-w-3xl text-center">
+      <h2 class="text-3xl md:text-[4rem] font-medium leading-[1.15] text-[#FCFCFD] mb-4">
         {{ headline }}
       </h2>
-      <p v-if="sub" class="text-base leading-relaxed text-[var(--text-secondary)] mb-6">
+      <p v-if="sub" class="text-base leading-relaxed text-[#AAC5D0] mb-8">
         {{ sub }}
       </p>
       <div class="flex flex-wrap gap-3 justify-center">
-        <BaseButton v-if="primaryLabel" variant="primary" size="lg" v-bind="buttonLink(primaryHref)">
+        <BaseButton v-if="primaryLabel" variant="primary" size="lg" class="!bg-[#1F7994] hover:!bg-[#165368]" v-bind="buttonLink(primaryHref)">
           {{ primaryLabel }}
         </BaseButton>
-        <BaseButton v-if="secondaryLabel" variant="outline" size="lg" v-bind="buttonLink(secondaryHref)">
+        <BaseButton v-if="secondaryLabel" variant="outline" size="lg" class="!border-[#AAC5D0] !text-[#FCFCFD] hover:!border-[#FCFCFD] hover:!bg-white/10 hover:!text-[#FCFCFD]" v-bind="buttonLink(secondaryHref)">
           {{ secondaryLabel }}
         </BaseButton>
       </div>

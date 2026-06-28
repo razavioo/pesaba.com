@@ -1,5 +1,21 @@
 <template>
-  <div class="relative min-h-screen bg-[var(--bg-page)] bg-graph-paper py-16 md:py-24">
+  <div class="relative min-h-screen bg-[var(--bg-page)] bg-graph-paper">
+    <section class="page-hero">
+      <div class="container-site pt-12 pb-20">
+        <nav class="flex items-center gap-2 text-xs text-white/40 mb-6">
+          <NuxtLink :to="localePath('/resources')" class="hover:text-white/70 transition-colors">{{ $t('nav.resources') }}</NuxtLink>
+          <span>/</span>
+          <span class="text-white/60">{{ $t('resources.firmware_title') }}</span>
+        </nav>
+        <h1 class="text-4xl md:text-5xl font-extrabold text-white mb-5 leading-tight">
+          {{ $t('resources.firmware_title') }}
+        </h1>
+        <p class="text-white/70 text-base md:text-lg leading-relaxed max-w-2xl">
+          {{ $t('resources.firmware_page_sub') }}
+        </p>
+      </div>
+    </section>
+    <div class="py-16 md:py-24">
     <!-- Neon Decorative Glow Blobs -->
     <div class="absolute -top-12 -left-12 w-96 h-96 bg-[rgba(31,121,148,0.10)] rounded-full blur-[100px] pointer-events-none" />
     <div class="absolute bottom-1/4 -right-16 w-80 h-80 bg-[rgba(31,121,148,0.05)] rounded-full blur-[80px] pointer-events-none" />
@@ -9,18 +25,7 @@
         
         <!-- Left Side: Title, Desc, Hero Image, and Contact Support Link -->
         <div class="lg:col-span-5 space-y-8 animate-fade-in">
-          <div>
-            <div class="mb-5 flex items-center gap-2">
-              <span class="h-1.5 w-1.5 rounded-full bg-[#1F7994] animate-pulse" />
-              <div class="label-accent uppercase tracking-wider text-xs font-semibold">{{ $t('nav.resources') }}</div>
-            </div>
-            <h1 class="text-4xl md:text-5xl font-extrabold text-[var(--text-primary)] mb-5 leading-tight">
-              {{ $t('resources.firmware_title') }}
-            </h1>
-            <p class="text-[var(--text-secondary)] text-base md:text-lg leading-relaxed">
-              {{ $t('resources.firmware_page_sub') }}
-            </p>
-          </div>
+          <div />
 
           <!-- Premium Hero Image Card -->
           <div class="overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--bg-elevated)] relative group shadow-glow-sm hover:shadow-glow-md transition-all duration-300">
@@ -224,6 +229,7 @@
         </div>
 
       </div>
+    </div>
     </div>
   </div>
 </template>
