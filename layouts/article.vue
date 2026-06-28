@@ -10,17 +10,17 @@
       id="language"
       :aria-modal="drawerOpen ? 'true' : undefined"
       :class="[
-        'fixed top-0 inset-x-0 z-[70] bg-[#093544]',
+        'fixed top-0 inset-x-0 z-[70] bg-[#093544] flex items-center',
         'h-14 md:h-[200px]',
         'transition-transform duration-500 ease-in-out pointer-events-auto',
         drawerOpen ? 'translate-y-0' : '-translate-y-full',
       ]"
       role="menu"
     >
-      <div class="container-site flex justify-end">
-        <div class="flex flex-col items-end gap-3 md:gap-5">
+      <div class="container-wide flex justify-end items-center h-full">
+        <div class="flex flex-col items-end gap-3 md:gap-0 md:justify-between md:h-full pt-2 pb-2 md:py-8">
           <button
-            class="header-nav-buttons text-white/60 hover:text-white"
+            class="header-nav-buttons text-white/60 hover:text-white flex flex-col items-center justify-center gap-3"
             @click="drawerOpen = false"
           >
             <svg class="w-5 h-5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">

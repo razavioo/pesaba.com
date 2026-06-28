@@ -16,10 +16,10 @@
       ]"
       role="menu"
     >
-      <div class="container-site flex justify-end items-center h-full">
-        <div class="flex flex-col items-end gap-3 md:gap-5 pt-4 md:pt-8">
+      <div class="container-wide flex justify-end items-center h-full">
+        <div class="flex flex-col items-end gap-3 md:gap-0 md:justify-between md:h-full pt-2 pb-2 md:py-8">
           <button
-            class="flex flex-col items-center gap-1 text-white/60 hover:text-white transition-colors"
+            class="header-nav-buttons text-white/60 hover:text-white flex flex-col items-center justify-center gap-3"
             @click="drawerOpen = false"
           >
             <svg class="w-5 h-5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
