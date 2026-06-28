@@ -8,7 +8,7 @@
     <!-- Intro tagline + CTA — matches Advenica: text then single button after sector cards -->
     <section class="section">
       <div class="container-site max-w-2xl text-center">
-        <p class="text-base leading-relaxed text-[var(--text-secondary)] mb-6">
+        <p class="text-lg md:text-[1.375rem] leading-relaxed text-[var(--text-secondary)] mb-6">
           {{ $t('home.hero_sub') }}
         </p>
         <BaseButton variant="primary" size="lg" :to="localePath('/company/contact')">
@@ -57,9 +57,11 @@
               <p>{{ locale === 'fa' ? 'پرتو ارتباط صبا (پصبا) یک شرکت دانش‌بنیان ایرانی است که از سال ۱۳۸۷ در زمینه طراحی و ساخت سخت‌افزارهای امنیت شبکه و تجهیزات مخابراتی فعالیت می‌کند. مأموریت ما ارائه راهکارهای مهندسی‌شده داخلی برای چالش‌های امنیت شبکه در محیط‌های صنعتی، دولتی و اپراتوری است.' : 'Partov Ertebat Saba (Pesaba) is an Iranian knowledge-based company founded in 2008, specialising in the design and manufacture of network security hardware. Our mission is to deliver domestically engineered solutions to the most demanding network security challenges in industrial, governmental, and operator environments.' }}</p>
               <p>{{ locale === 'fa' ? 'تیم ما متشکل از فارغ‌التحصیلان دکتری و کارشناسی ارشد از دانشگاه‌های برتر ایران است که برای بومی‌سازی فناوری‌های امنیت شبکه فعالیت می‌کنند. با بیش از یک دهه تجربه در حوزه مخابرات و امنیت، پصبا مجموعه‌ای از محصولات شامل رمزکننده‌های سخت‌افزاری، دیتا دیودها، تجهیزات پایش شبکه و انتقال مخابراتی را ارائه می‌دهد.' : 'Our team of PhD and MSc graduates from Iran\'s leading universities works to localise critical network security technology. With over a decade of experience in communications and security, Pesaba delivers hardware encryption devices, data diodes, network monitoring equipment, and telecom transmission systems.' }}</p>
             </div>
-            <NuxtLink :to="localePath('/company/about')" class="mt-6 inline-block text-sm font-medium text-[var(--accent)] hover:text-[var(--accent-hover)] transition-colors">
-              {{ locale === 'fa' ? 'اطلاعات بیشتر درباره شرکت' : 'Learn more about Pesaba' }} {{ locale === 'fa' ? '←' : '→' }}
-            </NuxtLink>
+            <div class="flex justify-start rtl:justify-end">
+              <NuxtLink :to="localePath('/company/about')" class="mt-6 inline-block text-sm font-medium text-[var(--accent)] hover:text-[var(--accent-hover)] transition-colors">
+                {{ locale === 'fa' ? 'اطلاعات بیشتر درباره شرکت' : 'Learn more about Pesaba' }} {{ locale === 'fa' ? '←' : '→' }}
+              </NuxtLink>
+            </div>
           </div>
           <div class="relative aspect-[4/3] overflow-hidden border border-[var(--border)] bg-[var(--bg-elevated)]">
             <NuxtImg src="/images/about/soc-operations.png" alt="Pesaba SOC Operations" class="h-full w-full object-cover" loading="lazy" />

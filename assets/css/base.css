@@ -608,6 +608,11 @@
     letter-spacing: 0;
   }
 
+  [dir="rtl"] .navigation-link {
+    font-family: 'IRANYekanX', 'Inter', Tahoma, sans-serif !important;
+    letter-spacing: 0px !important;
+  }
+
   /* Badge */
   .badge {
     display: inline-flex;
