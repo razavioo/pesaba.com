@@ -5,6 +5,7 @@
 
       <div class="container-wide section-hero relative z-10 grid gap-12 py-20 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,0.8fr)] lg:items-center lg:py-28">
         <div class="max-w-3xl">
+          <div class="section-label mb-5" style="color:#AAC5D0">{{ locale === 'fa' ? 'محصولات' : 'Products' }}</div>
           <h1 class="mb-5 text-[clamp(3rem,7vw,7.5rem)] font-medium leading-[1.08] text-[#FCFCFD]">
             {{ $t('products.title') }}
           </h1>
@@ -18,7 +19,7 @@
               <rect v-for="(_, index) in 32" :key="index" :x="(index % 8) * 26" :y="Math.floor(index / 8) * 26" width="16" height="16" rx="1" />
             </svg>
           </div>
-          <NuxtImg src="/images/products/products-hero.png" alt="Pesaba products" class="relative z-10 ms-auto max-h-[420px] w-full object-contain" loading="eager" />
+          <NuxtImg src="/photos/g200/rackmount.webp" alt="Pesaba products" class="relative z-10 ms-auto max-h-[420px] w-full object-contain" loading="eager" />
         </div>
       </div>
 
@@ -84,7 +85,7 @@ const { withBase } = useBaseUrl()
 
 useHead({
   link: [
-    { rel: 'preload', as: 'image', href: withBase('/images/products/products-hero.png') },
+    { rel: 'preload', as: 'image', href: withBase('/photos/g200/rackmount.webp') },
   ],
 })
 
