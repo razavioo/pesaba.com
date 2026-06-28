@@ -361,14 +361,4 @@ const buildPillars = computed(() => [
   { icon: resolveComponent('IconMadeInIran'), title: t('common.made_in_iran'), desc: locale.value === 'fa' ? 'طراحی، ساخت و آزمون در زنجیره مهندسی کنترل‌شده داخلی انجام می‌شود.' : 'Design, manufacturing, and validation stay inside a controlled domestic engineering chain.' },
 ])
 
-function formatDate(dateStr?: string) {
-  if (!dateStr) return ''
-  try {
-    return new Intl.DateTimeFormat(locale.value === 'fa' ? 'fa-IR' : 'en-US', {
-      year: 'numeric', month: 'short', day: 'numeric',
-    }).format(new Date(dateStr))
-  } catch {
-    return dateStr
-  }
-}
 </script>

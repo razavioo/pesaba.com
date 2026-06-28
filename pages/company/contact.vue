@@ -1,7 +1,7 @@
 <template>
   <div class="relative min-h-screen bg-[var(--bg-page)] bg-graph-paper">
 
-    <section class="section-hero">
+    <section class="page-hero relative">
       <div class="container-site">
         <!-- Breadcrumb / Meta Label -->
         <div class="mb-6 flex items-center gap-2">
