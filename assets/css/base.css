@@ -214,14 +214,14 @@
     border-bottom: none;
     background: #093544;
     padding-bottom: 3rem; /* space for SVG wedge */
-    margin-top: -136px;
-    padding-top: 136px;
+    margin-top: -208px;
+    padding-top: 208px;
   }
 
   @media (min-width: 48rem) {
     .page-hero {
-      margin-top: -152px;
-      padding-top: 152px;
+      margin-top: -240px;
+      padding-top: 240px;
     }
   }
 
@@ -330,16 +330,16 @@
   }
 
   /* Page hero always uses white text regardless of theme */
-  .page-hero h1,
-  .page-hero h2 {
+  .page-hero h1:not(.card-halo *),
+  .page-hero h2:not(.card-halo *) {
     color: #ffffff !important;
   }
-  .page-hero p,
-  .page-hero .section-copy {
+  .page-hero p:not(.card-halo *),
+  .page-hero .section-copy:not(.card-halo *) {
     color: rgba(255,255,255,0.70) !important;
   }
-  .page-hero .section-label,
-  .page-hero .label-meta {
+  .page-hero .section-label:not(.card-halo *),
+  .page-hero .label-meta:not(.card-halo *) {
     color: #AAC5D0 !important;
   }
 
