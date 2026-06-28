@@ -25,6 +25,15 @@
     overflow-x: hidden;
   }
 
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background: linear-gradient(180deg, #093544 0 9rem, #ffffff 9rem 100%);
+  }
+
   /* Headings — Advenica: font-weight medium (500) default, bold (700) for emphasis */
   h1, h2, h3, h4, h5, h6 {
     font-family: 'FuturaBT', 'Jost', 'Inter', system-ui, sans-serif;
@@ -176,9 +185,9 @@
   /* Container */
   .container-site {
     width: 100%;
-    max-width: var(--container);
+    max-width: var(--container-wide);
     margin-inline: auto;
-    padding-inline: clamp(1.5rem, 3vw, 3rem);
+    padding-inline: clamp(1.5rem, 5.5vw, 5.5rem);  /* Advenica: gutter-3xl = 88px */
   }
 
   .container-wide {
@@ -214,14 +223,14 @@
     border-bottom: none;
     background: #093544;
     padding-bottom: 3rem; /* space for SVG wedge */
-    margin-top: -208px;
-    padding-top: 208px;
+    margin-top: -6.5rem;
+    padding-top: 6.5rem;
   }
 
   @media (min-width: 48rem) {
     .page-hero {
-      margin-top: -240px;
-      padding-top: 240px;
+      margin-top: -7.5rem;
+      padding-top: 7.5rem;
     }
   }
 
@@ -311,7 +320,8 @@
   .section-heading {
     font-size: clamp(2rem, 4vw, 3.25rem);
     line-height: 1.08;
-    letter-spacing: -0.03em;
+    letter-spacing: 0;
+    font-weight: 500;
   }
 
   .section-copy {
@@ -342,6 +352,14 @@
   .page-hero .label-meta:not(.card-halo *) {
     color: #AAC5D0 !important;
   }
+  .page-hero .btn-outline:not(.card-halo *) {
+    border-color: rgba(255, 255, 255, 0.4) !important;
+    color: #ffffff !important;
+  }
+  .page-hero .btn-outline:not(.card-halo *):hover {
+    border-color: #1F7994 !important;
+    color: #1F7994 !important;
+  }
 
   [dir="rtl"] .hairline {
     background: linear-gradient(270deg, transparent 0%, var(--photon-500) 50%, transparent 100%);
@@ -356,18 +374,57 @@
   }
   .card-halo:hover {
     border-color: var(--blue-brand) !important;
-    background-color: var(--bg-modal);
+    background-color: var(--blue-pale);
   }
 
   /* Product card — premium tile */
   .product-card {
     background-color: var(--bg-elevated);
     border: 1px solid var(--border);
+    position: relative;
     transition: border-color 200ms var(--ease-hover),
                 background-color 200ms var(--ease-hover);
   }
   .product-card:hover {
     border-color: var(--blue-brand) !important;
+    background-color: var(--blue-pale);
+  }
+
+  .product-card::after {
+    content: '';
+    position: absolute;
+    inset-inline-end: 1rem;
+    bottom: 1rem;
+    width: 3.875rem;
+    height: 2.75rem;
+    background: #093544;
+    opacity: 0;
+    transform: translateY(4px);
+    transition: opacity var(--dur-base) var(--ease-hover), transform var(--dur-base) var(--ease-hover);
+    pointer-events: none;
+  }
+
+  .product-card::before {
+    content: '→';
+    position: absolute;
+    inset-inline-end: 2rem;
+    bottom: 1.55rem;
+    z-index: 2;
+    color: #ffffff;
+    font-size: 1.5rem;
+    line-height: 1;
+    opacity: 0;
+    transform: translateY(4px);
+    transition: opacity var(--dur-base) var(--ease-hover), transform var(--dur-base) var(--ease-hover);
+    pointer-events: none;
+  }
+
+  [dir="rtl"] .product-card::before { content: '←'; }
+
+  .product-card:hover::before,
+  .product-card:hover::after {
+    opacity: 1;
+    transform: translateY(0);
   }
 
   /* Shared long-form prose (product detail, industries, use-cases, glossary articles) */

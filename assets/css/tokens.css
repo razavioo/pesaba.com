@@ -91,6 +91,13 @@
   --space-cta:     clamp(4rem, 7vw, 6.25rem);
   --space-gap:     clamp(1.5rem, 3vw, 3rem);
 
+  /* Motion */
+  --dur-fast: 150ms;
+  --dur-base: 240ms;
+  --dur-enter: 360ms;
+  --ease-hover: cubic-bezier(.4, 0, .2, 1);
+  --ease-entrance: cubic-bezier(.32, .72, 0, 1);
+
   /* ─── Radius ──────────────────────────────────────────────────────────── */
   --r-xs:   0px;
   --r-sm:   0px;
@@ -100,7 +107,7 @@
   --r-full: 9999px;
 
   /* ─── Grid ────────────────────────────────────────────────────────────── */
-  --container:       1280px;
+  --container:       1440px;
   --container-wide:  1440px;
   --container-prose: 960px;
 }

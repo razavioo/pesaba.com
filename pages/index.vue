@@ -6,54 +6,127 @@
     <IndustrySectors />
 
     <!-- Intro tagline + CTA — matches Advenica: text then single button after sector cards -->
-    <section class="section">
-      <div class="container-site max-w-2xl text-center">
-        <p class="text-lg md:text-[1.375rem] leading-relaxed text-[var(--text-secondary)] mb-6">
+    <section class="section pt-4 md:pt-8">
+      <div class="container-site max-w-4xl">
+        <p class="text-[1.75rem] md:text-[3rem] leading-[1.24] font-medium text-[#093544] mb-8">
           {{ $t('home.hero_sub') }}
         </p>
-        <BaseButton variant="primary" size="lg" :to="localePath('/company/contact')">
+        <BaseButton variant="outline" size="lg" :to="localePath('/company/contact')">
           {{ locale === 'fa' ? 'تماس با ما' : 'Contact us' }}
         </BaseButton>
       </div>
     </section>
 
-    <section class="section">
+    <!-- Featured Products Section -->
+    <section class="section bg-[var(--bg-page)] relative overflow-hidden">
       <div class="container-site">
-        <div class="mb-8">
-          <div class="section-label mb-3">{{ locale === 'fa' ? 'خطوط محصول' : 'Product Lines' }}</div>
-          <h2 class="section-heading text-[var(--text-primary)]">{{ $t('home.what_we_do') }}</h2>
+        <div class="mb-10 flex items-center gap-6 relative">
+          <!-- Dot grid SVG -->
+          <svg class="text-[#AAC5D0]/40 w-12 h-12 hidden sm:block" viewBox="0 0 80 80" fill="currentColor">
+            <circle cx="10" cy="10" r="3" />
+            <circle cx="30" cy="10" r="3" />
+            <circle cx="50" cy="10" r="3" />
+            <circle cx="70" cy="10" r="3" />
+            <circle cx="10" cy="30" r="3" />
+            <circle cx="30" cy="30" r="3" />
+            <circle cx="50" cy="30" r="3" />
+            <circle cx="70" cy="30" r="3" />
+            <circle cx="10" cy="50" r="3" />
+            <circle cx="30" cy="50" r="3" />
+            <circle cx="50" cy="50" r="3" />
+            <circle cx="70" cy="50" r="3" />
+            <circle cx="10" cy="70" r="3" />
+            <circle cx="30" cy="70" r="3" />
+            <circle cx="50" cy="70" r="3" />
+            <circle cx="70" cy="70" r="3" />
+          </svg>
+          <div>
+            <h2 class="text-3xl md:text-[4rem] font-medium leading-[1.15] text-[var(--blue-deep)]">
+              {{ $t('home.featured_products') }}
+            </h2>
+          </div>
         </div>
-        <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 auto-rows-[29rem]">
           <NuxtLink
-            v-for="cat in productCategories"
-            :key="cat.key"
-            :to="localePath(`/products/${cat.key}`)"
-            class="product-card card-halo group overflow-hidden"
+            v-for="p in featuredProducts"
+            :key="p.id"
+            :to="p.to"
+            :class="[
+              p.class,
+               'product-card card-halo group relative flex flex-col justify-between overflow-hidden p-7 md:p-9 transition-colors duration-300'
+            ]"
           >
-            <div class="relative aspect-[4/3] border-b border-[var(--border)] bg-[var(--bg-elevated)] overflow-hidden">
-              <NuxtImg :src="cat.image" :alt="cat.title" class="h-full w-full object-contain p-8" loading="lazy" />
-            </div>
-            <div class="p-5">
-              <h3 class="text-xl font-bold text-[var(--text-primary)] mb-2">{{ cat.title }}</h3>
-              <p class="text-sm leading-relaxed text-[var(--text-secondary)] mb-3">{{ cat.desc }}</p>
-              <div class="flex flex-wrap gap-2">
-                <SpecPill v-for="chip in cat.chips" :key="chip.label" :label="chip.label" :value="chip.value" />
+            <!-- Blue dot indicator in top corner -->
+            <span class="absolute top-6 end-6 w-2.5 h-2.5 rounded-full bg-[#1F7994] transition-transform duration-300 group-hover:scale-125" />
+
+            <template v-if="p.isWide">
+              <div class="grid grid-cols-1 md:grid-cols-[0.8fr_1.2fr] gap-8 items-center w-full h-full">
+                <div class="flex flex-col">
+                  <h3 class="text-2xl md:text-[1.75rem] font-medium text-[var(--blue-deep)] mb-3 leading-snug group-hover:text-[#1F7994] transition-colors">
+                    {{ locale === 'fa' ? p.titleFa : p.title }}
+                  </h3>
+                  <p class="text-sm md:text-base leading-relaxed text-[var(--text-secondary)]">
+                    {{ p.desc }}
+                  </p>
+                </div>
+                <div class="flex justify-center items-center h-64 w-full">
+                  <NuxtImg
+                    :src="p.image"
+                    :alt="p.title"
+                    class="max-h-full max-w-full object-contain transition-transform duration-500 ease-out group-hover:scale-105"
+                    loading="lazy"
+                  />
+                </div>
               </div>
-            </div>
+            </template>
+
+            <template v-else>
+                <div class="flex flex-col h-full justify-between">
+                <div>
+                  <h3 class="text-2xl md:text-[1.75rem] font-medium text-[var(--blue-deep)] mb-3 leading-snug group-hover:text-[#1F7994] transition-colors">
+                    {{ locale === 'fa' ? p.titleFa : p.title }}
+                  </h3>
+                  <p class="text-sm md:text-base leading-relaxed text-[var(--text-secondary)] mb-8">
+                    {{ p.desc }}
+                  </p>
+                </div>
+                <div class="flex justify-center items-center h-56 w-full mt-auto">
+                  <NuxtImg
+                    :src="p.image"
+                    :alt="p.title"
+                    class="max-h-full max-w-full object-contain transition-transform duration-500 ease-out group-hover:scale-105"
+                    loading="lazy"
+                  />
+                </div>
+              </div>
+            </template>
+          </NuxtLink>
+        </div>
+
+        <div class="mt-12 flex justify-center">
+          <NuxtLink
+            :to="localePath('/products')"
+            class="group inline-flex items-center gap-3 text-base font-medium text-[#1F7994] hover:text-[#165368] transition-colors"
+          >
+            <span>{{ $t('home.explore_all_products_solutions') }}</span>
+            <span class="transition-transform duration-200 group-hover:translate-x-1 rtl:group-hover:-translate-x-1">
+              {{ locale === 'fa' ? '←' : '→' }}
+            </span>
           </NuxtLink>
         </div>
       </div>
     </section>
 
     <!-- About section — Advenica pattern: 2-col split, text left, image right -->
-    <section class="section">
+    <section class="section pt-8">
       <div class="container-site">
-        <div class="grid gap-10 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] lg:items-center">
+        <div class="mx-auto max-w-3xl">
           <div>
-            <h2 class="text-2xl font-bold text-[var(--text-primary)] mb-5">
+            <h2 class="text-3xl md:text-[4rem] font-medium leading-[1.15] text-[var(--text-primary)] mb-7">
               {{ locale === 'fa' ? 'درباره پرتو ارتباط صبا' : 'About Pesaba' }}
             </h2>
-            <div class="space-y-4 text-sm leading-relaxed text-[var(--text-secondary)]">
+            <div class="space-y-5 text-base leading-relaxed text-[var(--text-secondary)]">
               <p>{{ locale === 'fa' ? 'پرتو ارتباط صبا (پصبا) یک شرکت دانش‌بنیان ایرانی است که از سال ۱۳۸۷ در زمینه طراحی و ساخت سخت‌افزارهای امنیت شبکه و تجهیزات مخابراتی فعالیت می‌کند. مأموریت ما ارائه راهکارهای مهندسی‌شده داخلی برای چالش‌های امنیت شبکه در محیط‌های صنعتی، دولتی و اپراتوری است.' : 'Partov Ertebat Saba (Pesaba) is an Iranian knowledge-based company founded in 2008, specialising in the design and manufacture of network security hardware. Our mission is to deliver domestically engineered solutions to the most demanding network security challenges in industrial, governmental, and operator environments.' }}</p>
               <p>{{ locale === 'fa' ? 'تیم ما متشکل از فارغ‌التحصیلان دکتری و کارشناسی ارشد از دانشگاه‌های برتر ایران است که برای بومی‌سازی فناوری‌های امنیت شبکه فعالیت می‌کنند. با بیش از یک دهه تجربه در حوزه مخابرات و امنیت، پصبا مجموعه‌ای از محصولات شامل رمزکننده‌های سخت‌افزاری، دیتا دیودها، تجهیزات پایش شبکه و انتقال مخابراتی را ارائه می‌دهد.' : 'Our team of PhD and MSc graduates from Iran\'s leading universities works to localise critical network security technology. With over a decade of experience in communications and security, Pesaba delivers hardware encryption devices, data diodes, network monitoring equipment, and telecom transmission systems.' }}</p>
             </div>
@@ -63,25 +136,31 @@
               </NuxtLink>
             </div>
           </div>
-          <div class="relative aspect-[4/3] overflow-hidden border border-[var(--border)] bg-[var(--bg-elevated)]">
-            <NuxtImg src="/images/about/soc-operations.png" alt="Pesaba SOC Operations" class="h-full w-full object-cover" loading="lazy" />
-          </div>
         </div>
       </div>
     </section>
 
     <!-- Product Spotlight — Advenica pattern: H2 + description + CTA -->
-    <section class="section bg-[var(--bg-elevated)]">
-      <div class="container-site max-w-2xl">
-        <h2 class="text-2xl font-bold text-[var(--text-primary)] mb-4">
-          {{ locale === 'fa' ? 'دیتا دیودهای سری G — مرز سخت‌افزاری یک‌طرفه' : 'Data Diode G-Series — Hardware One-Way Boundary' }}
-        </h2>
-        <p class="text-sm leading-relaxed text-[var(--text-secondary)] mb-6">
-          {{ locale === 'fa' ? 'دیتا دیودهای سری G پرتو ارتباط صبا جداسازی فیزیکی تضمین‌شده بین شبکه‌های حساس و شبکه‌های با سطح اطمینان پایین‌تر را فراهم می‌کنند. با معماری مبتنی بر FPGA و بدون سیستم‌عامل، انتقال یک‌طرفه داده بدون هیچ مسیر برگشت نرم‌افزاری تضمین می‌شود — مناسب برای محیط‌های OT، SCADA و زیرساخت‌های حیاتی.' : 'Pesaba G-Series data diodes provide guaranteed physical separation between sensitive networks and lower-trust environments. With FPGA-native architecture and no operating system, one-way data transfer is enforced in hardware with zero software back-channel — designed for OT, SCADA, and critical infrastructure environments.' }}
-        </p>
-        <BaseButton variant="primary" size="lg" :to="localePath('/products/data-diodes')">
-          {{ locale === 'fa' ? 'مشاهده دیتا دیودها' : 'Explore Data Diodes' }}
-        </BaseButton>
+    <section class="section bg-[var(--bg-page)] overflow-hidden">
+      <div class="container-site">
+        <div class="relative flex flex-col md:flex-row md:items-end">
+          <div class="relative z-20 order-2 bg-[#093544] px-6 py-16 text-[#FCFCFD] md:order-1 md:mt-24 md:w-[62%] md:px-12 md:py-20 lg:px-16">
+            <div class="max-w-xl">
+              <h2 class="mb-5 text-3xl md:text-[4rem] font-medium leading-[1.15] text-[#FCFCFD]">
+                {{ locale === 'fa' ? 'دیتا دیودهای سری G' : 'Data Diode G-Series' }}
+              </h2>
+              <p class="mb-7 text-base leading-relaxed text-[#D7E6EC]">
+                {{ locale === 'fa' ? 'دیتا دیودهای سری G پرتو ارتباط صبا جداسازی فیزیکی تضمین‌شده بین شبکه‌های حساس و شبکه‌های با سطح اطمینان پایین‌تر را فراهم می‌کنند. معماری مبتنی بر FPGA انتقال یک‌طرفه داده را بدون مسیر برگشت نرم‌افزاری enforce می‌کند.' : 'Pesaba G-Series data diodes provide guaranteed physical separation between sensitive networks and lower-trust environments. FPGA-native architecture enforces one-way data transfer without a software return path.' }}
+              </p>
+              <BaseButton variant="primary" size="lg" :to="localePath('/products/data-diodes')">
+                {{ locale === 'fa' ? 'مشاهده دیتا دیودها' : 'Explore Data Diodes' }}
+              </BaseButton>
+            </div>
+          </div>
+          <div class="relative z-30 order-1 ms-auto w-[78%] max-w-[520px] md:order-2 md:-ms-16 md:w-[42%]">
+            <NuxtImg src="/photos/g200/reflected.webp" alt="Pesaba data diode" class="border-8 border-white bg-[#EFF4F6] object-contain p-8" loading="lazy" />
+          </div>
+        </div>
       </div>
     </section>
 
@@ -104,7 +183,7 @@
             v-for="item in applicationSegments"
             :key="item.to"
             :to="localePath(item.to)"
-            class="card-halo group flex h-full flex-col overflow-hidden p-6 transition-all duration-300 hover:-translate-y-1"
+            class="card-halo group flex h-full flex-col overflow-hidden p-6 transition-colors duration-300"
           >
             <div class="mb-5 flex items-start justify-between gap-3">
               <span class="inline-block border border-[var(--accent)]/25 bg-[var(--accent)]/6 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-[var(--accent)]">
@@ -130,18 +209,11 @@
 
     <section class="section bg-[var(--bg-page)]">
       <div class="container-site">
-        <div class="mb-10 grid gap-6 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:items-end">
-          <div>
-            <div class="section-label mb-3">{{ locale === 'fa' ? 'چرا متفاوتیم' : 'Why It Ships Better' }}</div>
-            <h2 class="section-heading text-[var(--text-primary)]">{{ $t('home.how_we_ship') }}</h2>
-          </div>
-          <p class="section-copy max-w-2xl">
-            {{ locale === 'fa' ? 'محصولات پرتو ارتباط صبا باید برای خریداران فنی قابل توجیه باشند: منطق سخت‌افزاری شفاف، وابستگی نرم‌افزاری کمتر، و مستندات اعتمادسازی قوی‌تر.' : 'Pesaba products need to be defensible to technical buyers: clearer hardware logic, fewer software dependencies, and stronger trust evidence.' }}
-          </p>
-        </div>
+        <h2 class="mb-12 text-3xl md:text-[4rem] font-medium leading-[1.15] text-[var(--text-primary)]">{{ locale === 'fa' ? 'چرا می‌توانید اعتماد کنید' : 'Why you can trust us' }}</h2>
         <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
-          <div v-for="pillar in buildPillars" :key="pillar.title" class="space-y-2">
-            <h3 class="text-lg font-bold text-[var(--text-primary)]">{{ pillar.title }}</h3>
+          <div v-for="pillar in buildPillars" :key="pillar.title" class="space-y-3 border-t border-[var(--border)] pt-6">
+            <component :is="pillar.icon" class="h-9 w-9 text-[#1F7994]" />
+            <h3 class="text-lg font-medium text-[var(--text-primary)]">{{ pillar.title }}</h3>
             <p class="text-sm leading-relaxed text-[var(--text-secondary)]">{{ pillar.desc }}</p>
           </div>
         </div>
@@ -153,7 +225,7 @@
         <div class="mb-8 flex items-end justify-between gap-6">
           <div>
             <div class="section-label mb-3">{{ locale === 'fa' ? 'تازه‌ها' : 'From the Lab' }}</div>
-            <h2 class="section-heading text-[var(--text-primary)]">{{ $t('home.from_the_lab') }}</h2>
+            <h2 class="text-3xl md:text-[4rem] font-medium leading-[1.15] text-[var(--text-primary)]">{{ locale === 'fa' ? 'تازه‌ترین خبرها' : 'Latest news' }}</h2>
           </div>
           <NuxtLink :to="localePath('/blog')" class="text-sm font-semibold text-[var(--accent)] transition-colors hover:text-[var(--accent-hover)] underline-photon">
             {{ $t('common.view_all') }}
@@ -293,66 +365,56 @@ const applicationSegments = computed(() => locale.value === 'fa' ? [
   },
 ])
 
-const productCategories = computed(() => [
+const featuredProducts = computed(() => [
   {
-    key: 'data-diodes',
-    title: t('products.categories.data-diodes'),
-    image: '/photos/k200/photo-1.webp',
-    stat: locale.value === 'fa' ? 'یک‌طرفه' : 'One-way',
-    desc: locale.value === 'fa' ? 'انتقال قطعی و یک‌طرفه داده برای مرزبندی‌های با اطمینان بالا.' : 'Deterministic one-way data transfer for high-assurance boundaries.',
-    chips: locale.value === 'fa'
-      ? [{ label: 'مدل‌ها', value: '۵' }, { label: 'بیشینه سرعت', value: '۱۰ Gbps' }]
-      : [{ label: 'Models', value: '5' }, { label: 'Max', value: '10 Gbps' }],
+    id: 'g200',
+    title: 'Data Diode G200',
+    titleFa: 'دیتا دیود G200',
+    desc: locale.value === 'fa' ? 'انتقال یک‌طرفه سخت‌افزاری مبتنی بر FPGA برای شبکه‌های صنعتی OT/SCADA.' : 'FPGA-native one-way data transfer for industrial OT/SCADA systems.',
+    image: '/photos/g200/photo-1.webp',
+    to: localePath('/products/data-diodes/g200'),
+    class: 'col-span-1',
+    isWide: false,
   },
   {
-    key: 'network-encryption',
-    title: t('products.categories.network-encryption'),
-    image: '/photos/emx-6/photo-1.webp',
-    stat: 'AES-256',
+    id: 'emx-6',
+    title: 'Network Encryptor EMX-6',
+    titleFa: 'رمزکننده شبکه EMX-6',
     desc: locale.value === 'fa' ? 'رمزنگاری خطی سخت‌افزاری با سطح حمله نرم‌افزاری نزدیک به صفر.' : 'Line-rate hardware encryption with near-zero software attack surface.',
-    chips: locale.value === 'fa'
-      ? [{ label: 'معماری', value: 'مبتنی بر FPGA' }, { label: 'سرعت لینک', value: '۱+ Gbps' }]
-      : [{ label: 'Mode', value: 'FPGA-native' }, { label: 'Links', value: '1+ Gbps' }],
+    image: '/photos/emx-6/photo-1.webp',
+    to: localePath('/products/network-encryption/emx-6'),
+    class: 'col-span-1',
+    isWide: false,
   },
   {
-    key: 'cellular-monitoring',
-    title: t('products.categories.cellular-monitoring'),
+    id: 'g300',
+    title: 'Data Diode G300',
+    titleFa: 'دیتا دیود G300',
+    desc: locale.value === 'fa' ? 'دیتا دیود ۱U راک‌مونت با کارایی بالا و منبع تغذیه پشتیبان دوگانه.' : 'High-throughput 1U rackmount data diode with dual redundant power supplies.',
+    image: '/photos/g300/photo-1.webp',
+    to: localePath('/products/data-diodes/g300'),
+    class: 'col-span-1 md:col-span-2',
+    isWide: true,
+  },
+  {
+    id: 'capella',
+    title: 'Cellular Monitor Capella',
+    titleFa: 'پایشگر سلولی Capella',
+    desc: locale.value === 'fa' ? 'اندازه‌گیری شاخص‌های کیفیت خدمات و تجربه (QoS/QoE) در شبکه‌های نسل ۲ تا ۵.' : 'Real-time QoS and QoE measurement in 2G to 5G networks.',
     image: '/photos/capella/photo-1.webp',
-    stat: '2G-5G',
-    desc: locale.value === 'fa' ? 'پایش KPI و QoS سلولی از ابزار میدانی تا گزارش متمرکز.' : 'Cellular KPI and QoS measurement from field probes to centralized reporting.',
-    chips: locale.value === 'fa'
-      ? [{ label: 'پوشش', value: 'سراسری' }, { label: 'شاخص‌ها', value: 'QoS + QoE' }]
-      : [{ label: 'Coverage', value: 'Nationwide' }, { label: 'KPIs', value: 'QoS + QoE' }],
+    to: localePath('/products/cellular-monitoring/capella'),
+    class: 'col-span-1',
+    isWide: false,
   },
   {
-    key: 'network-switching-filtering',
-    title: t('products.categories.network-switching-filtering'),
-    image: '/photos/emx-9/photo-1.webp',
-    stat: locale.value === 'fa' ? 'فیلترینگ' : 'Filtering',
-    desc: locale.value === 'fa' ? 'سوئیچینگ و فیلترینگ صنعتی برای محیط‌های OT حساس.' : 'Industrial switching and filtering for sensitive OT environments.',
-    chips: locale.value === 'fa'
-      ? [{ label: 'لایه', value: 'L2/L3' }, { label: 'کاربرد', value: 'تفکیک شبکه' }]
-      : [{ label: 'Mode', value: 'L2/L3' }, { label: 'Use', value: 'Segmentation' }],
-  },
-  {
-    key: 'telecom-transmission',
-    title: t('products.categories.telecom-transmission'),
-    image: '/photos/sdx-1/photo-1.webp',
-    stat: 'STM-1 / E1',
-    desc: locale.value === 'fa' ? 'رابط‌ها و انتقال مخابراتی برای شبکه‌های قدیم و جدید.' : 'Telecom transport interfaces for legacy and modern network layers.',
-    chips: locale.value === 'fa'
-      ? [{ label: 'پروتکل', value: 'SDH / E1' }, { label: 'رده', value: 'اپراتوری' }]
-      : [{ label: 'Transport', value: 'SDH / E1' }, { label: 'Fit', value: 'Carrier' }],
-  },
-  {
-    key: 'bio-monitoring',
-    title: t('products.categories.bio-monitoring'),
+    id: 'orazan',
+    title: 'Biomonitor Orazan',
+    titleFa: 'زیست‌پایشگر اورازان',
+    desc: locale.value === 'fa' ? 'تشخیص زودهنگام سمیت و پایش زیست‌محیطی بلادرنگ کیفیت آب.' : 'Early toxicity warning and real-time biological water quality monitoring.',
     image: '/photos/orazan/photo-1.webp',
-    stat: locale.value === 'fa' ? 'هشدار' : 'Alerting',
-    desc: locale.value === 'fa' ? 'پایش زیست‌محیطی برای کیفیت آب و تشخیص زودهنگام.' : 'Environmental monitoring for water quality and early anomaly detection.',
-    chips: locale.value === 'fa'
-      ? [{ label: 'حالت پایش', value: 'بلادرنگ' }, { label: 'کاربرد', value: 'شبکه‌های توزیع' }]
-      : [{ label: 'Mode', value: 'Realtime' }, { label: 'Use', value: 'Utilities' }],
+    to: localePath('/products/bio-monitoring/orazan'),
+    class: 'col-span-1',
+    isWide: false,
   },
 ])
 

@@ -143,7 +143,7 @@ export default {
       maxWidth: {
         'prose-narrow': '720px',
         'prose':        '960px',
-        'container':    '1280px',
+        'container':    '1440px',
         'wide':         '1440px',
       },
       transitionTimingFunction: {
