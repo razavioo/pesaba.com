@@ -80,8 +80,8 @@
               </div>
             </div>
 
-            <!-- Channels Grid (Email & Phone as gorgeous mini cards) -->
-            <div class="grid gap-4 sm:grid-cols-2">
+            <!-- Channels Grid -->
+            <div class="grid gap-4 sm:grid-cols-3">
               <!-- Email Card -->
               <div class="card-halo p-5 bg-[var(--bg-elevated)]/60 relative group hover:border-[#1F7994]/30 transition-all">
                 <div class="flex items-center justify-between mb-3">
@@ -117,6 +117,35 @@
                 <div class="label-meta mb-1">{{ $t('footer.phone') }}</div>
                 <a :href="salesPhoneHref" class="text-sm font-semibold text-[var(--text-primary)] hover:text-[#1F7994] transition-colors" dir="ltr">
                   {{ salesPhoneDisplayInternational }}
+                </a>
+              </div>
+
+              <!-- LinkedIn Card -->
+              <div class="card-halo p-5 bg-[var(--bg-elevated)]/60 relative group hover:border-[#1F7994]/30 transition-all">
+                <div class="flex items-center justify-between mb-3">
+                  <div class="p-2 rounded-lg bg-[rgba(31,121,148,0.10)] text-[#1F7994]">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                      <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                    </svg>
+                  </div>
+                  <a
+                    :href="linkedinUrl"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="text-xs text-[var(--text-muted)] hover:text-[#1F7994] p-1"
+                  >
+                    {{ locale === 'fa' ? 'باز کردن' : 'Open' }}
+                  </a>
+                </div>
+                <div class="label-meta mb-1">{{ locale === 'fa' ? 'لینکدین' : 'LinkedIn' }}</div>
+                <a
+                  :href="linkedinUrl"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="text-sm font-semibold text-[var(--text-primary)] hover:text-[#1F7994] break-all transition-colors"
+                  dir="ltr"
+                >
+                  partov-ertebat-saba
                 </a>
               </div>
             </div>
@@ -298,6 +327,7 @@ const { t, locale } = useI18n()
 const route = useRoute()
 const config = useRuntimeConfig()
 const { salesPhoneHref, salesPhoneDisplay, salesPhoneDisplayInternational, salesEmail, salesEmailHref } = useContactInfo()
+const linkedinUrl = 'https://ir.linkedin.com/company/partov-ertebat-saba'
 
 useSeoMeta({
   title: `${t('contact.title')} | Pesaba`,
