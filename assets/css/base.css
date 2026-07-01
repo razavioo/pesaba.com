@@ -34,6 +34,26 @@
     background: linear-gradient(180deg, #093544 0 9rem, #ffffff 9rem 100%);
   }
 
+  html.drawer-language-show body::before {
+    background: linear-gradient(180deg, #093544 0 3.5rem, #ffffff 3.5rem 100%);
+  }
+
+  html.drawer-language-show .layout-default,
+  html.drawer-language-show .layout-article {
+    background: linear-gradient(180deg, #093544 0 3.5rem, var(--bg-page) 3.5rem 100%);
+  }
+
+  @media (min-width: 48rem) {
+    html.drawer-language-show body::before {
+      background: linear-gradient(180deg, #093544 0 12.5rem, #ffffff 12.5rem 100%);
+    }
+
+    html.drawer-language-show .layout-default,
+    html.drawer-language-show .layout-article {
+      background: linear-gradient(180deg, #093544 0 12.5rem, var(--bg-page) 12.5rem 100%);
+    }
+  }
+
   /* Headings — Advenica: font-weight medium (500) default, bold (700) for emphasis */
   h1, h2, h3, h4, h5, h6 {
     font-family: 'FuturaBT', 'Jost', 'Inter', system-ui, sans-serif;
