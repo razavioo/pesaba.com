@@ -105,7 +105,7 @@ const fonts = [
 @font-face {
   font-family: 'IRANYekanXFaNum';
   src: url('/fonts/iranyekanx/IRANYekanXFaNum-Bold.woff2') format('woff2');
-  font-weight: 700 900;
+  font-weight: 500 900;
   font-display: swap;
   size-adjust: 85%;
 }
