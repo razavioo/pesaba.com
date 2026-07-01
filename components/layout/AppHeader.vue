@@ -1,7 +1,10 @@
 <template>
   <header
     ref="headerRef"
-    class="sticky top-0 z-50 w-full max-w-[1440px] mx-auto pt-8 px-6 md:px-12 lg:px-[88px] pointer-events-none transition-all duration-300"
+    :class="[
+      'site-header sticky top-0 z-50 w-full max-w-[1440px] mx-auto px-6 md:px-12 lg:px-[88px] pointer-events-none transition-all duration-300',
+      scrolled ? 'site-header--scrolled pt-1.5 md:pt-2' : 'pt-8',
+    ]"
     role="banner"
   >
     <div
@@ -220,7 +223,7 @@ function isItemActive(item: { key: string; to: string }) {
   return route.path === target || route.path.startsWith(`${target}/`)
 }
 
-function onScroll() { scrolled.value = window.scrollY > 40 }
+function onScroll() { scrolled.value = window.scrollY > 4 }
 function onOutsideClick(e: MouseEvent) {
   if (activeMenu.value && headerRef.value && !headerRef.value.contains(e.target as Node))
     activeMenu.value = null
@@ -242,6 +245,20 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
+.site-header::before {
+  content: '';
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: -1;
+  height: 6rem;
+  background: #093544;
+  pointer-events: none;
+}
+
+.site-header--scrolled::before {
+  height: 4rem;
+}
+
 .slide-down-enter-active, .slide-down-leave-active {
   transition: opacity 0.2s ease, transform 0.2s ease;
 }
