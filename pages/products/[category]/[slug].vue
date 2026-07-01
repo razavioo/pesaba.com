@@ -1,8 +1,8 @@
 <template>
   <div v-if="product">
     <section class="page-hero overflow-hidden pb-0">
-      <div class="container-site pb-10 pt-32 md:pt-40 lg:pb-14">
-        <nav class="mb-7 flex items-center gap-2 overflow-x-auto whitespace-nowrap pb-1 text-xs text-white/40" :aria-label="$t('common.breadcrumb')">
+      <div class="container-site pb-6 pt-8 md:pt-12 lg:pb-8">
+        <nav class="product-breadcrumb mb-4 flex min-w-0 max-w-full items-center gap-2 overflow-x-auto whitespace-nowrap pb-1 text-xs text-white/40" :aria-label="$t('common.breadcrumb')">
           <NuxtLink :to="localePath('/')" class="hover:text-white/70 transition-colors">{{ $t('common.home') }}</NuxtLink>
           <span>/</span>
           <NuxtLink :to="localePath('/products')" class="hover:text-white/70 transition-colors">{{ $t('products.title') }}</NuxtLink>
@@ -14,23 +14,23 @@
         <div class="product-hero-panel relative bg-[#E6EEF1]">
           <div class="grid min-w-0 items-stretch lg:grid-cols-[minmax(0,0.9fr)_minmax(18rem,1.1fr)]">
             <!-- Text column (left — Advenica order) -->
-            <div class="min-w-0 p-6 md:p-10 lg:p-12">
+            <div class="min-w-0 p-5 md:p-8 lg:p-10">
               <div class="max-w-xl">
-                <div class="label-accent mb-5">{{ $t(`products.categories.${product.category}`) }}</div>
+                <div class="label-accent mb-4">{{ $t(`products.categories.${product.category}`) }}</div>
                 <div class="mb-4 flex min-w-0 flex-wrap items-center gap-4">
-                  <h1 class="!text-[var(--text-primary)] max-w-full text-4xl font-bold leading-[1.08] sm:text-5xl lg:text-[4.75rem]">{{ product.title }}</h1>
+                  <h1 class="product-hero-title !text-[var(--text-primary)] max-w-full font-bold">{{ product.title }}</h1>
                   <img v-if="product.logo" :src="$withBase(product.logo)" :alt="`${product.title} logo`" class="h-10 w-auto opacity-90" loading="lazy">
                 </div>
-                <p class="product-hero-copy mb-7 max-w-xl text-base leading-relaxed md:text-lg">{{ product.card_summary || product.description }}</p>
+                <p class="product-hero-copy mb-5 max-w-xl text-base leading-relaxed md:text-lg">{{ product.card_summary || product.description }}</p>
 
-                <div id="quote" class="mb-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-                  <BaseButton variant="primary" size="lg" :href="salesPhoneHref">
+                <div id="quote" class="mb-4 grid grid-cols-2 gap-3 sm:flex sm:flex-row sm:flex-wrap">
+                  <BaseButton variant="primary" size="sm" :href="salesPhoneHref" class="product-hero-action">
                     {{ $t('contact.call_sales') }}
                   </BaseButton>
-                  <BaseButton variant="outline" size="lg" :to="quoteHref">
+                  <BaseButton variant="outline" size="sm" :to="quoteHref" class="product-hero-action">
                     {{ $t('products.request_quote') }}
                   </BaseButton>
-                  <BaseButton v-if="primaryDatasheetHref" variant="outline" size="lg" :href="primaryDatasheetHref" target="_blank" rel="noopener">
+                  <BaseButton v-if="primaryDatasheetHref" variant="outline" size="sm" :href="primaryDatasheetHref" target="_blank" rel="noopener" class="product-hero-action col-span-2 sm:col-span-auto">
                     {{ $t('products.download_pdf') }}
                   </BaseButton>
                 </div>
@@ -41,13 +41,13 @@
             </div>
 
             <!-- Image column (right — Advenica order) -->
-            <div class="relative min-w-0 bg-white p-5 lg:-mb-10 lg:ms-0 lg:me-8 lg:mt-10">
-              <div class="relative aspect-[624/440] overflow-hidden bg-white">
-                <NuxtImg :src="activeGalleryImage || '/placeholder-product.svg'" :alt="product.title" class="h-full w-full object-contain p-4 md:p-8" loading="eager" fetchpriority="high" />
-                <div v-if="gallery.length > 1" class="pointer-events-none absolute inset-x-3 top-1/2 flex -translate-y-1/2 justify-between">
+            <div class="product-hero-media relative min-w-0 bg-white p-3 md:p-5 lg:-mb-7 lg:ms-0 lg:me-8 lg:mt-8">
+              <div class="product-hero-image relative aspect-[624/390] overflow-hidden bg-white md:aspect-[624/420]">
+                <NuxtImg :src="activeGalleryImage || '/placeholder-product.svg'" :alt="product.title" class="h-full w-full object-contain p-2.5 md:p-7" loading="eager" fetchpriority="high" />
+                <div v-if="gallery.length > 1" class="pointer-events-none absolute inset-x-2 top-1/2 flex -translate-y-1/2 justify-between md:inset-x-3">
                   <button
                     type="button"
-                    class="pointer-events-auto inline-flex h-10 w-10 items-center justify-center rounded-full border border-[var(--border)] bg-white/90 text-[var(--text-secondary)] backdrop-blur transition-colors hover:border-[var(--accent)] hover:text-[var(--accent)]"
+                    class="pointer-events-auto inline-flex h-9 w-9 items-center justify-center rounded-full border border-[var(--border)] bg-white/90 text-[var(--text-secondary)] backdrop-blur transition-colors hover:border-[var(--accent)] hover:text-[var(--accent)]"
                     :aria-label="locale === 'fa' ? 'تصویر قبلی' : 'Previous image'"
                     @click="prevImage"
                   >
@@ -57,7 +57,7 @@
                   </button>
                   <button
                     type="button"
-                    class="pointer-events-auto inline-flex h-10 w-10 items-center justify-center rounded-full border border-[var(--border)] bg-white/90 text-[var(--text-secondary)] backdrop-blur transition-colors hover:border-[var(--accent)] hover:text-[var(--accent)]"
+                    class="pointer-events-auto inline-flex h-9 w-9 items-center justify-center rounded-full border border-[var(--border)] bg-white/90 text-[var(--text-secondary)] backdrop-blur transition-colors hover:border-[var(--accent)] hover:text-[var(--accent)]"
                     :aria-label="locale === 'fa' ? 'تصویر بعدی' : 'Next image'"
                     @click="nextImage"
                   >
@@ -67,25 +67,22 @@
                   </button>
                 </div>
               </div>
-            </div>
-          </div>
-          <div class="grid items-center border-t border-[#C9DDE5] bg-white lg:grid-cols-[minmax(0,1fr)_minmax(18rem,28rem)]">
-            <p class="product-hero-strip-copy line-clamp-2 px-5 py-4 text-sm leading-relaxed md:px-7 md:text-base">{{ product.card_summary || product.description }}</p>
-            <div v-if="gallery.length > 1" class="flex h-24 max-w-full items-center gap-2 overflow-x-auto border-t border-[#C9DDE5] px-3 py-2 lg:border-s lg:border-t-0" :aria-label="locale === 'fa' ? 'گالری تصاویر محصول' : 'Product image gallery'">
-              <button
-                v-for="(img, i) in gallery"
-                :key="img"
-                type="button"
-                :aria-label="locale === 'fa' ? `نمایش تصویر ${i + 1}` : `Show image ${i + 1}`"
-                :aria-current="activeImageIndex === i ? 'true' : undefined"
-                :class="[
-                  'h-16 w-24 flex-shrink-0 overflow-hidden border bg-white p-1.5 transition-colors',
-                  activeImageIndex === i ? 'border-[var(--accent)] bg-[var(--accent-bg)]' : 'border-[var(--border)] bg-[var(--bg-elevated)]',
-                ]"
-                @click="selectImage(i)"
-              >
-                <NuxtImg :src="thumbSrc(img)" :alt="`${product.title} ${i + 1}`" class="block h-full w-full object-contain" loading="lazy" />
-              </button>
+              <div v-if="gallery.length > 1" class="product-thumbnail-rail mt-3 flex max-w-full items-center gap-2 overflow-x-auto overflow-y-visible border-t border-[#C9DDE5] pt-3" :aria-label="locale === 'fa' ? 'گالری تصاویر محصول' : 'Product image gallery'">
+                <button
+                  v-for="(img, i) in gallery"
+                  :key="img"
+                  type="button"
+                  :aria-label="locale === 'fa' ? `نمایش تصویر ${i + 1}` : `Show image ${i + 1}`"
+                  :aria-current="activeImageIndex === i ? 'true' : undefined"
+                  :class="[
+                    'h-14 w-20 flex-shrink-0 overflow-visible border bg-white p-1 transition-colors',
+                    activeImageIndex === i ? 'border-[var(--accent)] bg-[var(--accent-bg)]' : 'border-[var(--border)] bg-[var(--bg-elevated)]',
+                  ]"
+                  @click="selectImage(i)"
+                >
+                  <NuxtImg :src="thumbSrc(img)" :alt="`${product.title} ${i + 1}`" class="block h-full w-full object-contain" loading="lazy" />
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -121,7 +118,23 @@
       <div class="container-site">
         <div v-show="activeTab === 'overview'" class="grid min-w-0 gap-8 xl:grid-cols-[minmax(0,1fr)_20rem]">
           <div class="prose-product max-w-none border-t border-[var(--border)] pt-6">
-            <ContentRenderer :value="product" />
+            <template v-if="normalizedOverview">
+              <h2>{{ normalizedOverview.title }}</h2>
+              <p v-for="paragraph in normalizedOverview.paragraphs" :key="paragraph">
+                {{ paragraph }}
+              </p>
+              <h2 v-if="normalizedOverview.featureHeading">{{ normalizedOverview.featureHeading }}</h2>
+              <ul v-if="normalizedOverview.features.length" class="product-feature-list">
+                <li v-for="feature in normalizedOverview.features" :key="feature">
+                  {{ feature }}
+                </li>
+              </ul>
+              <h2 v-if="normalizedOverview.linkHeading">{{ normalizedOverview.linkHeading }}</h2>
+              <p v-if="normalizedOverview.linkText">
+                {{ normalizedOverview.linkText }}
+              </p>
+            </template>
+            <ContentRenderer v-else :value="product" />
           </div>
           <div class="min-w-0 space-y-4 xl:sticky xl:top-36 xl:self-start">
             <div class="border border-[var(--border)] bg-[var(--bg-elevated)] p-5">
@@ -286,6 +299,204 @@ function thumbSrc(src: string) {
   return src
 }
 
+type ProductBodyNode = {
+  type?: string
+  tag?: string
+  value?: string
+  children?: ProductBodyNode[]
+}
+
+type ProductOverview = {
+  title: string
+  paragraphs: string[]
+  featureHeading: string
+  features: string[]
+  linkHeading: string
+  linkText: string
+}
+
+const PRODUCT_FEATURE_MARKERS = [
+  'True one-way data transfer',
+  'Unidirectional communication',
+  'Guaranteed unidirectional communication',
+  'Unidirectional link implemented',
+  'Hardware-level separation',
+  'Complete hardware-based separation',
+  'Complete protection',
+  'Physical isolation',
+  'OS-less hardware design',
+  'Fully hardware-based',
+  'Full elimination',
+  'Complete elimination',
+  'Significantly reduced',
+  'Reduced hacking risk',
+  'Suitable for',
+  'Designed for',
+  'Supports industrial protocols',
+  'Support for common',
+  'Support for industrial',
+  'Support for data transfer',
+  'Available in desktop',
+  '24/7 operation',
+  'High reliability',
+  'Easy integration',
+  'No return path',
+  'No requirement',
+  'Independent power circuits',
+  'Isolated power circuits',
+  'Complete isolation',
+  'FPGA-based design',
+  'Multiple supported services, including:',
+  'One-way message transfer',
+  'File, database, and image transfer',
+  'Database synchronization',
+  'Screen mirroring',
+  'Screen Mirroring',
+  'Modbus service',
+  'Modbus',
+  'Camera streaming service',
+  'Camera services',
+  'Integrated LED status indicators',
+  'Integrated LED display',
+  'Front-panel display',
+  'SNMP monitoring protocol',
+  'SYSLOG implementation',
+  'Data transfer rate',
+  'Ability to add custom',
+  'Ability to connect',
+  'Connect and disconnect',
+  'Support for multiple users',
+  'Simultaneous access',
+  'Scalable and adaptable',
+  'File reception event integration',
+  'Display of software outputs',
+  'Low Process consumption',
+  'Form Factor:',
+  'This product contains',
+]
+
+function collectText(node?: ProductBodyNode): string {
+  if (!node) return ''
+  if (typeof node.value === 'string') return node.value
+  return (node.children || []).map(child => collectText(child)).join('')
+}
+
+function sentenceSplit(text: string) {
+  return text
+    .replace(/\s+/g, ' ')
+    .replace(/([a-z)])([A-Z][a-z])/g, '$1 $2')
+    .replace(/([a-z)])(\d+\s*[×x])/g, '$1 $2')
+    .replace(/(:)([A-Z0-9])/g, '$1 $2')
+    .replace(/(networks\.)(By)/g, '$1 $2')
+    .replace(/(level\.)(It)/g, '$1 $2')
+    .replace(/(networks\.)(The)/g, '$1 $2')
+    .replace(/(networks\.)(This)/g, '$1 $2')
+    .replace(/(path\.)(Key)/g, '$1 $2')
+    .replace(/(including:)(One-way)/g, '$1 $2')
+    .replace(/(request)(This product)/g, '$1. $2')
+    .trim()
+}
+
+function cleanHeading(text: string) {
+  return text
+    .replace(/\|/g, ' - ')
+    .replace(/\s+/g, ' ')
+    .replace(/\s+-\s*$/g, '')
+    .trim()
+}
+
+function splitSection(text: string, marker: string) {
+  const index = text.indexOf(marker)
+  if (index === -1) return [text, ''] as const
+  return [text.slice(0, index).trim(), text.slice(index + marker.length).trim()] as const
+}
+
+function splitFeatureText(text: string) {
+  const escaped = PRODUCT_FEATURE_MARKERS.map(marker => marker.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|')
+  return text
+    .replace(new RegExp(`\\s*(${escaped})`, 'g'), '\n$1')
+    .split('\n')
+    .map(item => item.trim())
+    .filter(Boolean)
+}
+
+function firstFeatureMarkerIndex(text: string) {
+  return PRODUCT_FEATURE_MARKERS.reduce((first, marker) => {
+    const index = text.indexOf(marker)
+    if (index === -1) return first
+    return first === -1 ? index : Math.min(first, index)
+  }, -1)
+}
+
+function normalizePlainCompressedOverview(readable: string, fallbackTitle?: string): ProductOverview | null {
+  const titleMarkers = ['Product Overview', 'Full Description & Key Features']
+  let title = fallbackTitle || ''
+  let body = readable
+
+  for (const marker of titleMarkers) {
+    const index = readable.indexOf(marker)
+    if (index === -1) continue
+
+    title = cleanHeading(readable.slice(0, index + marker.length))
+    body = readable.slice(index + marker.length).trim()
+    break
+  }
+
+  const [bodyText, linkText] = splitSection(body, 'Relevant Internal Links:')
+  const sectionedBody = bodyText
+    .replace(/\s+(Introduction to|Communication Ports|Secure Software-less Architecture|Hardware Design|Traffic Filtering Capabilities|Customization Capabilities)/g, '\n$1')
+  const paragraphs = sectionedBody
+    .split(/\n|(?<=\.)\s+/)
+    .map(item => item.trim())
+    .filter(Boolean)
+
+  if (!paragraphs.length) return null
+
+  return {
+    title: cleanHeading(title || fallbackTitle || ''),
+    paragraphs,
+    featureHeading: '',
+    features: [],
+    linkHeading: linkText ? 'Relevant Internal Links' : '',
+    linkText,
+  }
+}
+
+function normalizeCompressedOverview(productValue: typeof product.value): ProductOverview | null {
+  const children = productValue?.body?.children as ProductBodyNode[] | undefined
+  if (!children?.length || children.length > 1) return null
+
+  const raw = collectText(children[0]).trim()
+  const isCompressed = raw.length > 500 && /[a-z)][A-Z][a-z]|:[A-Z0-9]|[a-z)]\d+\s*[×x]/.test(raw)
+  if (!isCompressed) return null
+
+  const readable = sentenceSplit(raw)
+  if (!readable.includes('Product Overview') || !readable.includes('Key Features')) {
+    return normalizePlainCompressedOverview(readable, productValue?.title)
+  }
+
+  const [titleText, afterTitle] = splitSection(readable, 'Product Overview')
+  const [overviewText, afterOverview] = splitSection(afterTitle, 'Key Features')
+  const [featureBlock, linkText] = splitSection(afterOverview, 'Relevant Internal Links:')
+  const firstFeatureIndex = firstFeatureMarkerIndex(featureBlock)
+  const featureHeading = firstFeatureIndex > 0 ? `Key Features ${featureBlock.slice(0, firstFeatureIndex).trim()}` : 'Key Features'
+  const featureText = firstFeatureIndex > -1 ? featureBlock.slice(firstFeatureIndex).trim() : featureBlock
+  const paragraphs = overviewText
+    .split(/(?<=\.)\s+/)
+    .map(item => item.trim())
+    .filter(Boolean)
+
+  return {
+    title: cleanHeading(titleText),
+    paragraphs,
+    featureHeading,
+    features: splitFeatureText(featureText),
+    linkHeading: linkText ? 'Relevant Internal Links' : '',
+    linkText,
+  }
+}
+
+const normalizedOverview = computed(() => normalizeCompressedOverview(product.value))
 const primarySpecs = computed(() => (product.value?.specs || []).slice(0, 4))
 const deploymentFit = computed(() => locale.value === 'fa'
   ? 'برای محیط‌های حساس که نیاز به رفتار قابل پیش‌بینی، مسیر داده شفاف، و مستندسازی فنی دارند.'
@@ -347,12 +558,31 @@ if (product.value) {
   color: var(--text-secondary) !important;
 }
 
+.page-hero .product-hero-title {
+  color: var(--text-primary) !important;
+  font-size: clamp(2.25rem, 9vw, 3.5rem);
+  line-height: 1.05;
+  letter-spacing: 0;
+}
+
+.product-breadcrumb {
+  contain: inline-size;
+  overscroll-behavior-inline: contain;
+}
+
 .page-hero .product-hero-note {
   color: var(--text-muted) !important;
 }
 
-.page-hero .product-hero-strip-copy {
-  color: var(--text-primary) !important;
+.page-hero .product-hero-panel :deep(.btn-primary) {
+  background-color: var(--accent) !important;
+  border-color: var(--accent) !important;
+  color: #fff !important;
+}
+
+.page-hero .product-hero-panel :deep(.btn-primary:hover) {
+  background-color: var(--btn-primary-hover) !important;
+  border-color: var(--btn-primary-hover) !important;
 }
 
 .page-hero .product-hero-panel :deep(.btn-outline) {
@@ -363,5 +593,68 @@ if (product.value) {
 .page-hero .product-hero-panel :deep(.btn-outline:hover) {
   border-color: var(--accent) !important;
   color: var(--accent) !important;
+}
+
+.page-hero .product-hero-panel :deep(.product-hero-action) {
+  min-height: 2.75rem;
+  padding: 0.625rem 1.25rem;
+  font-size: 0.95rem;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.product-thumbnail-rail {
+  padding-bottom: 0.25rem;
+  scrollbar-gutter: stable;
+}
+
+.product-thumbnail-rail :deep(img) {
+  object-position: center;
+}
+
+.prose-product .product-feature-list {
+  columns: 2;
+  column-gap: 2rem;
+}
+
+.prose-product .product-feature-list li {
+  break-inside: avoid;
+}
+
+[dir="rtl"] .product-thumbnail-rail {
+  direction: ltr;
+}
+
+[dir="rtl"] .product-thumbnail-rail > * {
+  direction: rtl;
+}
+
+@media (min-width: 1024px) {
+  .page-hero .product-hero-title {
+    font-size: clamp(3.25rem, 4.6vw, 4.25rem);
+  }
+}
+
+@media (max-width: 1023px) {
+  .product-hero-media {
+    order: -1;
+  }
+}
+
+@media (max-width: 640px) {
+  .page-hero .product-hero-panel :deep(.product-hero-action) {
+    width: 100%;
+    padding-inline: 0.75rem;
+    font-size: 0.78rem;
+  }
+
+  .product-thumbnail-rail {
+    margin-inline: -0.25rem;
+    padding-inline: 0.25rem;
+  }
+
+  .prose-product .product-feature-list {
+    columns: 1;
+  }
 }
 </style>
