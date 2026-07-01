@@ -15,8 +15,8 @@ test.describe('Product image viewer', () => {
     await goto(page, `${EN}/products/data-diodes/k200`)
   })
 
-  test('main image renders in 16:10 aspect container', async ({ page }) => {
-    const container = page.locator('section.page-hero .aspect-\\[16\\/10\\]').first()
+  test('main image renders in product image container', async ({ page }) => {
+    const container = page.locator('section.page-hero .product-hero-image').first()
     await expect(container).toBeVisible()
   })
 

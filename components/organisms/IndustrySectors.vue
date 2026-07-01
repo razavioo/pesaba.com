@@ -149,7 +149,7 @@ const sectors = computed(() => locale.value === 'fa' ? [
 @media (max-width: 639px) {
   .industries-grid {
     grid-template-columns: 1fr;
-    gap: 0.75rem;
+    gap: 0.5rem;
   }
 }
 
@@ -178,6 +178,13 @@ const sectors = computed(() => locale.value === 'fa' ? [
 
 .sector-card:hover {
   border-color: var(--border);
+}
+
+@media (max-width: 639px) {
+  .sector-card {
+    aspect-ratio: auto;
+    min-height: 138px;
+  }
 }
 
 /* Image container — dark teal background creates grayscale via blend mode */
@@ -237,6 +244,14 @@ const sectors = computed(() => locale.value === 'fa' ? [
   z-index: 10;
 }
 
+@media (max-width: 639px) {
+  .sector-card__content {
+    top: 50%;
+    padding: 1rem 1.125rem;
+    gap: 0.25rem;
+  }
+}
+
 .sector-card__tag {
   font-size: 0.625rem;
   font-weight: 600;
@@ -246,6 +261,13 @@ const sectors = computed(() => locale.value === 'fa' ? [
   margin-bottom: 0.25rem;
 }
 
+@media (max-width: 639px) {
+  .sector-card__tag {
+    font-size: 0.5625rem;
+    margin-bottom: 0.125rem;
+  }
+}
+
 .sector-card__title {
   font-size: 1.125rem;
   font-weight: 700;
@@ -253,6 +275,13 @@ const sectors = computed(() => locale.value === 'fa' ? [
   color: #FCFCFD;
   letter-spacing: 0;
   margin: 0;
+}
+
+@media (max-width: 639px) {
+  .sector-card__title {
+    font-size: 1rem;
+    line-height: 1.2;
+  }
 }
 
 @media (min-width: 768px) {
@@ -266,6 +295,17 @@ const sectors = computed(() => locale.value === 'fa' ? [
   line-height: 1.55;
   color: rgba(255, 255, 255, 0.6);
   margin: 0;
+}
+
+@media (max-width: 639px) {
+  .sector-card__desc {
+    display: -webkit-box;
+    overflow: hidden;
+    font-size: 0.75rem;
+    line-height: 1.35;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+  }
 }
 
 .sector-card__color-overlay {

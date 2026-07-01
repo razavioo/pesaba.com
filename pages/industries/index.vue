@@ -24,7 +24,7 @@
             class="product-card overflow-hidden"
             :class="{ 'md:col-span-2 xl:col-span-1': i === 0 }"
           >
-            <div :class="['overflow-hidden border-b border-[var(--border)]', i === 0 ? 'aspect-[21/9] md:aspect-[21/9]' : 'aspect-[16/10]']">
+            <div class="aspect-[16/10] overflow-hidden border-b border-[var(--border)]">
               <NuxtImg :src="industry.image" :alt="industry.title" class="h-full w-full object-cover" loading="lazy" />
             </div>
             <div class="p-5">

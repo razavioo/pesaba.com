@@ -54,7 +54,7 @@
             :to="p.to"
             :class="[
               p.class,
-               'product-card card-halo group relative flex flex-col justify-between overflow-hidden p-7 md:p-9 transition-colors duration-300'
+               'product-card card-halo group relative flex flex-col justify-between overflow-hidden p-7 pb-24 md:p-9 md:pb-24 transition-colors duration-300'
             ]"
           >
             <!-- Blue dot indicator in top corner -->
@@ -107,11 +107,16 @@
         <div class="mt-12 flex justify-center">
           <NuxtLink
             :to="localePath('/products')"
-            class="group inline-flex items-center gap-3 text-base font-medium text-[#1F7994] hover:text-[#165368] transition-colors"
+            class="group inline-flex items-center gap-4 text-base font-medium text-[#1F7994] hover:text-[#165368] transition-colors"
           >
             <span>{{ $t('home.explore_all_products_solutions') }}</span>
-            <span class="transition-transform duration-200 group-hover:translate-x-1 rtl:group-hover:-translate-x-1">
-              {{ locale === 'fa' ? '←' : '→' }}
+            <span class="grid h-11 w-11 place-items-center bg-[#093544] text-white transition-transform duration-200 group-hover:translate-x-1 rtl:group-hover:-translate-x-1" aria-hidden="true">
+              <svg v-if="locale === 'fa'" width="23" height="23" viewBox="0 0 24 24" fill="none">
+                <path d="M19 12H5M11 6L5 12L11 18" stroke="currentColor" stroke-width="2.2" stroke-linecap="square" stroke-linejoin="miter" />
+              </svg>
+              <svg v-else width="23" height="23" viewBox="0 0 24 24" fill="none">
+                <path d="M5 12H19M13 6L19 12L13 18" stroke="currentColor" stroke-width="2.2" stroke-linecap="square" stroke-linejoin="miter" />
+              </svg>
             </span>
           </NuxtLink>
         </div>

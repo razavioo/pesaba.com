@@ -21,13 +21,11 @@ test.describe('Navigation header', () => {
 
   test('main nav items are visible on desktop', async ({ page, isMobile }) => {
     test.skip(isMobile, 'Desktop navigation links are hidden on mobile viewports')
-    // Products/Solutions have submenus so they render as <button>, not <a>
-    // Home/Technology/Trust have no subItems so they render as <a> (NuxtLink)
     const nav = page.locator('header nav').first()
     await expect(nav.getByRole('link', { name: /^Home$/i }).first()).toBeVisible()
-    await expect(nav.locator('button').filter({ hasText: /Products/i }).first()).toBeVisible()
+    await expect(nav.getByRole('link', { name: /^Products$/i }).first()).toHaveAttribute('href', /\/en\/products/)
     await expect(nav.getByRole('link', { name: /Technology/i }).first()).toBeVisible()
-    await expect(nav.locator('button').filter({ hasText: /Solutions/i }).first()).toBeVisible()
+    await expect(nav.getByRole('link', { name: /^Solutions$/i }).first()).toHaveAttribute('href', /\/en\/industries/)
   })
 
   test('quote/contact CTA remains available in header on desktop', async ({ page }) => {

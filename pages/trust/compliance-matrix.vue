@@ -17,7 +17,7 @@
     </section>
 
     <!-- Filter row -->
-    <section class="container-site pb-6">
+    <section class="container-site pt-8 pb-6">
       <div class="flex flex-wrap items-center gap-3">
         <span class="text-xs text-ink-500 uppercase tracking-wider">{{ $t('trust.filter_by') }}</span>
         <button

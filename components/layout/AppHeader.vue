@@ -29,19 +29,18 @@
             @mouseenter="item.subItems ? openMenu(item.key) : null"
             @mouseleave="item.subItems ? scheduleClose() : null"
           >
-            <component
-              :is="item.subItems ? 'button' : NuxtLink"
+            <NuxtLink
+              :to="localePath(item.to)"
               :class="[
                 'navigation-link inline-flex items-center gap-1.5 px-7 py-2.5 transition-colors duration-200',
                 isItemActive(item)
                   ? 'text-[#1F7994]'
                   : 'text-[#27282D] hover:text-[#1F7994]',
               ]"
-              v-bind="item.subItems ? { 'aria-expanded': activeMenu === item.key, 'aria-haspopup': true } : { to: localePath(item.to) }"
-              @click="item.subItems ? toggleMenu(item.key) : undefined"
+              v-bind="item.subItems ? { 'aria-expanded': activeMenu === item.key, 'aria-haspopup': true } : {}"
             >
               {{ $t(`nav.${item.key}`) }}
-            </component>
+            </NuxtLink>
           </div>
         </div>
 
@@ -163,7 +162,6 @@
 <script setup lang="ts">
 const { t, locale } = useI18n()
 const localePath = useLocalePath()
-const NuxtLink = resolveComponent('NuxtLink')
 
 const headerRef = ref<HTMLElement | null>(null)
 const scrolled = ref(false)
@@ -177,7 +175,7 @@ const navItems = computed(() => [
   { key: 'home', to: '/', subItems: false, children: [] },
   {
     key: 'solutions',
-    to: '/solutions',
+    to: '/industries',
     subItems: true,
     children: [
       { to: '/industries/power-grid', label: t('industries.power_grid') },
@@ -215,7 +213,6 @@ const navItems = computed(() => [
 function openMenu(key: string) { cancelClose(); activeMenu.value = key }
 function scheduleClose() { closeTimer = setTimeout(() => { activeMenu.value = null }, 120) }
 function cancelClose() { if (closeTimer) { clearTimeout(closeTimer); closeTimer = null } }
-function toggleMenu(key: string) { activeMenu.value = activeMenu.value === key ? null : key }
 
 function isItemActive(item: { key: string; to: string }) {
   const target = localePath(item.to)

@@ -41,9 +41,9 @@
             </div>
 
             <!-- Image column (right — Advenica order) -->
-            <div class="product-hero-media relative min-w-0 bg-white p-3 md:p-5 lg:-mb-7 lg:ms-0 lg:me-8 lg:mt-8">
-              <div class="product-hero-image relative aspect-[624/390] overflow-hidden bg-white md:aspect-[624/420]">
-                <NuxtImg :src="activeGalleryImage || '/placeholder-product.svg'" :alt="product.title" class="h-full w-full object-contain p-2.5 md:p-7" loading="eager" fetchpriority="high" />
+            <div class="product-hero-media relative min-w-0 bg-white p-3 shadow-[0_18px_45px_rgba(9,53,68,0.08)] md:p-5 lg:ms-0 lg:me-8 lg:mt-8">
+              <div class="product-hero-image relative aspect-[624/410] overflow-hidden bg-white md:aspect-[624/430]">
+                <NuxtImg :src="activeGalleryImage || '/placeholder-product.svg'" :alt="product.title" class="h-full w-full object-contain p-4 md:p-7" loading="eager" fetchpriority="high" />
                 <div v-if="gallery.length > 1" class="pointer-events-none absolute inset-x-2 top-1/2 flex -translate-y-1/2 justify-between md:inset-x-3">
                   <button
                     type="button"
@@ -67,7 +67,7 @@
                   </button>
                 </div>
               </div>
-              <div v-if="gallery.length > 1" class="product-thumbnail-rail mt-3 flex max-w-full items-center gap-2 overflow-x-auto overflow-y-visible border-t border-[#C9DDE5] pt-3" :aria-label="locale === 'fa' ? 'گالری تصاویر محصول' : 'Product image gallery'">
+              <div v-if="gallery.length" class="product-thumbnail-rail mt-4 flex max-w-full flex-nowrap items-center gap-2 overflow-x-auto overflow-y-hidden border-t border-[#C9DDE5] bg-[#F4F8FA] p-2" :aria-label="locale === 'fa' ? 'گالری تصاویر محصول' : 'Product image gallery'">
                 <button
                   v-for="(img, i) in gallery"
                   :key="img"
@@ -75,8 +75,8 @@
                   :aria-label="locale === 'fa' ? `نمایش تصویر ${i + 1}` : `Show image ${i + 1}`"
                   :aria-current="activeImageIndex === i ? 'true' : undefined"
                   :class="[
-                    'h-14 w-20 flex-shrink-0 overflow-visible border bg-white p-1 transition-colors',
-                    activeImageIndex === i ? 'border-[var(--accent)] bg-[var(--accent-bg)]' : 'border-[var(--border)] bg-[var(--bg-elevated)]',
+                    'h-16 w-24 flex-shrink-0 overflow-hidden border bg-white p-1.5 transition-colors',
+                    activeImageIndex === i ? 'border-[var(--accent)] ring-2 ring-[#AAC5D0]' : 'border-[#C9DDE5] hover:border-[var(--accent)]',
                   ]"
                   @click="selectImage(i)"
                 >
@@ -137,16 +137,22 @@
             <ContentRenderer v-else :value="product" />
           </div>
           <div class="min-w-0 space-y-4 xl:sticky xl:top-36 xl:self-start">
-            <div class="border border-[var(--border)] bg-[var(--bg-elevated)] p-5">
+            <div v-if="primarySpecs.length || keyCapabilityItems.length" class="border border-[var(--border)] bg-[var(--bg-elevated)] p-5">
               <div class="label-meta mb-3">{{ locale === 'fa' ? 'قابلیت‌های کلیدی' : 'Key capabilities' }}</div>
-              <dl class="divide-y divide-[var(--border)] text-sm leading-relaxed">
+              <dl v-if="primarySpecs.length" class="divide-y divide-[var(--border)] text-sm leading-relaxed">
                 <div v-for="spec in primarySpecs" :key="spec.label" class="py-3 first:pt-0 last:pb-0">
                   <dt class="label-meta mb-1 text-[var(--text-muted)]">{{ spec.label }}</dt>
                   <dd class="text-[var(--text-primary)]" style="overflow-wrap: anywhere;">{{ spec.value }}</dd>
                 </div>
               </dl>
+              <ul v-else class="space-y-3 text-sm leading-relaxed text-[var(--text-primary)]">
+                <li v-for="item in keyCapabilityItems" :key="item" class="flex gap-2">
+                  <span class="mt-2 h-1.5 w-1.5 flex-shrink-0 bg-[var(--accent)]" aria-hidden="true" />
+                  <span style="overflow-wrap: anywhere;">{{ item }}</span>
+                </li>
+              </ul>
             </div>
-            <div v-if="productDatasheets.length" class="border border-[var(--border)] bg-[var(--bg-elevated)] p-5">
+            <div v-if="productDatasheets.length" data-product-downloads class="border border-[var(--border)] bg-[var(--bg-elevated)] p-5">
               <div class="label-meta mb-3">{{ locale === 'fa' ? 'دانلود و ارزیابی' : 'Downloads & evaluation' }}</div>
               <ul class="space-y-2">
                 <li v-for="(pdf, i) in productDatasheets" :key="pdf">
@@ -180,7 +186,7 @@
               <div class="label-meta mb-3">{{ locale === 'fa' ? 'تناسب استقرار' : 'Deployment fit' }}</div>
               <p class="text-sm leading-relaxed text-[var(--text-secondary)]">{{ deploymentFit }}</p>
             </div>
-            <div class="overflow-x-auto bg-white">
+            <div v-if="productSpecs.length" class="overflow-x-auto bg-white">
               <table class="w-full text-start text-sm">
                 <thead class="bg-[var(--bg-elevated)]">
                   <tr>
@@ -189,12 +195,21 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr v-for="(spec, i) in product.specs || []" :key="spec.label" :class="i % 2 === 0 ? 'bg-[var(--bg-page)]' : 'bg-[var(--bg-elevated)]/55'">
+                  <tr v-for="(spec, i) in productSpecs" :key="spec.label" :class="i % 2 === 0 ? 'bg-[var(--bg-page)]' : 'bg-[var(--bg-elevated)]/55'">
                     <td class="border-t border-[var(--border)] px-5 py-4 text-[var(--text-secondary)]">{{ spec.label }}</td>
                     <td class="border-t border-[var(--border)] px-5 py-4 font-mono text-[var(--text-primary)]">{{ spec.value }}</td>
                   </tr>
                 </tbody>
               </table>
+            </div>
+            <div v-else-if="keyCapabilityItems.length" class="bg-white p-5 text-[var(--text-primary)]">
+              <div class="label-meta mb-3">{{ locale === 'fa' ? 'قابلیت‌ها' : 'Capabilities' }}</div>
+              <ul class="grid gap-3 text-sm leading-relaxed sm:grid-cols-2">
+                <li v-for="item in keyCapabilityItems" :key="item" class="flex gap-2">
+                  <span class="mt-2 h-1.5 w-1.5 flex-shrink-0 bg-[var(--accent)]" aria-hidden="true" />
+                  <span>{{ item }}</span>
+                </li>
+              </ul>
             </div>
           </div>
         </div>
@@ -268,7 +283,20 @@ function normalizeMedia(items?: unknown[]) {
     })
 }
 
-const gallery = computed(() => normalizeMedia([...(product.value?.photos || []), ...(product.value?.images || [])]))
+const gallery = computed(() => {
+  const productImages = normalizeMedia([
+    ...(product.value?.photos || []),
+    ...(product.value?.images || []),
+  ])
+  if (productImages.length) return productImages
+
+  const technicalImages = normalizeMedia([
+    product.value?.diagram,
+    product.value?.schematic_image,
+    product.value?.logo,
+  ])
+  return technicalImages.length ? technicalImages : ['/placeholder-product.svg']
+})
 const activeImageIndex = ref(0)
 const activeGalleryImage = computed(() => gallery.value[activeImageIndex.value] || gallery.value[0] || null)
 
@@ -378,7 +406,18 @@ const PRODUCT_FEATURE_MARKERS = [
 function collectText(node?: ProductBodyNode): string {
   if (!node) return ''
   if (typeof node.value === 'string') return node.value
-  return (node.children || []).map(child => collectText(child)).join('')
+  return (node.children || []).map(child => collectText(child)).join(' ')
+}
+
+function normalizeTextItems(items: string[]) {
+  const seen = new Set<string>()
+  return items
+    .map(item => sentenceSplit(item).replace(/\s+/g, ' ').trim())
+    .filter((item) => {
+      if (!item || seen.has(item)) return false
+      seen.add(item)
+      return true
+    })
 }
 
 function sentenceSplit(text: string) {
@@ -426,6 +465,51 @@ function firstFeatureMarkerIndex(text: string) {
     if (index === -1) return first
     return first === -1 ? index : Math.min(first, index)
   }, -1)
+}
+
+function extractMarkdownListAfterHeading(nodes: ProductBodyNode[] | undefined, headingPattern: RegExp) {
+  if (!nodes?.length) return []
+  const items: string[] = []
+  let collecting = false
+
+  for (const node of nodes) {
+    const text = collectText(node).trim()
+    if (!text) continue
+
+    if (node.tag === 'h2' || node.tag === 'h3') {
+      if (collecting) break
+      collecting = headingPattern.test(text)
+      continue
+    }
+
+    if (!collecting) continue
+    if (node.tag === 'ul' || node.tag === 'ol') {
+      for (const child of node.children || []) {
+        const item = collectText(child).trim()
+        if (item) items.push(item)
+      }
+      break
+    }
+  }
+
+  return normalizeTextItems(items)
+}
+
+function extractCapabilitiesFromBody(productValue: typeof product.value) {
+  const children = productValue?.body?.children as ProductBodyNode[] | undefined
+  const headingPattern = locale.value === 'fa'
+    ? /ویژگی|قابلیت|امکانات/
+    : /key features|features|capabilities/i
+  const listItems = extractMarkdownListAfterHeading(children, headingPattern)
+  if (listItems.length) return listItems
+
+  if (normalizedOverview.value?.features.length) {
+    return normalizeTextItems(normalizedOverview.value.features)
+  }
+
+  const readable = sentenceSplit(collectText(children?.[0]))
+  const plainOverview = normalizePlainCompressedOverview(readable, productValue?.title)
+  return normalizeTextItems(plainOverview?.paragraphs || [])
 }
 
 function normalizePlainCompressedOverview(readable: string, fallbackTitle?: string): ProductOverview | null {
@@ -497,7 +581,12 @@ function normalizeCompressedOverview(productValue: typeof product.value): Produc
 }
 
 const normalizedOverview = computed(() => normalizeCompressedOverview(product.value))
-const primarySpecs = computed(() => (product.value?.specs || []).slice(0, 4))
+const productSpecs = computed(() => product.value?.specs || [])
+const primarySpecs = computed(() => productSpecs.value.slice(0, 4))
+const keyCapabilityItems = computed(() => {
+  if (primarySpecs.value.length) return []
+  return extractCapabilitiesFromBody(product.value).slice(0, 5)
+})
 const deploymentFit = computed(() => locale.value === 'fa'
   ? 'برای محیط‌های حساس که نیاز به رفتار قابل پیش‌بینی، مسیر داده شفاف، و مستندسازی فنی دارند.'
   : 'Designed for sensitive environments that require predictable behavior, explainable data paths, and technical buying documentation.')

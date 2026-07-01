@@ -156,7 +156,7 @@ test.describe('Product detail page', () => {
   })
 
   test('datasheet link is visible under Downloads & evaluation card', async ({ page }) => {
-    const card = page.locator('.card-halo', { hasText: /Downloads & evaluation/i })
+    const card = page.locator('[data-product-downloads]')
     const pdfLink = card.locator('a[href$="/schematics/a10/DD-A10.pdf"]')
     await expect(pdfLink).toBeVisible()
   })
