@@ -30,7 +30,7 @@
       </div>
     </section>
 
-    <section class="sticky top-24 z-20 border-b border-[var(--border)] bg-[var(--bg-page)]/95 backdrop-blur-xl">
+    <section class="sticky top-24 z-20 border-b border-[var(--border)] bg-white shadow-[0_12px_30px_rgba(9,53,68,0.08)]">
       <div class="container-site">
         <div class="flex gap-2 overflow-x-auto py-3">
           <a
