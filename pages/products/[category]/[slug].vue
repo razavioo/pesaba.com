@@ -71,7 +71,7 @@
           </div>
           <div class="grid items-center border-t border-[#C9DDE5] bg-white lg:grid-cols-[minmax(0,1fr)_minmax(18rem,28rem)]">
             <p class="product-hero-strip-copy line-clamp-2 px-5 py-4 text-sm leading-relaxed md:px-7 md:text-base">{{ product.card_summary || product.description }}</p>
-            <div v-if="gallery.length > 1" class="flex h-20 max-w-full items-center gap-2 overflow-x-auto border-t border-[#C9DDE5] px-3 py-2 lg:border-s lg:border-t-0" :aria-label="locale === 'fa' ? 'گالری تصاویر محصول' : 'Product image gallery'">
+            <div v-if="gallery.length > 1" class="flex h-24 max-w-full items-center gap-2 overflow-x-auto border-t border-[#C9DDE5] px-3 py-2 lg:border-s lg:border-t-0" :aria-label="locale === 'fa' ? 'گالری تصاویر محصول' : 'Product image gallery'">
               <button
                 v-for="(img, i) in gallery"
                 :key="img"
@@ -79,12 +79,12 @@
                 :aria-label="locale === 'fa' ? `نمایش تصویر ${i + 1}` : `Show image ${i + 1}`"
                 :aria-current="activeImageIndex === i ? 'true' : undefined"
                 :class="[
-                  'h-14 w-20 flex-shrink-0 overflow-hidden border p-1 transition-colors',
+                  'h-16 w-24 flex-shrink-0 overflow-hidden border bg-white p-1.5 transition-colors',
                   activeImageIndex === i ? 'border-[var(--accent)] bg-[var(--accent-bg)]' : 'border-[var(--border)] bg-[var(--bg-elevated)]',
                 ]"
                 @click="selectImage(i)"
               >
-                <NuxtImg :src="thumbSrc(img)" :alt="`${product.title} ${i + 1}`" class="h-full w-full object-contain" loading="lazy" />
+                <NuxtImg :src="thumbSrc(img)" :alt="`${product.title} ${i + 1}`" class="block h-full w-full object-contain" loading="lazy" />
               </button>
             </div>
           </div>
