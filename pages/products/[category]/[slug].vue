@@ -69,9 +69,9 @@
               </div>
             </div>
           </div>
-          <div class="grid border-t border-[#C9DDE5] bg-white lg:grid-cols-[minmax(0,1fr)_auto]">
-            <p class="p-5 text-base leading-relaxed text-[var(--text-primary)] md:p-7 md:text-xl">{{ product.card_summary || product.description }}</p>
-            <div v-if="gallery.length > 1" class="flex max-w-full gap-2 overflow-x-auto border-t border-[#C9DDE5] p-3 lg:w-[28rem] lg:border-s lg:border-t-0" :aria-label="locale === 'fa' ? 'گالری تصاویر محصول' : 'Product image gallery'">
+          <div class="grid items-center border-t border-[#C9DDE5] bg-white lg:grid-cols-[minmax(0,1fr)_minmax(18rem,28rem)]">
+            <p class="product-hero-strip-copy line-clamp-2 px-5 py-4 text-sm leading-relaxed md:px-7 md:text-base">{{ product.card_summary || product.description }}</p>
+            <div v-if="gallery.length > 1" class="flex h-20 max-w-full items-center gap-2 overflow-x-auto border-t border-[#C9DDE5] px-3 py-2 lg:border-s lg:border-t-0" :aria-label="locale === 'fa' ? 'گالری تصاویر محصول' : 'Product image gallery'">
               <button
                 v-for="(img, i) in gallery"
                 :key="img"
@@ -79,7 +79,7 @@
                 :aria-label="locale === 'fa' ? `نمایش تصویر ${i + 1}` : `Show image ${i + 1}`"
                 :aria-current="activeImageIndex === i ? 'true' : undefined"
                 :class="[
-                  'h-16 w-20 flex-shrink-0 overflow-hidden border p-1 transition-colors',
+                  'h-14 w-20 flex-shrink-0 overflow-hidden border p-1 transition-colors',
                   activeImageIndex === i ? 'border-[var(--accent)] bg-[var(--accent-bg)]' : 'border-[var(--border)] bg-[var(--bg-elevated)]',
                 ]"
                 @click="selectImage(i)"
@@ -349,6 +349,10 @@ if (product.value) {
 
 .page-hero .product-hero-note {
   color: var(--text-muted) !important;
+}
+
+.page-hero .product-hero-strip-copy {
+  color: var(--text-primary) !important;
 }
 
 .page-hero .product-hero-panel :deep(.btn-outline) {
