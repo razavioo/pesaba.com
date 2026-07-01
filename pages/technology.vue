@@ -92,7 +92,7 @@
       <svg viewBox="0 0 1440 48" preserveAspectRatio="none" class="w-full h-10 block"><path d="M1440,0 L0,48 L1440,48 Z" fill="#093544"/></svg>
     </div>
 
-    <section class="section bg-[#093544]">
+    <section class="section bg-[#093544] pb-6 md:pb-8">
       <div class="container-site grid gap-8 lg:grid-cols-2 lg:items-center">
         <div>
           <div class="section-label mb-3" style="color:#AAC5D0">{{ locale === 'fa' ? 'فیلترینگ شبکه' : 'Network filtering' }}</div>
@@ -113,11 +113,6 @@
         </div>
       </div>
     </section>
-
-    <!-- SVG wedge: deep navy → page -->
-    <div class="w-full overflow-hidden leading-none" aria-hidden="true" style="background:#093544">
-      <svg viewBox="0 0 1440 48" preserveAspectRatio="none" class="w-full h-10 block"><path d="M0,0 L1440,48 L0,48 Z" fill="var(--bg-page)"/></svg>
-    </div>
 
     <CTAStrip :headline="$t('technology.compare_headline')" :sub="$t('technology.compare_desc')" :primary-label="$t('footer.compare_products')" :primary-href="localePath('/products/compare')" :secondary-label="$t('trust.title')" :secondary-href="localePath('/trust')" />
   </div>
