@@ -754,11 +754,11 @@
   /* ─── Anchor nav bar (sticky, below hero) ────────────────────────────── */
   .anchor-nav {
     position: sticky;
-    top: 4rem;
+    top: 7rem;
     z-index: 20;
     border-bottom: 1px solid var(--border);
-    background: rgba(255,255,255,0.95);
-    backdrop-filter: blur(12px);
+    background: #fff;
+    box-shadow: 0 12px 30px rgba(9, 53, 68, 0.08);
   }
   .anchor-nav a {
     white-space: nowrap;
