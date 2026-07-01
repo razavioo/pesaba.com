@@ -107,17 +107,20 @@
       </div>
     </section>
 
-    <section class="sticky top-16 z-20 border-y border-[var(--border)] backdrop-blur-xl bg-[rgba(248,250,252,0.94)]">
+    <section
+      class="product-section-nav sticky z-20 border-y border-[var(--border)] bg-white/95 shadow-[0_12px_30px_rgba(9,53,68,0.08)] backdrop-blur-xl"
+      :aria-label="locale === 'fa' ? 'بخش‌های محصول' : 'Product sections'"
+    >
       <div class="container-site">
-        <div class="flex gap-2 overflow-x-auto py-3" role="tablist">
+        <div class="flex gap-7 overflow-x-auto" role="tablist">
           <button
             v-for="tab in tabs"
             :key="tab.key"
             :class="[
-              'rounded-full border px-3 py-2 text-sm transition-colors',
+              'shrink-0 border-b-2 px-0 py-4 text-sm font-semibold transition-colors',
               activeTab === tab.key
-                ? 'border-[var(--accent)] bg-[var(--accent-bg)] text-[var(--accent)]'
-                : 'border-[var(--border-strong)] text-[var(--text-secondary)] hover:text-[var(--accent)]',
+                ? 'border-[var(--accent)] text-[var(--accent)]'
+                : 'border-transparent text-[var(--text-secondary)] hover:text-[var(--accent)]',
             ]"
             role="tab"
             :aria-selected="activeTab === tab.key"
@@ -334,3 +337,21 @@ if (product.value) {
   emitBreadcrumbs([{ name: t('common.home'), url: `/${locale.value}` }, { name: 'Products', url: `/${locale.value}/products` }, { name: t(`products.categories.${product.value.category}`), url: `/${locale.value}/products/${product.value.category}` }, { name: product.value.title, url: `/${locale.value}/products/${product.value.category}/${slug}` }])
 }
 </script>
+
+<style scoped>
+.product-section-nav {
+  top: 6.125rem;
+}
+
+@media (min-width: 48rem) {
+  .product-section-nav {
+    top: 7.75rem;
+  }
+}
+
+@media (min-width: 80rem) {
+  .product-section-nav {
+    top: 7.75rem;
+  }
+}
+</style>

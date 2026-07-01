@@ -2,7 +2,7 @@
   <header
     ref="headerRef"
     :class="[
-      'site-header sticky top-0 z-50 w-full max-w-[1440px] mx-auto px-6 md:px-12 lg:px-[88px] pointer-events-none transition-all duration-300',
+      'site-header container-wide sticky top-0 z-50 pointer-events-none transition-all duration-300',
       scrolled ? 'site-header--scrolled pt-1.5 md:pt-2' : 'pt-8',
     ]"
     role="banner"
