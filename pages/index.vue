@@ -186,7 +186,7 @@
             class="card-halo group flex h-full flex-col overflow-hidden p-6 transition-colors duration-300"
           >
             <div class="mb-5 flex items-start justify-between gap-3">
-              <span class="inline-block border border-[var(--accent)]/25 bg-[var(--accent)]/6 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-[var(--accent)]">
+              <span class="label-accent inline-block border border-[var(--accent)]/25 bg-[var(--accent)]/6 px-2.5 py-1">
                 {{ item.badge }}
               </span>
               <span class="text-[var(--text-muted)] opacity-0 transition-all duration-200 group-hover:opacity-100 group-hover:translate-x-1 rtl:group-hover:-translate-x-1 rtl:group-hover:translate-x-0">{{ locale === 'fa' ? '←' : '→' }}</span>
@@ -197,7 +197,7 @@
               <span
                 v-for="tag in item.tags"
                 :key="tag"
-                class="border border-[var(--border)] bg-[var(--bg-page)] px-2.5 py-1 text-[10px] font-medium text-[var(--text-muted)]"
+                class="label-meta border border-[var(--border)] bg-[var(--bg-page)] px-2.5 py-1"
               >
                 {{ tag }}
               </span>

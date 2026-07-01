@@ -298,6 +298,17 @@
     color: var(--text-muted);
   }
 
+  html[dir="rtl"] .section-label,
+  html[dir="rtl"] .label-meta,
+  html[dir="rtl"] .label-accent,
+  html[dir="rtl"] .label-status-active,
+  html[dir="rtl"] .label-status-neutral {
+    font-size: 0.875rem;
+    line-height: 1.8;
+    letter-spacing: 0;
+    text-transform: none;
+  }
+
   /* List marker — replaces inline span.rounded-full.bg-photon-400 bullet pattern */
   .list-dot {
     display: flex;

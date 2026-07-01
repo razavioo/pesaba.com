@@ -16,7 +16,7 @@
         </nav>
 
         <div class="max-w-2xl">
-          <div class="mb-5 inline-flex items-center px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] border border-[#AAC5D0]/30 text-[#AAC5D0]">{{ $t('nav.industries') }}</div>
+          <div class="label-accent mb-5 inline-flex items-center border border-[#AAC5D0]/30 px-3 py-1 !text-[#AAC5D0]">{{ $t('nav.industries') }}</div>
           <h1
             class="text-4xl md:text-5xl font-extrabold text-white mb-5 leading-tight"
             style="letter-spacing: -0.025em;"
