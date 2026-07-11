@@ -3,10 +3,10 @@
     <NuxtLink :to="href" class="grid h-full grid-rows-[auto_1fr]">
       <div class="relative flex aspect-[16/8.5] items-center justify-center overflow-hidden border-b border-[var(--border)] bg-[#E6EEF1]">
         <NuxtImg
-          :src="image || '/placeholder-product.svg'"
-          :alt="title"
+          :src="image || fallbackImage || '/placeholder-product.svg'"
+          :alt="image ? title : `${categoryLabel || 'Product'} image`"
           class="h-full w-full object-contain p-5 transition-transform duration-500 group-hover:scale-[1.02] md:p-6"
-          loading="lazy"
+          :loading="loading || 'lazy'"
         />
         <div v-if="categoryLabel" class="absolute start-3 top-3 max-w-[calc(100%-1.5rem)]">
           <span class="inline-block max-w-full truncate border border-white/80 bg-white/90 px-2 py-1 text-[0.66rem] font-mono leading-none text-[var(--text-muted)] shadow-sm">
@@ -56,13 +56,15 @@ const props = defineProps<{
   description?: string
   categoryLabel?: string
   image?: string
+  fallbackImage?: string
+  loading?: 'lazy' | 'eager'
   specs?: Array<{ label: string; value: string }>
   tags?: string[]
 }>()
 
 const { locale } = useI18n()
 const readMoreLabel = computed(() => locale.value === 'fa' ? 'مشاهده محصول' : 'View product')
-const displaySpecs = computed(() => (props.specs || []).slice(0, 2))
+const displaySpecs = computed(() => (props.specs || []).slice(0, 1))
 </script>
 
 <style scoped>

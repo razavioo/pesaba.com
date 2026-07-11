@@ -61,7 +61,7 @@
               : 'The Pesaba team focuses on cryptography, communications hardware, and OT/ICS security. Every product must be legible to professional buyers — from the data path to the attack surface.' }}
           </p>
         </div>
-        <div class="overflow-hidden rounded-3xl border border-[var(--border)]">
+        <div class="overflow-hidden rounded-[2px] border border-[var(--border)]">
           <NuxtImg
             src="/images/about/soc-operations.png"
             :alt="locale === 'fa' ? 'تیم مهندسی پرتو ارتباط صبا' : 'Pesaba engineering team'"

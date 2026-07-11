@@ -63,8 +63,14 @@
     color: var(--text-primary);
   }
 
-  h1 { font-weight: 700; line-height: 1.08; letter-spacing: -0.02em; }
+  h1 { font-weight: 500; line-height: 1.08; letter-spacing: 0; }
   h2 { font-weight: 700; line-height: 1.15; }
+
+  /* Keep the reference hierarchy consistent on subpages that use utility classes. */
+  html[dir="ltr"] h1 {
+    font-weight: 500 !important;
+    letter-spacing: 0 !important;
+  }
 
   /* Sharp corners and flat surfaces — only for structural blocks, not inline elements */
   *,

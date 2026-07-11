@@ -14,21 +14,21 @@
       </div>
     </section>
 
-    <section class="sticky top-16 z-20 border-b border-[var(--border)] backdrop-blur-xl bg-[rgba(248,250,252,0.95)]">
+    <section class="sticky top-16 z-20 border-b border-[var(--border)] bg-[#F6F6F6]">
       <div class="container-site py-4">
         <div class="grid gap-4 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center">
           <input
             v-model="query"
             type="search"
             :placeholder="locale === 'fa' ? 'جستجوی واژه...' : 'Search glossary...'"
-            class="w-full rounded-2xl border border-[var(--border-strong)] bg-[var(--bg-elevated)] px-4 py-3 text-sm text-[var(--text-primary)] outline-none transition-colors placeholder:text-[var(--text-muted)] focus:border-[var(--accent)]"
+            class="w-full rounded-[2px] border border-[var(--border-strong)] bg-white px-4 py-3 text-sm text-[var(--text-primary)] outline-none transition-colors placeholder:text-[var(--text-muted)] focus:border-[var(--accent)]"
           >
           <div class="flex flex-wrap gap-2" dir="ltr">
             <button
               v-for="letter in letters"
               :key="letter"
               :class="[
-                'h-9 w-9 rounded-xl border text-xs font-mono transition-colors',
+                'h-9 w-9 rounded-[2px] border text-xs font-mono transition-colors',
                 activeLetters.has(letter)
                   ? 'border-[var(--border-strong)] text-[var(--text-secondary)] hover:border-[var(--accent)] hover:text-[var(--accent)]'
                   : 'border-[var(--border)] text-[var(--text-muted)] opacity-35',

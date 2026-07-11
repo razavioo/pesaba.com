@@ -69,6 +69,8 @@
               :category-label="$t(`products.categories.${cat.key}`)"
               :specs="p.specs?.slice(0, 2)"
               :image="p.photos?.[0] || p.images?.[0]"
+              :fallback-image="productFallbackImage(p.category)"
+              loading="eager"
               :tags="productTags(p)"
             />
           </div>
@@ -116,6 +118,18 @@ const CATEGORY_TAGS: Record<string, { fa: string[]; en: string[] }> = {
 
 function productTags(product: ProductCardMeta) {
   return CATEGORY_TAGS[product.category]?.[locale.value === 'fa' ? 'fa' : 'en'] || []
+}
+
+function productFallbackImage(category: string) {
+  const fallbacks: Record<string, string> = {
+    'telecom-transmission': '/photos/sdx/photo-1.webp',
+    'cellular-monitoring': '/photos/capella/photo-1.webp',
+    'network-switching-filtering': '/photos/emx-9/photo-1.webp',
+    'network-encryption': '/photos/emx-6/photo-1.webp',
+    'data-diodes': '/photos/g200/photo-1.webp',
+    'bio-monitoring': '/photos/orazan/photo-1.webp',
+  }
+  return fallbacks[category] || '/photos/g200/photo-1.webp'
 }
 
 const categories = computed(() =>

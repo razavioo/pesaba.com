@@ -7,7 +7,7 @@ const ORGANIZATION = {
   name: 'Partov Ertebat Saba',
   alternateName: 'پرتو ارتباط صبا',
   url: SITE_URL,
-  logo: `${SITE_URL}/brand/logo.svg`,
+  logo: `${SITE_URL}/logo.png`,
   foundingDate: '2008',
   address: {
     '@type': 'PostalAddress',

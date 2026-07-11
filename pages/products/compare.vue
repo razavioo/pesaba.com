@@ -23,7 +23,7 @@
           v-for="p in allProducts"
           :key="p.slug + p.category"
           :class="[
-            'px-3 py-1.5 text-xs font-medium rounded-full border transition-all duration-150',
+            'px-3 py-1.5 text-xs font-medium rounded-[2px] border transition-all duration-150',
             isSelected(p)
               ? 'bg-[rgba(31,121,148,0.15)] border-[#1F7994]/60 text-[#1F7994]'
               : 'border-ink-700 text-ink-400 hover:border-ink-500 hover:text-ink-200',
@@ -55,7 +55,7 @@
               class="py-4 px-4 text-center min-w-[180px]"
             >
               <NuxtLink :to="localePath(`/products/${p.category}/${p.slug}`)" class="group">
-                <div class="w-12 h-12 rounded-lg bg-ink-900 border border-ink-700 flex items-center justify-center mx-auto mb-2 group-hover:border-[#1F7994]/40 transition-colors">
+                <div class="w-12 h-12 rounded-[2px] bg-ink-900 border border-ink-700 flex items-center justify-center mx-auto mb-2 group-hover:border-[#1F7994]/40 transition-colors">
                   <span class="text-xs font-mono text-ink-500">{{ (p.slug ?? '').toUpperCase().slice(0, 3) }}</span>
                 </div>
                 <p class="font-semibold text-ink-100 text-sm group-hover:text-[#1F7994] transition-colors">
@@ -132,7 +132,7 @@
           <button
             v-for="qs in quickStart"
             :key="qs.label"
-            class="px-3.5 py-2 text-xs font-medium rounded-full border border-[#1F7994]/30 bg-[rgba(31,121,148,0.05)] text-[#1F7994] hover:bg-[rgba(31,121,148,0.15)] hover:border-[#1F7994]/60 transition-all"
+            class="px-3.5 py-2 text-xs font-medium rounded-[2px] border border-[#1F7994]/30 bg-[rgba(31,121,148,0.05)] text-[#1F7994] hover:bg-[rgba(31,121,148,0.15)] hover:border-[#1F7994]/60 transition-all"
             @click="loadQuickStart(qs.slugs)"
           >
             {{ qs.label }}

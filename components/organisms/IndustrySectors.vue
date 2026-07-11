@@ -217,6 +217,23 @@ const sectors = computed(() => locale.value === 'fa' ? [
   transform: scale(1.04);
 }
 
+.sector-card:focus-visible {
+  outline: 3px solid #1F7994;
+  outline-offset: 3px;
+}
+
+/* Touch devices have no hover state, so the sector photography must remain legible. */
+@media (hover: none) {
+  .sector-card__image {
+    background-color: transparent;
+  }
+
+  .sector-card__img {
+    mix-blend-mode: normal;
+    filter: contrast(1) grayscale(0);
+  }
+}
+
 /* Dark gradient for text readability */
 .sector-card__overlay {
   position: absolute;

@@ -14,7 +14,7 @@
       <nav aria-label="Main Menu" class="flex h-14 justify-between items-center w-full">
         <!-- Logo -->
         <NuxtLink :to="localePath('/')" class="flex items-center gap-2.5 shrink-0 me-4" :aria-label="$t('meta.site_name')">
-          <NuxtImg src="/logo.svg" alt="Pesaba" class="h-8 w-8" />
+          <NuxtImg src="/logo.png" alt="Pesaba" class="h-8 w-8" />
           <div class="hidden sm:block">
             <div class="text-sm font-bold tracking-wider font-display text-[#27282D]">Pesaba</div>
           </div>
@@ -27,6 +27,7 @@
             :key="item.key"
             class="relative"
             @mouseenter="item.subItems ? openMenu(item.key) : null"
+            @focusin="item.subItems ? openMenu(item.key) : null"
             @mouseleave="item.subItems ? scheduleClose() : null"
           >
             <NuxtLink
@@ -60,9 +61,12 @@
 
           <!-- Mobile hamburger -->
           <button
+            ref="mobileTrigger"
             class="header-nav-buttons text-[#27282D] hover:text-[#1F7994] xl:hidden"
             :aria-label="$t('common.open')"
-            @click="mobileOpen = !mobileOpen"
+            aria-controls="mobile-navigation"
+            :aria-expanded="mobileOpen"
+            @click="mobileOpen ? closeMobile() : openMobile()"
           >
             <svg v-if="mobileOpen" class="w-5 h-5 shrink-0" viewBox="0 0 19 17" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M18.945 0.470703H16.125L9.50499 7.0907L2.88499 0.470703H0.0549927L8.08499 8.5007L0.114993 16.4707H2.94499L9.50499 9.9107L16.065 16.4707H18.885L10.915 8.5007L18.945 0.470703Z" fill="currentColor" />
@@ -72,7 +76,7 @@
               <path d="M0 12.5H44" stroke="currentColor" stroke-width="3" />
               <path d="M0 23H44" stroke="currentColor" stroke-width="3" />
             </svg>
-            <span class="leading-[0.8] text-[0.875rem] font-medium">{{ mobileOpen ? 'Close' : 'Menu' }}</span>
+            <span class="leading-[0.8] text-[0.875rem] font-medium">{{ mobileOpen ? $t('common.close') : $t('common.open') }}</span>
           </button>
         </div>
       </nav>
@@ -85,24 +89,30 @@
     <Transition name="slide-down">
       <div
         v-if="mobileOpen"
+        id="mobile-navigation"
+        ref="mobilePanel"
+        role="dialog"
+        aria-modal="true"
+        :aria-label="$t('nav.home')"
+        tabindex="-1"
         class="fixed inset-0 z-50 overflow-y-auto bg-[#093544] text-white p-6 md:p-12 flex flex-col pointer-events-auto"
       >
         <!-- Header inside mobile menu drawer -->
         <div class="flex justify-between items-center mb-12">
           <NuxtLink :to="localePath('/')" class="flex items-center gap-2.5" @click="mobileOpen = false">
-            <NuxtImg src="/logo.svg" alt="Pesaba" class="h-8 w-8 brightness-0 invert" />
+            <NuxtImg src="/logo.png" alt="Pesaba" class="h-8 w-8 brightness-0 invert" />
             <div class="text-sm font-bold tracking-wider font-display text-white">Pesaba</div>
           </NuxtLink>
 
           <button
             class="header-nav-buttons text-white/80 hover:text-white flex flex-col items-center justify-center gap-1"
             :aria-label="$t('common.close')"
-            @click="mobileOpen = false"
+            @click="closeMobile()"
           >
             <svg class="w-5 h-5 shrink-0" viewBox="0 0 19 17" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M18.945 0.470703H16.125L9.50499 7.0907L2.88499 0.470703H0.0549927L8.08499 8.5007L0.114993 16.4707H2.94499L9.50499 9.9107L16.065 16.4707H18.885L10.915 8.5007L18.945 0.470703Z" fill="currentColor" />
             </svg>
-            <span class="leading-[0.8] text-[0.875rem] font-medium">Close</span>
+            <span class="leading-[0.8] text-[0.875rem] font-medium">{{ $t('common.close') }}</span>
           </button>
         </div>
 
@@ -117,7 +127,7 @@
               <NuxtLink
                 :to="localePath(item.to)"
                 class="text-xl font-medium text-white hover:text-[#1F7994] transition-colors"
-                @click="mobileOpen = false"
+                @click="closeMobile()"
               >
                 {{ $t(`nav.${item.key}`) }}
               </NuxtLink>
@@ -137,7 +147,7 @@
                 :key="child.to"
                 :to="localePath(child.to)"
                 class="text-sm font-medium text-white/70 hover:text-white transition-colors"
-                @click="mobileOpen = false"
+                @click="closeMobile()"
               >
                 {{ child.label }}
               </NuxtLink>
@@ -148,7 +158,7 @@
             <NuxtLink
               :to="localePath('/company/contact')"
               class="button button-cta font-display w-full h-[56px] text-[1.125rem] font-medium flex items-center justify-center bg-[#1F7994] text-white hover:bg-[#093544] rounded-[2px] transition-colors duration-300"
-              @click="mobileOpen = false"
+              @click="closeMobile()"
             >
               {{ locale === 'fa' ? 'تماس با ما' : 'Contact us' }}
             </NuxtLink>
@@ -169,6 +179,8 @@ const activeMenu = ref<string | null>(null)
 let closeTimer: ReturnType<typeof setTimeout> | null = null
 const mobileOpen = ref(false)
 const expandedMobile = ref<string | null>(null)
+const mobilePanel = ref<HTMLElement | null>(null)
+const mobileTrigger = ref<HTMLButtonElement | null>(null)
 const route = useRoute()
 
 const navItems = computed(() => [
@@ -214,6 +226,17 @@ function openMenu(key: string) { cancelClose(); activeMenu.value = key }
 function scheduleClose() { closeTimer = setTimeout(() => { activeMenu.value = null }, 120) }
 function cancelClose() { if (closeTimer) { clearTimeout(closeTimer); closeTimer = null } }
 
+function openMobile() {
+  mobileOpen.value = true
+  nextTick(() => mobilePanel.value?.focus())
+}
+
+function closeMobile() {
+  mobileOpen.value = false
+  expandedMobile.value = null
+  nextTick(() => mobileTrigger.value?.focus())
+}
+
 function isItemActive(item: { key: string; to: string }) {
   const target = localePath(item.to)
   if (item.to === '/') return route.path === target || route.path === `${target}/`
@@ -230,14 +253,41 @@ watch(() => route.fullPath, () => {
   mobileOpen.value = false; expandedMobile.value = null; activeMenu.value = null
 })
 
+watch(mobileOpen, (open) => {
+  if (!import.meta.client) return
+  document.body.style.overflow = open ? 'hidden' : ''
+})
+
+function onKeydown(e: KeyboardEvent) {
+  if (!mobileOpen.value) return
+  if (e.key === 'Escape') {
+    e.preventDefault()
+    closeMobile()
+    return
+  }
+  if (e.key !== 'Tab' || !mobilePanel.value) return
+  const focusable = Array.from(mobilePanel.value.querySelectorAll<HTMLElement>('a, button, input, [tabindex]:not([tabindex="-1"])'))
+  if (!focusable.length) return
+  const first = focusable[0]
+  const last = focusable[focusable.length - 1]
+  if (e.shiftKey && document.activeElement === first) {
+    e.preventDefault(); last.focus()
+  } else if (!e.shiftKey && document.activeElement === last) {
+    e.preventDefault(); first.focus()
+  }
+}
+
 onMounted(() => {
   window.addEventListener('scroll', onScroll, { passive: true })
   document.addEventListener('click', onOutsideClick)
+  document.addEventListener('keydown', onKeydown)
   onScroll()
 })
 onUnmounted(() => {
   window.removeEventListener('scroll', onScroll)
   document.removeEventListener('click', onOutsideClick)
+  document.removeEventListener('keydown', onKeydown)
+  document.body.style.overflow = ''
 })
 </script>
 
