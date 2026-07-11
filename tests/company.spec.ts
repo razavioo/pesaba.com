@@ -33,7 +33,7 @@ test.describe('Contact page', () => {
   })
 
   test('contact form has required name field', async ({ page }) => {
-    const nameField = page.locator('form input[type="text"]').first()
+    const nameField = page.locator('#contact-name')
     await expect(nameField).toBeVisible()
     await expect(nameField).toHaveAttribute('required', '')
   })
@@ -46,7 +46,7 @@ test.describe('Contact page', () => {
   })
 
   test('contact form has optional company field', async ({ page }) => {
-    const companyField = page.locator('form input[type="text"]').nth(1)
+    const companyField = page.locator('#contact-company')
     await expect(companyField).toBeVisible()
   })
 
@@ -63,13 +63,13 @@ test.describe('Contact page', () => {
   test('form validates required fields on empty submit', async ({ page }) => {
     const submitBtn = page.locator('form').getByRole('button', { name: /send|submit|request/i })
     await submitBtn.click()
-    const nameField = page.locator('form input[type="text"]').first()
+    const nameField = page.locator('#contact-name')
     const isValid = await nameField.evaluate((el: HTMLInputElement) => el.validity.valid)
     expect(isValid).toBe(false)
   })
 
   test('form validates invalid email', async ({ page }) => {
-    await page.locator('form input[type="text"]').first().fill('Test User')
+    await page.locator('#contact-name').fill('Test User')
     await page.locator('input[placeholder="you@company.com"]').fill('not-an-email')
     const submitBtn = page.locator('form').getByRole('button', { name: /send|submit|request/i })
     await submitBtn.click()
@@ -79,8 +79,8 @@ test.describe('Contact page', () => {
   })
 
   test('form fills without error', async ({ page }) => {
-    await page.locator('form input[type="text"]').first().fill('Test User')
-    await page.locator('form input[type="text"]').nth(1).fill('Test Co')
+    await page.locator('#contact-name').fill('Test User')
+    await page.locator('#contact-company').fill('Test Co')
     await page.locator('input[placeholder="you@company.com"]').fill('test@example.com')
     await page.locator('form textarea').fill('This is a test message from Playwright.')
     const submitBtn = page.locator('form').getByRole('button', { name: /send|submit|request/i })

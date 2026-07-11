@@ -64,12 +64,19 @@ test.describe('SEO — meta tags', () => {
     expect(href).toBeTruthy()
   })
 
-  test('has canonical URL or manifest link', async ({ page }) => {
-    await goto(page, EN)
-    const manifest = page.locator('link[rel="manifest"]')
-    await expect(manifest).toHaveCount(1)
-    const href = await manifest.getAttribute('href')
-    expect(href).toBeTruthy()
+  test('localized article has one canonical and reciprocal hreflang links', async ({ page }) => {
+    const slug = 'what-is-aes-algorithm'
+    await goto(page, `${EN}/blog/${slug}`)
+
+    const canonical = page.locator('link[rel="canonical"]')
+    await expect(canonical).toHaveCount(1)
+    await expect(canonical).toHaveAttribute('href', `https://pesaba.com/en/blog/${slug}`)
+
+    const alternates = page.locator('link[rel="alternate"][hreflang]')
+    await expect(alternates).toHaveCount(3)
+    await expect(page.locator('link[rel="alternate"][hreflang="en-US"]')).toHaveAttribute('href', `https://pesaba.com/en/blog/${slug}`)
+    await expect(page.locator('link[rel="alternate"][hreflang="fa-IR"]')).toHaveAttribute('href', `https://pesaba.com/fa/blog/${slug}`)
+    await expect(page.locator('link[rel="alternate"][hreflang="x-default"]')).toHaveAttribute('href', `https://pesaba.com/fa/blog/${slug}`)
   })
 
   test('product detail page title contains product name', async ({ page }) => {
@@ -94,8 +101,64 @@ test.describe('SEO — structured data', () => {
 
   test('product detail page has breadcrumb schema', async ({ page }) => {
     await goto(page, `${EN}/products/data-diodes/a10`)
-    const jsonLD = page.locator('script[type="application/ld+json"]')
-    const count = await jsonLD.count()
-    expect(count).toBeGreaterThan(0)
+    const schemas = await page.locator('script[type="application/ld+json"]').allTextContents()
+    const parsed = schemas.map(schema => JSON.parse(schema))
+    expect(parsed.some(schema => schema['@type'] === 'BreadcrumbList')).toBe(true)
+    expect(parsed.some(schema => schema['@type'] === 'Product')).toBe(true)
+  })
+
+  test('glossary detail has valid DefinedTerm schema', async ({ page }) => {
+    await goto(page, `${EN}/glossary/aes`)
+    const schemas = await page.locator('script[type="application/ld+json"]').allTextContents()
+    const term = schemas.map(schema => JSON.parse(schema)).find(schema => schema['@type'] === 'DefinedTerm')
+    expect(term).toBeTruthy()
+    expect(term.url).toBe('https://pesaba.com/en/glossary/aes')
+    expect(term.inDefinedTermSet?.url).toBe('https://pesaba.com/en/glossary')
+  })
+})
+
+test.describe('SEO — crawlability and generated assets', () => {
+  test('sitemap is unique, canonical, localized, and excludes noindex routes', async ({ request }) => {
+    const response = await request.get('sitemap.xml')
+    expect(response.ok()).toBe(true)
+    expect(response.headers()['content-type']).toContain('application/xml')
+
+    const xml = await response.text()
+    const locations = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map(match => match[1])
+
+    expect(locations.length).toBeGreaterThan(200)
+    expect(new Set(locations).size).toBe(locations.length)
+    expect(locations.every(location => location.startsWith('https://pesaba.com/'))).toBe(true)
+    expect(xml).toContain('xmlns:xhtml="http://www.w3.org/1999/xhtml"')
+    expect(xml).toContain('hreflang="fa-IR"')
+    expect(xml).toContain('hreflang="en-US"')
+    expect(xml).toContain('hreflang="x-default"')
+    expect(xml).toContain('<loc>https://pesaba.com/en/legal/privacy</loc>')
+    expect(xml).not.toContain('/trust/compliance-matrix')
+    expect(xml).not.toContain('%25D')
+  })
+
+  test('unsupported locale and missing dynamic content return real 404 responses', async ({ page }) => {
+    const invalidLocale = await page.goto('/de/products', { waitUntil: 'domcontentloaded' })
+    expect(invalidLocale?.status()).toBe(404)
+
+    const missingProduct = await page.goto(`${EN}/products/data-diodes/not-a-product`, { waitUntil: 'domcontentloaded' })
+    expect(missingProduct?.status()).toBe(404)
+    await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'noindex, nofollow')
+  })
+
+  test('category metadata is localized and uses a crawlable PNG social image', async ({ page }) => {
+    await goto(page, `${FA}/products/data-diodes`)
+    await expect(page.locator('meta[property="og:title"]')).toHaveAttribute('content', /دیتادیود/)
+    await expect(page.locator('meta[property="og:image"]')).toHaveAttribute('content', 'https://pesaba.com/og/category/data-diodes.fa.png')
+  })
+
+  test('generated Open Graph endpoint returns a PNG image', async ({ request }) => {
+    const response = await request.get('og/product/a10.fa.png')
+    expect(response.ok()).toBe(true)
+    expect(response.headers()['content-type']).toContain('image/png')
+
+    const bytes = await response.body()
+    expect([...bytes.subarray(0, 8)]).toEqual([137, 80, 78, 71, 13, 10, 26, 10])
   })
 })

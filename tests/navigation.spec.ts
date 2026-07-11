@@ -80,7 +80,7 @@ test.describe('Navigation — Mobile menu', () => {
   test('hamburger opens mobile menu with Home link', async ({ page }) => {
     const burger = page.locator('header button[aria-label="Open"]')
     await burger.click()
-    const mobileNav = page.locator('nav').last()
+    const mobileNav = page.locator('#mobile-navigation nav')
     await expect(mobileNav.getByRole('link', { name: /^Home$/i })).toBeVisible()
     await expect(mobileNav.getByRole('link', { name: /^Products$/i })).toBeVisible()
   })
@@ -88,7 +88,7 @@ test.describe('Navigation — Mobile menu', () => {
   test('mobile menu closes after nav link click', async ({ page }) => {
     const burger = page.locator('header button[aria-label="Open"]')
     await burger.click()
-    const productsLink = page.locator('nav').last().getByRole('link', { name: /^Products$/i })
+    const productsLink = page.locator('#mobile-navigation nav').getByRole('link', { name: /^Products$/i })
     await productsLink.click()
     await page.waitForURL(/\/products/)
     expect(page.url()).toContain('/products')
@@ -109,7 +109,7 @@ test.describe('Footer', () => {
 
   test('footer contains Pesaba tagline', async ({ page }) => {
     const footer = page.locator('footer')
-    await expect(footer).toContainText(/Securing critical networks|پاسداری از/)
+    await expect(footer).toContainText(/Hardware for controlled transfer|طراحی سخت‌افزار برای انتقال/)
   })
 
   test('footer navigation links work', async ({ page }) => {

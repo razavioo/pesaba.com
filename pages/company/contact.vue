@@ -180,13 +180,13 @@
                     {{ $t('contact.form_title') }}
                   </h2>
                   <p class="text-xs text-[var(--text-muted)]">
-                    {{ locale === 'fa' ? 'کانال ارتباطی امن' : 'Secure communication channel' }}
+                    {{ locale === 'fa' ? 'فرم ارتباطی آنلاین' : 'Online contact form' }}
                   </p>
                 </div>
 
                 <!-- Beautiful Success Screen Overlay inside the card -->
                 <transition name="fade">
-                  <div v-if="submitStatus === 'success'" class="absolute inset-0 bg-[var(--bg-elevated)] z-20 p-8 flex flex-col items-center justify-center text-center animate-fade-in">
+                  <div v-if="submitStatus === 'success'" role="status" aria-live="polite" class="absolute inset-0 bg-[var(--bg-elevated)] z-20 p-8 flex flex-col items-center justify-center text-center animate-fade-in">
                     <!-- Dynamic success anim vector -->
                     <div class="mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-signal-500/10 text-signal-500 border border-signal-500/30 shadow-[0_0_24px_rgba(0,216,138,0.2)]">
                       <svg class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
@@ -210,13 +210,13 @@
                   <label class="mb-2 block text-xs font-semibold text-[var(--text-secondary)] uppercase tracking-wider">
                     {{ locale === 'fa' ? '۱. بخش مورد نظر را انتخاب کنید' : '1. Select Department' }}
                   </label>
-                  <div class="grid grid-cols-3 gap-2 bg-[var(--bg-page)]/80 p-1 border border-[var(--border)] rounded-xl">
+                  <div class="grid grid-cols-3 gap-2 bg-[var(--bg-page)]/80 p-1 border border-[var(--border)] rounded-[2px]">
                     <button 
                       v-for="dept in departments" 
                       :key="dept.id"
                       type="button"
                       :class="[
-                        'text-xs font-medium py-2 px-1 sm:px-2 rounded-lg transition-all duration-200 text-center',
+                        'text-xs font-medium py-2 px-1 sm:px-2 rounded-[2px] transition-all duration-200 text-center',
                         form.department === dept.id 
                           ? 'bg-[#093544] text-white font-semibold' 
                           : 'text-[var(--text-secondary)] hover:text-[var(--accent)] hover:bg-[var(--bg-elevated)]'
@@ -230,6 +230,10 @@
 
                 <!-- Form -->
                 <form class="space-y-5" @submit.prevent="submitForm">
+                  <div class="absolute start-[-10000px] top-auto h-px w-px overflow-hidden" aria-hidden="true">
+                    <label for="contact-website">Website</label>
+                    <input id="contact-website" v-model="form.website" name="website" type="text" tabindex="-1" autocomplete="off">
+                  </div>
                   <div class="space-y-4">
                     <label class="block text-xs font-semibold text-[var(--text-secondary)] uppercase tracking-wider">
                       {{ locale === 'fa' ? '۲. اطلاعات تماس و پیام خود را وارد کنید' : '2. Enter Contact & Message Details' }}
@@ -287,8 +291,37 @@
                     />
                   </div>
 
+                  <div class="border-s-2 border-[#1F7994] bg-[rgba(31,121,148,0.07)] px-4 py-3 text-xs leading-6 text-[var(--text-secondary)]">
+                    {{ locale === 'fa'
+                      ? 'اطلاعات طبقه‌بندی‌شده، گذرواژه، کلید رمزنگاری یا جزئیات حساس زیرساخت را در این فرم ارسال نکنید.'
+                      : 'Do not submit classified information, passwords, encryption keys, or sensitive infrastructure details through this form.' }}
+                  </div>
+
+                  <label class="flex cursor-pointer items-start gap-3 text-xs leading-6 text-[var(--text-secondary)]">
+                    <input
+                      v-model="form.consent"
+                      name="consent"
+                      type="checkbox"
+                      required
+                      class="mt-1 h-4 w-4 shrink-0 accent-[#1F7994]"
+                    >
+                    <span>
+                      {{ locale === 'fa' ? 'با پردازش اطلاعات این فرم برای پاسخ‌گویی به درخواست من مطابق ' : 'I agree to the processing of this form data to answer my request under the ' }}
+                      <NuxtLink :to="localePath('/legal/privacy')" class="font-semibold text-[#1F7994] underline underline-offset-2">
+                        {{ locale === 'fa' ? 'سیاست حریم خصوصی' : 'Privacy Policy' }}
+                      </NuxtLink>
+                      {{ locale === 'fa' ? ' موافقم.' : '.' }}
+                    </span>
+                  </label>
+
+                  <p v-if="!contactFormEnabled" role="status" class="border border-[var(--border)] px-4 py-3 text-xs leading-6 text-[var(--text-secondary)]">
+                    {{ locale === 'fa'
+                      ? 'ارسال آنلاین در این نسخه غیرفعال است؛ لطفاً از تلفن یا ایمیل درج‌شده در همین صفحه استفاده کنید.'
+                      : 'Online submission is disabled in this preview; use the phone number or email address on this page.' }}
+                  </p>
+
                   <!-- Error message block -->
-                  <div v-if="submitStatus === 'error'" class="rounded-xl px-4 py-3 text-xs bg-critical-500/10 text-critical-500 border border-critical-500/20 flex gap-2 items-center">
+                  <div v-if="submitStatus === 'error'" role="alert" aria-live="assertive" class="rounded-[2px] px-4 py-3 text-xs bg-critical-500/10 text-critical-500 border border-critical-500/20 flex gap-2 items-center">
                     <svg class="w-4 h-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                       <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                     </svg>
@@ -300,6 +333,7 @@
                     variant="primary"
                     size="lg"
                     :loading="submitting"
+                    :disabled="!contactFormEnabled"
                     class="w-full relative overflow-hidden group/btn font-bold text-sm tracking-wide"
                   >
                     <span class="relative z-10 flex items-center justify-center gap-2">
@@ -326,14 +360,16 @@
 const { t, locale } = useI18n()
 const route = useRoute()
 const config = useRuntimeConfig()
+const localePath = useLocalePath()
 const { salesPhoneHref, salesPhoneDisplay, salesPhoneDisplayInternational, salesEmail, salesEmailHref } = useContactInfo()
 const linkedinUrl = 'https://ir.linkedin.com/company/partov-ertebat-saba'
+const contactFormEnabled = computed(() => config.public.contactFormEnabled !== false)
 
 useSeoMeta({
   title: `${t('contact.title')} | Pesaba`,
   ogTitle: `${t('contact.title')} | Pesaba`,
-  description: 'Contact Pesaba for secure network appliances, product quotes, engineering consultation, and demonstrations.',
-  ogDescription: 'Contact Pesaba for secure network appliances, product quotes, engineering consultation, and demonstrations.'
+  description: computed(() => locale.value === 'fa' ? 'برای تجهیزات امنیت شبکه، استعلام محصول، مشاوره مهندسی و دموی فنی با پرتو ارتباط صبا تماس بگیرید.' : 'Contact Pesaba for secure network appliances, product quotes, engineering consultation, and demonstrations.'),
+  ogDescription: computed(() => locale.value === 'fa' ? 'برای تجهیزات امنیت شبکه، استعلام محصول، مشاوره مهندسی و دموی فنی با پرتو ارتباط صبا تماس بگیرید.' : 'Contact Pesaba for secure network appliances, product quotes, engineering consultation, and demonstrations.')
 })
 
 const form = reactive({
@@ -342,7 +378,9 @@ const form = reactive({
   email: '',
   product: '',
   message: '',
-  department: 'sales'
+  department: 'sales',
+  consent: false,
+  website: '',
 })
 
 onMounted(() => {
@@ -374,14 +412,14 @@ const departments = computed(() => [
 
 const expectations = computed(() => locale.value === 'fa'
   ? [
-      'بررسی و تخصیص درخواست به مهندسین یا کارشناسان فنی فروش مرتبط.',
-      'تماس اولیه یا ارسال راهنما پیرامون استقرار، مشخصات یا خرید کمتر از یک روز کاری.',
-      'هماهنگی برای دموهای فنی آزمایشگاهی، نمونه‌کارهای فیزیکی یا مستندات زنجیره تأمین.',
+      'درخواست بر اساس بخش انتخاب‌شده برای بررسی داخلی دسته‌بندی می‌شود.',
+      'کارشناس مرتبط، اطلاعات لازم برای ادامه بررسی را از طریق ایمیل یا تلفن پیگیری می‌کند.',
+      'زمان‌بندی دمو، مستندات فنی و شرایط خرید بر اساس محصول و پروژه هماهنگ می‌شود.',
     ]
   : [
-      'Your inquiry will be routed directly to the specialized engineering or sales division.',
-      'Expect an email or direct follow-up within 1 business day with specifications or procurement options.',
-      'Immediate availability of scheduling lab demos, physical references, or supply-chain validation.',
+      'Your inquiry is categorized internally according to the department you select.',
+      'The relevant team follows up by email or phone when more information is needed.',
+      'Demos, technical documents, and procurement details are coordinated by product and project.',
     ]
 )
 
@@ -411,10 +449,11 @@ function copyPhone() {
 }
 
 async function submitForm() {
+  if (!contactFormEnabled.value || !form.consent) return
   submitting.value = true
   submitStatus.value = null
   try {
-    await $fetch(config.public.contactFormUrl || '/api/contact', { 
+    const response = await $fetch<{ ok: boolean, requestId: string }>(config.public.contactFormUrl || '/api/contact', {
       method: 'POST', 
       body: { 
         name: form.name,
@@ -422,11 +461,13 @@ async function submitForm() {
         email: form.email,
         product: form.product,
         message: form.message,
-        department: form.department
+        department: form.department,
+        website: form.website,
+        consent: form.consent,
       } 
     })
     submitStatus.value = 'success'
-    submitMessage.value = t('contact.success_sent')
+    submitMessage.value = `${t('contact.success_sent')} (${locale.value === 'fa' ? 'شناسه پیگیری' : 'Reference'}: ${response.requestId})`
   } catch {
     submitStatus.value = 'error'
     submitMessage.value = t('contact.error_sent')
@@ -436,7 +477,7 @@ async function submitForm() {
 }
 
 function resetForm() {
-  Object.assign(form, { name: '', company: '', email: '', product: '', message: '' })
+  Object.assign(form, { name: '', company: '', email: '', product: '', message: '', consent: false, website: '' })
   submitStatus.value = null
   submitMessage.value = ''
 }

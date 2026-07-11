@@ -2,31 +2,31 @@
 title: 'Power Grid'
 title_fa: 'شبکه برق'
 slug: 'power-grid'
-description: 'Protect power-generation and transmission SCADA from cyber threats with hardware-enforced isolation.'
+description: 'Plan controlled SCADA data export and protected communications for power-generation and transmission networks.'
 locale: en
 products:
+  - 'data-diode-a100'
   - 'data-diode-g200'
-  - 'data-diode-g300'
   - 'emx-6'
 faqs:
-  - q: 'Can a data diode pass OPC-UA traffic?'
-    a: 'Yes. Pesaba diodes include a software bridge that accepts OPC-UA on the source side and re-publishes subscribed items to an OPC-UA server on the destination side — without opening a return channel.'
-  - q: 'How does remote maintenance work with a one-way diode in place?'
-    a: 'Maintenance access is handled through a separate, controlled bidirectional path (often a jump server with session recording) isolated from the historian replication path. The diode path is strictly for outbound data.'
-  - q: 'What happens to the diode if network traffic exceeds 1 Gbps?'
-    a: 'Traffic is dropped at the input; the OT source is unaffected. The diode never introduces back-pressure into the control network.'
+  - q: 'Can a Pesaba data diode publish OPC-UA data to another network?'
+    a: 'OPC-UA proxy support is not established by the current public product records. A one-way OPC-UA design normally requires independent source- and destination-side services with defined subscription, namespace, timestamp, quality, buffering, and recovery behaviour. Confirm a tested adapter for the exact product and software versions before specifying it.'
+  - q: 'How should remote maintenance work when telemetry uses a one-way path?'
+    a: 'Use a separately assessed maintenance path with explicit authorisation, strong authentication, session control and recording, time limits, logging, and a tested disable procedure. A data diode used for outbound telemetry should not be assumed to provide return-path maintenance access.'
+  - q: 'What happens when traffic exceeds the selected diode capacity?'
+    a: 'Interface rates are published per model, but overload, queueing, packet-loss, back-pressure, alarm, and recovery behaviour are not established by those rates. Size from measured peak traffic and test overload and downstream outages with the exact proxy and firmware configuration.'
 ---
 
 ## The Challenge
 
-Power-generation and transmission networks run SCADA systems that control physical equipment — turbines, switchgear, protection relays — where a successful cyberattack can cause generation outages, equipment damage, or cascading grid failures. These OT environments were designed for reliability, not security, and were never intended to connect to IP networks. The growth of remote monitoring, smart-grid integration, and energy-management systems has made that connection unavoidable. The challenge is allowing the necessary data flows — historian replication, monitoring, reporting — while keeping every adversary out of the control plane.
+Power-generation and transmission operators use SCADA, protection, metering, historian, and energy-management systems with different timing and availability requirements. Monitoring and reporting data may need to leave a control zone, while commands and maintenance access need separate risk treatment. No single boundary device replaces system-level safety, protection, redundancy, and incident-recovery design.
 
 ## Why It Matters
 
-- **Physical consequences:** Unlike IT breaches, a compromised SCADA system controlling a substation can trip breakers, damage transformers, or cause uncontrolled load shedding. Recovery time is measured in days, not hours.
-- **Regulatory pressure:** IEC 62443, NERC CIP (for international operators), and Iranian AFTA guidelines increasingly mandate documented security controls for level-2 and level-3 OT zones. Non-compliance carries licensing and operational risk.
-- **Expanding attack surface:** The integration of metering, renewables, and distributed energy resources has added thousands of IP-connected endpoints to networks that once had none.
+- **Physical consequences:** Compromise or loss of control functions can contribute to outages, equipment stress, or unsafe operating conditions.
+- **Documented zones and conduits:** IEC 62443, NERC CIP where applicable, and relevant Iranian requirements can inform the control baseline. Product deployment does not itself establish compliance or a particular security level.
+- **Capacity and failure behaviour:** Metering, alarm, historian, and event streams can have different burst patterns; overload and outage behaviour must be known before connecting a control network.
 
-## How Pesaba Solves It
+## Where Pesaba May Fit
 
-Pesaba data diodes enforce a hardware gap between the OT control zone and the corporate or monitoring network. Historian data, alarm streams, and process telemetry flow outward in one direction only — using FPGA optical hardware that physically removes the reverse path. No software patch can re-enable it. For links that require bidirectional flow — such as firmware delivery or remote-access jump servers — Pesaba's EMX-6 encrypts traffic at line rate, ensuring that even if a link is tapped, the payload is cryptographically protected.
+Pesaba's A100 and G200 records describe one-way Ethernet transfer at different interface rates, and EMX-6 is described as an FPGA-based AES-256 encryptor. These can be evaluated for selected outbound data flows and protected links. OPC-UA or other protocol adaptation, deterministic latency, high availability, environmental qualification, maintenance access, and regulatory acceptance require model-specific evidence and end-to-end testing.

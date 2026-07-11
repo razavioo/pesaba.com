@@ -32,10 +32,10 @@
           <ProductCard
             v-for="p in products"
             :key="p._path"
-            :title="p.title"
-            :slug="p.slug"
+            :title="p.title || ''"
+            :slug="p.slug || ''"
             :href="localePath(`/products/${category}/${p.slug}`)"
-            :description="p.card_summary || p.description"
+            :description="publicDescription(p)"
             :specs="p.specs?.slice(0, 3)"
             :image="p.photos?.[0] || p.images?.[0]"
             :tags="productTags(p)"
@@ -62,47 +62,71 @@ const localePath = useLocalePath()
 const route = useRoute()
 const { salesPhoneHref } = useContactInfo()
 const { emitBreadcrumbs } = useSchemaOrg()
+const { publicDescription } = useProductCopy()
 const category = route.params.category as string
+
+const DESCS: Record<string, { fa: string; en: string }> = {
+  'data-diodes': { fa: 'انتقال یک‌طرفه اعمال‌شده در سخت‌افزار؛ سرویس‌های پشتیبانی‌شده و معماری جداسازی در هر مدل متفاوت است.', en: 'Hardware-enforced one-way data transfer; supported services and isolation architecture vary by model.' },
+  'network-encryption': { fa: 'رمزنگاری شبکه AES-256 مبتنی بر FPGA؛ رابط‌ها و گزینه‌های مدیریت کلید در هر مدل متفاوت است.', en: 'FPGA-based AES-256 network encryption; interfaces and key-management options vary by model.' },
+  'cellular-monitoring': { fa: 'پایش و تحلیل شبکه‌های سلولی 2G، 3G، LTE و TD-LTE.', en: 'Monitoring and analysis for 2G, 3G, LTE, and TD-LTE cellular networks.' },
+  'network-switching-filtering': { fa: 'سوئیچینگ، TAP، تحلیل و فیلترکردن ترافیک شبکه با پردازش مبتنی بر FPGA.', en: 'FPGA-based network switching, traffic tapping, analysis, and packet filtering.' },
+  'telecom-transmission': { fa: 'انتقال اترنت روی SDH/STM1 و E1.', en: 'Ethernet-over-SDH, Ethernet-over-E1, and multiplexing interfaces.' },
+  'bio-monitoring': { fa: 'پایش پیوسته سمیت آب با تحلیل رفتاری زیستی و هشدار بلادرنگ.', en: 'Continuous water-toxicity monitoring using biological behavioural analysis and real-time alerting.' },
+}
+
+const TAGS: Record<string, { fa: string; en: string }> = {
+  'data-diodes': { fa: 'انتقال یک‌طرفه', en: 'One-Way Transfer' },
+  'network-encryption': { fa: 'رمزنگاری شبکه', en: 'Network Encryption' },
+  'cellular-monitoring': { fa: 'پایش شبکه', en: 'Network Monitoring' },
+  'network-switching-filtering': { fa: 'پردازش ترافیک شبکه', en: 'Network Traffic Processing' },
+  'telecom-transmission': { fa: 'انتقال مخابراتی', en: 'Telecom Transport' },
+  'bio-monitoring': { fa: 'پایش زیستی آب', en: 'Water Biomonitoring' },
+}
+
+if (!Object.hasOwn(DESCS, category)) {
+  throw createError({ statusCode: 404, statusMessage: 'Product category not found' })
+}
 
 const { data: products } = await useAsyncData(`category-${category}-${locale.value}`, async () => {
   const all = await queryContent('products')
     .where({ category, active: { $ne: false } })
     .find()
   return all
-    .filter(p => locale.value === 'fa' ? p.locale === 'fa' : !p.locale)
+    .filter(p => locale.value === 'fa'
+      ? p.locale === 'fa'
+      : p.locale === 'en' || !p.locale)
     .sort((a, b) => (a.priority ?? 999) - (b.priority ?? 999))
 })
 
-const DESCS: Record<string, { fa: string; en: string }> = {
-  'data-diodes': { fa: 'انتقال یک‌طرفه‌ی فیزیکی داده با حذف مسیر برگشتی — بدون استثنا.', en: 'Hardware-enforced one-way data flow. No software, no exceptions.' },
-  'network-encryption': { fa: 'رمزنگاری AES-256 مبتنی بر FPGA — بدون سیستم‌عامل.', en: 'AES-256 FPGA-native encryption. OS-less. No software attack surface.' },
-  'cellular-monitoring': { fa: 'پایش KPI شبکه‌های سلولی از 2G تا 5G NR.', en: 'Full-stack cellular KPI measurement from drive-test to cloud aggregation.' },
-  'network-switching-filtering': { fa: 'سوئیچینگ و فیلترینگ عمیق لایه ۲/۳ مبتنی بر FPGA.', en: 'FPGA-native Layer-2/3 switching and deep-packet filtering.' },
-  'telecom-transmission': { fa: 'انتقال اترنت روی SDH/STM1 و E1.', en: 'Ethernet-over-SDH, Ethernet-over-E1, and multiplexing interfaces.' },
-  'bio-monitoring': { fa: 'پایش زیست‌محیطی و کیفیت آب با سنسورهای هوشمند.', en: 'Continuous water toxicity and biomonitoring with real-time alerting.' },
-}
-
-const TAGS: Record<string, { fa: string; en: string }> = {
-  'data-diodes': { fa: 'امنیت سخت‌افزاری', en: 'Hardware Security' },
-  'network-encryption': { fa: 'سخت‌افزاری · AES-256', en: 'FPGA · AES-256' },
-  'cellular-monitoring': { fa: 'مخابراتی · 2G – 5G NR', en: '2G – 5G NR' },
-  'network-switching-filtering': { fa: 'سوئیچینگ لایه ۲ و ۳', en: 'Layer 2 / 3' },
-  'telecom-transmission': { fa: 'انتقال · SDH / E1', en: 'SDH · E1' },
-  'bio-monitoring': { fa: 'پایش اینترنت اشیا', en: 'IoT · Water Quality' },
-}
-
 const categoryDesc = computed(() => locale.value === 'fa' ? DESCS[category]?.fa || '' : DESCS[category]?.en || '')
 const categoryTag = computed(() => locale.value === 'fa' ? TAGS[category]?.fa || '' : TAGS[category]?.en || '')
+const categoryTitle = computed(() => t(`products.categories.${category}`))
+const config = useRuntimeConfig()
+const siteUrl = String(config.public.siteUrl || 'https://pesaba.com').replace(/\/+$/, '')
+const socialImage = computed(() => `${siteUrl}/og/category/${category}.${locale.value}.png`)
 
-function productTags(_product: { category: string }) {
+useSeoMeta({
+  title: computed(() => `${categoryTitle.value} | Pesaba`),
+  description: categoryDesc,
+  ogTitle: computed(() => `${categoryTitle.value} | Pesaba`),
+  ogDescription: categoryDesc,
+  ogImage: socialImage,
+  ogImageWidth: 1200,
+  ogImageHeight: 630,
+  ogImageType: 'image/png',
+  twitterTitle: computed(() => `${categoryTitle.value} | Pesaba`),
+  twitterDescription: categoryDesc,
+  twitterImage: socialImage,
+  twitterCard: 'summary_large_image',
+})
+
+function productTags(_product: unknown) {
   return [categoryTag.value]
 }
 
-if (products.value?.length) {
-  emitBreadcrumbs([
-    { name: t('common.home'), url: `/${locale.value}` },
-    { name: 'Products', url: `/${locale.value}/products` },
-    { name: t(`products.categories.${category}`), url: `/${locale.value}/products/${category}` },
-  ])
-}
+emitBreadcrumbs([
+  { name: t('common.home'), url: `/${locale.value}` },
+  { name: t('products.title'), url: `/${locale.value}/products` },
+  { name: categoryTitle.value, url: `/${locale.value}/products/${category}` },
+])
 </script>

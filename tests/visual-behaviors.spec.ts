@@ -10,6 +10,30 @@ test.describe('Theme mode', () => {
   })
 })
 
+test.describe('Header scroll backdrop', () => {
+  test('keeps the hero flush with the viewport and paints the backdrop with the header', async ({ page }) => {
+    await goto(page, EN)
+
+    const initialHeroTop = await page.locator('.page-hero').first().evaluate((hero) => hero.getBoundingClientRect().top)
+    expect(initialHeroTop).toBe(0)
+
+    await page.evaluate(() => window.scrollTo(0, 100))
+    await page.waitForTimeout(350)
+
+    const backdrop = await page.locator('.site-header').evaluate((header) => {
+      const styles = getComputedStyle(header, '::before')
+      return {
+        headerHeight: header.getBoundingClientRect().height,
+        height: Number.parseFloat(styles.height),
+        position: styles.position,
+      }
+    })
+
+    expect(backdrop.position).toBe('absolute')
+    expect(backdrop.height).toBeCloseTo(backdrop.headerHeight, 0)
+  })
+})
+
 test.describe('Product image viewer', () => {
   test.beforeEach(async ({ page }) => {
     await goto(page, `${EN}/products/data-diodes/k200`)

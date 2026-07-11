@@ -42,11 +42,67 @@ function getSlugsFromContent(dir: string): string[] {
 const articleSlugs = getSlugsFromContent('content/articles')
 const productSlugs = getSlugsFromContent('content/products')
 const glossarySlugs = getSlugsFromContent('content/glossary')
+const industrySlugs = getSlugsFromContent('content/industries')
+const useCaseSlugs = getSlugsFromContent('content/use-cases')
+const productCategories = [
+  'data-diodes',
+  'network-encryption',
+  'network-switching-filtering',
+  'telecom-transmission',
+  'cellular-monitoring',
+  'bio-monitoring',
+]
 
-const prerenderRoutes = ['/feed.xml', '/sitemap.xml', '/robots.txt']
-articleSlugs.forEach(slug => prerenderRoutes.push(`/og/article/${slug}.svg`))
-productSlugs.forEach(slug => prerenderRoutes.push(`/og/product/${slug}.svg`))
-glossarySlugs.forEach(slug => prerenderRoutes.push(`/og/glossary/${slug}.svg`))
+const isProduction = process.env.NODE_ENV !== 'development'
+const nitroPreset = process.env.NITRO_PRESET || 'node-server'
+const isStaticBuild = nitroPreset === 'github-pages' || process.env.NUXT_STATIC === 'true'
+const publicSiteUrl = process.env.NUXT_PUBLIC_SITE_URL || 'https://pesaba.com'
+const appBaseURL = (() => {
+  const pathname = String(process.env.NUXT_APP_BASE_URL || '/').trim().replace(/^\/+|\/+$/g, '')
+  return pathname ? `/${pathname}/` : '/'
+})()
+const withAppBase = (pathname: string) => `${appBaseURL}${pathname.replace(/^\/+/, '')}`
+const defaultSiteIndexable = (() => {
+  try {
+    const url = new URL(publicSiteUrl)
+    return url.protocol === 'https:' && ['pesaba.com', 'www.pesaba.com'].includes(url.hostname)
+  }
+  catch {
+    return false
+  }
+})()
+
+const securityHeaders = {
+  'content-security-policy': [
+    "default-src 'self'",
+    "base-uri 'self'",
+    "connect-src 'self'",
+    "font-src 'self' data:",
+    "form-action 'self'",
+    "frame-ancestors 'none'",
+    "img-src 'self' data: blob:",
+    "manifest-src 'self'",
+    "object-src 'none'",
+    "script-src 'self' 'unsafe-inline'",
+    "style-src 'self' 'unsafe-inline'",
+    "worker-src 'self' blob:",
+    'upgrade-insecure-requests',
+  ].join('; '),
+  'cross-origin-opener-policy': 'same-origin',
+  'permissions-policy': 'camera=(), geolocation=(), microphone=(), payment=(), usb=()',
+  'referrer-policy': 'strict-origin-when-cross-origin',
+  'strict-transport-security': 'max-age=31536000',
+  'x-content-type-options': 'nosniff',
+  'x-frame-options': 'DENY',
+}
+
+const prerenderRoutes: string[] = []
+const ogLocales = ['fa', 'en'] as const
+const addOpenGraphRoutes = (type: string, slugs: string[]) => {
+  for (const slug of slugs) {
+    for (const locale of ogLocales) prerenderRoutes.push(`/og/${type}/${slug}.${locale}.png`)
+  }
+}
 
 type RouteRule = { redirect: { to: string; statusCode: number } }
 
@@ -55,13 +111,26 @@ const redirectRules = Object.entries(REDIRECTS).reduce((acc, [from, to]) => {
   return acc
 }, {} as Record<string, RouteRule>)
 
-// Add all redirect source routes to prerender list so Nitro generates fallback redirect HTML files
-Object.keys(REDIRECTS).forEach(route => prerenderRoutes.push(route))
+// Static previews need redirect HTML files; the production Node server handles these at runtime.
+if (isStaticBuild) {
+  prerenderRoutes.push('/feed.xml', '/sitemap.xml', '/robots.txt', '/en/solutions', '/fa/solutions')
+  for (const locale of ogLocales) {
+    for (const slug of industrySlugs) prerenderRoutes.push(`/${locale}/industries/${slug}`)
+  }
+  addOpenGraphRoutes('site', ['home'])
+  addOpenGraphRoutes('article', articleSlugs)
+  addOpenGraphRoutes('product', productSlugs)
+  addOpenGraphRoutes('category', productCategories)
+  addOpenGraphRoutes('glossary', glossarySlugs)
+  addOpenGraphRoutes('industry', industrySlugs)
+  addOpenGraphRoutes('use-case', useCaseSlugs)
+}
 
 export default defineNuxtConfig({
   compatibilityDate: '2024-11-01',
+  buildDir: process.env.NUXT_BUILD_DIR || '.nuxt',
 
-  devtools: { enabled: process.env.NODE_ENV !== 'production' },
+  devtools: { enabled: process.env.NUXT_DEVTOOLS === 'true' },
 
   modules: [
     '@nuxt/content',
@@ -100,15 +169,14 @@ export default defineNuxtConfig({
       { code: 'en', language: 'en-US', dir: 'ltr', name: 'English', file: 'en.json' },
     ],
     langDir: 'locales/',
-    detectBrowserLanguage: {
-      useCookie: true,
-      cookieKey: 'pesaba_locale',
-      redirectOn: 'root',
-    },
+    detectBrowserLanguage: false,
   },
 
   // ─── Content ─────────────────────────────────────────────────────────────
   content: {
+    markdown: {
+      mdc: false,
+    },
     highlight: {
       theme: 'github-dark',
       langs: ['bash', 'json', 'yaml', 'python', 'javascript', 'typescript'],
@@ -134,20 +202,20 @@ export default defineNuxtConfig({
 
   // ─── App head defaults ───────────────────────────────────────────────────
   app: {
-    baseURL: '/pesaba.com/',
+    baseURL: appBaseURL,
     head: {
       charset: 'utf-8',
       viewport: 'width=device-width, initial-scale=1',
       link: [
-        { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' },
-        { rel: 'apple-touch-icon', href: '/apple-touch-icon.png' },
-        { rel: 'manifest', href: '/manifest.webmanifest' },
-        { rel: 'alternate', type: 'application/rss+xml', title: 'Pesaba Blog', href: '/feed.xml' },
+        { rel: 'icon', type: 'image/svg+xml', href: withAppBase('favicon.svg') },
+        { rel: 'apple-touch-icon', href: withAppBase('apple-touch-icon.png') },
+        { rel: 'manifest', href: withAppBase('manifest.webmanifest') },
+        { rel: 'alternate', type: 'application/rss+xml', title: 'Pesaba Blog', href: withAppBase('feed.xml') },
 
       ],
       meta: [
         { name: 'theme-color', content: '#FFFFFF' },
-        { name: 'color-scheme', content: 'light dark' },
+        { name: 'color-scheme', content: 'light' },
         { property: 'og:site_name', content: 'Pesaba' },
         { property: 'og:type', content: 'website' },
         { name: 'twitter:card', content: 'summary_large_image' },
@@ -156,38 +224,71 @@ export default defineNuxtConfig({
   },
 
   // ─── Runtime config ──────────────────────────────────────────────────────
+  // Secrets intentionally have empty defaults. Set NUXT_* variables on the running
+  // Node process so credentials are never captured in build output.
   runtimeConfig: {
-    smtpHost: process.env.SMTP_HOST || '',
-    smtpPort: process.env.SMTP_PORT || '587',
-    smtpUser: process.env.SMTP_USER || '',
-    smtpPass: process.env.SMTP_PASS || '',
-    smtpTo: process.env.SMTP_TO || 'admin@pesaba.com',
-    contactEmail: process.env.CONTACT_EMAIL || 'admin@pesaba.com',
+    smtpHost: '',
+    smtpPort: 587,
+    smtpSecure: false,
+    smtpUser: '',
+    smtpPass: '',
+    smtpFrom: '',
+    smtpTo: '',
+    smtpSalesTo: '',
+    smtpSupportTo: '',
+    smtpPartnershipTo: '',
+    contactAllowedOrigins: '',
+    contactTrustProxy: false,
+    contactRateLimitMax: 5,
+    contactMaxBodyBytes: 16_384,
     public: {
-      siteUrl: process.env.NUXT_PUBLIC_SITE_URL || 'https://razavioo.github.io/pesaba.com',
+      siteUrl: publicSiteUrl,
+      siteIndexable: process.env.NUXT_PUBLIC_SITE_INDEXABLE
+        ? process.env.NUXT_PUBLIC_SITE_INDEXABLE === 'true'
+        : defaultSiteIndexable,
       contactFormUrl: process.env.NUXT_PUBLIC_CONTACT_FORM_URL || '/api/contact',
-      meilisearchHost: process.env.NUXT_PUBLIC_MEILISEARCH_HOST || '',
-      meilisearchKey: process.env.NUXT_PUBLIC_MEILISEARCH_KEY || '',
+      contactFormEnabled: process.env.NUXT_PUBLIC_CONTACT_FORM_ENABLED
+        ? process.env.NUXT_PUBLIC_CONTACT_FORM_ENABLED === 'true'
+        : !isStaticBuild,
     },
   },
 
   // ─── Nitro ───────────────────────────────────────────────────────────────
   nitro: {
-    preset: 'github-pages',
+    preset: nitroPreset,
+    compressPublicAssets: true,
+    sourceMap: !isProduction,
+    timing: !isProduction,
     prerender: {
       routes: prerenderRoutes,
-      failOnError: false,
+      crawlLinks: true,
+      failOnError: true,
       ignore: ['/_ipx/**'],
     },
     routeRules: {
-      '/api/**': { cors: false },
-      ...redirectRules,
+      ...(isProduction ? { '/**': { headers: securityHeaders } } : {}),
+      '/api/**': {
+        cors: false,
+        headers: {
+          ...(isProduction ? securityHeaders : {}),
+          'cache-control': 'no-store, max-age=0',
+        },
+      },
+      '/api/_content/**': {
+        headers: {
+          ...(isProduction ? securityHeaders : {}),
+          'cache-control': 'no-store, max-age=0',
+          'x-robots-tag': 'noindex, nofollow, noarchive',
+        },
+      },
+      ...(isStaticBuild ? { '/': redirectRules['/'] } : redirectRules),
     },
   },
 
   // ─── TypeScript ──────────────────────────────────────────────────────────
   typescript: {
     strict: true,
+    // Full vue-tsc checking remains a separate migration; keep production builds reliable.
     typeCheck: false,
   },
 

@@ -5,7 +5,7 @@ export const FA = '/fa'
 
 /** Navigate and wait for Nuxt hydration */
 export async function goto(page: Page, path: string) {
-  await page.goto(path, { waitUntil: 'load' })
+  await page.goto(path, { waitUntil: 'domcontentloaded' })
   await page.waitForTimeout(800)
 }
 

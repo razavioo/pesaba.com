@@ -54,7 +54,7 @@
           <!-- Contact CTA button -->
           <NuxtLink
             :to="localePath('/company/contact')"
-            class="button button-cta font-display !min-h-0 !min-w-0 h-[46px] md:h-[56px] px-6 md:px-10 text-[14px] md:text-[1.125rem] font-medium flex items-center justify-center bg-[#1F7994] text-white hover:bg-[#093544] rounded-[2px] transition-colors duration-300"
+            class="button button-cta font-display !min-h-0 !min-w-0 min-w-[8.5rem] whitespace-nowrap h-[46px] md:h-[56px] px-5 md:px-8 text-[14px] md:text-[1.125rem] font-medium flex items-center justify-center bg-[#1F7994] text-white hover:bg-[#093544] rounded-[2px] transition-colors duration-300"
           >
             {{ locale === 'fa' ? 'تماس با ما' : 'Contact us' }}
           </NuxtLink>
@@ -294,16 +294,14 @@ onUnmounted(() => {
 <style scoped>
 .site-header::before {
   content: '';
-  position: fixed;
-  inset: 0 0 auto;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: calc(50% - 50vw);
+  width: 100vw;
   z-index: -1;
-  height: 6rem;
   background: #093544;
   pointer-events: none;
-}
-
-.site-header--scrolled::before {
-  height: 4rem;
 }
 
 .slide-down-enter-active, .slide-down-leave-active {

@@ -9,15 +9,15 @@ export default defineConfig({
   reporter: [['html', { open: 'never' }], ['list']],
 
   use: {
-    baseURL: process.env.BASE_URL || 'http://localhost:3000/pesaba.com/',
+    baseURL: process.env.BASE_URL || 'http://localhost:3000/',
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
     video: 'on-first-retry',
   },
 
   webServer: {
-    command: 'npm run dev',
-    url: 'http://localhost:3000/pesaba.com/',
+    command: 'NUXT_IGNORE_LOCK=1 NUXT_PUBLIC_SITE_URL=https://pesaba.com NUXT_PUBLIC_SITE_INDEXABLE=true NUXT_CONTACT_RATE_LIMIT_MAX=100 npm run dev',
+    url: 'http://localhost:3000/fa',
     reuseExistingServer: !process.env.CI,
     timeout: 120000,
   },

@@ -62,15 +62,15 @@
             <ProductCard
               v-for="p in cat.products"
               :key="p._path"
-              :title="p.title"
-              :slug="p.slug"
+              :title="p.title || ''"
+              :slug="p.slug || ''"
               :href="localePath(`/products/${cat.key}/${p.slug}`)"
-              :description="p.card_summary || p.description"
+              :description="publicDescription(p)"
               :category-label="$t(`products.categories.${cat.key}`)"
               :specs="p.specs?.slice(0, 2)"
               :image="p.photos?.[0] || p.images?.[0]"
               :fallback-image="productFallbackImage(p.category)"
-              loading="eager"
+              loading="lazy"
               :tags="productTags(p)"
             />
           </div>
@@ -84,6 +84,7 @@
 const { t, locale } = useI18n()
 const localePath = useLocalePath()
 const { withBase } = useBaseUrl()
+const { publicDescription } = useProductCopy()
 
 useHead({
   link: [
@@ -91,36 +92,35 @@ useHead({
   ],
 })
 
+const productsDescription = computed(() => locale.value === 'fa'
+  ? 'محصولات پرتو ارتباط صبا در حوزه دیتا دیود، رمزنگاری شبکه، پایش، سوئیچینگ، انتقال مخابراتی و پایش زیستی آب.'
+  : 'Explore Pesaba data diodes, network encryption, monitoring, switching, telecom transmission, and water-biomonitoring products.')
+
 useSeoMeta({
   title: `${t('products.title')} | Pesaba`,
   ogTitle: `${t('products.title')} | Pesaba`,
-  description: 'FPGA-native data diodes, network encryptors, cellular monitoring tools and telecom transmission hardware made in Iran.',
-  ogDescription: 'FPGA-native data diodes, network encryptors, cellular monitoring tools and telecom transmission hardware made in Iran.',
+  description: productsDescription,
+  ogDescription: productsDescription,
 })
 
 const CATEGORY_KEYS = ['data-diodes', 'network-encryption', 'network-switching-filtering', 'telecom-transmission', 'cellular-monitoring', 'bio-monitoring']
 const { data: allProducts } = await useAsyncData('all-products', () => queryContent('products').find())
 
-interface ProductCardMeta {
-  category: string
-  schematic_pdf?: string
-  schematic_pdfs?: string[]
-}
-
 const CATEGORY_TAGS: Record<string, { fa: string[]; en: string[] }> = {
-  'data-diodes': { fa: ['یک‌طرفه', 'مرز OT', 'بدون سیستم‌عامل'], en: ['One-way', 'OT boundary', 'OS-less'] },
-  'network-encryption': { fa: ['AES-256', 'FPGA', 'لینک امن'], en: ['AES-256', 'FPGA', 'Secure links'] },
-  'cellular-monitoring': { fa: ['2G–5G', 'QoS', 'میدانی'], en: ['2G–5G', 'QoS', 'Field probes'] },
-  'network-switching-filtering': { fa: ['L2/L3', 'تفکیک شبکه', 'صنعتی'], en: ['L2/L3', 'Segmentation', 'Industrial'] },
-  'telecom-transmission': { fa: ['SDH/E1', 'اپراتوری', 'انتقال'], en: ['SDH/E1', 'Carrier', 'Transport'] },
-  'bio-monitoring': { fa: ['پایش آب', 'بلادرنگ', 'هشدار'], en: ['Water quality', 'Realtime', 'Alerting'] },
+  'data-diodes': { fa: ['انتقال یک‌طرفه', 'جداسازی سخت‌افزاری'], en: ['One-way transfer', 'Hardware isolation'] },
+  'network-encryption': { fa: ['رمزنگاری شبکه', 'FPGA'], en: ['Network encryption', 'FPGA'] },
+  'cellular-monitoring': { fa: ['پایش شبکه'], en: ['Network monitoring'] },
+  'network-switching-filtering': { fa: ['ترافیک شبکه', 'FPGA'], en: ['Network traffic', 'FPGA'] },
+  'telecom-transmission': { fa: ['انتقال مخابراتی'], en: ['Telecom transport'] },
+  'bio-monitoring': { fa: ['پایش زیستی آب'], en: ['Water biomonitoring'] },
 }
 
-function productTags(product: ProductCardMeta) {
+function productTags(product: unknown) {
+  if (!product || typeof product !== 'object' || !('category' in product) || typeof product.category !== 'string') return []
   return CATEGORY_TAGS[product.category]?.[locale.value === 'fa' ? 'fa' : 'en'] || []
 }
 
-function productFallbackImage(category: string) {
+function productFallbackImage(category: unknown) {
   const fallbacks: Record<string, string> = {
     'telecom-transmission': '/photos/sdx/photo-1.webp',
     'cellular-monitoring': '/photos/capella/photo-1.webp',
@@ -129,7 +129,7 @@ function productFallbackImage(category: string) {
     'data-diodes': '/photos/g200/photo-1.webp',
     'bio-monitoring': '/photos/orazan/photo-1.webp',
   }
-  return fallbacks[category] || '/photos/g200/photo-1.webp'
+  return typeof category === 'string' ? fallbacks[category] || '/photos/g200/photo-1.webp' : '/photos/g200/photo-1.webp'
 }
 
 const categories = computed(() =>

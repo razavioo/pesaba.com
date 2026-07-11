@@ -24,7 +24,6 @@ AES operates through a series of substitution, permutation, and mixing operation
 
 AES is the algorithm of choice for data-in-transit protection across all security levels, from consumer applications to classified government communications. Its hardware-friendly design makes it possible to implement in FPGA fabric without a general-purpose processor, eliminating the software attack surface that a CPU-based implementation introduces.
 
-## Related Pesaba Products
+## Applying This to a Product
 
-- **EMX-6** — FPGA-native AES-256-GCM encryptor; the encryption engine lives entirely in FPGA logic.
-- **Upcryptor** — Compact in-line AES-256 encryptor for branch and site-to-site links.
+The catalogue lists AES capabilities for selected products. Confirm the mode, implementation boundary, key lifecycle, interfaces, and validation status for the exact model and revision; AES use alone is not a certification claim.

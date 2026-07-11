@@ -2,31 +2,31 @@
 title: 'Oil & Gas'
 title_fa: 'نفت و گاز'
 slug: 'oil-and-gas'
-description: 'Secure upstream, midstream, and downstream OT networks against targeted attacks.'
+description: 'Evaluate controlled telemetry export and protected links for distributed oil-and-gas OT environments.'
 locale: en
 products:
-  - 'data-diode-g300'
+  - 'data-diode-g200'
   - 'data-diode-k200'
   - 'emx-6'
 faqs:
-  - q: 'Can the diode handle intermittent satellite links?'
-    a: 'Yes. Pesaba diodes buffer traffic during link outages and flush queued data when connectivity resumes, without introducing a return channel.'
-  - q: 'How does the K200 key-switch work?'
-    a: 'The K200 has a physical two-position key switch on the front panel. In the "one-way" position the device operates as a standard data diode. Turning the key to "bidirectional" enables a controlled two-way mode; the device logs the transition with a hardware timestamp.'
-  - q: 'What protocols are supported for process historian replication?'
-    a: 'OPC-UA, Modbus TCP, DNP3, and raw TCP/UDP streams are all supported. Protocol-specific bridges maintain session state on each side independently.'
+  - q: 'Can a data diode handle an intermittent satellite or radio link?'
+    a: 'A one-way physical path does not by itself provide durable buffering or store-and-forward recovery. Those behaviours depend on the sending and receiving proxies, storage capacity, queue policy, duplicate handling, and link-failure logic. Confirm them in the proposed solution and test an outage longer than the design threshold.'
+  - q: 'Does K200 provide a physical switch for bidirectional maintenance access?'
+    a: 'No such capability is documented in the current public K200 record. It describes a one-way data diode. Treat maintenance access as a separate controlled architecture unless model-specific documentation and acceptance testing explicitly establish another mode.'
+  - q: 'Which historian and industrial protocols are supported?'
+    a: 'Current records for selected diode models mention one-way messaging, file or database transfer, Modbus, and Syslog. They do not establish blanket support for OPC-UA, DNP3, raw TCP sessions, or every historian. Obtain the service matrix for the exact model and firmware, including direction, session handling, acknowledgements, buffering, licensing, and tested software versions.'
 ---
 
 ## The Challenge
 
-Oil and gas operations span thousands of kilometres — pipelines, compressor stations, offshore platforms, and onshore processing facilities — all connected through diverse communications infrastructure. SCADA and DCS systems controlling flow, pressure, and valve states are safety-critical: unplanned shutdowns or incorrect valve commands can cause spills, fires, or loss of containment. At the same time, operational efficiency demands near-real-time visibility into every node, creating relentless pressure to connect OT to corporate and cloud analytics systems.
+Oil and gas operations can span production sites, pipelines, compressor stations, processing facilities, and control centres connected through several communications technologies. SCADA and DCS functions may affect flow, pressure, shutdown, and valve state, while operations teams still need telemetry, alarms, and maintenance information outside the control zone.
 
 ## Why It Matters
 
-- **Safety consequences:** Incorrect control-system commands in an oil and gas environment can cause hydrocarbon releases, ignition, or pressure-vessel failure. Cyber events in this sector have caused physical damage and prolonged production shutdowns.
-- **Remote and isolated sites:** Compressor stations and wellheads may be unattended for weeks. Remote monitoring is essential; uncontrolled remote access is equally dangerous.
-- **Regulatory classification:** Iran's oil and gas infrastructure is classified as critical national infrastructure. Security controls must meet or exceed AFTA category-1 requirements.
+- **Process safety:** Incorrect commands or unavailable control functions can contribute to loss of containment, shutdown, or equipment damage.
+- **Remote sites:** Unattended locations need dependable monitoring, but remote connectivity should not become an uncontrolled path into the control environment.
+- **Requirement traceability:** Critical-infrastructure and sector rules vary by operator and project. Map each applicable AFTA, safety, cybersecurity, and records requirement to a design control and named evidence item.
 
-## How Pesaba Solves It
+## Where Pesaba May Fit
 
-Pesaba data diodes allow production telemetry, process historian data, and alarm feeds to flow from the OT environment to corporate analytics platforms without creating an exploitable return path. For sites requiring authenticated remote access — such as DCS firmware updates or emergency remote intervention — the K200 provides a hardware-controlled bidirectional capability with a physical key-switch enable mechanism, ensuring that two-way access can only be activated deliberately and is logged at the hardware level.
+Pesaba's G200 and K200 records describe one-way Ethernet products at different interface rates, while EMX-6 is described as an FPGA-based AES-256 network encryptor. They can be evaluated for selected outbound data flows or protected links. Historian replication, satellite buffering, remote maintenance, protocol conversion, environmental suitability, redundancy, and failover are solution-level requirements and must not be inferred from the base device name.

@@ -77,7 +77,12 @@
 const { t, locale } = useI18n()
 const localePath = useLocalePath()
 
-useSeoMeta({ title: `${t('glossary.title')} | Pesaba`, ogTitle: `${t('glossary.title')} | Pesaba`, description: 'Technical glossary for encryption, OT/ICS security, cellular monitoring, and telecom hardware — in Persian and English.', ogDescription: 'Technical glossary for encryption, OT/ICS security, cellular monitoring, and telecom hardware — in Persian and English.' })
+useSeoMeta({
+  title: `${t('glossary.title')} | Pesaba`,
+  ogTitle: `${t('glossary.title')} | Pesaba`,
+  description: computed(() => locale.value === 'fa' ? 'واژه‌نامه فنی رمزنگاری، امنیت OT/ICS، پایش سلولی و تجهیزات مخابراتی به فارسی و انگلیسی.' : 'Technical glossary for encryption, OT/ICS security, cellular monitoring, and telecom hardware in Persian and English.'),
+  ogDescription: computed(() => locale.value === 'fa' ? 'واژه‌نامه فنی رمزنگاری، امنیت OT/ICS، پایش سلولی و تجهیزات مخابراتی به فارسی و انگلیسی.' : 'Technical glossary for encryption, OT/ICS security, cellular monitoring, and telecom hardware in Persian and English.'),
+})
 
 const { data: terms } = await useAsyncData('glossary-all', () => queryContent('glossary').where({ locale: locale.value }).sort({ title: 1 }).find())
 const query = ref('')

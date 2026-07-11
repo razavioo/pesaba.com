@@ -14,7 +14,7 @@
     </div>
     <div class="absolute inset-x-0 top-0 h-px" style="background:linear-gradient(90deg,transparent,var(--accent),transparent)" aria-hidden="true"/>
     <div class="absolute inset-x-0 bottom-0 h-px" style="background:linear-gradient(90deg,transparent,var(--accent),transparent)" aria-hidden="true"/>
-    <div class="absolute inset-0 pointer-events-none" style="background:radial-gradient(ellipse 70% 100% at 50% 50%,rgba(0,229,255,.04) 0%,transparent 70%)" aria-hidden="true"/>
+    <div class="absolute inset-0 pointer-events-none" style="background:radial-gradient(ellipse 70% 100% at 50% 50%,rgba(31,121,148,.05) 0%,transparent 70%)" aria-hidden="true"/>
 
     <div class="container-site relative z-10 py-10 md:py-14">
       <!-- eyebrow -->
@@ -26,39 +26,16 @@
         <span class="h-px w-10 bg-[var(--border)]"/>
       </div>
 
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-5">
 
-        <!-- ① 17+ سال — Years of Experience -->
-        <article ref="card1" class="spec-card group" style="--c:#00E5FF">
+        <!-- Published catalogue entries -->
+        <article ref="card1" class="spec-card group" style="--c:var(--accent)">
           <Corners/>
           <div class="spec-exhibit">№&nbsp;01</div>
           <div class="spec-visual-zone">
             <img
-              :src="$withBase('/images/stats/years.png')"
-              :alt="locale === 'fa' ? 'سال‌های تجربه' : 'Years of Experience'"
-              class="spec-image"
-              loading="lazy"
-            >
-          </div>
-          <div class="spec-stat-zone">
-            <div class="spec-sep"><span class="spec-tag">YR</span></div>
-            <div class="spec-num">
-              <span class="spec-val" style="color: var(--c)">{{ count1 }}</span>
-              <span class="spec-sfx" style="color: var(--c)">+</span>
-            </div>
-            <p class="spec-label">{{ $t('home.stats_years') }}</p>
-            <p class="spec-sub">{{ locale === 'fa' ? 'از ۱۳۸۸ تاکنون' : 'Since 2009' }}</p>
-          </div>
-        </article>
-
-        <!-- ② 19 محصول — Active Products -->
-        <article ref="card2" class="spec-card group" style="--c:#00E5FF">
-          <Corners/>
-          <div class="spec-exhibit">№&nbsp;02</div>
-          <div class="spec-visual-zone">
-            <img
-              :src="$withBase('/images/stats/products.png')"
-              :alt="locale === 'fa' ? 'محصولات فعال' : 'Active Products'"
+              :src="withBase('/images/stats/products.png')"
+              :alt="locale === 'fa' ? 'مدخل‌های کاتالوگ محصول' : 'Published product catalogue entries'"
               class="spec-image"
               loading="lazy"
             >
@@ -66,21 +43,21 @@
           <div class="spec-stat-zone">
             <div class="spec-sep"><span class="spec-tag">SKU</span></div>
             <div class="spec-num">
-              <span class="spec-val" style="color: var(--c)">{{ count2 }}</span>
+              <span class="spec-val" style="color: var(--c)">{{ count1 }}</span>
             </div>
-            <p class="spec-label">{{ $t('home.stats_products') }}</p>
-            <p class="spec-sub">{{ locale === 'fa' ? 'سخت‌افزار صنعتی' : 'Industrial-grade' }}</p>
+            <p class="spec-label">{{ locale === 'fa' ? 'مدخل کاتالوگ' : 'Catalogue entries' }}</p>
+            <p class="spec-sub">{{ locale === 'fa' ? 'محصولات فعال منتشرشده' : 'Published active products' }}</p>
           </div>
         </article>
 
-        <!-- ③ 6 دسته — Product Categories -->
-        <article ref="card3" class="spec-card group" style="--c:#00E5FF">
+        <!-- Product families -->
+        <article ref="card2" class="spec-card group" style="--c:var(--accent)">
           <Corners/>
-          <div class="spec-exhibit">№&nbsp;03</div>
+          <div class="spec-exhibit">№&nbsp;02</div>
           <div class="spec-visual-zone">
             <img
-              :src="$withBase('/images/stats/categories.png')"
-              :alt="locale === 'fa' ? 'شاخه‌های محصول' : 'Product Categories'"
+              :src="withBase('/images/stats/categories.png')"
+              :alt="locale === 'fa' ? 'خانواده‌های محصول' : 'Product families'"
               class="spec-image"
               loading="lazy"
             >
@@ -88,32 +65,32 @@
           <div class="spec-stat-zone">
             <div class="spec-sep"><span class="spec-tag">CAT</span></div>
             <div class="spec-num">
-              <span class="spec-val" style="color: var(--c)">{{ count3 }}</span>
+              <span class="spec-val" style="color: var(--c)">{{ count2 }}</span>
             </div>
-            <p class="spec-label">{{ $t('home.stats_categories') }}</p>
-            <p class="spec-sub">{{ locale === 'fa' ? 'خطوط محصول' : 'Product lines' }}</p>
+            <p class="spec-label">{{ locale === 'fa' ? 'خانواده محصول' : 'Product families' }}</p>
+            <p class="spec-sub">{{ locale === 'fa' ? 'بر پایه کاتالوگ فعلی' : 'From the current catalogue' }}</p>
           </div>
         </article>
 
-        <!-- ④ 3 گواهینامه — Certifications -->
-        <article ref="card4" class="spec-card group" style="--c:#00E5FF">
+        <!-- Locales -->
+        <article ref="card3" class="spec-card group" style="--c:var(--accent)">
           <Corners/>
-          <div class="spec-exhibit">№&nbsp;04</div>
+          <div class="spec-exhibit">№&nbsp;03</div>
           <div class="spec-visual-zone">
             <img
-              :src="$withBase('/images/stats/certs.png')"
-              :alt="locale === 'fa' ? 'گواهینامه‌ها' : 'Certifications'"
+              :src="withBase('/images/stats/years.png')"
+              :alt="locale === 'fa' ? 'محتوای فارسی و انگلیسی' : 'Persian and English content'"
               class="spec-image"
               loading="lazy"
             >
           </div>
           <div class="spec-stat-zone">
-            <div class="spec-sep"><span class="spec-tag">CERT</span></div>
+            <div class="spec-sep"><span class="spec-tag">LANG</span></div>
             <div class="spec-num">
-              <span class="spec-val" style="color: var(--c)">{{ count4 }}</span>
+              <span class="spec-val" style="color: var(--c)">{{ count3 }}</span>
             </div>
-            <p class="spec-label">{{ locale === 'fa' ? 'گواهینامه‌ها' : 'Certifications' }}</p>
-            <p class="spec-sub">{{ locale === 'fa' ? 'افتا • پدافند • مساف' : 'AFTA · NPO · MASAF' }}</p>
+            <p class="spec-label">{{ locale === 'fa' ? 'زبان سایت' : 'Site languages' }}</p>
+            <p class="spec-sub">{{ locale === 'fa' ? 'فارسی و انگلیسی' : 'Persian and English' }}</p>
           </div>
         </article>
 
@@ -125,11 +102,22 @@
 
 <script setup lang="ts">
 const { locale } = useI18n()
+const { withBase } = useBaseUrl()
+const { data: catalogueProducts } = await useAsyncData('homepage-catalogue-stats', () =>
+  queryContent('products').only(['slug', 'category', 'locale', 'active']).find(),
+)
+const activeProducts = computed(() => (catalogueProducts.value || []).filter(product => product.active !== false))
+const productCount = computed(() => new Set(
+  activeProducts.value
+    .filter(product => product.locale !== 'fa')
+    .map(product => `${product.category}/${product.slug}`),
+).size)
+const categoryCount = computed(() => new Set(activeProducts.value.map(product => product.category).filter(Boolean)).size)
 
 /* ── Count-up ─────────────────────────────────────────────────── */
-const count1 = ref(0), count2 = ref(0), count3 = ref(0), count4 = ref(0)
+const count1 = ref(0), count2 = ref(0), count3 = ref(0)
 const card1 = ref<HTMLElement|null>(null), card2 = ref<HTMLElement|null>(null)
-const card3 = ref<HTMLElement|null>(null), card4 = ref<HTMLElement|null>(null)
+const card3 = ref<HTMLElement|null>(null)
 
 function animateTo(r: Ref<number>, end: number, ms = 1300) {
   const t0 = performance.now()
@@ -146,10 +134,9 @@ function watch(el: HTMLElement|null, cb: () => void) {
   io.observe(el)
 }
 onMounted(() => {
-  watch(card1.value, () => animateTo(count1, 17))
-  watch(card2.value, () => animateTo(count2, 19))
-  watch(card3.value, () => animateTo(count3, 6))
-  watch(card4.value, () => animateTo(count4, 3))
+  watch(card1.value, () => animateTo(count1, productCount.value))
+  watch(card2.value, () => animateTo(count2, categoryCount.value))
+  watch(card3.value, () => animateTo(count3, 2))
 })
 </script>
 
@@ -176,7 +163,7 @@ const Corners = defineComponent({
   min-height: 272px;
   background: var(--bg-elevated);
   border: 1px solid var(--border);
-  border-radius: 14px;
+  border-radius: 2px;
   overflow: hidden;
   isolation: isolate;
   transition: transform .3s ease, border-color .3s ease, box-shadow .3s ease;
@@ -232,7 +219,7 @@ const Corners = defineComponent({
   width: 120px;
   height: 120px;
   object-fit: cover;
-  border-radius: 12px;
+  border-radius: 2px;
   border: 1px solid color-mix(in oklab, var(--c) 25%, var(--border));
   filter: drop-shadow(0 0 10px color-mix(in oklab, var(--c) 30%, transparent));
   transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), filter 0.4s ease, border-color 0.4s ease;

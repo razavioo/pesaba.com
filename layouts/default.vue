@@ -4,15 +4,18 @@
     :class="drawerOpen ? 'pt-14 md:pt-[200px]' : 'pt-0'"
   >
 
+    <a href="#main-content" class="skip-link">{{ locale === 'fa' ? 'رفتن به محتوای اصلی' : 'Skip to main content' }}</a>
+
     <!-- Language drawer — fixed at top, slides from above viewport -->
     <div
       id="language"
       :aria-modal="drawerOpen ? 'true' : undefined"
+      :aria-hidden="!drawerOpen"
       :class="[
         'fixed top-0 inset-x-0 z-[70] bg-[#093544] flex items-center',
-        'h-14 md:h-[200px]',
+        'h-14 overflow-hidden md:h-[200px]',
         'transition-transform duration-500 ease-in-out pointer-events-auto',
-        drawerOpen ? 'translate-y-0' : '-translate-y-full',
+        drawerOpen ? 'translate-y-0 visible' : '-translate-y-full invisible',
       ]"
       role="menu"
     >
@@ -59,26 +62,12 @@
 
 <script setup lang="ts">
 const { locale, locales, setLocale } = useI18n()
-const route = useRoute()
-const switchLocalePath = useSwitchLocalePath()
 const drawerOpen = useLanguageDrawer()
 
 async function switchLocale(code: string) {
   await setLocale(code as 'fa' | 'en')
   drawerOpen.value = false
 }
-
-useHead({
-  link: computed(() => [
-    { rel: 'canonical', href: `https://pesaba.com${route.path}` },
-    ...locales.value.map(l => ({
-      rel: 'alternate',
-      hreflang: l.language,
-      href: `https://pesaba.com${switchLocalePath(l.code)}`,
-    })),
-    { rel: 'alternate', hreflang: 'x-default', href: `https://pesaba.com${switchLocalePath('fa')}` },
-  ]),
-})
 
 const htmlClass = computed(() => drawerOpen.value ? 'drawer-language-show' : '')
 useHead({ htmlAttrs: { class: () => htmlClass.value } })

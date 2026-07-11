@@ -53,7 +53,7 @@ const localePath = useLocalePath()
 
 useSeoMeta({
   title: `${t('nav.resources')} | Pesaba`,
-  description: 'Articles, glossary, and firmware resources for Pesaba products and technologies.',
+  description: computed(() => locale.value === 'fa' ? 'مقالات، واژه‌نامه و منابع فریم‌ور برای محصولات و فناوری‌های پرتو ارتباط صبا.' : 'Articles, glossary, and firmware resources for Pesaba products and technologies.'),
 })
 
 const items = computed(() => [

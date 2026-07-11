@@ -43,7 +43,7 @@ test.describe('Homepage — English', () => {
   })
 
   test('"How we ship" section renders 4 pillars', async ({ page }) => {
-    const pillars = page.locator('h3').filter({ hasText: /FPGA|OS.less|Made in|Trust/i })
+    const pillars = page.locator('h3').filter({ hasText: /FPGA|OS.less|Build-chain|Trust|بدون|اعتماد|زنجیره/i })
     await expect(pillars).toHaveCount(4)
   })
 

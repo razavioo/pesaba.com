@@ -4,7 +4,7 @@
       <div class="absolute inset-0 pointer-events-none" style="background-image: radial-gradient(circle, rgba(170,197,208,0.045) 1px, transparent 1px); background-size: 28px 28px;" aria-hidden="true" />
       <div class="container-wide section-hero relative z-10 grid gap-12 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,0.65fr)] lg:items-end">
         <div class="max-w-4xl">
-          <div class="section-label mb-5" style="color:#AAC5D0">Solutions</div>
+          <div class="section-label mb-5" style="color:#AAC5D0">{{ $t('nav.solutions') }}</div>
           <h1 class="mb-5 text-[clamp(3rem,7vw,7.5rem)] font-medium leading-[1.08] text-[#FCFCFD]">
             {{ locale === 'fa' ? 'راهکارهای متناسب با مأموریت زیرساخت حیاتی' : 'Mission-fit solutions for critical infrastructure' }}
           </h1>
@@ -78,7 +78,14 @@
       </div>
     </section>
 
-    <CTAStrip headline="Need help matching the right platform?" sub="Talk to Pesaba sales engineering for architecture guidance, trust documentation, and deployment fit." primary-label="Talk to sales" :primary-href="localePath('/company/contact')" secondary-label="Browse products" :secondary-href="localePath('/products')" />
+    <CTAStrip
+      :headline="locale === 'fa' ? 'برای انتخاب پلتفرم مناسب راهنمایی می‌خواهید؟' : 'Need help matching the right platform?'"
+      :sub="locale === 'fa' ? 'تیم فروش فنی صبا درباره معماری، مستندات اعتماد و تناسب استقرار راهنمایی می‌کند.' : 'Talk to Pesaba sales engineering for architecture guidance, trust documentation, and deployment fit.'"
+      :primary-label="locale === 'fa' ? 'تماس با فروش' : 'Talk to sales'"
+      :primary-href="localePath('/company/contact')"
+      :secondary-label="locale === 'fa' ? 'مشاهده محصولات' : 'Browse products'"
+      :secondary-href="localePath('/products')"
+    />
   </div>
 </template>
 
@@ -86,7 +93,10 @@
 const { locale } = useI18n()
 const localePath = useLocalePath()
 
-useSeoMeta({ title: 'Solutions | Pesaba', description: 'Industry and use-case solution paths for Pesaba critical infrastructure platforms.' })
+useSeoMeta({
+  title: computed(() => `${locale.value === 'fa' ? 'راهکارها' : 'Solutions'} | Pesaba`),
+  description: computed(() => locale.value === 'fa' ? 'مسیرهای انتخاب راهکار بر اساس صنعت و سناریوی عملیاتی برای زیرساخت‌های حیاتی.' : 'Industry and use-case solution paths for Pesaba critical infrastructure platforms.'),
+})
 
 const industries = [
   { href: '/industries/power-grid', title: 'Power Grid', desc: 'Substation segmentation, OT/IT isolation, and one-way monitoring for critical energy networks.' },

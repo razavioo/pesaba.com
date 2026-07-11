@@ -21,6 +21,6 @@ A FIPS 140 validation involves testing by an accredited Cryptographic Module Tes
 
 FIPS 140 validation provides documented assurance that a cryptographic implementation is correct, secure, and has been independently verified. It is a common procurement requirement for encryption products used in government and regulated financial environments.
 
-## Related Pesaba Products
+## Applying This to a Product
 
-- **EMX-6** — Pesaba is pursuing FIPS 140-3 validation for the EMX-6 AES-256-GCM engine. Contact our sales team for current status.
+AES-256 use is not equivalent to FIPS 140 validation. A Pesaba product must not be described as FIPS-validated unless a current CMVP certificate identifies the exact module, version, boundary, and status.

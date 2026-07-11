@@ -25,29 +25,12 @@
     overflow-x: hidden;
   }
 
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    z-index: -1;
-    pointer-events: none;
-    background: linear-gradient(180deg, #093544 0 9rem, #ffffff 9rem 100%);
-  }
-
-  html.drawer-language-show body::before {
-    background: linear-gradient(180deg, #093544 0 3.5rem, #ffffff 3.5rem 100%);
-  }
-
   html.drawer-language-show .layout-default,
   html.drawer-language-show .layout-article {
     background: linear-gradient(180deg, #093544 0 3.5rem, var(--bg-page) 3.5rem 100%);
   }
 
   @media (min-width: 48rem) {
-    html.drawer-language-show body::before {
-      background: linear-gradient(180deg, #093544 0 12.5rem, #ffffff 12.5rem 100%);
-    }
-
     html.drawer-language-show .layout-default,
     html.drawer-language-show .layout-article {
       background: linear-gradient(180deg, #093544 0 12.5rem, var(--bg-page) 12.5rem 100%);
@@ -175,6 +158,23 @@
 
 /* ─── Component layer ────────────────────────────────────────────────────── */
 @layer components {
+  .skip-link {
+    position: fixed;
+    inset-inline-start: 1rem;
+    top: 1rem;
+    z-index: 10000;
+    transform: translateY(-180%);
+    background: var(--blue-strong);
+    color: #fff;
+    padding: .75rem 1rem;
+    transition: transform var(--dur-fast) var(--ease-hover);
+  }
+
+  .skip-link:focus {
+    transform: translateY(0);
+    color: #fff;
+  }
+
   /* Advenica-aligned Header Nav components */
   .navigation-link {
     font-family: 'FuturaBT', 'Inter', system-ui, sans-serif !important;
@@ -249,14 +249,15 @@
     border-bottom: none;
     background: #093544;
     padding-bottom: 3rem; /* space for SVG wedge */
-    margin-top: -6.5rem;
-    padding-top: 6.5rem;
+    /* Account for the navigation's 1px top and bottom borders. */
+    margin-top: calc(-6.5rem - 2px);
+    padding-top: calc(6.5rem + 2px);
   }
 
   @media (min-width: 48rem) {
     .page-hero {
-      margin-top: -7.5rem;
-      padding-top: 7.5rem;
+      margin-top: calc(-7.5rem - 2px);
+      padding-top: calc(7.5rem + 2px);
     }
   }
 

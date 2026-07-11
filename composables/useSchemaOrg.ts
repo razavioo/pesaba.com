@@ -1,171 +1,203 @@
-const SITE_URL = 'https://pesaba.com'
-const ORG_ID = `${SITE_URL}/#organization`
+type BreadcrumbItem = { name: string; url: string }
+type ProductProperty = { label: string; value: string }
 
-const ORGANIZATION = {
-  '@type': 'Organization',
-  '@id': ORG_ID,
-  name: 'Partov Ertebat Saba',
-  alternateName: 'پرتو ارتباط صبا',
-  url: SITE_URL,
-  logo: `${SITE_URL}/logo.png`,
-  foundingDate: '2008',
-  address: {
-    '@type': 'PostalAddress',
-    streetAddress: 'No. 2, 7th Alvand Alley, Ebrahimi St., Marzdaran Blvd.',
-    addressLocality: 'Tehran',
-    addressCountry: 'IR',
-    postalCode: '1463713481',
-  },
-  contactPoint: [
-    {
-      '@type': 'ContactPoint',
-      telephone: '+98-21-4421-5738',
-      contactType: 'Sales',
-      email: 'admin@pesaba.com',
-      availableLanguage: ['fa', 'en'],
-    },
-  ],
-  sameAs: ['https://ir.linkedin.com/company/partov-ertebat-saba'],
+function serializeJsonLd(value: Record<string, unknown>) {
+  return JSON.stringify(value)
+    .replace(/</g, '\\u003c')
+    .replace(/\u2028/g, '\\u2028')
+    .replace(/\u2029/g, '\\u2029')
 }
-
-const WEBSITE = {
-  '@type': 'WebSite',
-  '@id': `${SITE_URL}/#website`,
-  url: SITE_URL,
-  name: 'Pesaba',
-  publisher: { '@id': ORG_ID },
-}
-
-// ─── Composable ───────────────────────────────────────────────────────────────
 
 export function useSchemaOrg() {
-  function emitOrganization() {
+  const config = useRuntimeConfig()
+  const siteUrl = String(config.public.siteUrl || 'https://pesaba.com').replace(/\/+$/, '')
+  const organizationId = `${siteUrl}/#organization`
+  const websiteId = `${siteUrl}/#website`
+
+  function absoluteUrl(value?: string) {
+    if (!value) return undefined
+    try {
+      const url = new URL(value, `${siteUrl}/`)
+      return ['http:', 'https:'].includes(url.protocol) ? url.toString() : undefined
+    } catch {
+      return undefined
+    }
+  }
+
+  function emitJsonLd(key: string, value: Record<string, unknown>) {
     useHead({
       script: [{
+        key,
         type: 'application/ld+json',
-        innerHTML: JSON.stringify({ '@context': 'https://schema.org', ...ORGANIZATION }),
+        innerHTML: serializeJsonLd({ '@context': 'https://schema.org', ...value }),
       }],
+    })
+  }
+
+  function emitOrganization() {
+    emitJsonLd('schema-organization', {
+      '@type': 'Organization',
+      '@id': organizationId,
+      name: 'Partov Ertebat Saba',
+      alternateName: 'پرتو ارتباط صبا',
+      url: siteUrl,
+      logo: {
+        '@type': 'ImageObject',
+        url: `${siteUrl}/logo-512.png`,
+        width: 512,
+        height: 512,
+      },
+      foundingDate: '2008',
+      address: {
+        '@type': 'PostalAddress',
+        streetAddress: 'No. 2, 7th Alvand Alley, Ebrahimi St., Marzdaran Blvd.',
+        addressLocality: 'Tehran',
+        addressCountry: 'IR',
+        postalCode: '1463713481',
+      },
+      contactPoint: [{
+        '@type': 'ContactPoint',
+        telephone: '+98-21-4421-5738',
+        contactType: 'sales',
+        email: 'admin@pesaba.com',
+        availableLanguage: ['fa', 'en'],
+      }],
+      sameAs: ['https://ir.linkedin.com/company/partov-ertebat-saba'],
     })
   }
 
   function emitWebsite() {
-    useHead({
-      script: [{
-        type: 'application/ld+json',
-        innerHTML: JSON.stringify({ '@context': 'https://schema.org', ...WEBSITE }),
-      }],
+    emitJsonLd('schema-website', {
+      '@type': 'WebSite',
+      '@id': websiteId,
+      url: siteUrl,
+      name: 'Pesaba',
+      publisher: { '@id': organizationId },
+      inLanguage: ['fa-IR', 'en-US'],
     })
   }
 
-  function emitBreadcrumbs(items: Array<{ name: string; url: string }>) {
-    useHead({
-      script: [{
-        type: 'application/ld+json',
-        innerHTML: JSON.stringify({
-          '@context': 'https://schema.org',
-          '@type': 'BreadcrumbList',
-          itemListElement: items.map((item, idx) => ({
-            '@type': 'ListItem',
-            position: idx + 1,
-            name: item.name,
-            item: item.url.startsWith('http') ? item.url : `${SITE_URL}${item.url}`,
-          })),
-        }),
-      }],
+  function emitBreadcrumbs(items: BreadcrumbItem[]) {
+    const normalizedItems = items
+      .map(item => ({ ...item, url: absoluteUrl(item.url) }))
+      .filter((item): item is BreadcrumbItem => Boolean(item.name && item.url))
+
+    if (!normalizedItems.length) return
+
+    emitJsonLd('schema-breadcrumbs', {
+      '@type': 'BreadcrumbList',
+      itemListElement: normalizedItems.map((item, index) => ({
+        '@type': 'ListItem',
+        position: index + 1,
+        name: item.name,
+        item: item.url,
+      })),
     })
   }
 
-  function emitProduct(p: {
-    name: string; nameFa?: string; slug: string; category: string
-    description?: string; image?: string; specs?: Array<{ label: string; value: string }>
+  function emitProduct(product: {
+    name: string
+    nameFa?: string
+    slug: string
+    category: string
+    description?: string
+    image?: string
+    specs?: ProductProperty[]
     locale?: string
   }) {
-    const productUrl = `${SITE_URL}/${p.locale || 'en'}/products/${p.category}/${p.slug}`
-    useHead({
-      script: [{
-        type: 'application/ld+json',
-        innerHTML: JSON.stringify({
-          '@context': 'https://schema.org',
-          '@type': 'Product',
-          name: p.name,
-          alternateName: p.nameFa,
-          brand: { '@type': 'Brand', name: 'Pesaba' },
-          manufacturer: { '@id': ORG_ID },
-          description: p.description,
-          image: p.image ? [p.image] : undefined,
-          url: productUrl,
-          additionalProperty: (p.specs || []).filter(s => s.value).map(s => ({
-            '@type': 'PropertyValue',
-            name: s.label,
-            value: s.value,
-          })),
-          offers: {
-            '@type': 'Offer',
-            availability: 'https://schema.org/InStock',
-            priceCurrency: 'USD',
-            url: `${productUrl}#quote`,
-          },
-        }),
-      }],
+    const locale = product.locale === 'fa' ? 'fa' : 'en'
+    const productUrl = `${siteUrl}/${locale}/products/${encodeURIComponent(product.category)}/${encodeURIComponent(product.slug)}`
+    const image = absoluteUrl(product.image)
+    const properties = (product.specs || [])
+      .filter(spec => spec.label && spec.value)
+      .map(spec => ({
+        '@type': 'PropertyValue',
+        name: spec.label,
+        value: spec.value,
+      }))
+
+    emitJsonLd('schema-product', {
+      '@type': 'Product',
+      '@id': `${productUrl}#product`,
+      name: product.name,
+      alternateName: product.nameFa,
+      description: product.description,
+      category: product.category,
+      image: image ? [image] : undefined,
+      url: productUrl,
+      mainEntityOfPage: { '@type': 'WebPage', '@id': productUrl },
+      brand: { '@type': 'Brand', name: 'Pesaba' },
+      manufacturer: { '@id': organizationId },
+      additionalProperty: properties.length ? properties : undefined,
     })
   }
 
-  function emitArticle(a: {
-    title: string; slug: string; description?: string; image?: string
-    date: string; updated?: string; author?: string; locale?: string
+  function emitArticle(article: {
+    title: string
+    slug: string
+    description?: string
+    image?: string
+    date: string
+    updated?: string
+    author?: string
+    locale?: string
   }) {
-    useHead({
-      script: [{
-        type: 'application/ld+json',
-        innerHTML: JSON.stringify({
-          '@context': 'https://schema.org',
-          '@type': 'Article',
-          headline: a.title,
-          description: a.description,
-          image: a.image ? [a.image] : undefined,
-          datePublished: a.date,
-          dateModified: a.updated || a.date,
-          author: { '@type': 'Person', name: a.author || 'Pesaba Engineering' },
-          publisher: { '@id': ORG_ID },
-          mainEntityOfPage: `${SITE_URL}/${a.locale || 'en'}/blog/${a.slug}`,
-          inLanguage: a.locale === 'fa' ? 'fa-IR' : 'en',
-        }),
-      }],
+    const locale = article.locale === 'fa' ? 'fa' : 'en'
+    const articleUrl = `${siteUrl}/${locale}/blog/${encodeURIComponent(article.slug)}`
+    const image = absoluteUrl(article.image)
+
+    emitJsonLd('schema-article', {
+      '@type': 'Article',
+      '@id': `${articleUrl}#article`,
+      headline: article.title,
+      description: article.description,
+      image: image ? [image] : undefined,
+      datePublished: article.date,
+      dateModified: article.updated || article.date,
+      author: { '@type': 'Person', name: article.author || 'Pesaba Engineering' },
+      publisher: { '@id': organizationId },
+      mainEntityOfPage: { '@type': 'WebPage', '@id': articleUrl },
+      inLanguage: locale === 'fa' ? 'fa-IR' : 'en-US',
     })
   }
 
-  function emitGlossaryTerm(t: {
-    slug: string; title: string; definition: string; locale?: string
+  function emitGlossaryTerm(term: {
+    slug: string
+    title: string
+    definition: string
+    locale?: string
   }) {
-    useHead({
-      script: [{
-        type: 'application/ld+json',
-        innerHTML: JSON.stringify({
-          '@context': 'https://schema.org',
-          '@type': 'DefinedTerm',
-          name: t.title,
-          description: t.definition,
-          url: `${SITE_URL}/${t.locale || 'en'}/glossary/${t.slug}`,
-          inDefinedTermSet: `${SITE_URL}/en/glossary`,
-        }),
-      }],
+    const locale = term.locale === 'fa' ? 'fa' : 'en'
+    const glossaryUrl = `${siteUrl}/${locale}/glossary`
+    const termUrl = `${glossaryUrl}/${encodeURIComponent(term.slug)}`
+
+    emitJsonLd('schema-defined-term', {
+      '@type': 'DefinedTerm',
+      '@id': `${termUrl}#term`,
+      name: term.title,
+      description: term.definition,
+      url: termUrl,
+      inLanguage: locale === 'fa' ? 'fa-IR' : 'en-US',
+      inDefinedTermSet: {
+        '@type': 'DefinedTermSet',
+        '@id': `${glossaryUrl}#term-set`,
+        name: locale === 'fa' ? 'واژه‌نامه پِسابا' : 'Pesaba Glossary',
+        url: glossaryUrl,
+      },
     })
   }
 
   function emitFAQ(faqs: Array<{ question: string; answer: string }>) {
-    useHead({
-      script: [{
-        type: 'application/ld+json',
-        innerHTML: JSON.stringify({
-          '@context': 'https://schema.org',
-          '@type': 'FAQPage',
-          mainEntity: faqs.map(f => ({
-            '@type': 'Question',
-            name: f.question,
-            acceptedAnswer: { '@type': 'Answer', text: f.answer },
-          })),
-        }),
-      }],
+    const entries = faqs.filter(faq => faq.question && faq.answer)
+    if (!entries.length) return
+
+    emitJsonLd('schema-faq', {
+      '@type': 'FAQPage',
+      mainEntity: entries.map(faq => ({
+        '@type': 'Question',
+        name: faq.question,
+        acceptedAnswer: { '@type': 'Answer', text: faq.answer },
+      })),
     })
   }
 

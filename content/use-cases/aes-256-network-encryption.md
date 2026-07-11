@@ -2,8 +2,8 @@
 title: 'AES-256 Network Encryption'
 title_fa: 'رمزنگاری شبکه AES-256'
 slug: 'aes-256-network-encryption'
-description: 'Encrypt data in transit with hardware-accelerated AES-256 without introducing software vulnerabilities.'
-tagline: 'FPGA-native encryption — no OS, no attack surface.'
+description: 'Evaluate FPGA-based AES-256 encryption for selected Ethernet links using model-specific security evidence.'
+tagline: 'The algorithm is one control; implementation and key management determine assurance.'
 locale: en
 products:
   - 'emx-6'
@@ -12,36 +12,31 @@ products:
 
 ## What It Is
 
-AES-256 network encryption protects data in transit between two network segments, ensuring that traffic intercepted on a physical link is cryptographically unreadable. When the encryption engine runs inside an FPGA rather than on a general-purpose processor, it operates without an operating system, without a software stack, and without the attack surface that comes with them. Pesaba's EMX-6 and Upcryptor implement AES-256-GCM directly in FPGA fabric, providing line-rate encryption with latency measured in microseconds.
+AES-256 can protect the confidentiality of data in transit when it is used in a suitable, correctly implemented mode with sound key management and endpoint security. A hardware or FPGA data path may reduce dependence on a general-purpose operating system for packet processing, but it does not remove firmware, management, configuration, cryptographic, physical, or supply-chain risks.
 
 ## Why It Matters
 
-- **Elimination of tap-and-intercept risk:** Fibre and copper links in data centres, between buildings, or along long-haul transmission routes are physically accessible. Hardware-encrypted traffic is worthless to any party without the session keys — intercepted ciphertext cannot be decrypted offline even with unbounded computing resources.
-- **No software vulnerability surface:** Software-based TLS termination runs on operating systems that accumulate CVEs, require patch windows, and can be exploited. An FPGA crypto engine has no OS, no userspace, and no network stack outside the encryption path — the attack surface is orders of magnitude smaller.
-- **Compliance with data-in-transit mandates:** Frameworks including ISO 27001, PCI-DSS, GDPR, and Iranian national security standards require strong encryption for sensitive data crossing untrusted links. AES-256 in a certified hardware implementation satisfies the most demanding interpretations of those requirements.
+- **Protection of exposed links:** Encryption can reduce disclosure risk when fibre or copper traffic is intercepted, provided keys and endpoints remain protected.
+- **Defined security boundary:** Buyers need to know which functions run in FPGA logic, which run in management software, and which interfaces can affect the data path.
+- **Evidence-based compliance:** ISO 27001, PCI DSS, privacy law, and sector rules may require risk-based protection of data in transit. Use of AES-256 alone does not prove compliance or cryptographic certification.
 
-## How Pesaba Solves It
+## Documented Pesaba Options
 
-Pesaba encryption appliances implement AES-256-GCM entirely within the FPGA logic fabric. Key exchange uses ECDH over elliptic curve P-384, negotiated at session establishment and never exposed to the host system. The devices present a standard Ethernet interface on each side, making them transparent to routers, switches, and applications — no driver, no agent, no configuration change on existing equipment. Because the crypto engine runs synchronously with the line clock, throughput does not degrade under encryption load.
+- **EMX-6** is documented as an FPGA-based, OS-less data-path device using AES-256, with Gigabit Ethernet interfaces, optical options, traffic filtering, and a user-programmable USB key device.
+- **Upcryptor** is documented as an FPGA-based AES-256 Ethernet encryptor with two 10 Gbps data interfaces, MACsec, IPsec, and pass-through modes, traffic filtering, and USB-dongle key storage.
 
-## Recommended Products
-
-- **EMX-6** — 10 Gbps FPGA-native AES-256-GCM encryptor for data-centre interconnects, dark-fibre links, and leased-line protection. Supports up to six simultaneous encrypted tunnels.
-- **Upcryptor** — Compact in-line encryptor for branch-to-hub and site-to-site links; ideal for protecting leased-line and metro-Ethernet circuits where a small form factor is required.
+The current public records do not establish AES-GCM, ECDH or P-384 exchange, forward secrecy, tunnel count, packet latency, automatic rotation, fail-closed behaviour, or an independently validated cryptographic module. Treat each as an open requirement unless release-specific evidence is supplied.
 
 ## Frequently Asked Questions
 
-**Q: Does hardware encryption introduce latency?**
-A: The FPGA pipeline adds a fixed latency of under 5 microseconds per packet regardless of packet size or traffic volume. For comparison, software-based TLS can add hundreds of microseconds under load.
+**Q: Does hardware encryption introduce latency or reduce throughput?**
+A: Every inline device has measurable performance characteristics. Request sustained bidirectional throughput, packet-size distribution, latency and jitter percentiles, loss behaviour, filter impact, and environmental test conditions for the exact hardware and firmware release. Interface speed is not proof of application throughput.
 
-**Q: How are encryption keys managed?**
-A: Session keys are generated via ECDH on each device at startup and rotated on a configurable schedule (default: every 24 hours). Keys never leave the FPGA fabric — the management interface has no access to keying material.
+**Q: How are keys managed?**
+A: The product records mention a user-programmable USB dongle, but do not fully document generation, entropy, injection, plaintext exposure, storage, rotation, backup, recovery, revocation, zeroisation, audit, or role separation. Approve a complete key-management procedure before deployment.
 
-**Q: Can an attacker recover plaintext if they capture ciphertext before obtaining one device?**
-A: No. AES-256-GCM with forward-secret ECDH key exchange means that each session uses a unique key that is destroyed after rotation. Captured ciphertext from previous sessions cannot be decrypted even with physical access to both devices after the fact.
+**Q: Does AES-256 make captured traffic permanently unrecoverable?**
+A: Not as a blanket claim. Security depends on mode, nonce handling, key derivation, implementation, key lifetime, endpoint compromise, and whether forward secrecy exists. Verify these properties through current design documentation and testing.
 
-**Q: Are the devices transparent to existing network equipment?**
-A: Yes. Both EMX-6 and Upcryptor operate as bump-in-the-wire devices. They present a standard Ethernet interface to switches and routers on each side and do not change the IP or MAC addresses of traffic passing through them.
-
-**Q: What happens if one device loses power during operation?**
-A: Traffic is dropped rather than passed in plaintext — the devices fail closed by design. When power is restored, a new key exchange is performed automatically before forwarding resumes.
+**Q: Can the devices be inserted without network changes?**
+A: Inline Ethernet deployment is documented, but transparency, MTU, VLAN, multicast, routing, failover, link negotiation, and MACsec or IPsec interoperability must be tested in the target topology.

@@ -7,7 +7,7 @@ date: '2024-10-24'
 updated: '2026-02-14'
 author: 'Pesaba Engineering'
 locale: en
-image: '/images/blog/aes-algorithm-cover-v2.png'
+image: '/images/blog/aes-algorithm-cover-v2.webp'
 ---
 
 AES (Advanced Encryption Standard) algorithm was developed by Vincent Rijmen and Joan Daemen in 1998. This algorithm was first known under the name Rijndael and finally it was chosen as the official standard of security communication. This algorithm was first used in various security systems such as Wi-Fi Protected Access (WPA) and VPN.

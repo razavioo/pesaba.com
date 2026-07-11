@@ -31,17 +31,35 @@ const { t, locale } = useI18n()
 const localePath = useLocalePath()
 const route = useRoute()
 const { emitGlossaryTerm, emitBreadcrumbs } = useSchemaOrg()
-const { data: term } = await useAsyncData(`glossary-${route.params.slug}-${locale.value}`, () => queryContent('glossary').where({ slug: route.params.slug as string, locale: locale.value }).findOne())
+const termSlug = String(route.params.slug || '')
+const { data: term } = await useAsyncData(`glossary-${termSlug}-${locale.value}`, () => queryContent('glossary').where({ slug: termSlug, locale: locale.value }).findOne())
+
+if (!term.value) {
+  throw createError({ statusCode: 404, statusMessage: 'Glossary term not found' })
+}
+
 if (term.value) {
   const config = useRuntimeConfig()
   const siteUrl = (config.public.siteUrl || 'https://pesaba.com').replace(/\/$/, '')
+  const termTitle = String(term.value.title || termSlug)
+  const canonicalSlug = String(term.value.slug || termSlug)
+  const description = term.value.short_definition || `Definition of ${termTitle}.`
+  const socialImage = `${siteUrl}/og/glossary/${canonicalSlug}.${locale.value}.png`
   useSeoMeta({
-    title: `${term.value.title} — ${t('glossary.title')} | Pesaba`,
-    description: term.value.short_definition || `Definition of ${term.value.title}.`,
-    ogImage: `${siteUrl}/og/glossary/${term.value.slug}.svg`,
-    twitterCard: 'summary_large_image'
+    title: `${termTitle} — ${t('glossary.title')} | Pesaba`,
+    description,
+    ogTitle: `${termTitle} — ${t('glossary.title')} | Pesaba`,
+    ogDescription: description,
+    ogImage: socialImage,
+    ogImageWidth: 1200,
+    ogImageHeight: 630,
+    ogImageType: 'image/png',
+    twitterTitle: `${termTitle} — ${t('glossary.title')} | Pesaba`,
+    twitterDescription: description,
+    twitterImage: socialImage,
+    twitterCard: 'summary_large_image',
   })
-  emitGlossaryTerm({ name: term.value.title, description: term.value.short_definition || '', url: `/${locale.value}/glossary/${term.value.slug}` })
-  emitBreadcrumbs([{ name: t('glossary.title'), url: `/${locale.value}/glossary` }, { name: term.value.title, url: `/${locale.value}/glossary/${term.value.slug}` }])
+  emitGlossaryTerm({ slug: canonicalSlug, title: termTitle, definition: description, locale: locale.value })
+  emitBreadcrumbs([{ name: t('glossary.title'), url: `/${locale.value}/glossary` }, { name: termTitle, url: `/${locale.value}/glossary/${canonicalSlug}` }])
 }
 </script>

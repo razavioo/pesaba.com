@@ -18,9 +18,17 @@
 
     <!-- Product picker -->
     <section class="container-site pb-8">
-      <div class="flex flex-wrap gap-2 mb-4">
+      <div class="mb-4 grid gap-3 md:grid-cols-[minmax(0,1fr)_14rem]">
+        <label class="sr-only" for="compare-search">{{ locale === 'fa' ? 'جست‌وجوی محصول' : 'Search products' }}</label>
+        <input id="compare-search" v-model="search" type="search" :placeholder="locale === 'fa' ? 'جست‌وجوی نام محصول...' : 'Search by product name...'" class="w-full border border-[var(--border)] bg-[var(--bg-page)] px-3 py-2 text-sm text-[var(--text-primary)] outline-none focus:border-[var(--accent)]">
+        <select v-model="categoryFilter" class="border border-[var(--border)] bg-[var(--bg-page)] px-3 py-2 text-sm text-[var(--text-primary)] outline-none focus:border-[var(--accent)]">
+          <option value="">{{ locale === 'fa' ? 'همه دسته‌ها' : 'All categories' }}</option>
+          <option v-for="category in categories" :key="category" :value="category">{{ category.replace(/-/g, ' ') }}</option>
+        </select>
+      </div>
+      <div class="flex max-h-56 flex-wrap gap-2 overflow-y-auto border border-[var(--border)] bg-[var(--bg-elevated)] p-3">
         <button
-          v-for="p in allProducts"
+          v-for="p in filteredProducts"
           :key="p.slug + p.category"
           :class="[
             'px-3 py-1.5 text-xs font-medium rounded-[2px] border transition-all duration-150',
@@ -33,6 +41,7 @@
           {{ locale === 'fa' && p.title_fa ? p.title_fa : p.title }}
         </button>
       </div>
+      <p v-if="!filteredProducts.length" class="mt-3 text-sm text-[var(--text-muted)]">{{ locale === 'fa' ? 'محصولی پیدا نشد.' : 'No products found.' }}</p>
       <p class="text-xs text-ink-600">
         {{ $t('compare.selected', { n: selected.length }) }}
         <button v-if="selected.length" class="ms-3 text-[#1F7994] hover:text-[#1F7994] transition-colors" @click="selected = []">
@@ -76,7 +85,7 @@
               {{ $t('compare.description') }}
             </td>
             <td v-for="p in selected" :key="p.slug" class="py-4 px-4 text-center text-xs text-ink-400 leading-relaxed align-top">
-              {{ locale === 'fa' && p.description_fa ? p.description_fa : p.description }}
+              {{ publicDescription(p) }}
             </td>
           </tr>
           <!-- Spec rows -->
@@ -146,6 +155,7 @@
 <script setup lang="ts">
 const { locale } = useI18n()
 const localePath = useLocalePath()
+const { publicDescription } = useProductCopy()
 
 useSeoMeta({
   title: locale.value === 'fa' ? 'مقایسه محصولات | پرتو ارتباط صبا' : 'Compare Products | Pesaba',
@@ -154,13 +164,13 @@ useSeoMeta({
 
 interface Product {
   title: string; title_fa?: string; slug: string; category: string
-  description?: string; description_fa?: string
+  description?: string; description_fa?: string; evidence_reviewed?: boolean
   specs?: Array<{ label: string; value: string }>
 }
 
 const { data: rawProducts } = await useAsyncData('compare-products', () =>
   queryContent('products')
-    .only(['title', 'title_fa', 'slug', 'category', 'description', 'description_fa', 'specs'])
+    .only(['title', 'title_fa', 'slug', 'category', 'description', 'description_fa', 'evidence_reviewed', 'specs'])
     .find()
 )
 
@@ -178,6 +188,17 @@ const allProducts = computed((): Product[] => {
 })
 
 const selected = ref<Product[]>([])
+const search = ref('')
+const categoryFilter = ref('')
+
+const categories = computed(() => Array.from(new Set(allProducts.value.map(p => p.category))))
+const filteredProducts = computed(() => {
+  const query = search.value.trim().toLocaleLowerCase()
+  return allProducts.value.filter((p) => {
+    const title = (locale.value === 'fa' && p.title_fa ? p.title_fa : p.title).toLocaleLowerCase()
+    return (!categoryFilter.value || p.category === categoryFilter.value) && (!query || title.includes(query) || p.slug.includes(query))
+  })
+})
 
 // URL-state: ?p=g200,emx-6
 const route = useRoute()

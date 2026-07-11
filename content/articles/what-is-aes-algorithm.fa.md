@@ -7,7 +7,7 @@ date: '2024-10-24'
 updated: '2026-02-14'
 author: 'مهندسی پرتو ارتباط صبا'
 locale: fa
-image: '/images/blog/aes-algorithm-cover-v2.png'
+image: '/images/blog/aes-algorithm-cover-v2.webp'
 ---
 
 الگوریتم AES (Advanced Encryption Standard) توسط Vincent Rijmen و Joan Daemen در سال ۱۹۹۸ توسعه یافت. این الگوریتم ابتدا تحت نام Rijndael شناخته می‌شد و در نهایت به عنوان استاندارد رسمی ارتباطات امنیتی انتخاب شد. اولین بار این الگوریتم در سیستم‌های امنیتی مختلفی مانند Wi-Fi Protected Access (WPA) و VPN استفاده شد.

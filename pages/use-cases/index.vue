@@ -65,7 +65,7 @@ useSeoMeta({
 
 const useCases = computed(() => locale.value === 'fa'
   ? [
-      { slug: 'one-way-data-transfer', title: 'انتقال یک طرفه داده', description: 'حذف مسیر بازگشت از شبکه حساس با تضمین سخت افزاری دیتا دیود.', image: '/images/use-cases/one-way-data-transfer.png' },
+      { slug: 'one-way-data-transfer', title: 'انتقال یک طرفه داده', description: 'طراحی مسیر خروج داده با مرز سخت‌افزاری مستندشده برای مدل انتخابی.', image: '/images/use-cases/one-way-data-transfer.png' },
       { slug: 'ot-it-segmentation', title: 'تفکیک OT و IT', description: 'ایجاد مرز قابل کنترل بین شبکه صنعتی و شبکه سازمانی.', image: '/images/use-cases/ot-it-segmentation.png' },
       { slug: 'aes-256-network-encryption', title: 'رمزنگاری شبکه AES-256', description: 'حفاظت از لینک های بین سایت با رمزنگاری سخت افزاری.', image: '/images/use-cases/network-encryption-hero.png' },
       { slug: 'cellular-quality-monitoring', title: 'پایش کیفیت شبکه سلولی', description: 'اندازه گیری پوشش و KPIهای سرویس از میدان تا مرکز پایش.', image: '/images/use-cases/cellular-quality-monitoring.png' },
@@ -73,7 +73,7 @@ const useCases = computed(() => locale.value === 'fa'
       { slug: 'water-toxicity-monitoring', title: 'پایش سمیت آب', description: 'پایش سریع کیفیت آب برای زیرساخت های شهری و صنعتی.', image: '/images/use-cases/water-toxicity-monitoring.png' },
     ]
   : [
-      { slug: 'one-way-data-transfer', title: 'One-Way Data Transfer', description: 'Remove the return path from sensitive networks with hardware-enforced data diodes.', image: '/images/use-cases/one-way-data-transfer.png' },
+      { slug: 'one-way-data-transfer', title: 'One-Way Data Transfer', description: 'Design outbound data flows around the documented hardware boundary of the selected data-diode model.', image: '/images/use-cases/one-way-data-transfer.png' },
       { slug: 'ot-it-segmentation', title: 'OT/IT Segmentation', description: 'Create a controlled boundary between industrial and enterprise networks.', image: '/images/use-cases/ot-it-segmentation.png' },
       { slug: 'aes-256-network-encryption', title: 'AES-256 Network Encryption', description: 'Protect inter-site links with hardware-native encryption appliances.', image: '/images/use-cases/network-encryption-hero.png' },
       { slug: 'cellular-quality-monitoring', title: 'Cellular Quality Monitoring', description: 'Measure service coverage and KPIs from field probes to central analytics.', image: '/images/use-cases/cellular-quality-monitoring.png' },

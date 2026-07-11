@@ -2,29 +2,29 @@
 title: 'Banking & Finance'
 title_fa: 'بانک و مالی'
 slug: 'banking-finance'
-description: 'Protect financial network infrastructure and data-center interconnects with hardware-grade encryption.'
+description: 'Evaluate hardware encryption and controlled one-way transfer for selected financial-network data flows.'
 locale: en
 products:
+  - 'data-diode-a100'
   - 'emx-6'
   - 'upcryptor'
-  - 'emx-5'
 faqs:
-  - q: 'Can a data diode support SWIFT message archiving?'
-    a: 'Yes. SWIFT messages can be replicated in one direction to an archive system using a Pesaba diode without exposing the SWIFT interface to inbound traffic from the archive environment.'
-  - q: 'How does hardware filtering on EMX-4 differ from a software firewall?'
-    a: 'EMX-4 filtering rules are implemented in FPGA logic and applied at wire speed without a CPU on the data path. There is no OS to compromise and no rule engine to bypass — the filter is deterministic and verifiable.'
+  - q: 'Can a Pesaba data diode be used for SWIFT message archiving?'
+    a: 'One-way export can be considered as an architecture pattern, but the current public product material does not document a SWIFT-specific connector or validation. Define the message source, export format, ordering, retry, acknowledgement, audit, and recovery requirements, then prove the complete workflow in an acceptance test before deployment.'
+  - q: 'What should be verified before using hardware encryption on a financial link?'
+    a: 'The product records describe AES-256 capabilities for EMX-6 and Upcryptor. Verify the exact encryption mode, interface speed, sustained throughput, key generation and storage, rotation and recovery process, management boundary, failover behaviour, and any required cryptographic certification for the selected hardware and firmware release.'
 ---
 
 ## The Challenge
 
-Banking and financial institutions operate both IT and OT environments — trading systems, ATM networks, core banking infrastructure, and physical security systems all converge in a single institution. Data flows between these systems are legally mandated for reporting, audit, and compliance purposes, but each crossing is a potential attack vector. Iranian banks and financial institutions face additional requirements around sovereign infrastructure and data localisation.
+Financial institutions connect core applications, payment and ATM services, reporting platforms, monitoring systems, and physical-security infrastructure. Each permitted exchange between trust zones needs an explicit business purpose, data owner, direction, protocol, retention policy, and recovery procedure. The applicable legal and card-payment requirements depend on the institution, data set, service scope, and jurisdiction.
 
 ## Why It Matters
 
-- **Regulatory reporting under PCI-DSS and local mandates:** Card transaction data, account records, and audit logs must flow to compliance systems without exposing the core banking network to inbound traffic.
-- **ATM and physical network convergence:** ATM networks are increasingly IP-connected. A compromise of the ATM network that reaches core banking systems represents an existential threat.
-- **Insider threat on privileged networks:** Financial networks are high-value targets for insider threats. Hardware isolation between operational segments means a compromised endpoint cannot pivot to more sensitive zones.
+- **Controlled reporting and audit flows:** Logs and reports may need to leave a restricted zone without creating an unmanaged inbound session.
+- **Segmentation of high-value systems:** A compromise in an endpoint or service zone should not automatically provide a route to core financial systems.
+- **Evidence-based compliance:** PCI DSS and local banking rules can influence architecture, but using encryption or a data diode does not by itself establish compliance. Scope, configuration, operations, and evidence must be assessed together.
 
-## How Pesaba Solves It
+## Where Pesaba May Fit
 
-Pesaba data diodes enforce one-way data flow for compliance reporting, audit log export, and SWIFT message archiving — allowing these data flows to leave the secure environment without creating an inbound attack path. EMX-4/EMX-5 switching and filtering appliances provide hardware-level network segmentation between ATM, teller, and core banking segments.
+Pesaba's product records describe hardware data diodes for one-way Ethernet transfer and FPGA-based AES-256 network encryptors. These can be evaluated for narrowly defined export or link-protection requirements. Product selection must be based on the required bandwidth and supported service, and any SWIFT, core-banking, SIEM, or archive integration should be treated as a project-specific integration until a tested adapter and acceptance evidence are available.

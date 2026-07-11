@@ -3,6 +3,8 @@ node_modules/
 
 # Nuxt build output
 .nuxt/
+.nuxt-codex/
+.nuxt-seo/
 .output/
 dist/
 dist
@@ -53,6 +55,7 @@ public/models/**/*.glb
 
 # Scripts output
 scripts/output/
+scripts/__pycache__/
 
 # UI screenshots
 screenshots/

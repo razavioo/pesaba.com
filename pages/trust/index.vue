@@ -75,42 +75,47 @@
 const { t, locale } = useI18n()
 const localePath = useLocalePath()
 
-useSeoMeta({ title: `${t('trust.title')} | Pesaba`, description: 'Pesaba certifications, compliance matrix, supply chain details, and security posture for critical infrastructure hardware.' })
+useSeoMeta({
+  title: `${t('trust.title')} | Pesaba`,
+  description: computed(() => locale.value === 'fa'
+    ? 'مرکز شفافیت فنی پرتو ارتباط صبا برای وضعیت مستندات، معماری محصول، خدمات و درخواست شواهد خرید.'
+    : 'Pesaba technical transparency centre for evidence status, product architecture, service terms, and procurement documentation.'),
+})
 
 const trustCards = computed(() => [
-  { title: t('trust.certifications'), desc: t('trust.certifications_desc'), status: 'AFTA · ISO 9001', statusClass: 'label-status-active' },
-  { title: t('trust.fpga_title'), desc: t('trust.fpga_desc'), status: 'By design', statusClass: 'label-accent' },
-  { title: t('trust.supply_chain'), desc: t('trust.supply_chain_desc'), status: 'Verified', statusClass: 'label-status-active' },
-  { title: t('trust.aes_title'), desc: t('trust.aes_desc'), status: 'AES-256', statusClass: 'label-accent' },
-  { title: t('trust.sla'), desc: t('trust.sla_desc'), status: '12 months', statusClass: 'label-status-neutral' },
-  { title: t('trust.parts_title'), desc: t('trust.parts_desc'), status: '5-year support', statusClass: 'label-status-neutral' },
+  { title: t('trust.certifications'), desc: t('trust.certifications_desc'), status: locale.value === 'fa' ? 'بازبینی شواهد' : 'Evidence review', statusClass: 'label-status-neutral' },
+  { title: t('trust.fpga_title'), desc: t('trust.fpga_desc'), status: locale.value === 'fa' ? 'وابسته به مدل' : 'Model-specific', statusClass: 'label-accent' },
+  { title: t('trust.supply_chain'), desc: t('trust.supply_chain_desc'), status: locale.value === 'fa' ? 'وابسته به پروژه' : 'Project-specific', statusClass: 'label-status-neutral' },
+  { title: t('trust.aes_title'), desc: t('trust.aes_desc'), status: locale.value === 'fa' ? 'وابسته به مدل' : 'Model-specific', statusClass: 'label-accent' },
+  { title: t('trust.sla'), desc: t('trust.sla_desc'), status: locale.value === 'fa' ? 'شرایط قراردادی' : 'Contract terms', statusClass: 'label-status-neutral' },
+  { title: t('trust.parts_title'), desc: t('trust.parts_desc'), status: locale.value === 'fa' ? 'نیازمند استعلام' : 'Confirm before order', statusClass: 'label-status-neutral' },
 ])
 
 const evidence = computed(() => locale.value === 'fa'
   ? [
-      { title: 'ماتریس انطباق', desc: 'برای ارزیابی الزامات خرید، گواهی‌نامه‌ها و وضعیت انطباق در یک نقطه جمع می‌شوند.' },
-      { title: 'پشتیبانی و SLA', desc: 'شرایط گارانتی، توسعه SLA و رویه‌های خدمات پس از فروش باید برای تیم خرید شفاف باشند.' },
-      { title: 'قطعات یدکی', desc: 'تعهد موجودی قطعات برای مدل‌های تولیدی، ریسک عمر محصول را برای خریدار کاهش می‌دهد.' },
-      { title: 'مسیر ساخت', desc: 'طراحی، ساخت و آزمون در زنجیره داخلی کنترل‌شده انجام می‌شود.' },
+      { title: 'وضعیت شواهد', desc: 'هر ادعای گواهی باید به شماره مدرک، مرجع، مدل، نسخه، دامنه و مدت اعتبار متصل باشد.' },
+      { title: 'گارانتی و خدمات', desc: 'شرایط گارانتی، سطح خدمت و زمان پاسخ برای هر سفارش در پیشنهاد یا قرارداد همان پروژه مشخص می‌شود.' },
+      { title: 'چرخه عمر محصول', desc: 'وضعیت تولید، تعمیرپذیری و قطعات یدکی باید برای مدل و بازه زمانی خرید استعلام شود.' },
+      { title: 'منشأ و زنجیره ساخت', desc: 'دامنه طراحی، مونتاژ و آزمون قابل اعلام است، اما باید برای محصول و سفارش مشخص تأیید شود.' },
     ]
   : [
-      { title: 'Compliance matrix', desc: 'Buyers need one place to review certifications and current compliance posture across product lines.' },
-      { title: 'Warranty and SLA', desc: 'Warranty terms, service extensions, and support expectations need to be explicit before procurement.' },
-      { title: 'Spare-parts policy', desc: 'Clear spare-parts commitments reduce lifecycle risk for operators deploying into long-lived infrastructure.' },
-      { title: 'Build chain', desc: 'Design, assembly, and validation stay inside a controlled domestic engineering workflow.' },
+      { title: 'Evidence status', desc: 'Every certification claim must identify the evidence number, authority, model, version, scope, and validity period.' },
+      { title: 'Warranty and service', desc: 'Warranty, service level, and response terms are defined in the applicable proposal or project contract.' },
+      { title: 'Product lifecycle', desc: 'Production, repair, and spare-parts availability must be confirmed for the model and planned purchase period.' },
+      { title: 'Origin and build chain', desc: 'Design, assembly, and test scope can be disclosed, but it must be confirmed for the specific product and order.' },
     ]
 )
 
 const commitments = computed(() => locale.value === 'fa'
   ? [
-      'گارانتی ۱۲ ماهه با امکان توسعه SLA برای پروژه‌های سازمانی.',
-      'حداقل ۵ سال تامین قطعات یدکی برای مدل‌های تولیدی.',
-      'مستندات فنی و خرید از طریق مرکز اعتماد و تیم فروش فنی ارائه می‌شود.',
+      'مشخصات نهایی، دامنه تحویل و معیارهای پذیرش در پیشنهاد فنی همان پروژه ثبت می‌شوند.',
+      'شرایط گارانتی، تعمیر، قطعات و سطح خدمت پیش از سفارش به‌صورت مکتوب تأیید می‌شوند.',
+      'مدارک محدود یا محرمانه فقط پس از احراز درخواست و از مسیر متناسب با طبقه‌بندی سند ارائه می‌شوند.',
     ]
   : [
-      '12-month warranty with enterprise SLA extension options.',
-      'Minimum 5-year spare-parts support for production models.',
-      'Technical buying documentation is available through the trust center and sales engineering team.',
+      'Final specifications, delivery scope, and acceptance criteria are recorded in the project proposal.',
+      'Warranty, repair, parts, and service-level terms are confirmed in writing before an order.',
+      'Restricted documents are supplied only after request verification and through a channel appropriate to their classification.',
     ]
 )
 </script>

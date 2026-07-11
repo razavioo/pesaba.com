@@ -1,14 +1,14 @@
 ---
 title: "Careers"
-sub: "Join our engineering team and work on network security hardware for Iran's critical infrastructure."
+sub: "Join our engineering team and work on network-security and telecommunications products."
 seo_title: "Careers | Pesaba"
 seo_desc: "Career opportunities at Partov Ertebat Saba — FPGA design, hardware security, network engineering."
 locale: en
 reasons:
-  - "Work on real hardware that secures critical national infrastructure"
-  - "Small, expert team with PhDs and senior engineers across EE, CS, and cryptography"
-  - "Competitive compensation and a research-forward engineering culture"
-  - "Products used across energy, defence, banking, and government sectors"
+  - "Design and verify production hardware for industrial and security-sensitive network environments"
+  - "Work with engineers across electronics, embedded systems, networking, and applied cryptography"
+  - "Contribute across research, prototyping, testing, documentation, and product support"
+  - "Build products intended for energy, government, telecom, banking, and other regulated environments"
 areas:
   - "FPGA design (Verilog / VHDL) — Xilinx / Intel Altera"
   - "Embedded systems and hardware bring-up"

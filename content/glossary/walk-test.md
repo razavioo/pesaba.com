@@ -23,4 +23,4 @@ A growing proportion of mobile traffic originates indoors. Poor indoor coverage 
 
 ## Related Pesaba Products
 
-- **Venus Challenger** — Portable walk-test device for indoor coverage verification, supporting 2G through 5G NR.
+- **Venus Challenger** — A portable walk-test product record for indoor coverage verification; supported radio technologies and device combinations must be confirmed for the model and revision.

@@ -11,7 +11,7 @@
             <div>
               <div class="text-lg font-bold text-white tracking-wide">Pesaba</div>
               <div class="text-xs uppercase tracking-[0.22em] font-medium text-white/50">
-                {{ locale === 'fa' ? 'شبکه‌های بدون شکست' : 'Networks That Cannot Fail' }}
+                {{ locale === 'fa' ? 'سخت‌افزار برای شبکه‌های حیاتی' : 'Hardware for critical networks' }}
               </div>
             </div>
           </NuxtLink>
@@ -112,14 +112,23 @@
         <p class="text-xs text-white/35">
           {{ $t('footer.copyright', { year: new Date().getFullYear() }) }}
         </p>
-        <div class="flex items-center gap-4">
+        <nav class="flex flex-wrap items-center gap-x-4 gap-y-2" :aria-label="locale === 'fa' ? 'پیوندهای حقوقی' : 'Legal links'">
           <NuxtLink :to="localePath('/trust')" class="text-xs text-white/35 hover:text-white/70 transition-colors">
             {{ $t('trust.title') }}
           </NuxtLink>
-          <NuxtLink :to="localePath('/company/contact')" class="text-xs text-white/35 hover:text-white/70 transition-colors">
-            {{ locale === 'fa' ? 'تماس با ما' : 'Contact' }}
+          <NuxtLink :to="localePath('/legal/privacy')" class="text-xs text-white/35 hover:text-white/70 transition-colors">
+            {{ locale === 'fa' ? 'حریم خصوصی' : 'Privacy' }}
           </NuxtLink>
-        </div>
+          <NuxtLink :to="localePath('/legal/terms')" class="text-xs text-white/35 hover:text-white/70 transition-colors">
+            {{ locale === 'fa' ? 'شرایط استفاده' : 'Terms' }}
+          </NuxtLink>
+          <NuxtLink :to="localePath('/legal/security')" class="text-xs text-white/35 hover:text-white/70 transition-colors">
+            {{ locale === 'fa' ? 'گزارش آسیب‌پذیری' : 'Security disclosure' }}
+          </NuxtLink>
+          <NuxtLink :to="localePath('/legal/accessibility')" class="text-xs text-white/35 hover:text-white/70 transition-colors">
+            {{ locale === 'fa' ? 'دسترس‌پذیری' : 'Accessibility' }}
+          </NuxtLink>
+        </nav>
       </div>
     </div>
   </footer>

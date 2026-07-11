@@ -72,10 +72,10 @@
           <ProductCard
             v-for="product in industryProducts"
             :key="product.slug"
-            :title="product.title"
-            :slug="product.slug"
+            :title="product.title || ''"
+            :slug="product.slug || ''"
             :href="localePath(`/products/${product.category}/${product.slug}`)"
-            :description="product.description"
+            :description="publicDescription(product)"
             :category-label="product.category_label"
             :specs="product.specs?.slice(0, 3)"
             :image="product.photos?.[0] || product.images?.[0]"
@@ -85,14 +85,14 @@
     </section>
 
     <!-- Use Cases -->
-    <section v-if="latestArticles.length" id="use-cases" class="border-t border-[var(--border)]">
+    <section v-if="latestArticles?.length" id="use-cases" class="border-t border-[var(--border)]">
       <div class="container-site py-16">
         <h2 class="text-2xl font-bold text-[var(--text-primary)] mb-8">
           {{ locale === 'fa' ? 'کاربردهای مرتبط' : 'Related Use Cases' }}
         </h2>
         <div class="grid gap-5 sm:grid-cols-2">
           <NuxtLink
-            v-for="article in latestArticles"
+            v-for="article in latestArticles || []"
             :key="article._path"
             :to="localePath(`/blog/${article.slug}`)"
             class="card-halo group overflow-hidden"
@@ -149,13 +149,17 @@
 <script setup lang="ts">
 const { t, locale } = useI18n()
 const localePath = useLocalePath()
+const { publicDescription } = useProductCopy()
 const route = useRoute()
 const { emitBreadcrumbs } = useSchemaOrg()
 
 const { data: industry } = await useAsyncData(`industry-${route.params.slug}-${locale.value}`, () =>
   queryContent('industries').where({ slug: route.params.slug as string, locale: locale.value }).findOne()
-    .catch(() => queryContent('industries').where({ slug: route.params.slug as string }).findOne())
 )
+
+if (!industry.value) {
+  throw createError({ statusCode: 404, statusMessage: 'Industry not found' })
+}
 
 const { data: allProducts } = await useAsyncData(`products-${locale.value}`, () =>
   queryContent('products').where({ locale: locale.value }).find()
@@ -176,15 +180,26 @@ const industryProducts = computed(() => {
 if (industry.value) {
   const config = useRuntimeConfig()
   const siteUrl = (config.public.siteUrl || 'https://pesaba.com').replace(/\/$/, '')
+  const industryTitle = String(industry.value.title || route.params.slug)
+  const canonicalSlug = String(industry.value.slug || route.params.slug)
+  const socialImage = `${siteUrl}/og/industry/${canonicalSlug}.${locale.value}.png`
   useSeoMeta({
-    title: `${industry.value.title} | Pesaba`,
+    title: `${industryTitle} | Pesaba`,
+    ogTitle: `${industryTitle} | Pesaba`,
     description: industry.value.description,
-    ogImage: `${siteUrl}/images/industries/${industry.value.slug}.png`,
+    ogDescription: industry.value.description,
+    ogImage: socialImage,
+    ogImageWidth: 1200,
+    ogImageHeight: 630,
+    ogImageType: 'image/png',
+    twitterTitle: `${industryTitle} | Pesaba`,
+    twitterDescription: industry.value.description,
+    twitterImage: socialImage,
     twitterCard: 'summary_large_image',
   })
   emitBreadcrumbs([
     { name: t('nav.industries'), url: `/${locale.value}/industries` },
-    { name: industry.value.title, url: `/${locale.value}/industries/${industry.value.slug}` },
+    { name: industryTitle, url: `/${locale.value}/industries/${canonicalSlug}` },
   ])
 }
 

@@ -22,6 +22,6 @@ A Common Criteria evaluation involves an independent laboratory assessing a Targ
 
 Government and defense procurement frequently mandates Common Criteria evaluation for cross-domain solutions and cryptographic products. An EAL2+ evaluation provides documented evidence of design and implementation rigour that supports procurement and compliance decisions.
 
-## Related Pesaba Products
+## Applying This to a Product
 
-Pesaba is pursuing EAL2+ evaluation for its data-diode product line. Contact our sales team for current status.
+Common Criteria terminology must not be used as a Pesaba certification claim without a current certificate that names the exact product, version, scope, authority, and validity. No product status should be inferred from this glossary definition; request the current evidence package during procurement.

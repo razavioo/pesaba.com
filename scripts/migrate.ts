@@ -272,7 +272,21 @@ interface SiteVarRaw {
   [key: string]: { value_fa: string; value_en: string; id: string }
 }
 
-const SENSITIVE_KEYS = ['smtpPassword', 'smtp_password', 'password', 'secret', 'token', 'key']
+const PUBLIC_SITE_VARIABLE_KEYS = [
+  'contact_address',
+  'contact_email',
+  'contact_fax',
+  'contact_instagram',
+  'contact_linkedin',
+  'contact_phone',
+  'contact_postalCode',
+  'contact_telegram',
+  'contact_whatsapp',
+  'main_articles',
+  'main_clients',
+  'main_footer',
+  'main_intro',
+] as const
 
 function toPersianDigits(str: string): string {
   const digits = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹']
@@ -284,13 +298,9 @@ function migrateVariables(): void {
   const raw: SiteVarRaw = JSON.parse(fs.readFileSync(path.join(DATA, 'site_variables.json'), 'utf-8'))
 
   const safe: Record<string, { fa: string; en: string }> = {}
-  let redacted = 0
-
-  for (const [key, val] of Object.entries(raw)) {
-    if (SENSITIVE_KEYS.some(s => key.toLowerCase().includes(s))) {
-      redacted++
-      continue
-    }
+  for (const key of PUBLIC_SITE_VARIABLE_KEYS) {
+    const val = raw[key]
+    if (!val) continue
     let faVal = val.value_fa || ''
     if (['contact_fax', 'contact_phone', 'contact_address', 'contact_postalCode'].includes(key)) {
       faVal = toPersianDigits(faVal)
@@ -300,7 +310,8 @@ function migrateVariables(): void {
 
   const outPath = path.join(CONTENT, 'site.json')
   fs.writeFileSync(outPath, JSON.stringify(safe, null, 2), 'utf-8')
-  console.log(`  ✓ content/site.json (${Object.keys(safe).length} vars, ${redacted} redacted)`)
+  const omitted = Object.keys(raw).length - Object.keys(safe).length
+  console.log(`  ✓ content/site.json (${Object.keys(safe).length} public vars, ${omitted} omitted)`)
 }
 
 // ─── Run ──────────────────────────────────────────────────────────────────────

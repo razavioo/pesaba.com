@@ -16,10 +16,6 @@
       </div>
     </section>
     <div class="py-16 md:py-24">
-    <!-- Neon Decorative Glow Blobs -->
-    <div class="absolute -top-12 -left-12 w-96 h-96 bg-[rgba(31,121,148,0.10)] rounded-full blur-[100px] pointer-events-none" />
-    <div class="absolute bottom-1/4 -right-16 w-80 h-80 bg-[rgba(31,121,148,0.05)] rounded-full blur-[80px] pointer-events-none" />
-
     <div class="container-site relative z-10">
       <div class="grid gap-12 lg:grid-cols-12 items-start">
         
@@ -55,8 +51,8 @@
 
             <p class="text-sm text-[var(--text-secondary)] leading-relaxed mb-6">
               {{ locale === 'fa' 
-                ? 'برای دریافت فریم‌ور جدید، فعال‌سازی ویژگی‌ها یا به‌روزرسانی امنیتی محصولات پرتو ارتباط صبا، لطفا از طریق دکمه زیر درخواست فنی خود را ثبت کنید.' 
-                : 'To request firmware updates, feature activations, or security releases for Pesaba appliances, please submit a formal technical ticket.' 
+                ? 'برای بررسی وجود به‌روزرسانی و دریافت روش نصب متناسب با مدل و نسخه سخت‌افزار، درخواست پشتیبانی ثبت کنید. تیم فنی پس از تطبیق اطلاعات دستگاه، گزینه‌های قابل ارائه را اعلام می‌کند.'
+                : 'Submit a support request to check update availability and obtain installation instructions for the relevant model and hardware revision. Support will confirm the options available after matching the device details.'
               }}
             </p>
 
@@ -81,12 +77,8 @@
               </span>
             </BaseButton>
 
-            <div class="mt-5 pt-4 border-t border-[var(--border)] flex items-center gap-2 justify-center text-[10px] text-[var(--text-muted)]">
-              <!-- Clock/Response Icon -->
-              <svg class="w-3.5 h-3.5 text-[#1F7994]/60" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-              <span>{{ locale === 'fa' ? 'پاسخگویی در کمتر از ۲۴ ساعت کاری' : 'Typical response time: < 24 business hours' }}</span>
+            <div class="mt-5 border-s-2 border-amber-500 bg-amber-50 p-3 text-xs leading-relaxed text-amber-950">
+              {{ $t('resources.firmware_sensitive_notice') }}
             </div>
           </div>
         </div>
@@ -174,9 +166,9 @@
             </div>
 
             <ul class="space-y-4">
-              <!-- Signed releases -->
+              <!-- Package verification -->
               <li class="flex gap-4 items-start p-4 rounded-xl border border-[var(--border)] bg-[var(--bg-page)]/30 hover:border-[#1F7994]/10 transition-all">
-                <div class="mt-1 flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full bg-signal-500/10 text-signal-500 border border-signal-500/20">
+                <div class="mt-1 flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full bg-[rgba(31,121,148,0.10)] text-[#1F7994] border border-[#1F7994]/20">
                   <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
                   </svg>
@@ -184,10 +176,10 @@
                 <div class="flex-grow">
                   <div class="flex flex-wrap items-center gap-2 mb-1">
                     <h4 class="text-sm font-bold text-[var(--text-primary)]">
-                      {{ locale === 'fa' ? 'نسخه‌های امضا شده دیجیتالی' : 'Signed Firmware Images' }}
+                      {{ locale === 'fa' ? 'راستی‌آزمایی بسته به‌روزرسانی' : 'Update Package Verification' }}
                     </h4>
-                    <span class="text-[9px] font-bold px-2 py-0.5 rounded bg-signal-500/10 text-signal-500 border border-signal-500/20 uppercase tracking-widest font-mono">
-                      {{ locale === 'fa' ? 'تأیید شده' : 'VERIFIED' }}
+                    <span class="text-[9px] font-bold px-2 py-0.5 rounded bg-[rgba(31,121,148,0.10)] text-[#1F7994] border border-[#1F7994]/20 uppercase tracking-widest font-mono">
+                      {{ locale === 'fa' ? 'وابسته به مدل' : 'MODEL-SPECIFIC' }}
                     </span>
                   </div>
                   <p class="text-xs text-[var(--text-secondary)] leading-relaxed">
@@ -196,7 +188,7 @@
                 </div>
               </li>
 
-              <!-- Critical releases -->
+              <!-- Security communication -->
               <li class="flex gap-4 items-start p-4 rounded-xl border border-[var(--border)] bg-[var(--bg-page)]/30 hover:border-[#1F7994]/10 transition-all">
                 <div class="mt-1 flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full bg-[rgba(31,121,148,0.10)] text-[#1F7994] border border-[#1F7994]/20">
                   <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
@@ -205,7 +197,7 @@
                 </div>
                 <div>
                   <h4 class="text-sm font-bold text-[var(--text-primary)] mb-1">
-                    {{ locale === 'fa' ? 'اطلاع‌رسانی پیش‌گستر امنیتی' : 'Proactive Security Releases' }}
+                    {{ locale === 'fa' ? 'اطلاع‌رسانی امنیتی' : 'Security Communications' }}
                   </h4>
                   <p class="text-xs text-[var(--text-secondary)] leading-relaxed">
                     {{ $t('resources.firmware_policy_critical') }}
@@ -213,7 +205,7 @@
                 </div>
               </li>
 
-              <!-- JTAG flashing -->
+              <!-- Installation method -->
               <li class="flex gap-4 items-start p-4 rounded-xl border border-[var(--border)] bg-[var(--bg-page)]/30 hover:border-[#1F7994]/10 transition-all">
                 <div class="mt-1 flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full bg-warn-500/10 text-warn-500 border border-warn-500/20">
                   <!-- Exclamation Icon -->
@@ -223,7 +215,7 @@
                 </div>
                 <div>
                   <h4 class="text-sm font-bold text-[var(--text-primary)] mb-1">
-                    {{ locale === 'fa' ? 'به‌روزرسانی سخت‌افزاری فیزیکی' : 'Physical Hardware Flashing' }}
+                    {{ locale === 'fa' ? 'روش نصب متناسب با دستگاه' : 'Device-specific Installation Method' }}
                   </h4>
                   <p class="text-xs text-[var(--text-secondary)] leading-relaxed">
                     {{ $t('resources.firmware_policy_jtag') }}

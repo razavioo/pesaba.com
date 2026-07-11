@@ -36,7 +36,7 @@ stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
         </NuxtLink>
         <button
           class="inline-flex items-center gap-2 px-5 py-2.5 border border-ink-700 text-ink-300 font-medium text-sm rounded-md hover:border-photon-500/40 hover:text-ink-100 transition-colors duration-200"
-          @click="clearError({ redirect: -1 })">
+          @click="goBack">
           Go Back
         </button>
       </div>
@@ -45,7 +45,21 @@ stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
 </template>
 
 <script setup lang="ts">
-defineProps<{ error: { statusCode: number; message?: string } | null }>()
+const props = defineProps<{ error: { statusCode: number; message?: string } | null }>()
 const { locale } = useI18n()
 const dir = computed(() => locale.value === 'fa' ? 'rtl' : 'ltr')
+
+function goBack() {
+  if (import.meta.client && window.history.length > 1) {
+    window.history.back()
+    return
+  }
+  clearError({ redirect: `/${locale.value}` })
+}
+
+useSeoMeta({
+  title: computed(() => props.error?.statusCode === 404 ? 'Page not found | Pesaba' : 'Error | Pesaba'),
+  description: 'The requested page could not be served.',
+  robots: 'noindex, nofollow',
+})
 </script>

@@ -4,8 +4,8 @@ Nuxt 3 (TypeScript, Tailwind CSS) rebuild of pesaba.com for Partov Ertebat Saba.
 
 ## Prerequisites
 
-- Node.js ≥ 18 (project uses ESM, Nuxt 3)
-- npm ≥ 9
+- Node.js 20.19+ or 22.12+
+- npm 10+
 
 ## Quick start
 
@@ -18,25 +18,45 @@ Site opens at http://localhost:3000. The root `/` redirects to `/fa`.
 
 ## Environment variables
 
-Copy `.env.example` to `.env` and fill in:
+For local development, copy `.env.example` to `.env`. On production, inject these
+variables into the running Node service and keep them out of the build job:
 
 ```
-SMTP_HOST=mailservice13.irandns.com
-SMTP_PORT=587
-SMTP_USER=...          # ← rotate from old credentials
-SMTP_PASS=...          # ← rotate from old credentials
-SMTP_TO=admin@pesaba.com
 NUXT_PUBLIC_SITE_URL=https://pesaba.com
+NUXT_PUBLIC_SITE_INDEXABLE=true
+NUXT_PUBLIC_CONTACT_FORM_ENABLED=true
+NUXT_SMTP_HOST=smtp.example.com
+NUXT_SMTP_PORT=587
+NUXT_SMTP_SECURE=false
+NUXT_SMTP_USER=...
+NUXT_SMTP_PASS=...      # rotate before deployment
+NUXT_SMTP_FROM=admin@pesaba.com
+NUXT_SMTP_TO=admin@pesaba.com
+NUXT_SMTP_SALES_TO=sales@pesaba.com
+NUXT_SMTP_SUPPORT_TO=support@pesaba.com
+NUXT_SMTP_PARTNERSHIP_TO=admin@pesaba.com
+NUXT_CONTACT_ALLOWED_ORIGINS=https://pesaba.com
+NUXT_CONTACT_TRUST_PROXY=true
 ```
 
-**Important:** never commit `.env` to git.
+`NUXT_CONTACT_TRUST_PROXY=true` is only valid when the application is behind a
+trusted reverse proxy that replaces client forwarding headers. Never commit `.env`.
 
 ## Build
 
 ```bash
-npm run build          # production build → .output/
-node .output/server/index.mjs   # run locally
+npm ci
+npm run check:secrets
+npm run validate:content
+npm run typecheck
+npm run build
+NODE_ENV=production node .output/server/index.mjs
 ```
+
+The default Nitro target is a portable Node server and listens on `NITRO_HOST`
+and `NITRO_PORT` (defaults: `0.0.0.0:3000`). Terminate HTTPS at the company reverse
+proxy, redirect HTTP to HTTPS, preserve the original host/protocol headers, and
+proxy `/api/*` to the same Node process. The production site must be served at `/`.
 
 ## Adding a product
 

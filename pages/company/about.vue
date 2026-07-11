@@ -37,14 +37,14 @@
       <div class="relative h-[420px] overflow-hidden lg:h-[520px]">
         <NuxtImg
           src="/images/hero-datacenter.png"
-          alt="Pesaba engineering facility"
+          :alt="locale === 'fa' ? 'تصویر مفهومی از زیرساخت شبکه' : 'Conceptual visualization of network infrastructure'"
           class="h-full w-full object-cover object-center"
           loading="lazy"
         />
         <div class="absolute inset-0 bg-gradient-to-t from-[var(--bg-page)] via-[var(--bg-page)]/30 to-transparent" />
         <div class="absolute bottom-0 start-0 end-0 container-site pb-10">
           <p class="max-w-xl text-sm leading-relaxed text-[var(--text-secondary)]">
-            {{ locale === 'fa' ? 'طراحی، ساخت و آزمون در تهران — زنجیره مهندسی از FPGA تا محصول نهایی.' : 'Designed, built, and tested in Tehran — engineering chain from FPGA to finished product.' }}
+            {{ locale === 'fa' ? 'دامنه طراحی، مونتاژ، آزمون و منشأ قطعات باید برای هر مدل و سفارش در مستندات خرید مشخص شود.' : 'Design, assembly, testing, and component-origin scope should be identified for each model and order in procurement documentation.' }}
           </p>
         </div>
       </div>
@@ -64,7 +64,7 @@
         <div class="overflow-hidden rounded-[2px] border border-[var(--border)]">
           <NuxtImg
             src="/images/about/soc-operations.png"
-            :alt="locale === 'fa' ? 'تیم مهندسی پرتو ارتباط صبا' : 'Pesaba engineering team'"
+            :alt="locale === 'fa' ? 'تصویر مفهومی از عملیات مهندسی و پایش شبکه' : 'Conceptual visualization of network engineering and monitoring'"
             class="h-72 w-full object-cover object-center lg:h-80"
             loading="lazy"
           />
@@ -92,22 +92,36 @@ const { data: doc } = await useAsyncData(`about-${locale.value}`, async () => {
 
 const whyCards = computed(() => locale.value === 'fa'
   ? [
-      { title: 'طراحی و ساخت داخلی', body: 'تمام سخت‌افزار در تهران طراحی و تولید می‌شود و زنجیره مهندسی تحت کنترل داخلی قرار دارد.' },
-      { title: 'معماری FPGA بدون سیستم‌عامل', body: 'در خطوط کلیدی محصول، وابستگی به سیستم‌عامل عمومی حذف شده تا سطح حمله محدود بماند.' },
-      { title: 'گواهی و انطباق', body: 'مستندات انطباق، گواهی‌نامه‌ها و تعهدات عملیاتی برای خریدار حرفه‌ای قابل ارائه است.' },
-      { title: 'تیم مهندسی متخصص', body: 'تمرکز تیم بر رمزنگاری، سخت‌افزار ارتباطی و امنیت OT/ICS است.' },
+      { title: 'توسعه محصول در ایران', body: 'پرتو ارتباط صبا محصولات امنیت شبکه را در ایران توسعه می‌دهد؛ دامنه ساخت و منشأ قطعات برای هر مدل و پروژه جداگانه تأیید می‌شود.' },
+      { title: 'معماری متناسب با محصول', body: 'وجود سیستم‌عامل، مرز مسیر داده و نقش FPGA بین مدل‌ها متفاوت است و باید از دیتاشیت همان نسخه بررسی شود.' },
+      { title: 'انطباق مبتنی بر مدرک', body: 'وضعیت گواهی تنها با شماره مدرک، مرجع، مدل، نسخه، دامنه و تاریخ اعتبار قابل تأیید است.' },
+      { title: 'بررسی مهندسی', body: 'تناسب محصول، الزامات استقرار و مستندات قابل ارائه در بررسی فنی و خرید مشخص می‌شوند.' },
     ]
   : [
-      { title: 'Domestic engineering and build', body: 'Hardware is designed and manufactured in Tehran inside a controlled engineering chain.' },
-      { title: 'OS-less FPGA architecture', body: 'Key product lines remove general-purpose operating systems from the critical data path.' },
-      { title: 'Certification and compliance', body: 'Compliance material, certifications, and operational commitments are available to professional buyers.' },
-      { title: 'Specialized engineering team', body: 'The team is focused on cryptography, communications hardware, and OT/ICS security.' },
+      { title: 'Product development in Iran', body: 'Pesaba develops network-security products in Iran; manufacturing scope and component origin are confirmed per model and project.' },
+      { title: 'Product-specific architecture', body: 'Operating-system presence, data-path boundaries, and FPGA roles vary by model and must be checked in the applicable revision documentation.' },
+      { title: 'Evidence-based compliance', body: 'Certification status is only confirmed with an evidence number, authority, model, version, scope, and validity date.' },
+      { title: 'Engineering review', body: 'Product fit, deployment requirements, and available supporting documents are established during technical and procurement review.' },
     ]
 )
 
+const { data: catalogProducts } = await useAsyncData('about-catalog-stats', () =>
+  queryContent('products').only(['slug', 'category', 'locale', 'active']).find(),
+)
+const catalogEntries = computed(() => new Set(
+  (catalogProducts.value || [])
+    .filter(product => product.active !== false && product.locale !== 'fa')
+    .map(product => `${product.category}/${product.slug}`),
+).size)
+const catalogCategories = computed(() => new Set(
+  (catalogProducts.value || [])
+    .filter(product => product.active !== false)
+    .map(product => product.category)
+    .filter(Boolean),
+).size)
 const aboutStats = computed(() => locale.value === 'fa'
-  ? [{ value: '۱۷+', label: 'سال تجربه' }, { value: '۱۹', label: 'محصول' }, { value: '۵۰۰+', label: 'پروژه تحویل‌شده' }]
-  : [{ value: '17+', label: 'Years of expertise' }, { value: '19', label: 'Products' }, { value: '500+', label: 'Projects delivered' }]
+  ? [{ value: String(catalogEntries.value), label: 'مدخل کاتالوگ' }, { value: String(catalogCategories.value), label: 'خانواده محصول' }, { value: '۲', label: 'زبان سایت' }]
+  : [{ value: String(catalogEntries.value), label: 'Catalog entries' }, { value: String(catalogCategories.value), label: 'Product families' }, { value: '2', label: 'Site languages' }]
 )
 
 useSeoMeta({ title: doc.value?.seo_title ?? `About | Pesaba`, description: doc.value?.seo_desc })

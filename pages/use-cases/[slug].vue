@@ -60,21 +60,35 @@ const { emitBreadcrumbs } = useSchemaOrg()
 
 const { data: useCase } = await useAsyncData(`use-case-${route.params.slug}-${locale.value}`, () =>
   queryContent('use-cases').where({ slug: route.params.slug as string, locale: locale.value }).findOne()
-    .catch(() => queryContent('use-cases').where({ slug: route.params.slug as string }).findOne())
 )
+
+if (!useCase.value) {
+  throw createError({ statusCode: 404, statusMessage: 'Use case not found' })
+}
 
 if (useCase.value) {
   const config = useRuntimeConfig()
   const siteUrl = (config.public.siteUrl || 'https://pesaba.com').replace(/\/$/, '')
+  const useCaseTitle = String(useCase.value.title || route.params.slug)
+  const canonicalSlug = String(useCase.value.slug || route.params.slug)
+  const socialImage = `${siteUrl}/og/use-case/${canonicalSlug}.${locale.value}.png`
   useSeoMeta({
-    title: `${useCase.value.title} | Pesaba`,
+    title: `${useCaseTitle} | Pesaba`,
+    ogTitle: `${useCaseTitle} | Pesaba`,
     description: useCase.value.description,
-    ogImage: `${siteUrl}/images/use-cases/${useCase.value.slug}.png`,
+    ogDescription: useCase.value.description,
+    ogImage: socialImage,
+    ogImageWidth: 1200,
+    ogImageHeight: 630,
+    ogImageType: 'image/png',
+    twitterTitle: `${useCaseTitle} | Pesaba`,
+    twitterDescription: useCase.value.description,
+    twitterImage: socialImage,
     twitterCard: 'summary_large_image',
   })
   emitBreadcrumbs([
     { name: t('nav.use_cases'), url: `/${locale.value}/use-cases` },
-    { name: useCase.value.title, url: `/${locale.value}/use-cases/${useCase.value.slug}` },
+    { name: useCaseTitle, url: `/${locale.value}/use-cases/${canonicalSlug}` },
   ])
 }
 

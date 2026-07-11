@@ -1,8 +1,7 @@
 import { test, expect } from '@playwright/test'
 
 test.describe('Contact API', () => {
-  // Nuxt app serves under /pesaba.com base URL
-  const CONTACT_API_PATH = '/pesaba.com/api/contact'
+  const CONTACT_API_PATH = '/api/contact'
 
   test('should accept valid contact form submission', async ({ request }) => {
     const response = await request.post(CONTACT_API_PATH, {
@@ -11,20 +10,26 @@ test.describe('Contact API', () => {
         email: 'test@pesaba.com',
         company: 'Safety & Trust Inc',
         product: 'K200 Data Diode',
-        message: 'This is a professional verification message from Playwright integration tests.'
+        message: 'This is a professional verification message from Playwright integration tests.',
+        department: 'support',
+        consent: true,
       }
     })
     
     expect(response.status()).toBe(200)
     const body = await response.json()
-    expect(body).toEqual({ ok: true })
+    expect(body.ok).toBe(true)
+    expect(body.requestId).toMatch(/^[0-9a-f-]{36}$/)
+    expect(response.headers()['x-request-id']).toBe(body.requestId)
+    expect(response.headers()['cache-control']).toContain('no-store')
   })
 
   test('should reject submission with missing required fields', async ({ request }) => {
     const response = await request.post(CONTACT_API_PATH, {
       data: {
         company: 'No Name Corp',
-        message: 'This should fail because name and email are missing.'
+        message: 'This should fail because name and email are missing.',
+        consent: true,
       }
     })
     
@@ -38,7 +43,8 @@ test.describe('Contact API', () => {
       data: {
         name: 'Jane Doe',
         email: 'not-a-valid-email-address',
-        message: 'This should fail due to invalid email.'
+        message: 'This should fail due to invalid email.',
+        consent: true,
       }
     })
     
@@ -46,11 +52,67 @@ test.describe('Contact API', () => {
     const body = await response.json()
     expect(body.statusMessage).toContain('email')
   })
+
+  test('should require explicit privacy consent', async ({ request }) => {
+    const response = await request.post(CONTACT_API_PATH, {
+      data: {
+        name: 'Test Engineer',
+        email: 'engineer@example.com',
+        message: 'A valid length message without privacy consent.',
+      },
+    })
+
+    expect(response.status()).toBe(400)
+    expect((await response.json()).statusMessage).toContain('Consent')
+  })
+
+  test('should reject unsupported content types', async ({ request }) => {
+    const response = await request.post(CONTACT_API_PATH, {
+      headers: { 'content-type': 'text/plain' },
+      data: 'not-json',
+    })
+    expect(response.status()).toBe(415)
+  })
+
+  test('should reject cross-origin browser submissions', async ({ request }) => {
+    const response = await request.post(CONTACT_API_PATH, {
+      headers: {
+        origin: 'https://attacker.example',
+        'sec-fetch-site': 'cross-site',
+      },
+      data: {
+        name: 'Test Engineer',
+        email: 'engineer@example.com',
+        message: 'A valid message sent from an untrusted origin.',
+        consent: true,
+      },
+    })
+    expect(response.status()).toBe(403)
+  })
+
+  test('should reject oversized request bodies', async ({ request }) => {
+    const response = await request.post(CONTACT_API_PATH, {
+      data: {
+        name: 'Test Engineer',
+        email: 'engineer@example.com',
+        message: 'x'.repeat(17_000),
+        consent: true,
+      },
+    })
+    expect(response.status()).toBe(413)
+  })
 })
 
-test.describe('Sitemap and Feed XML endpoints', () => {
+test.describe('Public server endpoints', () => {
+  test('health endpoint should be available and uncached', async ({ request }) => {
+    const response = await request.get('/api/health')
+    expect(response.status()).toBe(200)
+    expect(await response.json()).toEqual({ ok: true })
+    expect(response.headers()['cache-control']).toContain('no-store')
+  })
+
   test('sitemap.xml should return valid XML with URL locations', async ({ request }) => {
-    const response = await request.get('/pesaba.com/sitemap.xml')
+    const response = await request.get('/sitemap.xml')
     expect(response.status()).toBe(200)
     expect(response.headers()['content-type']).toContain('xml')
     
@@ -63,7 +125,7 @@ test.describe('Sitemap and Feed XML endpoints', () => {
   })
 
   test('feed.xml should return valid RSS feed XML', async ({ request }) => {
-    const response = await request.get('/pesaba.com/feed.xml')
+    const response = await request.get('/feed.xml')
     expect(response.status()).toBe(200)
     expect(response.headers()['content-type']).toContain('xml')
     
@@ -72,5 +134,15 @@ test.describe('Sitemap and Feed XML endpoints', () => {
     expect(text).toContain('<rss')
     expect(text).toContain('<channel>')
     expect(text).toContain('<title>')
+  })
+
+  test('content API does not expose unreviewed product bodies', async ({ request }) => {
+    const response = await request.get('/api/_content/query')
+    expect(response.status()).toBe(200)
+    const documents = await response.json()
+    const product = documents.find((item: { _path?: string }) => item._path === '/products/data-diodes/data-diode-a10')
+    expect(product).toBeTruthy()
+    expect(product.description).toContain('must be confirmed')
+    expect(JSON.stringify(product)).not.toContain('physically impossible')
   })
 })

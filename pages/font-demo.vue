@@ -26,7 +26,7 @@
           <div>
             <p class="text-[10px] font-mono text-[var(--text-muted)] uppercase tracking-widest mb-2">Section Heading — font-bold</p>
             <p class="text-2xl md:text-3xl font-bold leading-snug">
-              امنیت شبکه‌های صنعتی از سال ۱۳۸۷
+              سخت‌افزار و نرم‌افزار برای شبکه‌های صنعتی
             </p>
           </div>
 
@@ -51,12 +51,12 @@
             <p class="text-[10px] font-mono text-[var(--text-muted)] uppercase tracking-widest mb-2">Numbers / Stats</p>
             <div class="flex gap-8">
               <div>
-                <p class="text-4xl font-extrabold text-photon-400">۱۹</p>
-                <p class="text-sm text-[var(--text-muted)]">محصول</p>
+                <p class="text-4xl font-extrabold text-photon-400">۲۵</p>
+                <p class="text-sm text-[var(--text-muted)]">مدخل کاتالوگ</p>
               </div>
               <div>
-                <p class="text-4xl font-extrabold text-photon-400">۱۴۰۲</p>
-                <p class="text-sm text-[var(--text-muted)]">سال تأسیس</p>
+                <p class="text-4xl font-extrabold text-photon-400">۲</p>
+                <p class="text-sm text-[var(--text-muted)]">زبان سایت</p>
               </div>
               <div>
                 <p class="text-4xl font-extrabold text-photon-400">۶</p>
@@ -74,6 +74,11 @@
 
 <script setup lang="ts">
 definePageMeta({ layout: false })
+
+useSeoMeta({
+  title: 'Font preview | Pesaba',
+  robots: 'noindex, nofollow',
+})
 
 const fonts = [
   {

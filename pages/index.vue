@@ -132,8 +132,8 @@
               {{ locale === 'fa' ? 'درباره پرتو ارتباط صبا' : 'About Pesaba' }}
             </h2>
             <div class="space-y-5 text-base leading-relaxed text-[var(--text-secondary)]">
-              <p>{{ locale === 'fa' ? 'پرتو ارتباط صبا (پصبا) یک شرکت دانش‌بنیان ایرانی است که از سال ۱۳۸۷ در زمینه طراحی و ساخت سخت‌افزارهای امنیت شبکه و تجهیزات مخابراتی فعالیت می‌کند. مأموریت ما ارائه راهکارهای مهندسی‌شده داخلی برای چالش‌های امنیت شبکه در محیط‌های صنعتی، دولتی و اپراتوری است.' : 'Partov Ertebat Saba (Pesaba) is an Iranian knowledge-based company founded in 2008, specialising in the design and manufacture of network security hardware. Our mission is to deliver domestically engineered solutions to the most demanding network security challenges in industrial, governmental, and operator environments.' }}</p>
-              <p>{{ locale === 'fa' ? 'تیم ما متشکل از فارغ‌التحصیلان دکتری و کارشناسی ارشد از دانشگاه‌های برتر ایران است که برای بومی‌سازی فناوری‌های امنیت شبکه فعالیت می‌کنند. با بیش از یک دهه تجربه در حوزه مخابرات و امنیت، پصبا مجموعه‌ای از محصولات شامل رمزکننده‌های سخت‌افزاری، دیتا دیودها، تجهیزات پایش شبکه و انتقال مخابراتی را ارائه می‌دهد.' : 'Our team of PhD and MSc graduates from Iran\'s leading universities works to localise critical network security technology. With over a decade of experience in communications and security, Pesaba delivers hardware encryption devices, data diodes, network monitoring equipment, and telecom transmission systems.' }}</p>
+              <p>{{ locale === 'fa' ? 'پرتو ارتباط صبا در ایران محصولات سخت‌افزاری و نرم‌افزاری حوزه انتقال داده، امنیت شبکه، مخابرات و پایش را توسعه می‌دهد. کاتالوگ سایت برای هر مدل، مشخصات منتشرشده و مسیر دریافت اطلاعات تکمیلی را ارائه می‌کند.' : 'Partov Ertebat Saba develops hardware and software products in Iran for data transfer, network security, telecommunications, and monitoring. The site catalogue presents the published specifications and route to further information for each model.' }}</p>
+              <p>{{ locale === 'fa' ? 'تاریخچه ثبتی، دامنه ساخت، وضعیت گواهی، شرایط خدمات و تناسب استقرار باید با اسناد جاری و برای همان مدل، نسخه و پروژه تأیید شوند. مرکز اعتماد سایت موارد قابل انتشار و موارد نیازمند بررسی خرید را از هم جدا می‌کند.' : 'Corporate history, build scope, certification status, service terms, and deployment fit must be confirmed from current records for the specific model, revision, and project. The Trust Center separates published evidence from items that require procurement review.' }}</p>
             </div>
             <div class="flex justify-start rtl:justify-end">
               <NuxtLink :to="localePath('/company/about')" class="mt-6 inline-block text-sm font-medium text-[var(--accent)] hover:text-[var(--accent-hover)] transition-colors">
@@ -155,7 +155,7 @@
                 {{ locale === 'fa' ? 'دیتا دیودهای سری G' : 'Data Diode G-Series' }}
               </h2>
               <p class="mb-7 text-base leading-relaxed text-[#D7E6EC]">
-                {{ locale === 'fa' ? 'دیتا دیودهای سری G پرتو ارتباط صبا جداسازی فیزیکی تضمین‌شده بین شبکه‌های حساس و شبکه‌های با سطح اطمینان پایین‌تر را فراهم می‌کنند. معماری مبتنی بر FPGA انتقال یک‌طرفه داده را بدون مسیر برگشت نرم‌افزاری enforce می‌کند.' : 'Pesaba G-Series data diodes provide guaranteed physical separation between sensitive networks and lower-trust environments. FPGA-native architecture enforces one-way data transfer without a software return path.' }}
+                {{ locale === 'fa' ? 'دیتا دیودهای سری G برای انتقال یک‌طرفه میان شبکه‌ها عرضه می‌شوند. نوع جداسازی، مرز سخت‌افزاری، سرویس‌های جانبی، توان عملیاتی و آزمون پذیرش باید از مستندات مدل و نسخه انتخابی تأیید شوند.' : 'Pesaba G-Series data diodes are offered for one-way transfer between networks. Separation method, hardware boundary, ancillary services, throughput, and acceptance tests must be confirmed from the selected model and revision documentation.' }}
               </p>
               <BaseButton variant="primary" size="lg" :to="localePath('/products/data-diodes')">
                 {{ locale === 'fa' ? 'مشاهده دیتا دیودها' : 'Explore Data Diodes' }}
@@ -240,8 +240,8 @@
           <ArticleCard
             v-for="article in featuredArticles?.slice(0, 3)"
             :key="article._path"
-            :title="article.title"
-            :slug="article.slug"
+            :title="article.title || ''"
+            :slug="article.slug || ''"
             :href="localePath(`/blog/${article.slug}`)"
             :description="article.description"
             :date="article.date"
@@ -302,7 +302,7 @@ const applicationSegments = computed(() => locale.value === 'fa' ? [
     title: 'پایش کیفیت شبکه سلولی',
     desc: 'اندازه‌گیری KPI، پوشش و کیفیت تجربه از ابزار میدانی تا گزارش متمرکز.',
     to: '/use-cases/cellular-quality-monitoring',
-    tags: ['2G–5G', 'QoS', 'میدانی'],
+    tags: ['2G/3G/4G', 'QoS', 'میدانی'],
   },
   {
     badge: 'SDH',
@@ -345,7 +345,7 @@ const applicationSegments = computed(() => locale.value === 'fa' ? [
     title: 'Measure cellular network quality',
     desc: 'Track coverage, KPIs, and QoE from field probes to centralized reporting.',
     to: '/use-cases/cellular-quality-monitoring',
-    tags: ['2G–5G', 'QoS', 'Field'],
+    tags: ['2G/3G/4G', 'QoS', 'Field'],
   },
   {
     badge: 'SDH',
@@ -385,7 +385,7 @@ const featuredProducts = computed(() => [
     id: 'emx-6',
     title: 'Network Encryptor EMX-6',
     titleFa: 'رمزکننده شبکه EMX-6',
-    desc: locale.value === 'fa' ? 'رمزنگاری خطی سخت‌افزاری با سطح حمله نرم‌افزاری نزدیک به صفر.' : 'Line-rate hardware encryption with near-zero software attack surface.',
+    desc: locale.value === 'fa' ? 'رمزنگاری سخت‌افزاری AES-256 و فیلترینگ ترافیک؛ قابلیت‌های دقیق باید برای نسخه دستگاه تأیید شوند.' : 'Hardware AES-256 encryption and traffic filtering; exact capabilities must be confirmed for the device revision.',
     image: '/photos/emx-6/photo-1.webp',
     to: localePath('/products/network-encryption/emx-6'),
     class: 'col-span-1',
@@ -405,7 +405,7 @@ const featuredProducts = computed(() => [
     id: 'capella',
     title: 'Cellular Monitor Capella',
     titleFa: 'پایشگر سلولی Capella',
-    desc: locale.value === 'fa' ? 'اندازه‌گیری شاخص‌های کیفیت خدمات و تجربه (QoS/QoE) در شبکه‌های نسل ۲ تا ۵.' : 'Real-time QoS and QoE measurement in 2G to 5G networks.',
+    desc: locale.value === 'fa' ? 'اندازه‌گیری شاخص‌های کیفیت خدمات و تجربه در شبکه‌های 2G، 3G، LTE و TD-LTE.' : 'QoS and QoE measurement across 2G, 3G, LTE, and TD-LTE networks.',
     image: '/photos/capella/photo-1.webp',
     to: localePath('/products/cellular-monitoring/capella'),
     class: 'col-span-1',
@@ -424,10 +424,10 @@ const featuredProducts = computed(() => [
 ])
 
 const buildPillars = computed(() => [
-  { icon: resolveComponent('IconFpgaChip'), title: t('common.fpga_native'), desc: locale.value === 'fa' ? 'منطق مسیر داده در سخت‌افزار پیاده‌سازی می‌شود، نه روی سیستم‌عامل عمومی.' : 'The data path is implemented in hardware logic, not on a general-purpose operating system.' },
-  { icon: resolveComponent('IconAesLock'), title: t('common.os_less'), desc: locale.value === 'fa' ? 'صفحه کنترل بدون وابستگی به نرم‌افزار عمومی، با سطح حمله کوچک‌تر.' : 'Control surfaces avoid general-purpose software dependencies and reduce the attack surface.' },
-  { icon: resolveComponent('IconComplianceCert'), title: t('trust.title'), desc: locale.value === 'fa' ? 'تصمیم‌های خرید با گواهی‌نامه، SLA و تعهد قطعات یدکی پشتیبانی می‌شوند.' : 'Buying decisions are supported with certifications, SLA details, and spare-parts commitments.' },
-  { icon: resolveComponent('IconMadeInIran'), title: t('common.made_in_iran'), desc: locale.value === 'fa' ? 'طراحی، ساخت و آزمون در زنجیره مهندسی کنترل‌شده داخلی انجام می‌شود.' : 'Design, manufacturing, and validation stay inside a controlled domestic engineering chain.' },
+  { icon: resolveComponent('IconFpgaChip'), title: t('common.fpga_native'), desc: locale.value === 'fa' ? 'در مدل‌های مستندشده، بخشی از مسیر داده در منطق FPGA پیاده‌سازی می‌شود؛ مرز دقیق معماری در دیتاشیت همان مدل مشخص است.' : 'On documented models, parts of the data path use FPGA logic; the applicable datasheet defines the exact architecture boundary.' },
+  { icon: resolveComponent('IconAesLock'), title: t('common.os_less'), desc: locale.value === 'fa' ? 'برخی مدل‌ها وابستگی مسیر داده به سیستم‌عامل عمومی را کاهش می‌دهند؛ رابط مدیریت و سرویس‌های جانبی باید جداگانه ارزیابی شوند.' : 'Some models reduce general-purpose OS dependencies on the data path; management and ancillary services still require separate review.' },
+  { icon: resolveComponent('IconComplianceCert'), title: t('trust.title'), desc: locale.value === 'fa' ? 'هر ادعای گواهی، سطح خدمت یا چرخه عمر باید با مدرک دارای مدل، نسخه، دامنه و اعتبار مشخص پشتیبانی شود.' : 'Certification, service-level, and lifecycle claims require evidence with a defined model, version, scope, and validity.' },
+  { icon: resolveComponent('IconMadeInIran'), title: t('common.made_in_iran'), desc: locale.value === 'fa' ? 'دامنه طراحی، مونتاژ، آزمون و منشأ قطعات برای محصول و سفارش موردنظر در فرایند خرید تأیید می‌شود.' : 'Design, assembly, testing, and component-origin scope are confirmed for the specific product and order during procurement.' },
 ])
 
 </script>

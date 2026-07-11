@@ -21,6 +21,6 @@ HSMs store keys in secure non-volatile memory within a tamper-evident (and, at h
 
 Key security is the foundation of encryption security: if a key is compromised, all data protected with that key is compromised. HSMs provide the strongest available protection for high-value keys, including certificate authority keys, device identity keys, and session key material.
 
-## Related Pesaba Products
+## Applying This to a Product
 
-- **EMX-6** — Incorporates HSM-equivalent key storage in FPGA secure memory; keys are generated and used within the FPGA fabric and are never exposed to external interfaces.
+An encryptor should not be called an HSM or HSM-equivalent without evidence for the key boundary, interfaces, lifecycle, physical controls, and validation scope. Review the selected product's current key-management documentation instead of inferring those properties from FPGA use.

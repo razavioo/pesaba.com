@@ -78,11 +78,14 @@ const localePath = useLocalePath()
 const route = useRoute()
 const { emitArticle, emitBreadcrumbs } = useSchemaOrg()
 
-const { data: article } = await useAsyncData(`article-${route.params.slug}-${locale.value}`, () =>
-  queryContent('articles').where({ slug: route.params.slug as string, locale: locale.value }).findOne().catch(() =>
-    queryContent('articles').where({ slug: route.params.slug as string }).findOne(),
-  ),
+const articleSlug = String(route.params.slug || '')
+const { data: article } = await useAsyncData(`article-${articleSlug}-${locale.value}`, () =>
+  queryContent('articles').where({ slug: articleSlug, locale: locale.value }).findOne(),
 )
+
+if (!article.value) {
+  throw createError({ statusCode: 404, statusMessage: 'Article not found' })
+}
 
 const readingTime = computed(() => {
   if (!article.value?.body) return 5
@@ -166,28 +169,40 @@ async function shareArticle() {
 if (article.value) {
   const config = useRuntimeConfig()
   const siteUrl = (config.public.siteUrl || 'https://pesaba.com').replace(/\/$/, '')
+  const articleTitle = String(article.value.title || articleSlug)
+  const canonicalSlug = String(article.value.slug || articleSlug)
+  const articleDate = String(article.value.date || article.value.updated || '')
+  const socialImage = `${siteUrl}/og/article/${canonicalSlug}.${locale.value}.png`
   useSeoMeta({
-    title: `${article.value.title} | Pesaba`,
-    ogTitle: `${article.value.title} | Pesaba`,
+    title: `${articleTitle} | Pesaba`,
+    ogTitle: `${articleTitle} | Pesaba`,
     description: article.value.description,
     ogDescription: article.value.description,
-    ogImage: article.value.image
-      ? (article.value.image.startsWith('http') ? article.value.image : `${siteUrl}${article.value.image}`)
-      : `${siteUrl}/og/article/${article.value.slug}.svg`,
+    ogType: 'article',
+    ogImage: socialImage,
+    ogImageWidth: 1200,
+    ogImageHeight: 630,
+    ogImageType: 'image/png',
+    articlePublishedTime: articleDate,
+    articleModifiedTime: article.value.updated || articleDate,
+    twitterTitle: `${articleTitle} | Pesaba`,
+    twitterDescription: article.value.description,
+    twitterImage: socialImage,
     twitterCard: 'summary_large_image',
   })
   emitArticle({
-    title: article.value.title,
-    slug: article.value.slug,
+    title: articleTitle,
+    slug: canonicalSlug,
     description: article.value.description,
     image: article.value.image,
-    date: article.value.date,
+    date: articleDate,
     updated: article.value.updated,
+    author: article.value.author,
     locale: locale.value,
   })
   emitBreadcrumbs([
     { name: t('blog.title'), url: `/${locale.value}/blog` },
-    { name: article.value.title, url: `/${locale.value}/blog/${article.value.slug}` },
+    { name: articleTitle, url: `/${locale.value}/blog/${canonicalSlug}` },
   ])
 }
 </script>

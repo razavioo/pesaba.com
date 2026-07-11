@@ -19,9 +19,9 @@
                 <div class="label-accent mb-4">{{ $t(`products.categories.${product.category}`) }}</div>
                 <div class="mb-4 flex min-w-0 flex-wrap items-center gap-4">
                   <h1 class="product-hero-title !text-[var(--text-primary)] max-w-full font-bold">{{ product.title }}</h1>
-                  <img v-if="product.logo" :src="$withBase(product.logo)" :alt="`${product.title} logo`" class="h-10 w-auto opacity-90" loading="lazy">
+                  <img v-if="product.logo" :src="withBase(product.logo)" :alt="`${product.title} logo`" class="h-10 w-auto opacity-90" loading="lazy">
                 </div>
-                <p class="product-hero-copy mb-5 max-w-xl text-base leading-relaxed md:text-lg">{{ product.card_summary || product.description }}</p>
+                <p class="product-hero-copy mb-5 max-w-xl text-base leading-relaxed md:text-lg">{{ publicDescription(product) }}</p>
 
                 <div id="quote" class="mb-4 grid grid-cols-2 gap-3 sm:flex sm:flex-row sm:flex-wrap">
                   <BaseButton variant="primary" size="sm" :href="salesPhoneHref" class="product-hero-action">
@@ -94,7 +94,7 @@
       :aria-label="locale === 'fa' ? 'بخش‌های محصول' : 'Product sections'"
     >
       <div class="container-site">
-        <div class="flex gap-2 overflow-x-auto py-3" role="tablist">
+        <div class="flex gap-2 overflow-x-auto py-3" role="tablist" :aria-label="locale === 'fa' ? 'بخش‌های محصول' : 'Product sections'">
           <button
             v-for="tab in tabs"
             :key="tab.key"
@@ -105,8 +105,15 @@
                 : 'border-[var(--border)] bg-[var(--bg-elevated)] text-[var(--text-secondary)] hover:border-[var(--accent)] hover:bg-[var(--accent-bg)] hover:text-[var(--accent)]',
             ]"
             role="tab"
+            :id="`tab-${tab.key}`"
+            :aria-controls="`panel-${tab.key}`"
             :aria-selected="activeTab === tab.key"
+            :tabindex="activeTab === tab.key ? 0 : -1"
             @click="activeTab = tab.key"
+            @keydown.left.prevent="moveTab(-1)"
+            @keydown.right.prevent="moveTab(1)"
+            @keydown.up.prevent="moveTab(-1)"
+            @keydown.down.prevent="moveTab(1)"
           >
             {{ tab.label }}
           </button>
@@ -116,7 +123,7 @@
 
     <section class="section bg-white">
       <div class="container-site">
-        <div v-show="activeTab === 'overview'" class="grid min-w-0 gap-8 xl:grid-cols-[minmax(0,1fr)_20rem]">
+        <div id="panel-overview" role="tabpanel" aria-labelledby="tab-overview" tabindex="0" v-show="activeTab === 'overview'" class="grid min-w-0 gap-8 xl:grid-cols-[minmax(0,1fr)_20rem]">
           <div class="prose-product max-w-none border-t border-[var(--border)] pt-6">
             <template v-if="normalizedOverview">
               <h2>{{ normalizedOverview.title }}</h2>
@@ -174,7 +181,7 @@
           </div>
         </div>
 
-        <div v-show="activeTab === 'specs'" class="bg-[#093544] p-5 text-white md:p-8 lg:p-10">
+        <div id="panel-specs" role="tabpanel" aria-labelledby="tab-specs" tabindex="0" v-show="activeTab === 'specs'" class="bg-[#093544] p-5 text-white md:p-8 lg:p-10">
           <div v-if="primarySpecs.length" class="mb-8 grid gap-px bg-white/20 sm:grid-cols-2 lg:grid-cols-4">
             <div v-for="spec in primarySpecs" :key="spec.label" class="min-w-0 bg-[#093544] p-5">
               <div class="break-words text-2xl font-medium leading-tight text-white md:text-3xl">{{ spec.value }}</div>
@@ -214,7 +221,7 @@
           </div>
         </div>
 
-        <div v-show="activeTab === 'faq'" class="max-w-3xl">
+        <div id="panel-faq" role="tabpanel" aria-labelledby="tab-faq" tabindex="0" v-show="activeTab === 'faq'" class="max-w-3xl">
           <FAQItem v-for="(faq, i) in genericFAQs" :key="i" :question="faq.q" :answer="faq.a" />
         </div>
       </div>
@@ -230,10 +237,10 @@
           <ProductCard
             v-for="p in relatedProducts"
             :key="p._path"
-            :title="p.title"
-            :slug="p.slug"
+            :title="p.title || ''"
+            :slug="p.slug || ''"
             :href="localePath(`/products/${p.category}/${p.slug}`)"
-            :description="p.card_summary || p.description"
+            :description="publicDescription(p)"
             :category-label="$t(`products.categories.${p.category}`)"
             :specs="p.specs?.slice(0, 2)"
             :image="p.photos?.[0] || p.images?.[0]"
@@ -263,13 +270,20 @@ const localePath = useLocalePath()
 const route = useRoute()
 const { withBase } = useBaseUrl()
 const { salesPhoneHref } = useContactInfo()
+const { publicDescription } = useProductCopy()
 const { emitProduct, emitBreadcrumbs } = useSchemaOrg()
 const { category, slug } = route.params as { category: string; slug: string }
 
 const { data: product } = await useAsyncData(`product-${slug}-${locale.value}`, async () => {
   const matches = await queryContent('products', category).where({ slug }).find()
-  return matches.find(p => locale.value === 'fa' ? p.locale === 'fa' : !p.locale) ?? matches[0] ?? null
+  return matches.find(p => locale.value === 'fa'
+    ? p.locale === 'fa'
+    : p.locale === 'en' || !p.locale) ?? null
 })
+
+if (!product.value) {
+  throw createError({ statusCode: 404, statusMessage: 'Product not found' })
+}
 
 function normalizeMedia(items?: unknown[]) {
   const seen = new Set<string>()
@@ -346,7 +360,7 @@ type ProductOverview = {
 const PRODUCT_FEATURE_MARKERS = [
   'True one-way data transfer',
   'Unidirectional communication',
-  'Guaranteed unidirectional communication',
+  'Documented unidirectional communication',
   'Unidirectional link implemented',
   'Hardware-level separation',
   'Complete hardware-based separation',
@@ -580,11 +594,45 @@ function normalizeCompressedOverview(productValue: typeof product.value): Produc
   }
 }
 
-const normalizedOverview = computed(() => normalizeCompressedOverview(product.value))
-const productSpecs = computed(() => product.value?.specs || [])
+const reviewedOverview = computed(() => normalizeCompressedOverview(product.value))
+const normalizedOverview = computed<ProductOverview>(() => {
+  if (product.value?.evidence_reviewed === true) {
+    const overview = reviewedOverview.value
+    if (overview) return overview
+  }
+
+  const summary = publicDescription(product.value).trim()
+  return {
+    title: locale.value === 'fa' ? 'معرفی منتشرشده محصول' : 'Published product overview',
+    paragraphs: [
+      ...(summary ? [summary] : []),
+      locale.value === 'fa'
+        ? 'مشخصات، سازگاری، قابلیت‌ها و شرایط تجاری باید برای مدل و نسخه موردنظر از دیتاشیت جاری، پیشنهاد فنی یا قرارداد تأیید شوند. متن تفصیلی این محصول تا پایان بازبینی شواهد عمومی نمایش داده نمی‌شود.'
+        : 'Specifications, compatibility, capabilities, and commercial terms must be confirmed for the selected model and revision from the current datasheet, technical proposal, or contract. Detailed copy remains unpublished until its evidence review is complete.',
+    ],
+    featureHeading: '',
+    features: [],
+    linkHeading: '',
+    linkText: '',
+  }
+})
+type ProductSpec = { label: string, value: string }
+
+const productSpecs = computed<ProductSpec[]>(() => {
+  if (!Array.isArray(product.value?.specs)) return []
+  return product.value.specs.filter((spec): spec is ProductSpec => Boolean(
+    spec
+    && typeof spec === 'object'
+    && 'label' in spec
+    && typeof spec.label === 'string'
+    && 'value' in spec
+    && typeof spec.value === 'string',
+  ))
+})
 const primarySpecs = computed(() => productSpecs.value.slice(0, 4))
 const keyCapabilityItems = computed(() => {
   if (primarySpecs.value.length) return []
+  if (product.value?.evidence_reviewed !== true) return []
   return extractCapabilitiesFromBody(product.value).slice(0, 5)
 })
 const deploymentFit = computed(() => locale.value === 'fa'
@@ -609,31 +657,48 @@ const tabs = computed(() => [
   { key: 'faq', label: t('products.faq') },
 ])
 
+function moveTab(offset: number) {
+  const index = tabs.value.findIndex(tab => tab.key === activeTab.value)
+  const next = tabs.value[(index + offset + tabs.value.length) % tabs.value.length]
+  activeTab.value = next.key
+  nextTick(() => document.getElementById(`tab-${next.key}`)?.focus())
+}
+
 const genericFAQs = computed(() => locale.value === 'fa' ? [
-  { q: 'گارانتی این محصول چقدر است؟', a: 'تمامی محصولات پرتو ارتباط صبا با گارانتی ۱۲ ماهه و امکان تمدید پوشش ارائه می‌شوند.' },
-  { q: 'آیا امکان ارسال بین‌المللی وجود دارد؟', a: 'بله، صادرات به مقاصد مجاز انجام می‌شود. برای مستندات صادرات با تیم فروش تماس بگیرید.' },
-  { q: 'آیا تامین قطعات یدکی تضمین شده است؟', a: 'حداقل ۵ سال تامین قطعات یدکی برای تمامی مدل‌های تولیدی تضمین می‌شود.' },
-  { q: 'آیا فریم‌ور در محل قابل به‌روزرسانی است؟', a: 'بله، از طریق بسته‌های فریم‌ور امضاشده در پورتال مشتریان. امکان بازگشت همیشه فراهم است.' },
+  { q: 'شرایط گارانتی این محصول چیست؟', a: 'مدت، دامنه و شرایط گارانتی باید برای مدل، نسخه و سفارش موردنظر در پیشنهاد فروش یا قرارداد تأیید شود.' },
+  { q: 'آیا امکان ارسال بین‌المللی وجود دارد؟', a: 'امکان فروش و ارسال به مقصد، الزامات صادراتی و مدارک لازم باید پیش از سفارش با تیم فروش بررسی شود.' },
+  { q: 'وضعیت تامین قطعات یدکی چگونه است؟', a: 'وضعیت تولید، تعمیر و تامین قطعات به مدل، زمان سفارش و شرایط زنجیره تامین وابسته است و باید پیش از خرید استعلام شود.' },
+  { q: 'فریم‌ور چگونه به‌روزرسانی می‌شود؟', a: 'روش دریافت، راستی‌آزمایی، نصب و بازگشت نسخه بین مدل‌ها متفاوت است؛ فقط از دستورالعمل رسمی مختص همان سخت‌افزار استفاده کنید.' },
 ] : [
-  { q: 'What warranty does this product carry?', a: 'All Pesaba products carry a 12-month warranty with optional extended coverage.' },
-  { q: 'Do you ship internationally?', a: 'Yes, we export to approved territories. Contact our sales team for export documentation.' },
-  { q: 'Is spare-parts availability guaranteed?', a: 'We maintain minimum 5-year spare-parts availability for all production models.' },
-  { q: 'Can firmware be updated in the field?', a: 'Yes, via signed firmware packages delivered through our customer portal. Rollback is always available.' },
+  { q: 'What warranty applies to this product?', a: 'Warranty duration, scope, and conditions must be confirmed for the selected model, revision, and order in the sales proposal or contract.' },
+  { q: 'Do you ship internationally?', a: 'Destination eligibility, export requirements, and required documentation must be reviewed with sales before an order is accepted.' },
+  { q: 'What is the spare-parts position?', a: 'Production, repair, and parts availability depend on the model, order date, and supply conditions and must be confirmed before purchase.' },
+  { q: 'How is firmware updated?', a: 'Package delivery, verification, installation, and rollback procedures vary by model; follow only the official instructions for the exact hardware revision.' },
 ])
 
 if (product.value) {
   const config = useRuntimeConfig()
   const siteUrl = (config.public.siteUrl || 'https://pesaba.com').replace(/\/$/, '')
+  const productTitle = String(product.value.title || slug)
+  const productSlug = String(product.value.slug || slug)
+  const productCategory = String(product.value.category || category)
+  const socialImage = `${siteUrl}/og/product/${productSlug}.${locale.value}.png`
   useSeoMeta({
-    title: `${product.value.title} | Pesaba`,
-    ogTitle: `${product.value.title} | Pesaba`,
-    description: product.value.description,
-    ogDescription: product.value.description,
-    ogImage: `${siteUrl}/og/product/${product.value.slug}.svg`,
+    title: `${productTitle} | Pesaba`,
+    ogTitle: `${productTitle} | Pesaba`,
+    description: publicDescription(product.value),
+    ogDescription: publicDescription(product.value),
+    ogImage: socialImage,
+    ogImageWidth: 1200,
+    ogImageHeight: 630,
+    ogImageType: 'image/png',
+    twitterTitle: `${productTitle} | Pesaba`,
+    twitterDescription: product.value.description,
+    twitterImage: socialImage,
     twitterCard: 'summary_large_image',
   })
-  emitProduct({ name: product.value.title, nameFa: product.value.title_fa, slug: product.value.slug, category: product.value.category, description: product.value.description, image: activeGalleryImage.value || undefined, specs: product.value.specs, locale: locale.value })
-  emitBreadcrumbs([{ name: t('common.home'), url: `/${locale.value}` }, { name: 'Products', url: `/${locale.value}/products` }, { name: t(`products.categories.${product.value.category}`), url: `/${locale.value}/products/${product.value.category}` }, { name: product.value.title, url: `/${locale.value}/products/${product.value.category}/${slug}` }])
+  emitProduct({ name: productTitle, nameFa: product.value.title_fa, slug: productSlug, category: productCategory, description: publicDescription(product.value), image: activeGalleryImage.value || undefined, specs: product.value.specs, locale: locale.value })
+  emitBreadcrumbs([{ name: t('common.home'), url: `/${locale.value}` }, { name: t('products.title'), url: `/${locale.value}/products` }, { name: t(`products.categories.${productCategory}`), url: `/${locale.value}/products/${productCategory}` }, { name: productTitle, url: `/${locale.value}/products/${productCategory}/${productSlug}` }])
 }
 </script>
 

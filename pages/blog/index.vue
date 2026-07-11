@@ -47,8 +47,8 @@
           <ArticleCard
             v-for="article in remainingArticles"
             :key="article._path"
-            :title="article.title"
-            :slug="article.slug"
+            :title="article.title || ''"
+            :slug="article.slug || ''"
             :href="localePath(`/blog/${article.slug}`)"
             :description="article.description"
             :date="article.date"
@@ -67,7 +67,12 @@
 const { t, locale } = useI18n()
 const localePath = useLocalePath()
 
-useSeoMeta({ title: `${t('blog.title')} | Pesaba`, ogTitle: `${t('blog.title')} | Pesaba`, description: 'Technical articles on encryption, OT/ICS security, cellular network monitoring and telecom hardware.', ogDescription: 'Technical articles on encryption, OT/ICS security, cellular network monitoring and telecom hardware.' })
+useSeoMeta({
+  title: `${t('blog.title')} | Pesaba`,
+  ogTitle: `${t('blog.title')} | Pesaba`,
+  description: computed(() => locale.value === 'fa' ? 'مقالات فنی درباره رمزنگاری، امنیت OT/ICS، پایش شبکه سلولی و تجهیزات مخابراتی.' : 'Technical articles on encryption, OT/ICS security, cellular network monitoring and telecom hardware.'),
+  ogDescription: computed(() => locale.value === 'fa' ? 'مقالات فنی درباره رمزنگاری، امنیت OT/ICS، پایش شبکه سلولی و تجهیزات مخابراتی.' : 'Technical articles on encryption, OT/ICS security, cellular network monitoring and telecom hardware.'),
+})
 
 const { data: articles } = await useAsyncData('articles-list', () =>
   queryContent('articles').where({ locale: locale.value }).sort({ date: -1 }).find()

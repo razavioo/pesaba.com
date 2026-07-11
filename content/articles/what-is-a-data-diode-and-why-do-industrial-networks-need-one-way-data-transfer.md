@@ -2,9 +2,9 @@
 title: 'What Is a Data Diode and Why Do Industrial Networks Need One-Way Data Transfer?'
 title_fa: 'دیتا دیود چیست و چرا شبکه‌های صنعتی به انتقال یک‌طرفه داده نیاز دارند؟'
 slug: 'what-is-a-data-diode-and-why-do-industrial-networks-need-one-way-data-transfer'
-description: 'In modern industrial environments, cybersecurity risks are increasing faster than ever. Critical infrastructures such as power plants, oil and gas facilities, water treatment systems, and transportation networks rely heavily on OT and ICS s'
+description: 'A practical introduction to data diodes, one-way trust boundaries, deployment limits, and the evidence required for OT and SCADA decisions.'
 date: '2025-12-09'
-updated: '2026-02-14'
+updated: '2026-07-11'
 author: 'Pesaba Engineering'
 locale: en
 image: '/images/blog/data-diode-cover-v2.png'
@@ -16,105 +16,35 @@ related_products:
   - 'data-diode-k200'
 ---
 
-In modern industrial environments, cybersecurity risks are increasing faster than ever. Critical infrastructures such as power plants, oil and gas facilities, water treatment systems, and transportation networks rely heavily on OT and ICS systems. These networks were originally designed for stability—not security—and are now frequent targets of cyberattacks.
+Industrial networks often need to export telemetry, logs, or historian data while keeping an inbound path out of a protected zone. A data diode is one architecture for that requirement: it constrains a documented data path to one direction. It is not a universal replacement for a firewall, a maintenance path, a safety system, or a complete security program.
 
-One of the most reliable technologies developed to prevent unauthorized access and protect sensitive operational data is the Data Diode, a hardware-based one-way data transfer device.
+## What is a data diode?
 
-## **What Is a Data Diode?**
+A data diode is a hardware-based one-way communication device. The selected source and destination determine the permitted direction. The one-way claim applies to the documented data path; management interfaces, proxy services, power, maintenance, and connected equipment must be included in the threat model.
 
-A data diode is a physical, hardware-enforced one-way communication device that allows data to move in only one direction—from a secure network to a less secure network—without any possibility of reverse communication.
+## How does one-way transfer work?
 
-Unlike firewalls, which depend on software rules and are vulnerable to misconfiguration and zero-day exploits, data diodes use physical separation to guarantee that no data can ever return to the protected network.
+The device uses a transmit/receive architecture intended to prevent a return signal on the protected path. Before procurement, verify the exact model, direction labels, interfaces, protocol bridge, overload behaviour, power-loss behaviour, and acceptance test. A diagram should show the source zone, destination zone, management plane, and any proxy or historian service.
 
-This makes them one of the most trusted technologies for high-security industries.
+## Data diode or firewall?
 
-![What Is a Data Diode](/images/blog/3ccc02cca1dd208e364738c0b.webp)
+The controls solve different problems. A firewall applies configurable policy and can support bidirectional traffic, identity, and maintenance. A data diode is appropriate when a flow must be strictly one-way and a return channel is not required. Many OT designs use both: a diode for the export path and a separately governed bidirectional path for management.
 
-## **How Does One-Way Data Transfer Work?**
+| Question | Data diode | Firewall |
+| --- | --- | --- |
+| Direction | Fixed or constrained one-way path for the selected model | Usually bidirectional policy enforcement |
+| Configuration | Hardware direction plus model-specific services | Rules, software, identity, and management policy |
+| Reverse-path risk | Reduced on the documented data path; verify interfaces and tests | Depends on rules, software, and operational controls |
+| Maintenance | Requires a separately designed and approved path | Can be part of the policy plane |
+| Evidence | Direction, fault, overload, protocol, and acceptance tests | Rule review, hardening, updates, and monitoring |
 
-A data diode uses hardware logic that allows only outbound data flow. Here’s what happens internally:
+## Practical use cases
 
-- Data is transmitted through a **TX-only channel**
-- The **RX path does not physically exist** → making reverse communication impossible
-- Attackers cannot send packets, commands, malware, or exploits back into the secure network
-- The secure network remains **isolated**, even while sending telemetry or monitoring data to external systems
+- exporting SCADA or historian telemetry to a monitoring zone;
+- forwarding logs to a security monitoring system;
+- separating an OT data-export path from a separately controlled maintenance path;
+- sending approved camera or sensor streams where the selected model supports them.
 
-This design provides absolute protection against:
+Do not infer protocol support, throughput, certification, or customer deployment from the generic term “data diode”. Confirm the exact model and revision in the current technical package.
 
-- Malware injection
-- Network scanning
-- Remote command execution
-- Ransomware propagation
-- Zero-day vulnerabilities
-
-## **Why Industrial Networks Need One-Way Data Transfer**
-
-OT/ICS environments often support equipment that must run continuously and cannot tolerate downtime. A cyberattack could result in:
-
-- Production shutdown
-- Safety hazards
-- Environmental damage
-- Financial loss
-- Manipulation of sensors and controllers
-
-A data diode prevents these threats by ensuring:
-
-- **Protected control network → cannot be accessed from outside**
-- **Monitoring data → can safely leave the secure network**
-
-This balance of visibility and protection is why many industries consider data diodes essential.
-
-## **Comparison: Firewall vs. Data Diode**
-
-| Feature | Data Diode | Firewall |
-| :--- | :--- | :--- |
-| **Communication Type** | One-way (Unidirectional) | Two-way (Bidirectional) |
-| **Operating System** | None (OS-less architecture) | Yes (OS-dependent) |
-| **Rules Complexity** | None (No complex rule management) | High (Requires complex configuration rules) |
-| **Human Config Dependency** | Extremely low (Hardware-enforced routing) | High (Human misconfiguration poses severe risk) |
-| **Hackability** | Practically unhackable (No remote inbound path) | Vulnerable (Exposed to software and zero-day exploits) |
-| **Security Level** | Physical layer security | Logical/software layer security |
-| **Main Purpose** | Perfect isolation of sensitive networks | Network traffic filtering and monitoring |
-| **Critical Infrastructure** | Highly suitable and industry recommended | Usually insufficient on its own |
-
-## **Key Benefits of Using Data Diodes**
-
-### **1. Maximum Security with Zero Attack Surface**
-
-No operating system, no software vulnerabilities—pure hardware.
-
-### **2. Guaranteed No Return Path**
-
-Even if the external network is fully compromised, it cannot send anything back.
-
-### **3. Compliance with Industrial Security Standards**
-
-Many frameworks now recommend or require unidirectional gateways (e.g., ISA/IEC 62443).
-
-### **4. Stable 24/7 Operation**
-
-Designed for mission-critical environments.
-
-### **5. Protects Legacy Systems**
-
-Older OT equipment cannot be patched—but can be isolated with a data diode.
-
-## **Common Use Cases of Data Diodes**
-
-- SCADA data transfer to enterprise networks
-- Secure communication between control room and monitoring center
-- Logging and telemetry collection
-- Remote monitoring of industrial processes
-- Protecting critical infrastructure from cyberattacks
-- Isolating OT networks from IT networks
-- Safe integration with cloud platforms
-
-[Explore Pesaba data-diode products](/products/data-diodes)
-
-## **Conclusion**
-
-Data diodes are among the most secure and effective technologies for protecting industrial networks. With rising cyber threats targeting critical infrastructures, organizations need a reliable method to guarantee network isolation without sacrificing visibility.
-
-One-way data transfer technologies ensure operational continuity while eliminating the possibility of inbound cyberattacks.
-
-If your organization handles critical operations, now is the time to consider implementing a hardware-based data diode solution.
+[Review Pesaba data-diode products](/products/data-diodes)

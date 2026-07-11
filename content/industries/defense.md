@@ -2,7 +2,7 @@
 title: 'Defense'
 title_fa: 'دفاع'
 slug: 'defense'
-description: 'Hardened, OS-less network security for defense infrastructure with the highest assurance levels.'
+description: 'Network isolation and encryption options for organisations evaluating controlled data transfer in defence environments.'
 locale: en
 products:
   - 'data-diode-k200'
@@ -10,23 +10,23 @@ products:
   - 'emx-6'
 faqs:
   - q: 'Can the devices be independently evaluated for assurance?'
-    a: 'Yes. Pesaba provides full hardware documentation, FPGA netlist review capability, and test fixtures for independent evaluation. We are pursuing EAL2+ Common Criteria evaluation.'
+    a: 'Evaluation scope and available evidence are product- and project-specific. Request current design documentation, test evidence, third-party reports, and certificate identifiers for the exact model and version. Do not infer Common Criteria or another certification unless a current certificate names that product and version.'
   - q: 'What is the physical security posture of the devices?'
-    a: 'Devices include tamper-evident seals and the FPGA bitstream is encrypted and signed. Physical inspection procedures are documented in the security target.'
+    a: 'Physical-security features vary by model and configuration. Define requirements for tamper evidence or response, bitstream and boot protection, key zeroisation, enclosure inspection, and chain of custody, then verify each requirement against the supplied product documentation and test evidence.'
   - q: 'How are key management and rotation handled for EMX-6 in a defense environment?'
-    a: 'EMX-6 supports external key injection via a local management port isolated from the data path. Key rotation can be scheduled or manually triggered; the device never transmits keying material over the data interface.'
+    a: 'Confirm the required key-injection, storage, rotation, recovery, audit, and role-separation workflow for the exact EMX-6 hardware and firmware release. Request the current key-management documentation and acceptance-test procedure before deployment.'
 ---
 
 ## The Challenge
 
-Defense networks require the highest levels of assurance for cross-domain data transfer. Intelligence data, command-and-control communications, and sensor feeds must be shared across classification boundaries — between classified tactical networks, unclassified logistics systems, and command infrastructure — without any possibility of data flowing in the unintended direction. The margin for error is zero.
+Defence organisations may need to move selected data between networks with different trust or classification levels while constraining return traffic. The required assurance depends on the information classification, threat model, approved architecture, operational process, and applicable procurement rules.
 
 ## Why It Matters
 
-- **No software-based assurance is sufficient:** Firewalls and security gateways are software — they can be misconfigured, exploited, or patched incorrectly. In defense environments, only hardware-enforced isolation provides the assurance required.
-- **Cross-domain solution requirements:** Defense cross-domain solutions must be evaluated, documented, and operationally verified. Hardware data diodes provide a physically demonstrable one-way property that can be independently verified.
-- **Operational continuity:** Under adversarial network conditions, defense systems must continue to operate. Hardware isolation devices with no software stack have no software to exploit and no patch cycle to manage.
+- **Risk reduction, not immunity:** Software gateways can be misconfigured or affected by vulnerabilities. A hardware-enforced one-way path can reduce reverse-path risk, but overall assurance still depends on implementation, interfaces, configuration, connected services, and verification.
+- **Evidence must match the deployment:** Security documentation, test results, approvals, and certificates should identify the exact model, hardware revision, firmware release, configuration, and evaluated boundary.
+- **Operational continuity:** A reduced software stack on the data path may reduce some patching and exploit exposure. Availability and recovery objectives still require architecture review, environmental qualification, redundancy planning, and acceptance testing.
 
 ## How Pesaba Solves It
 
-Pesaba data diodes use FPGA-native optical hardware to implement a physically enforced one-way path. There is no CPU, no OS, no network stack, and no software on the data path — making the isolation property immune to software-based attack. Devices are manufactured in Iran, eliminating foreign supply-chain exposure. For encrypted high-assurance links, EMX-6 provides AES-256-GCM without a general-purpose processor on the encryption path.
+Pesaba's data-diode portfolio is described as using hardware separation and, on selected models, optical links and FPGA processing to constrain data flow to one direction. These controls can reduce reverse-path and general-purpose operating-system exposure, but assurance depends on the selected model, proxy services, management interfaces, configuration, and verification. EMX-6 is documented as an FPGA-based AES-256 network encryptor; encryption mode, throughput, key management, and any cryptographic validation must be confirmed for the exact hardware and firmware release. Manufacturing scope and component origin are project-specific and should be recorded in procurement evidence.

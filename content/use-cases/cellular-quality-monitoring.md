@@ -2,8 +2,8 @@
 title: 'Cellular Quality Monitoring'
 title_fa: 'پایش کیفیت شبکه سلولی'
 slug: 'cellular-quality-monitoring'
-description: 'Measure, capture, and analyse mobile network KPIs across 2G/3G/4G/5G in real time.'
-tagline: 'Measurement before decision.'
+description: 'Collect and analyse documented mobile-service and radio measurements across 2G, 3G, LTE, and TD-LTE.'
+tagline: 'Comparable results start with a controlled measurement method.'
 locale: en
 products:
   - 'capella'
@@ -16,40 +16,35 @@ products:
 
 ## What It Is
 
-Cellular quality monitoring is the systematic collection, logging, and analysis of radio access network (RAN) and core network performance indicators across all generations of mobile technology — from legacy 2G voice through 5G NR data. It encompasses drive testing (measurements taken from a moving vehicle along a route), walk testing (indoor and pedestrian measurements), and passive network-side probing that captures signalling and user-plane KPIs without generating artificial traffic. The results feed optimisation decisions, regulatory quality-of-service reporting, and competitive benchmarking.
+Cellular quality monitoring combines controlled service tests, radio measurements, network-side observations, location and time data, and repeatable analysis. Depending on the method, it can support drive testing, fixed monitoring, coverage review, troubleshooting, QoS and QoE analysis, capacity planning, and reporting. Comparisons are meaningful only when devices, routes, SIM profiles, scripts, time windows, RATs, software versions, and statistics are recorded.
 
 ## Why It Matters
 
-- **Data-driven network optimisation:** Without objective, geo-referenced measurements of RSRP, RSRQ, SINR, throughput, and call-drop rates, radio engineers rely on guesswork. Systematic drive and walk test data pinpoints coverage gaps, handover failures, and interference hotspots with the precision needed to justify capital expenditure on new sites or antenna adjustments.
-- **Regulatory QoS compliance:** National telecommunications regulators require operators to demonstrate network quality through independent, repeatable measurement campaigns. Failure to meet published QoS thresholds carries financial penalties and reputational damage. A complete measurement suite — scanner, test device, and analysis software — provides the audit trail regulators expect.
-- **Competitive benchmarking:** Operators and regulators need side-by-side comparison of multiple networks measured simultaneously under identical conditions. Multi-operator drive-test setups capture the relative performance of competing networks on the same route at the same time, providing the only fair basis for comparative reporting.
+- **Traceable optimisation:** Geo-referenced radio and service measurements can help teams investigate coverage, handover, call, data, and application issues.
+- **Repeatable reporting:** A regulator or internal assurance team needs the method, raw evidence, exclusions, uncertainty, and calculation rules, not just a dashboard value.
+- **Privacy and security:** Packet capture, signalling logs, location, and subscriber-related tests may contain personal or confidential information and need lawful purpose, minimisation, access control, retention, and deletion rules.
 
-## How Pesaba Solves It
+## Documented Pesaba Roles
 
-Pesaba's cellular monitoring portfolio covers the complete measurement chain: hardware scanners that passively receive and decode pilot signals from all visible base stations, test mobile devices that generate real end-user traffic for throughput and latency measurement, and analysis software that correlates GPS position with radio KPIs to produce geo-referenced heat maps and structured reports. All devices are designed for high-sensitivity reception in weak-coverage and deep-indoor environments, and the software stack supports all major 2G/3G/4G/5G frequency bands deployed in Iran and the broader region.
+- **Venus Netsens** is documented as a smartphone drive-test application for radio, serving and neighbour-cell, RRC/NAS, voice, data, SMS, indoor, and outdoor measurements.
+- **Auriga** is documented as an automated modem-based monitoring system for voice, data, web, streaming, coverage, QoE, and QoS observations.
+- **Capella** is documented as a mobile-service quality solution for calls, SMS, USSD, data, multimedia, KPI, and KQI measurement.
+- **Venus Pioneer** is documented as the aggregation, analysis, geographic visualisation, and reporting platform for Venus measurement sources.
+- **Venus Challenger** is documented as a 2G, 3G, LTE, and TD-LTE analysis and optimisation platform with test scripts, dashboards, alarms, and capacity-planning functions.
+- **Saturn** is documented as a PCAP capture, session-metadata indexing, search, and export system.
 
-## Recommended Products
-
-- **Capella** — Multi-band passive scanner for simultaneous measurement of 2G/3G/4G/5G pilot signals; outputs per-cell RSRP, RSRQ, and timing advance with GPS tagging.
-- **Auriga** — Drive-test data logger and analysis platform; combines scanner feeds with test-device throughput logs into a single geo-referenced dataset.
-- **Saturn** — Indoor walk-test kit with compact form factor; optimised for measurement in tunnels, shopping centres, hospitals, and multi-storey buildings.
-- **Venus NetSens** — Network-side passive probe for core and RAN signalling analysis without test traffic generation.
-- **Venus Challenger** — Automated test device controller for scheduled throughput and latency measurements on live subscriber SIMs.
-- **Venus Pioneer** — Field-portable all-in-one drive-test device combining scanner and test-SIM functions in a single ruggedised unit.
+The current public product records do not establish 5G NR support. They also do not substantiate blanket coverage of every Iranian band, simultaneous measurement of every operator, third-party probe APIs, regulator-approved templates, or the previously listed GENEX, TEMS, and MapInfo exports.
 
 ## Frequently Asked Questions
 
-**Q: What frequency bands does the Capella scanner support?**
-A: Capella covers all bands allocated in Iran and the region including 900 MHz, 1800 MHz, 2100 MHz (WCDMA and LTE), 2600 MHz, and 700/800 MHz. Band configuration is field-updatable via firmware.
+**Q: Which RATs and bands are supported?**
+A: Selected records list 2G, GPRS, UMTS, LTE, and TD-LTE. Obtain a release-specific matrix of RAT, band, bandwidth, duplex mode, device or modem, chipset, operating system, and measured parameters. Do not infer 5G support from the product family name.
 
-**Q: Can Pesaba tools produce reports in the format required by the Communications Regulatory Authority?**
-A: Yes. The Auriga analysis platform includes report templates aligned with the KPI definitions and submission formats required by Iranian and regional telecommunications regulators.
+**Q: Can several operators be compared simultaneously?**
+A: This depends on the number of independent modems or phones, SIM configuration, scan and test concurrency, antenna arrangement, timing, and licensing. Require a test design that proves simultaneous collection under comparable conditions.
 
-**Q: How many networks can be measured simultaneously in a drive-test campaign?**
-A: The Capella scanner measures all visible cells from all operators simultaneously on a single pass, enabling true multi-operator benchmarking without repeated drive routes.
+**Q: Are reports accepted by a regulator?**
+A: No regulator approval is established in the current public evidence. Map each required KPI, formula, sample rule, file format, audit field, and submission workflow to the exact software release and obtain written acceptance where needed.
 
-**Q: Is it possible to measure indoor coverage without driving or walking the entire building?**
-A: The Venus NetSens passive probe can be deployed at fixed indoor points to log ongoing signal quality continuously. For a comprehensive indoor survey the Saturn walk-test kit provides the most complete geo-referenced picture.
-
-**Q: What output formats does the analysis software support?**
-A: Auriga exports to GENEX, TEMS Investigation, MapInfo, KMZ/KML for Google Earth, and CSV for integration with custom analysis pipelines.
+**Q: What should be verified for Saturn?**
+A: Verify lawful capture scope, sustained throughput, packet loss, timestamp accuracy, storage duration, encryption, access control, deletion, search performance, supported protocols, and whether any subscriber correlation is actually licensed and documented.

@@ -1,8 +1,8 @@
 #!/usr/bin/env tsx
 /**
  * generate-redirects.ts
- * Reads ../data/manifest.json (all old URLs) and writes
- * server/middleware/redirects.ts mapping old → new kebab-case slugs.
+ * Reads ../data/manifest.json (all old URLs) and writes the legacy URL map.
+ * Runtime decoding and redirect safety remain in server/middleware/redirects.ts.
  */
 
 import fs from 'node:fs'
@@ -11,8 +11,17 @@ import path from 'node:path'
 const ROOT = path.resolve(import.meta.dirname, '..')
 const DATA = path.resolve(ROOT, '../data')
 
+function safeDecode(value: string): string {
+  try {
+    return decodeURIComponent(value)
+  }
+  catch {
+    return value
+  }
+}
+
 function kebab(s: string): string {
-  return decodeURIComponent(s)
+  return safeDecode(s)
     .toLowerCase()
     .replace(/\s+/g, '-')
     .replace(/[^\w/-]/g, '-')
@@ -72,7 +81,7 @@ interface ManifestEntry {
 }
 
 function mapOldUrl(url: string): string | null {
-  const decoded = decodeURIComponent(url).replace(/\s+/g, '-').toLowerCase()
+  const decoded = safeDecode(url).replace(/\s+/g, '-').toLowerCase()
 
   // /fa/products/... or /en/products/...
   const prodMatch = decoded.match(/^\/(fa|en)\/products?\/([\w\s-]+)\/?$/)
@@ -127,26 +136,10 @@ for (const entry of manifest) {
   }
 }
 
-const code = `// AUTO-GENERATED — do not edit manually. Run \`npm run gen:redirects\` to update.
-import type { H3Event } from 'h3'
-import { sendRedirect } from 'h3'
+const sortedRedirects = Object.fromEntries(Object.entries(redirects).sort(([left], [right]) => left.localeCompare(right)))
+const code = `// AUTO-GENERATED - do not edit manually. Run \`npm run gen:redirects\` to update.\nexport const REDIRECTS: Record<string, string> = ${JSON.stringify(sortedRedirects, null, 2)}\n`
 
-const REDIRECTS: Record<string, string> = ${JSON.stringify(redirects, null, 2)}
-
-export default defineEventHandler((event: H3Event) => {
-  const url = event.path ?? event.node.req.url ?? ''
-  // Check both raw and decoded forms
-  const decoded = decodeURIComponent(url).split('?')[0]
-  const raw = url.split('?')[0]
-
-  const target = REDIRECTS[decoded] ?? REDIRECTS[raw]
-  if (target) {
-    return sendRedirect(event, target, 301)
-  }
-})
-`
-
-const outPath = path.resolve(ROOT, 'server/middleware/redirects.ts')
+const outPath = path.resolve(ROOT, 'server/redirects-map.ts')
 fs.writeFileSync(outPath, code, 'utf-8')
 console.log(`Generated ${outPath}`)
 console.log(`  ${mapped} redirects mapped, ${skipped} skipped`)

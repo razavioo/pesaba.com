@@ -1,0 +1,2 @@
+claim_id,product_slug,locale,claim,source_type,source_id,model_revision,scope,valid_from,valid_until,owner,reviewer,status,notes
+EXAMPLE-A10-001,a10,en,"One-way data path between the documented interfaces",datasheet,REPLACE-ME,REPLACE-ME,"specific interface and firmware configuration",,,,product-owner,security-reviewer,pending,"Replace every placeholder before setting evidence_reviewed: true"
