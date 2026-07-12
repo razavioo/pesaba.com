@@ -7,7 +7,7 @@ category: 'security-architecture'
 locale: fa
 related_products:
   - 'emx-6'
-  - 'data-diode-g200'
+  - 'g200'
 ---
 
 ## تعریف

@@ -19,9 +19,29 @@
       </div>
     </section>
     <div class="container-prose py-12 lg:py-16 mx-auto px-6">
-      <div class="prose-article"><ContentRenderer :value="term" /></div>
-      <div class="mt-12 pt-8 border-t border-ink-700/50">
-        <NuxtLink :to="localePath('/glossary')" class="text-sm text-[#1F7994] hover:text-[#AAC5D0] transition-colors">{{ $t('glossary.all_terms') }}</NuxtLink>
+      <div class="prose-article"><ContentRenderer :value="termContent" /></div>
+      <section
+        v-if="relatedProducts.length"
+        id="محصولات-مرتبط-پرتو-ارتباط-صبا"
+        class="mt-12 border-t border-[var(--border)] pt-8"
+        :aria-label="locale === 'fa' ? 'محصولات مرتبط پرتو ارتباط صبا' : 'Related Pesaba products'"
+      >
+        <div class="grid gap-5 md:grid-cols-2">
+          <ProductCard
+            v-for="product in relatedProducts"
+            :key="product._path"
+            :title="product.title || ''"
+            :slug="product.slug || ''"
+            :href="localePath(`/products/${product.category}/${product.slug}`)"
+            :description="productDescription(product)"
+            :category-label="product.category ? $t(`products.categories.${product.category}`) : undefined"
+            :specs="product.specs?.slice(0, 2)"
+            :image="product.photos?.[0] || product.images?.[0]"
+          />
+        </div>
+      </section>
+      <div v-if="!relatedProducts.length" class="sr-only">
+        {{ locale === 'fa' ? 'محصول مرتبطی ثبت نشده است.' : 'No related products listed.' }}
       </div>
     </div>
   </div>
@@ -33,6 +53,56 @@ const route = useRoute()
 const { emitGlossaryTerm, emitBreadcrumbs } = useSchemaOrg()
 const termSlug = String(route.params.slug || '')
 const { data: term } = await useAsyncData(`glossary-${termSlug}-${locale.value}`, () => queryContent('glossary').where({ slug: termSlug, locale: locale.value }).findOne())
+
+const { data: products } = await useAsyncData(`glossary-products-${termSlug}-${locale.value}`, () => queryContent('products').find())
+
+const productDescription = (product: any) => locale.value === 'fa'
+  ? product.description || product.description_fa || ''
+  : product.description_en || product.description || ''
+
+function nodeText(node: any): string {
+  if (typeof node === 'string') return node
+  if (!node) return ''
+  if (typeof node.value === 'string') return node.value
+  return Array.isArray(node.children) ? node.children.map(nodeText).join('') : ''
+}
+
+const termContent = computed(() => {
+  if (!term.value?.body?.children || !Array.isArray(term.value.body.children)) return term.value
+
+  const children = term.value.body.children
+  const relatedHeadingIndex = children.findIndex((node: any) =>
+    node?.tag === 'h2' && /related products|محصولات مرتبط/.test(nodeText(node)),
+  )
+  if (relatedHeadingIndex < 0) return term.value
+
+  let nextHeadingIndex = relatedHeadingIndex + 1
+  while (nextHeadingIndex < children.length && children[nextHeadingIndex]?.tag !== 'h2') nextHeadingIndex += 1
+
+  return {
+    ...term.value,
+    body: {
+      ...term.value.body,
+      children: [
+        ...children.slice(0, relatedHeadingIndex),
+        ...children.slice(nextHeadingIndex),
+      ],
+    },
+  }
+})
+
+const relatedProducts = computed(() => {
+  const relatedSlugs = Array.isArray(term.value?.related_products) ? term.value.related_products : []
+  if (!relatedSlugs.length) return []
+
+  return relatedSlugs
+    .map((relatedSlug: string) => products.value?.find((product: any) =>
+      (product.slug === relatedSlug || product._path?.split('/').pop() === relatedSlug)
+      && product.active !== false
+      && (locale.value === 'fa' ? product.locale === 'fa' : product.locale !== 'fa'),
+    ))
+    .filter(Boolean)
+})
 
 if (!term.value) {
   throw createError({ statusCode: 404, statusMessage: 'Glossary term not found' })

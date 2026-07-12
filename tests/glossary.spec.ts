@@ -98,4 +98,20 @@ test.describe('Glossary term page', () => {
     await goto(page, `${FA}/glossary/${TERM_SLUG}`)
     await expect(page.getByRole('heading', { level: 1 })).toBeVisible()
   })
+
+  test('related products link to product pages', async ({ page }) => {
+    await goto(page, `${FA}/glossary/pki`)
+    const productLink = page.locator('a[href="/fa/products/network-encryption/emx-6"]')
+    await expect(productLink).toBeVisible()
+    await expect(page.getByRole('heading', { name: 'محصولات مرتبط پرتو ارتباط صبا' })).toHaveCount(0)
+    await expect(page.getByText('همه اصطلاحات')).toHaveCount(0)
+  })
+
+  test('related product content is rendered once with the glossary anchor', async ({ page }) => {
+    await goto(page, `${FA}/glossary/os-less#محصولات-مرتبط-پرتو-ارتباط-صبا`)
+    await expect(page.locator('#محصولات-مرتبط-پرتو-ارتباط-صبا')).toBeVisible()
+    await expect(page.getByText('رمزنگار FPGA-محور بدون سیستم‌عامل؛ هیچ OS patch cycle ندارد.')).toHaveCount(0)
+    await expect(page.locator('a[href="/fa/products/network-encryption/emx-6"]')).toHaveCount(1)
+    await expect(page.locator('a[href="/fa/products/data-diodes/g200"]')).toHaveCount(1)
+  })
 })
