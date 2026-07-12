@@ -14,7 +14,7 @@
       </div>
     </section>
 
-    <section class="sticky top-16 z-20 border-b border-[var(--border)] bg-[#F6F6F6]">
+    <section class="sticky top-[5.125rem] z-20 border-b border-[var(--border)] bg-[#F6F6F6] md:top-[6.25rem]">
       <div class="container-site py-4">
         <div class="grid gap-4 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-center">
           <input
@@ -45,7 +45,7 @@
 
     <section class="section">
       <div class="container-site">
-        <div v-for="letter in activeLettersArray" :id="`letter-${letter}`" :key="letter" class="mb-10 scroll-mt-32">
+        <div v-for="letter in activeLettersArray" :id="`letter-${letter}`" :key="letter" class="mb-10 scroll-mt-[10.5rem]">
           <div class="mb-4 flex items-center gap-3 border-b border-[var(--border)] pb-2">
             <span class="text-sm font-mono uppercase tracking-[0.18em] text-[var(--accent)]">{{ letter }}</span>
             <span class="text-xs text-[var(--text-muted)]">{{ filteredByLetter[letter].length }}</span>

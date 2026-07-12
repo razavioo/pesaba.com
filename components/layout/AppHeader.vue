@@ -3,7 +3,7 @@
     ref="headerRef"
     :class="[
       'site-header container-wide sticky top-0 z-50 pointer-events-none transition-all duration-300',
-      scrolled ? 'site-header--scrolled pt-1.5 md:pt-2' : 'pt-8',
+      scrolled ? 'site-header--scrolled pt-1.5 pb-px md:pt-2' : 'pt-8',
     ]"
     role="banner"
   >
@@ -14,7 +14,7 @@
       <nav aria-label="Main Menu" class="flex h-14 justify-between items-center w-full">
         <!-- Logo -->
         <NuxtLink :to="localePath('/')" class="flex items-center gap-2.5 shrink-0 me-4" :aria-label="$t('meta.site_name')">
-          <NuxtImg src="/logo.png" alt="Pesaba" class="h-8 w-8" />
+          <NuxtImg src="/pesaba-mark.svg" alt="Pesaba" class="h-8 w-8" />
           <div class="hidden sm:block">
             <div class="text-sm font-bold tracking-wider font-display text-[#27282D]">Pesaba</div>
           </div>
@@ -100,7 +100,7 @@
         <!-- Header inside mobile menu drawer -->
         <div class="flex justify-between items-center mb-12">
           <NuxtLink :to="localePath('/')" class="flex items-center gap-2.5" @click="mobileOpen = false">
-            <NuxtImg src="/logo.png" alt="Pesaba" class="h-8 w-8 brightness-0 invert" />
+            <NuxtImg src="/pesaba-mark.svg" alt="Pesaba" class="h-8 w-8" />
             <div class="text-sm font-bold tracking-wider font-display text-white">Pesaba</div>
           </NuxtLink>
 
@@ -299,6 +299,18 @@ onUnmounted(() => {
   bottom: 0;
   left: calc(50% - 50vw);
   width: 100vw;
+  z-index: -1;
+  background: #093544;
+  pointer-events: none;
+}
+
+.site-header--scrolled::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: calc(50% - 50vw);
+  width: 100vw;
+  height: 6px;
   z-index: -1;
   background: #093544;
   pointer-events: none;

@@ -61,7 +61,7 @@
     </section>
 
     <!-- Recommended Products -->
-    <section v-if="industryProducts.length" id="products" class="border-t border-[var(--border)]">
+    <section v-if="industryProducts.length" id="products" class="scroll-mt-[10rem] border-t border-[var(--border)]">
       <div class="container-site py-16">
         <div class="mb-10">
           <h2 class="text-2xl font-bold text-[var(--text-primary)]">
@@ -85,7 +85,7 @@
     </section>
 
     <!-- Use Cases -->
-    <section v-if="latestArticles?.length" id="use-cases" class="border-t border-[var(--border)]">
+    <section v-if="latestArticles?.length" id="use-cases" class="scroll-mt-[10rem] border-t border-[var(--border)]">
       <div class="container-site py-16">
         <h2 class="text-2xl font-bold text-[var(--text-primary)] mb-8">
           {{ locale === 'fa' ? 'کاربردهای مرتبط' : 'Related Use Cases' }}
@@ -122,7 +122,7 @@
     </section>
 
     <!-- FAQ -->
-    <section v-if="industry.faqs?.length" id="faq" class="border-t border-[var(--border)]">
+    <section v-if="industry.faqs?.length" id="faq" class="scroll-mt-[10rem] border-t border-[var(--border)]">
       <div class="container-site py-16">
         <h2 class="text-2xl font-bold text-[var(--text-primary)] mb-8">
           {{ $t('industries.faq_title') }}
@@ -138,11 +138,13 @@
       </div>
     </section>
 
-    <CTAStrip
-      :headline="$t('industries.cta_headline')"
-      :primary-label="$t('industries.cta_primary')"
-      :primary-href="localePath('/company/contact')"
-    />
+    <div id="contact" class="scroll-mt-[10rem]">
+      <CTAStrip
+        :headline="$t('industries.cta_headline')"
+        :primary-label="$t('industries.cta_primary')"
+        :primary-href="localePath('/company/contact')"
+      />
+    </div>
   </div>
 </template>
 

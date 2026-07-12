@@ -786,11 +786,15 @@
   /* ─── Anchor nav bar (sticky, below hero) ────────────────────────────── */
   .anchor-nav {
     position: sticky;
-    top: 7rem;
+    top: 6.25rem;
     z-index: 20;
     border-bottom: 1px solid var(--border);
     background: #fff;
     box-shadow: 0 12px 30px rgba(9, 53, 68, 0.08);
+  }
+
+  @media (max-width: 47.99rem) {
+    .anchor-nav { top: 5.125rem; }
   }
   .anchor-nav a {
     white-space: nowrap;

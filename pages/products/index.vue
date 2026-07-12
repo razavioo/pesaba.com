@@ -30,7 +30,7 @@
       </div>
     </section>
 
-    <section class="sticky top-24 z-20 border-b border-[var(--border)] bg-white shadow-[0_12px_30px_rgba(9,53,68,0.08)]">
+    <section class="sticky top-[5.125rem] z-20 border-b border-[var(--border)] bg-white shadow-[0_12px_30px_rgba(9,53,68,0.08)] md:top-[6.25rem]">
       <div class="container-site">
         <div class="flex gap-2 overflow-x-auto py-3">
           <a
@@ -47,7 +47,7 @@
 
     <section class="section">
       <div class="container-site space-y-14">
-        <div v-for="cat in categories" :id="cat.key" :key="cat.key" class="scroll-mt-32">
+        <div v-for="cat in categories" :id="cat.key" :key="cat.key" class="scroll-mt-[10.5rem]">
           <div class="mb-6 flex items-end justify-between gap-6 border-b border-[var(--border)] pb-5">
             <div>
               <div class="label-meta mb-2 text-sm md:text-base">{{ cat.products.length }} {{ locale === 'fa' ? 'محصول' : 'products' }}</div>
