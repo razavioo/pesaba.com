@@ -105,9 +105,10 @@
   }
 
   /* Selection */
-  ::selection {
-    background-color: rgba(31, 121, 148, 0.2);
-    color: var(--text-primary);
+  ::selection,
+  ::-moz-selection {
+    background-color: var(--blue-sky);
+    color: var(--blue-strong);
   }
 
   /* Scrollbar */
