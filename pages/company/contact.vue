@@ -96,7 +96,7 @@
                   </button>
                 </div>
                 <div class="label-meta mb-1">{{ $t('contact.email') }}</div>
-                <a :href="salesEmailHref" class="text-xs lg:text-sm font-semibold text-[var(--text-primary)] hover:text-[#1F7994] break-all transition-colors" dir="ltr">
+                <a :href="salesEmailHref" class="text-xs font-semibold text-[var(--text-primary)] hover:text-[#1F7994] break-all transition-colors" dir="ltr">
                   {{ salesEmail }}
                 </a>
               </div>
@@ -115,7 +115,7 @@
                   </button>
                 </div>
                 <div class="label-meta mb-1">{{ $t('footer.phone') }}</div>
-                <a :href="salesPhoneHref" class="text-xs lg:text-sm font-semibold text-[var(--text-primary)] hover:text-[#1F7994] transition-colors" dir="ltr">
+                <a :href="salesPhoneHref" class="text-xs font-semibold text-[var(--text-primary)] hover:text-[#1F7994] transition-colors" dir="ltr">
                   {{ salesPhoneDisplayInternational }}
                 </a>
               </div>
@@ -142,7 +142,7 @@
                   :href="linkedinUrl"
                   target="_blank"
                   rel="noopener noreferrer"
-                  class="text-xs lg:text-sm font-semibold text-[var(--text-primary)] hover:text-[#1F7994] break-all transition-colors"
+                  class="text-xs font-semibold text-[var(--text-primary)] hover:text-[#1F7994] break-all transition-colors"
                   dir="ltr"
                 >
                   partov-ertebat-saba
