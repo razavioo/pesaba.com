@@ -89,40 +89,41 @@
       </div>
     </section>
 
-    <section
-      class="sticky top-24 z-20 border-b border-[var(--border)] bg-white shadow-[0_12px_30px_rgba(9,53,68,0.08)]"
-      :aria-label="locale === 'fa' ? 'بخش‌های محصول' : 'Product sections'"
-    >
-      <div class="container-site">
-        <div class="flex gap-2 overflow-x-auto py-3" role="tablist" :aria-label="locale === 'fa' ? 'بخش‌های محصول' : 'Product sections'">
-          <button
-            v-for="tab in tabs"
-            :key="tab.key"
-            :class="[
-              'whitespace-nowrap border px-4 py-1.5 text-sm font-medium transition-colors',
-              activeTab === tab.key
-                ? 'border-[var(--accent)] bg-[var(--accent-bg)] text-[var(--accent)]'
-                : 'border-[var(--border)] bg-[var(--bg-elevated)] text-[var(--text-secondary)] hover:border-[var(--accent)] hover:bg-[var(--accent-bg)] hover:text-[var(--accent)]',
-            ]"
-            role="tab"
-            :id="`tab-${tab.key}`"
-            :aria-controls="`panel-${tab.key}`"
-            :aria-selected="activeTab === tab.key"
-            :tabindex="activeTab === tab.key ? 0 : -1"
-            @click="activeTab = tab.key"
-            @keydown.left.prevent="moveTab(-1)"
-            @keydown.right.prevent="moveTab(1)"
-            @keydown.up.prevent="moveTab(-1)"
-            @keydown.down.prevent="moveTab(1)"
-          >
-            {{ tab.label }}
-          </button>
+    <div class="product-sections">
+      <section
+        class="sticky top-[5.125rem] z-20 border-b border-[var(--border)] bg-white shadow-[0_12px_30px_rgba(9,53,68,0.08)] md:top-[6.25rem]"
+        :aria-label="locale === 'fa' ? 'بخش‌های محصول' : 'Product sections'"
+      >
+        <div class="container-site">
+          <div class="flex gap-2 overflow-x-auto py-3" role="tablist" :aria-label="locale === 'fa' ? 'بخش‌های محصول' : 'Product sections'">
+            <button
+              v-for="tab in tabs"
+              :key="tab.key"
+              :class="[
+                'whitespace-nowrap border px-4 py-1.5 text-sm font-medium transition-colors',
+                activeTab === tab.key
+                  ? 'border-[var(--accent)] bg-[var(--accent-bg)] text-[var(--accent)]'
+                  : 'border-[var(--border)] bg-[var(--bg-elevated)] text-[var(--text-secondary)] hover:border-[var(--accent)] hover:bg-[var(--accent-bg)] hover:text-[var(--accent)]',
+              ]"
+              role="tab"
+              :id="`tab-${tab.key}`"
+              :aria-controls="`panel-${tab.key}`"
+              :aria-selected="activeTab === tab.key"
+              :tabindex="activeTab === tab.key ? 0 : -1"
+              @click="activeTab = tab.key"
+              @keydown.left.prevent="moveTab(-1)"
+              @keydown.right.prevent="moveTab(1)"
+              @keydown.up.prevent="moveTab(-1)"
+              @keydown.down.prevent="moveTab(1)"
+            >
+              {{ tab.label }}
+            </button>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <section class="section bg-white">
-      <div class="container-site">
+      <section class="section bg-white">
+        <div class="container-site">
         <div id="panel-overview" role="tabpanel" aria-labelledby="tab-overview" tabindex="0" v-show="activeTab === 'overview'" class="grid min-w-0 gap-8 xl:grid-cols-[minmax(0,1fr)_20rem]">
           <div class="prose-product max-w-none border-t border-[var(--border)] pt-6">
             <template v-if="normalizedOverview">
@@ -224,8 +225,9 @@
         <div id="panel-faq" role="tabpanel" aria-labelledby="tab-faq" tabindex="0" v-show="activeTab === 'faq'" class="max-w-3xl">
           <FAQItem v-for="(faq, i) in genericFAQs" :key="i" :question="faq.q" :answer="faq.a" />
         </div>
-      </div>
-    </section>
+        </div>
+      </section>
+    </div>
 
     <section v-if="relatedProducts?.length" class="section border-t border-[var(--border)]">
       <div class="container-site">
