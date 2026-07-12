@@ -21,6 +21,16 @@
       </div>
     </section>
 
+    <section class="border-b border-[var(--border)]">
+      <div class="container-site flex min-h-44 items-center py-10 md:min-h-56 md:py-12">
+        <img
+          src="/logo.svg"
+          :alt="locale === 'fa' ? 'نشان پرتو ارتباط صبا' : 'Pesaba logo'"
+          class="h-24 w-auto md:h-32"
+        >
+      </div>
+    </section>
+
     <section class="section border-b border-[var(--border)]">
       <div class="container-site grid gap-5 md:grid-cols-2">
         <div v-for="card in whyCards" :key="card.title" class="flex gap-4">

@@ -61,7 +61,8 @@ test.describe('SEO — meta tags', () => {
     const favicon = page.locator('link[rel="icon"]')
     await expect(favicon).toHaveCount(1)
     const href = await favicon.getAttribute('href')
-    expect(href).toBeTruthy()
+    expect(href).toContain('/favicon.svg')
+    await expect(page.locator('link[rel="apple-touch-icon"]')).toHaveAttribute('href', /pesaba-mark-180\.png/)
   })
 
   test('localized article has one canonical and reciprocal hreflang links', async ({ page }) => {
@@ -97,6 +98,13 @@ test.describe('SEO — structured data', () => {
     await goto(page, EN)
     const jsonLD = await page.locator('script[type="application/ld+json"]').all()
     expect(jsonLD.length).toBeGreaterThan(0)
+  })
+
+  test('organization schema uses the full logo asset', async ({ page }) => {
+    await goto(page, EN)
+    const schemas = await page.locator('script[type="application/ld+json"]').allTextContents()
+    const organization = schemas.map(schema => JSON.parse(schema)).find(schema => schema['@type'] === 'Organization')
+    expect(organization.logo.url).toBe('https://pesaba.com/logo.svg')
   })
 
   test('product detail page has breadcrumb schema', async ({ page }) => {

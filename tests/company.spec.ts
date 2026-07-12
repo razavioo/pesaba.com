@@ -104,6 +104,10 @@ test.describe('About page', () => {
     await expect(page.getByRole('heading', { level: 1 })).toBeVisible()
   })
 
+  test('full Pesaba logo is visible in the company introduction', async ({ page }) => {
+    await expect(page.locator('img[src="/logo.svg"]')).toBeVisible()
+  })
+
   test('"Why Pesaba" section is visible', async ({ page }) => {
     const section = page.locator('section, div').filter({ hasText: /why pesaba/i }).first()
     await expect(section).toBeVisible()

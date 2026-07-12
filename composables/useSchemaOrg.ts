@@ -43,9 +43,9 @@ export function useSchemaOrg() {
       url: siteUrl,
       logo: {
         '@type': 'ImageObject',
-        url: `${siteUrl}/logo-512.png`,
-        width: 512,
-        height: 512,
+        url: `${siteUrl}/logo.svg`,
+        width: 80,
+        height: 76,
       },
       foundingDate: '2008',
       address: {

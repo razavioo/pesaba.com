@@ -19,6 +19,12 @@ test.describe('Navigation header', () => {
     }
   })
 
+  test('header uses the compact Pesaba mark', async ({ page }) => {
+    const mark = page.locator('header img').first()
+    await expect(mark).toBeVisible()
+    await expect(mark).toHaveAttribute('src', /pesaba-mark\.svg/)
+  })
+
   test('main nav items are visible on desktop', async ({ page, isMobile }) => {
     test.skip(isMobile, 'Desktop navigation links are hidden on mobile viewports')
     const nav = page.locator('header nav').first()
@@ -100,6 +106,12 @@ test.describe('Footer', () => {
     await goto(page, EN)
     await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight))
     await page.waitForTimeout(200)
+  })
+
+  test('footer uses the compact Pesaba mark', async ({ page }) => {
+    const mark = page.locator('footer img').first()
+    await expect(mark).toBeVisible()
+    await expect(mark).toHaveAttribute('src', /pesaba-mark\.svg/)
   })
 
   test('footer is rendered', async ({ page }) => {

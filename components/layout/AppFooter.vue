@@ -7,7 +7,7 @@
         <!-- Brand column -->
         <div class="space-y-7">
           <NuxtLink :to="localePath('/')" class="inline-flex items-center gap-3">
-            <NuxtImg src="/logo.png" alt="Pesaba" class="h-10 w-10 brightness-0 invert" />
+            <NuxtImg src="/pesaba-mark.svg" alt="Pesaba" class="h-10 w-10" />
             <div>
               <div class="text-lg font-bold text-white tracking-wide">Pesaba</div>
               <div class="text-xs uppercase tracking-[0.22em] font-medium text-white/50">

@@ -208,7 +208,7 @@ export default defineNuxtConfig({
       viewport: 'width=device-width, initial-scale=1',
       link: [
         { rel: 'icon', type: 'image/svg+xml', href: withAppBase('favicon.svg') },
-        { rel: 'apple-touch-icon', href: withAppBase('apple-touch-icon.png') },
+        { rel: 'apple-touch-icon', type: 'image/png', sizes: '180x180', href: withAppBase('pesaba-mark-180.png') },
         { rel: 'manifest', href: withAppBase('manifest.webmanifest') },
         { rel: 'alternate', type: 'application/rss+xml', title: 'Pesaba Blog', href: withAppBase('feed.xml') },
 
