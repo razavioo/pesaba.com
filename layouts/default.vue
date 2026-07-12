@@ -20,9 +20,9 @@
       role="menu"
     >
       <div class="container-wide flex justify-end items-center h-full">
-        <div class="flex flex-col items-end gap-3 md:gap-0 md:justify-between md:h-full pt-2 pb-2 md:py-8">
+        <div dir="ltr" class="w-full flex flex-row items-center justify-start gap-4 md:w-auto md:flex-col md:items-end md:gap-0 md:justify-between md:h-full md:py-8">
           <button
-            class="header-nav-buttons text-white/60 hover:text-white flex flex-col items-center justify-center gap-3"
+            class="header-nav-buttons shrink-0 text-white/60 hover:text-white flex flex-col items-center justify-center gap-1 md:gap-3"
             @click="drawerOpen = false"
           >
             <svg class="w-5 h-5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
@@ -31,22 +31,22 @@
             <span class="leading-none text-[0.875rem] font-medium uppercase tracking-wide">{{ locale === 'fa' ? 'بستن' : 'Close' }}</span>
           </button>
 
-          <div class="flex items-center gap-8 md:gap-12">
-          <button
-            v-for="loc in locales"
-            :key="loc.code"
-            role="menuitem"
-            :data-locale="loc.code"
-            :class="[
-              'text-sm md:text-base font-semibold uppercase tracking-wider transition-colors',
-              locale === loc.code
-                ? 'text-white'
-                : 'text-white/50 hover:text-white',
-            ]"
-            @click="switchLocale(loc.code)"
-          >
-            {{ locale === 'fa' ? (loc.code === 'fa' ? 'فارسی' : 'انگلیسی') : (loc.code === 'fa' ? 'Farsi' : 'English') }}
-          </button>
+          <div class="flex items-center gap-4 md:gap-12">
+            <button
+              v-for="loc in locales"
+              :key="loc.code"
+              role="menuitem"
+              :data-locale="loc.code"
+              :class="[
+                'text-sm md:text-base font-semibold uppercase tracking-wider transition-colors',
+                locale === loc.code
+                  ? 'text-white'
+                  : 'text-white/50 hover:text-white',
+              ]"
+              @click="switchLocale(loc.code)"
+            >
+              {{ locale === 'fa' ? (loc.code === 'fa' ? 'فارسی' : 'انگلیسی') : (loc.code === 'fa' ? 'Farsi' : 'English') }}
+            </button>
           </div>
         </div>
       </div>
