@@ -30,9 +30,12 @@ function sanitize(value: unknown): unknown {
 
   if (isProductDocument(value) && value.evidence_reviewed !== true) {
     const title = typeof value.title === 'string' ? value.title : 'Product'
-    result.description = `${title} is listed in the Pesaba catalogue. Specifications and deployment terms must be confirmed for the selected model and revision.`
-    if ('description_fa' in value || 'title_fa' in value) {
-      const titleFa = typeof value.title_fa === 'string' ? value.title_fa : title
+    const titleFa = typeof value.title_fa === 'string' ? value.title_fa : title
+    const isFarsi = value.locale === 'fa'
+    result.description = isFarsi
+      ? `${titleFa} در کاتالوگ پسابا ثبت شده است. مشخصات و شرایط استقرار باید برای مدل و نسخه انتخابی از مستندات جاری تأیید شود.`
+      : `${title} is listed in the Pesaba catalogue. Specifications and deployment terms must be confirmed for the selected model and revision.`
+    if ('description_fa' in value || 'title_fa' in value || isFarsi) {
       result.description_fa = `${titleFa} در کاتالوگ پسابا ثبت شده است. مشخصات و شرایط استقرار باید برای مدل و نسخه انتخابی از مستندات جاری تأیید شود.`
     }
   }

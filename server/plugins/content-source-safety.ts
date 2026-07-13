@@ -14,13 +14,15 @@ export default defineNitroPlugin((nitroApp) => {
 
     const title = frontmatter.match(/^title:\s*['"]?([^'"\n]+)['"]?\s*$/mi)?.[1]?.trim() || 'Product'
     const titleFa = frontmatter.match(/^title_fa:\s*['"]?([^'"\n]+)['"]?\s*$/mi)?.[1]?.trim() || title
-    const description = `${title} is listed in the Pesaba catalogue. Specifications and deployment terms must be confirmed for the selected model and revision.`
+    const isFarsi = /^locale:\s*['"]?fa['"]?\s*$/mi.test(frontmatter)
+    const descriptionEn = `${title} is listed in the Pesaba catalogue. Specifications and deployment terms must be confirmed for the selected model and revision.`
     const descriptionFa = `${titleFa} در کاتالوگ پسابا ثبت شده است. مشخصات و شرایط استقرار باید برای مدل و نسخه انتخابی از مستندات جاری تأیید شود.`
+    const description = isFarsi ? descriptionFa : descriptionEn
 
     frontmatter = frontmatter
       .replace(/^description:\s*.*$/mi, `description: ${quote(description)}`)
       .replace(/^description_fa:\s*.*$/mi, `description_fa: ${quote(descriptionFa)}`)
-      .replace(/^description_en:\s*.*$/mi, `description_en: ${quote(description)}`)
+      .replace(/^description_en:\s*.*$/mi, `description_en: ${quote(descriptionEn)}`)
 
     file.body = `${frontmatter}\n---\n\n${description}`
   })

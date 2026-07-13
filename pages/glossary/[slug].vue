@@ -57,7 +57,7 @@ const { data: term } = await useAsyncData(`glossary-${termSlug}-${locale.value}`
 const { data: products } = await useAsyncData(`glossary-products-${termSlug}-${locale.value}`, () => queryContent('products').find())
 
 const productDescription = (product: any) => locale.value === 'fa'
-  ? product.description || product.description_fa || ''
+  ? product.description_fa || product.description || ''
   : product.description_en || product.description || ''
 
 function nodeText(node: any): string {
