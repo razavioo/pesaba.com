@@ -329,6 +329,10 @@ onUnmounted(() => {
   background: transparent;
 }
 
+.site-header--home.site-header--scrolled::after {
+  background: transparent;
+}
+
 .site-header--scrolled::after {
   content: '';
   position: absolute;
