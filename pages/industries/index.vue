@@ -1,18 +1,13 @@
 <template>
   <div>
-    <section class="page-hero">
-      <div class="container-site section-hero">
-        <div class="max-w-4xl">
-          <div class="section-label mb-5">{{ $t('nav.solutions') }}</div>
-          <h1 class="mb-5 text-4xl font-extrabold leading-[1.04] tracking-[-0.03em] text-[var(--text-primary)] md:text-5xl">
-            {{ locale === 'fa' ? 'راهکارهای بخش‌محور برای شبکه‌های حساس' : 'Sector-specific solutions for sensitive networks' }}
-          </h1>
-          <p class="max-w-3xl text-lg leading-relaxed text-[var(--text-secondary)]">
-            {{ $t('industries.sub') }}
-          </p>
-        </div>
-      </div>
-    </section>
+    <ImageHero
+      image="/images/heroes/industries-hero.png"
+      :image-alt="locale === 'fa' ? 'مرکز کنترل و زیرساخت شبکه صنعتی' : 'Industrial control room and critical network infrastructure'"
+      :eyebrow="locale === 'fa' ? 'صنایع و زیرساخت‌های حیاتی' : 'Industries and critical infrastructure'"
+      :title="locale === 'fa' ? 'راهکارهای امنیتی برای شبکه‌های حساس' : 'Sector-specific solutions for sensitive networks'"
+      :description="$t('industries.sub')"
+      theme="industrial"
+    />
 
     <section class="section border-b border-[var(--border)]">
       <div class="container-site">

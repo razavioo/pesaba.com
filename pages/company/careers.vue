@@ -1,14 +1,13 @@
 <template>
   <div v-if="doc">
-    <section class="page-hero">
-      <div class="container-site section-hero">
-        <div class="max-w-4xl">
-          <div class="section-label mb-5">{{ locale === 'fa' ? 'همکاری با پرتو ارتباط صبا' : 'Careers' }}</div>
-          <h1 class="mb-5 text-4xl font-extrabold leading-[1.04] tracking-[-0.02em] text-[var(--text-primary)] md:text-5xl">{{ doc.title }}</h1>
-          <p class="max-w-3xl text-lg leading-relaxed text-[var(--text-secondary)]">{{ doc.sub }}</p>
-        </div>
-      </div>
-    </section>
+    <ImageHero
+      image="/images/heroes/careers-hero.png"
+      :image-alt="locale === 'fa' ? 'مهندس در حال آزمایش برد امنیت شبکه در آزمایشگاه' : 'Engineer testing a network security board in a laboratory'"
+      :eyebrow="locale === 'fa' ? 'همکاری با پرتو ارتباط صبا' : 'Careers at Pesaba'"
+      :title="locale === 'fa' ? 'در ساختن امنیت سخت‌افزاری همراه ما باشید' : (doc.title ?? 'Careers')"
+      :description="doc.sub ?? ''"
+      theme="people"
+    />
 
     <section class="section border-b border-[var(--border)]">
       <div class="container-site grid gap-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.9fr)] lg:gap-16">

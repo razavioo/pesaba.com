@@ -1,18 +1,13 @@
 <template>
   <div>
-    <section class="page-hero">
-      <div class="container-site section-hero">
-        <div class="max-w-4xl">
-          <div class="section-label mb-5">{{ $t('nav.resources') }}</div>
-          <h1 class="mb-5 text-4xl font-extrabold leading-[1.04] tracking-[-0.03em] text-[var(--text-primary)] md:text-5xl">
-            {{ $t('resources.headline') }}
-          </h1>
-          <p class="max-w-3xl text-lg leading-relaxed text-[var(--text-secondary)]">
-            {{ $t('resources.sub') }}
-          </p>
-        </div>
-      </div>
-    </section>
+    <ImageHero
+      image="/images/heroes/resources-hero.png"
+      :image-alt="locale === 'fa' ? 'میز کار مهندسی و منابع فنی امنیت شبکه' : 'Engineering workspace with technical security resources'"
+      :eyebrow="locale === 'fa' ? 'منابع فنی' : 'Technical resources'"
+      :title="$t('resources.headline')"
+      :description="$t('resources.sub')"
+      theme="reference"
+    />
 
     <section class="section border-b border-[var(--border)]">
       <div class="container-site grid gap-5 xl:grid-cols-4 md:grid-cols-2">

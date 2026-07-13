@@ -1,6 +1,6 @@
 <template>
   <!-- Advenica pattern: dark navy hero, just H1, SVG wedge transitions to light -->
-  <section class="page-hero relative overflow-hidden min-h-[430px] md:min-h-[560px] flex flex-col justify-center bg-[#093544]">
+  <section class="topology-hero page-hero relative overflow-hidden min-h-[430px] md:min-h-[560px] flex flex-col justify-center bg-[#093544]">
     <!-- Grid pattern overlay -->
     <div class="absolute inset-0 pointer-events-none" style="background-image: radial-gradient(circle, rgba(170,197,208,0.04) 1px, transparent 1px); background-size: 28px 28px;" aria-hidden="true" />
 
@@ -32,3 +32,19 @@
 <script setup lang="ts">
 const { t } = useI18n()
 </script>
+
+<style scoped>
+.topology-hero:dir(rtl) h1 {
+  font-size: clamp(2.8rem, 6.8vw, 6.25rem);
+  line-height: 1.18;
+}
+
+.topology-hero {
+  background-image:
+    linear-gradient(to left, rgba(4, 24, 32, .88) 0%, rgba(4, 24, 32, .58) 48%, rgba(4, 24, 32, .22) 100%),
+    url('/images/hero-bg.png');
+  background-size: cover;
+  background-position: center center;
+  background-origin: border-box;
+}
+</style>

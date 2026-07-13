@@ -3,7 +3,9 @@
     ref="headerRef"
     :class="[
       'site-header container-wide sticky top-0 z-50 pointer-events-none transition-all duration-300',
-      scrolled ? 'site-header--scrolled pt-1.5 pb-px md:pt-2' : 'pt-8',
+      scrolled ? 'site-header--scrolled pt-1.5 pb-px md:pt-2' : 'pt-2',
+      homePage ? 'site-header--home' : '',
+      imageHeroPage ? 'site-header--image-hero' : '',
     ]"
     role="banner"
   >
@@ -183,6 +185,16 @@ const mobilePanel = ref<HTMLElement | null>(null)
 const mobileTrigger = ref<HTMLButtonElement | null>(null)
 const route = useRoute()
 
+const imageHeroPage = computed(() => [
+  '/industries',
+  '/resources',
+  '/glossary',
+  '/company/careers',
+  '/technology',
+].some(path => route.path === `/fa${path}` || route.path === `/en${path}`))
+
+const homePage = computed(() => route.path === '/fa' || route.path === '/en' || route.path === '/fa/' || route.path === '/en/')
+
 const navItems = computed(() => [
   { key: 'home', to: '/', subItems: false, children: [] },
   {
@@ -300,8 +312,21 @@ onUnmounted(() => {
   left: calc(50% - 50vw);
   width: 100vw;
   z-index: -1;
-  background: #093544;
+  background-color: #093544;
   pointer-events: none;
+}
+
+.site-header--home::before {
+  bottom: -16px;
+  background: transparent;
+}
+
+.site-header--image-hero::before {
+  background: transparent;
+}
+
+.site-header--image-hero.site-header--scrolled::after {
+  background: transparent;
 }
 
 .site-header--scrolled::after {

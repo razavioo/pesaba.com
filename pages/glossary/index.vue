@@ -1,18 +1,13 @@
 <template>
   <div>
-    <section class="page-hero">
-      <div class="container-site section-hero">
-        <div class="max-w-4xl">
-          <div class="section-label mb-5">{{ locale === 'fa' ? 'واژه‌نامه فنی' : 'Technical Glossary' }}</div>
-          <h1 class="mb-5 text-4xl font-extrabold leading-[1.04] tracking-[-0.03em] text-[var(--text-primary)] md:text-5xl">
-            {{ $t('glossary.title') }}
-          </h1>
-          <p class="max-w-3xl text-lg leading-relaxed text-[var(--text-secondary)]">
-            {{ $t('glossary.sub') }}
-          </p>
-        </div>
-      </div>
-    </section>
+    <ImageHero
+      image="/images/heroes/glossary-hero.png"
+      :image-alt="locale === 'fa' ? 'برد الکترونیکی و لایه‌های مفهومی دانش فنی' : 'Circuit board and layered technical knowledge concept'"
+      :eyebrow="locale === 'fa' ? 'مرجع اصطلاحات فنی' : 'Technical reference'"
+      :title="locale === 'fa' ? 'زبان مشترک برای تصمیم‌های فنی' : 'Technical Glossary: A shared language for technical decisions'"
+      :description="$t('glossary.sub')"
+      theme="technical"
+    />
 
     <section class="sticky top-[5.125rem] z-20 border-b border-[var(--border)] bg-[#F6F6F6] md:top-[6.25rem]">
       <div class="container-site py-4">
