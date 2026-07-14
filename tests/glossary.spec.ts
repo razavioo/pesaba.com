@@ -107,6 +107,19 @@ test.describe('Glossary term page', () => {
     await expect(page.getByText('همه اصطلاحات')).toHaveCount(0)
   })
 
+  test('Persian related product cards do not use the English safety fallback', async ({ page }) => {
+    await goto(page, `${FA}/glossary/cssr`)
+    const capellaCard = page.locator('a[href="/fa/products/cellular-monitoring/capella"]')
+    await expect(capellaCard).toBeVisible()
+    await expect(capellaCard.locator('p')).not.toContainText(/is listed in the Pesaba catalogue/i)
+    await expect(capellaCard.locator('p')).toContainText(/کاپلا|کاتالوگ پسابا/)
+
+    const venusPioneerCard = page.locator('a[href="/fa/products/cellular-monitoring/venus-pioneer"]')
+    await expect(venusPioneerCard).toBeVisible()
+    await expect(venusPioneerCard.locator('p')).not.toContainText(/is listed in the Pesaba catalogue/i)
+    await expect(venusPioneerCard.locator('p')).toContainText(/ونوس پایونیر|کاتالوگ پسابا/)
+  })
+
   test('related product content is rendered once with the glossary anchor', async ({ page }) => {
     await goto(page, `${FA}/glossary/os-less#محصولات-مرتبط-پرتو-ارتباط-صبا`)
     await expect(page.locator('#محصولات-مرتبط-پرتو-ارتباط-صبا')).toBeVisible()

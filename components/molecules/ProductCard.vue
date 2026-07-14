@@ -19,8 +19,8 @@
         <h3 class="text-lg font-semibold leading-snug text-[var(--text-primary)] transition-colors group-hover:text-[#1F7994] md:text-xl">
           {{ title }}
         </h3>
-        <p v-if="description" class="mt-2 line-clamp-2 text-sm leading-relaxed text-[var(--text-secondary)]">
-          {{ description }}
+        <p v-if="displayDescription" class="mt-2 line-clamp-2 text-sm leading-relaxed text-[var(--text-secondary)]">
+          {{ displayDescription }}
         </p>
         <div v-if="displaySpecs.length || tags?.length" class="mt-4 min-w-0 border-t border-[var(--border)] pt-3">
           <div v-if="displaySpecs.length" class="grid gap-px overflow-hidden bg-[var(--border)] sm:grid-cols-2">
@@ -64,6 +64,12 @@ const props = defineProps<{
 
 const { locale } = useI18n()
 const readMoreLabel = computed(() => locale.value === 'fa' ? 'مشاهده محصول' : 'View product')
+const displayDescription = computed(() => {
+  if (locale.value === 'fa' && props.description && /\bis listed in the Pesaba catalogue\b/i.test(props.description)) {
+    return `${props.title} در کاتالوگ پسابا ثبت شده است. مشخصات و شرایط استقرار باید برای مدل و نسخه انتخابی از مستندات جاری تأیید شود.`
+  }
+  return props.description || ''
+})
 const displaySpecs = computed(() => (props.specs || []).slice(0, 1))
 </script>
 
