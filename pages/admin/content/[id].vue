@@ -28,7 +28,7 @@
               <label class="block text-sm font-semibold text-[#24434d]">توضیح سئو<textarea v-model="fa.seoDescription" :disabled="!canEdit" class="field min-h-24" maxlength="320"></textarea></label>
             </div>
             <details class="border border-[#d4e0e4] p-4"><summary class="cursor-pointer text-sm font-semibold text-[#24434d]">تصاویر و رسانه‌های فارسی</summary><div class="mt-4 grid gap-4 md:grid-cols-2"><label v-for="key in visibleMediaKeys(fa)" :key="key" class="block text-xs font-semibold text-[#24434d]" dir="ltr">{{ key }}<input :value="mediaValue(fa, key)" :disabled="!canEdit" class="field text-left" @input="setMediaValue(fa, key, $event)"></label></div><p class="mt-3 text-xs text-[#61757d]">مسیر یا URL تصویر را وارد کنید. برای بارگذاری و کپی URL از کتابخانه رسانه استفاده کنید.</p></details>
-            <label class="block text-sm font-semibold text-[#24434d]">داده‌های ویژه فارسی (JSON)<textarea v-model="fa.dataText" :disabled="!canEdit" dir="ltr" class="field min-h-36 font-mono text-xs text-left"></textarea></label>
+            <label class="block text-sm font-semibold text-[#24434d]">داده‌های ویژه فارسی (JSON)<textarea v-model="fa.dataText" :disabled="!canEdit" dir="ltr" spellcheck="false" class="field min-h-36 font-mono text-xs text-left"></textarea><span class="mt-2 block text-xs font-normal leading-5 text-[#61757d]">برای فیلدهای قالبی مثل تصویر قهرمان، دسته‌بندی یا ارتباطات استفاده می‌شود. نمونه: <code dir="ltr">{"heroImage":"/media/example.webp"}</code></span></label>
           </div>
         </section>
 
@@ -46,7 +46,7 @@
               <label class="block text-sm font-semibold text-[#24434d]">SEO description<textarea v-model="en.seoDescription" :disabled="!canEdit" class="field min-h-24" maxlength="320"></textarea></label>
             </div>
             <details class="border border-[#d4e0e4] p-4"><summary class="cursor-pointer text-sm font-semibold text-[#24434d]">English images and media</summary><div class="mt-4 grid gap-4 md:grid-cols-2"><label v-for="key in visibleMediaKeys(en)" :key="key" class="block text-xs font-semibold text-[#24434d]">{{ key }}<input :value="mediaValue(en, key)" :disabled="!canEdit" class="field" @input="setMediaValue(en, key, $event)"></label></div><p class="mt-3 text-xs text-[#61757d]">Enter an image path or URL. Upload and copy media URLs from the media library.</p></details>
-            <label class="block text-sm font-semibold text-[#24434d]">Localized data (JSON)<textarea v-model="en.dataText" :disabled="!canEdit" class="field min-h-36 font-mono text-xs"></textarea></label>
+            <label class="block text-sm font-semibold text-[#24434d]">Localized data (JSON)<textarea v-model="en.dataText" :disabled="!canEdit" spellcheck="false" class="field min-h-36 font-mono text-xs"></textarea><span class="mt-2 block text-xs font-normal leading-5 text-[#61757d]">Use this for template-specific fields such as hero images, categories, relations, and product specifications. Example: <code dir="ltr">{"heroImage":"/media/example.webp"}</code></span></label>
           </div>
         </section>
       </div>
@@ -64,7 +64,8 @@
         <section class="border border-[#d4e0e4] bg-white p-5">
           <h2 class="font-bold text-[#093544]">داده‌های ویژه</h2>
           <p class="mt-2 text-xs leading-5 text-[#61757d]">مشخصات محصول، تصویر قهرمان، دسته‌بندی، ارتباطات و فیلدهای هر قالب در این بخش نگهداری می‌شوند.</p>
-          <textarea v-model="form.dataText" :disabled="!canEdit" dir="ltr" class="field mt-4 min-h-64 font-mono text-xs text-left"></textarea>
+          <textarea v-model="form.dataText" :disabled="!canEdit" dir="ltr" spellcheck="false" aria-label="داده‌های ویژه عمومی JSON" class="field mt-4 min-h-64 font-mono text-xs text-left"></textarea>
+          <p class="mt-2 text-xs leading-5 text-[#61757d]">این بخش برای داده‌های مشترک رکورد است؛ داده‌های وابسته به زبان را در بخش همان زبان وارد کنید.</p>
         </section>
         <section v-if="!isNew" class="border border-[#d4e0e4] bg-white p-5">
           <h2 class="font-bold text-[#093544]">تاریخچه</h2>
