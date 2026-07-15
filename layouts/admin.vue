@@ -23,7 +23,7 @@
       </div>
     </aside>
 
-    <main class="min-h-screen lg:me-64">
+    <main class="min-h-screen lg:ms-64">
       <header class="sticky top-0 z-20 flex h-20 items-center justify-between border-b border-[#d4e0e4] bg-white/95 px-5 backdrop-blur lg:px-8">
         <div class="flex items-center gap-3">
           <NuxtLink to="/admin" class="grid h-10 w-10 place-items-center rounded-md border border-[#d4e0e4] text-[#093544] lg:hidden">
