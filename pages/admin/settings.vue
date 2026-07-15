@@ -64,12 +64,15 @@
       </section>
 
       <section class="panel">
-        <div class="panel-head"><div><h2>تنظیمات پیشرفته</h2><p>فضاهای دیگر تنظیمات برای برچسب‌ها، سئو و پیکربندی‌های تخصصی.</p></div></div>
-        <div class="space-y-5">
-          <form v-for="setting in advancedSettings" :key="setting.namespace" @submit.prevent="saveAdvanced(setting)">
-            <div class="mb-2 flex items-center justify-between"><strong dir="ltr" class="text-sm text-[#093544]">{{ setting.namespace }}</strong><button v-if="canEdit" class="text-sm font-semibold text-[#1f7994]">ذخیره</button></div>
-            <textarea v-model="setting.text" :disabled="!canEdit" dir="ltr" class="field min-h-44 font-mono text-xs text-left" />
-          </form>
+        <div class="panel-head"><div><h2>اطلاعات تکمیلی سایت</h2><p>متن‌های قدیمی سایت، اطلاعات شبکه‌های اجتماعی و جزئیات تماس را بدون ویرایش JSON مدیریت کنید.</p></div><button v-if="canEdit" class="save" @click="saveSite">ذخیره</button></div>
+        <div class="grid gap-4 md:grid-cols-2">
+          <div v-for="field in siteFields" :key="field.key" :class="field.long ? 'md:col-span-2' : ''">
+            <p class="mb-2 text-xs font-semibold text-[#61757d]">{{ field.label }}</p>
+            <div class="grid gap-3 md:grid-cols-2">
+              <label>فارسی<textarea v-if="field.long" v-model="site.legacyVariables[field.key].fa" :disabled="!canEdit" class="field min-h-24" /> <input v-else v-model="site.legacyVariables[field.key].fa" :disabled="!canEdit" class="field mt-0"></label>
+              <label dir="ltr">English<textarea v-if="field.long" v-model="site.legacyVariables[field.key].en" :disabled="!canEdit" dir="ltr" class="field min-h-24" /> <input v-else v-model="site.legacyVariables[field.key].en" :disabled="!canEdit" dir="ltr" class="field mt-0"></label>
+            </div>
+          </div>
         </div>
       </section>
     </div>
@@ -93,7 +96,14 @@ const navigation = reactive({ header: '[]', footer: '[]', legal: '[]' })
 const settings = ref<any[]>([])
 const labelFilter = ref('')
 const labelRows = ref<Array<{ key: string; fa: string; en: string }>>([])
-const advancedSettings = computed(() => settings.value.filter(setting => !['contact', 'branding', 'navigation'].includes(setting.namespace)))
+const site = reactive({ legacyVariables: {} as Record<string, { fa: string; en: string }> })
+const siteFields = [
+  { key: 'main_intro', label: 'معرفی اصلی سایت', long: true }, { key: 'main_footer', label: 'متن فوتر قدیمی', long: true },
+  { key: 'main_clients', label: 'متن مشتریان و سازمان‌ها', long: true }, { key: 'main_articles', label: 'متن مقالات و دانش فنی', long: true },
+  { key: 'contact_fax', label: 'نمابر' }, { key: 'contact_phone', label: 'تلفن قدیمی' }, { key: 'contact_email', label: 'ایمیل قدیمی' },
+  { key: 'contact_address', label: 'نشانی قدیمی', long: true }, { key: 'contact_linkedin', label: 'LinkedIn قدیمی' }, { key: 'contact_telegram', label: 'Telegram' },
+  { key: 'contact_whatsapp', label: 'WhatsApp' }, { key: 'contact_instagram', label: 'Instagram' }, { key: 'contact_postalCode', label: 'کد پستی' },
+]
 
 function assign<T extends object>(target: T, value: unknown) {
   // Settings live inside a reactive array; JSON cloning avoids passing a Vue proxy to structuredClone.
@@ -114,6 +124,7 @@ async function save(namespace: string, data: unknown) {
 const saveContact = () => save('contact', contact)
 const saveBranding = () => save('branding', branding)
 const saveSeo = () => save('seo', seo)
+const saveSite = () => save('site', { legacyVariables: site.legacyVariables })
 const filteredLabelRows = computed(() => {
   const filter = labelFilter.value.trim().toLowerCase()
   return !filter ? labelRows.value : labelRows.value.filter(row => `${row.key} ${row.fa} ${row.en}`.toLowerCase().includes(filter))
@@ -154,7 +165,7 @@ async function saveAdvanced(setting: any) {
 onMounted(async () => {
   try {
     settings.value = (await request<any[]>('/admin/settings')).map(item => ({ ...item, text: JSON.stringify(item.data, null, 2) }))
-    assign(contact, find('contact')?.data); assign(branding, find('branding')?.data); assign(seo, find('seo')?.data); loadLabels(find('labels')?.data)
+    assign(contact, find('contact')?.data); assign(branding, find('branding')?.data); assign(seo, find('seo')?.data); assign(site, find('site')?.data); loadLabels(find('labels')?.data)
     const nav = find('navigation')?.data || defaultNavigationSettings
     navigation.header = JSON.stringify(nav.header || [], null, 2); navigation.footer = JSON.stringify(nav.footer || [], null, 2); navigation.legal = JSON.stringify(nav.legal || [], null, 2)
   } catch (cause: any) { error.value = cause?.data?.message || 'دریافت تنظیمات انجام نشد.' }
