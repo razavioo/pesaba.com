@@ -53,7 +53,7 @@
         </button>
       </form>
       <section class="overflow-hidden border border-[#d4e0e4] bg-white">
-        <table class="w-full text-sm">
+        <div class="overflow-x-auto"><table class="w-full min-w-[780px] text-sm">
           <thead class="bg-[#f3f7f8] text-xs text-[#61757d]">
             <tr>
               <th class="px-5 py-3 text-right">نام</th>
@@ -87,7 +87,7 @@
               </td>
             </tr>
           </tbody>
-        </table>
+        </table></div>
       </section></template
     >
   </div>

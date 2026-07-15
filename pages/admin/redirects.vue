@@ -41,7 +41,7 @@
       <div v-if="pending" class="p-6 text-sm text-[#61757d]">
         در حال دریافت مسیرها...
       </div>
-      <table v-else class="w-full text-sm">
+      <div v-else class="overflow-x-auto"><table class="w-full min-w-[680px] text-sm">
         <thead class="bg-[#f3f7f8] text-xs text-[#61757d]">
           <tr>
             <th class="px-5 py-3 text-right">از</th>
@@ -63,7 +63,7 @@
             </td>
           </tr>
         </tbody>
-      </table>
+      </table></div>
     </section>
   </div>
 </template>
