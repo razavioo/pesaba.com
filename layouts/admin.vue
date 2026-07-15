@@ -77,6 +77,28 @@ async function signOut() {
 </script>
 
 <style>
+/* Admin typography is intentionally more generous than the public site. The
+ * Persian font has an 85% size-adjust, so Tailwind's 12px/14px utilities
+ * otherwise render as unusually small text in the dashboard. Keep the
+ * existing hierarchy, but establish a readable floor across every admin
+ * route and component. */
+.admin-shell .text-xs,
+.admin-shell .text-\[11px\],
+.admin-shell .text-\[10px\] {
+  font-size: 0.8125rem !important;
+  line-height: 1.7 !important;
+}
+
+.admin-shell .text-sm {
+  font-size: 1rem !important;
+  line-height: 1.7 !important;
+}
+
+.admin-shell label,
+.admin-shell .field {
+  font-size: 1rem;
+}
+
 /* Keep native selects familiar, while giving every admin form a consistent control. */
 .admin-shell select,
 .admin-shell main select.field {
