@@ -41,7 +41,8 @@
       <div v-if="pending" class="p-6 text-sm text-[#61757d]">
         در حال دریافت مسیرها...
       </div>
-      <div v-else class="overflow-x-auto"><table class="w-full min-w-[680px] text-sm">
+      <div v-else class="overflow-x-auto"><table class="w-full min-w-[760px] table-fixed text-sm">
+        <colgroup><col class="w-[40%]"><col class="w-[40%]"><col class="w-[10%]"><col class="w-[10%]"></colgroup>
         <thead class="bg-[#f3f7f8] text-xs text-[#61757d]">
           <tr>
             <th class="px-5 py-3 text-right">از</th>
@@ -52,10 +53,10 @@
         </thead>
         <tbody class="divide-y divide-[#e5edf0]">
           <tr v-for="item in redirects" :key="item.id">
-            <td dir="ltr" class="px-5 py-4 text-left">{{ item.fromPath }}</td>
-            <td dir="ltr" class="px-5 py-4 text-left">{{ item.toPath }}</td>
-            <td class="px-5 py-4">{{ item.statusCode }}</td>
-            <td class="px-5 py-4">{{ item.active ? "فعال" : "غیرفعال" }}</td>
+            <td dir="ltr" class="truncate whitespace-nowrap px-5 py-4 text-left" :title="item.fromPath">{{ item.fromPath }}</td>
+            <td dir="ltr" class="truncate whitespace-nowrap px-5 py-4 text-left" :title="item.toPath">{{ item.toPath }}</td>
+            <td class="whitespace-nowrap px-5 py-4">{{ item.statusCode }}</td>
+            <td class="whitespace-nowrap px-5 py-4">{{ item.active ? "فعال" : "غیرفعال" }}</td>
           </tr>
           <tr v-if="!redirects.length">
             <td colspan="4" class="px-5 py-10 text-center text-[#61757d]">

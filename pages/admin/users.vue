@@ -53,7 +53,8 @@
         </button>
       </form>
       <section class="overflow-hidden border border-[#d4e0e4] bg-white">
-        <div class="overflow-x-auto"><table class="w-full min-w-[780px] text-sm">
+        <div class="overflow-x-auto"><table class="w-full min-w-[980px] table-fixed text-sm">
+          <colgroup><col class="w-[18%]"><col class="w-[24%]"><col class="w-[12%]"><col class="w-[10%]"><col class="w-[36%]"></colgroup>
           <thead class="bg-[#f3f7f8] text-xs text-[#61757d]">
             <tr>
               <th class="px-5 py-3 text-right">نام</th>
@@ -65,8 +66,8 @@
           </thead>
           <tbody class="divide-y divide-[#e5edf0]">
             <tr v-for="item in users" :key="item.id">
-              <td class="px-5 py-4 font-semibold">{{ item.displayName }}</td>
-              <td dir="ltr" class="px-5 py-4 text-left">{{ item.email }}</td>
+              <td class="whitespace-nowrap px-5 py-4 font-semibold">{{ item.displayName }}</td>
+              <td dir="ltr" class="whitespace-nowrap px-5 py-4 text-left">{{ item.email }}</td>
               <td class="px-5 py-4">
                 <select v-model="item.role" class="field" :disabled="item.id === user?.id">
                   <option v-for="(label, value) in roles" :key="value" :value="value">{{ label }}</option>
@@ -79,7 +80,7 @@
                 </label>
               </td>
               <td class="px-5 py-4">
-                <div class="flex flex-wrap gap-3">
+                <div class="flex min-w-max items-center gap-3">
                   <button type="button" class="text-xs font-semibold text-[#1f7994] disabled:opacity-50" :disabled="savingId === item.id" @click="saveUser(item)">ذخیره</button>
                   <input v-model="passwordDrafts[item.id]" type="password" minlength="12" class="field !min-h-8 !w-44" placeholder="گذرواژه جدید">
                   <button type="button" class="text-xs font-semibold text-[#61757d] disabled:opacity-50" :disabled="savingId === item.id || !passwordDrafts[item.id]" @click="resetPassword(item)">بازنشانی گذرواژه</button>

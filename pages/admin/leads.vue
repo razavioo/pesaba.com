@@ -36,7 +36,8 @@
         در حال دریافت درخواست‌ها...
       </div>
       <div v-else class="overflow-x-auto">
-        <table class="w-full min-w-[780px] text-right text-sm">
+        <table class="w-full min-w-[1040px] table-fixed text-right text-sm">
+          <colgroup><col class="w-[20%]"><col class="w-[12%]"><col class="w-[24%]"><col class="w-[16%]"><col class="w-[10%]"><col class="w-[18%]"></colgroup>
           <thead class="bg-[#f3f7f8] text-xs text-[#61757d]">
             <tr>
               <th class="px-5 py-3">نام</th>
@@ -49,7 +50,7 @@
           </thead>
           <tbody class="divide-y divide-[#e5edf0]">
             <tr v-for="lead in leads" :key="lead.id">
-              <td class="px-5 py-4">
+              <td class="whitespace-nowrap px-5 py-4">
                 <p class="font-semibold">{{ lead.name }}</p>
                 <a
                   :href="`mailto:${lead.email}`"
@@ -58,12 +59,12 @@
                   >{{ lead.email }}</a
                 >
               </td>
-              <td class="px-5 py-4">{{ department(lead.department) }}</td>
-              <td class="max-w-sm truncate px-5 py-4">{{ lead.message }}</td>
-              <td class="px-5 py-4 text-xs text-[#61757d]">
+              <td class="whitespace-nowrap px-5 py-4">{{ department(lead.department) }}</td>
+              <td class="truncate px-5 py-4" :title="lead.message">{{ lead.message }}</td>
+              <td class="whitespace-nowrap px-5 py-4 text-xs text-[#61757d]">
                 {{ date(lead.createdAt) }}
               </td>
-              <td class="px-5 py-4">
+              <td class="whitespace-nowrap px-5 py-4">
                 <select
                   v-model="lead.status"
                   class="border border-[#c9d9df] bg-white px-2 py-1 text-xs"
@@ -78,7 +79,7 @@
                   </option>
                 </select>
               </td>
-              <td class="px-5 py-4">
+              <td class="whitespace-nowrap px-5 py-4">
                 <button
                   v-if="!lead.emailDelivered"
                   class="text-xs font-semibold text-[#1f7994]"

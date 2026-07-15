@@ -19,15 +19,16 @@
       <section class="overflow-hidden border border-[#d4e0e4] bg-white">
         <div v-if="pending" class="p-6 text-sm text-[#61757d]">در حال دریافت تاریخچه...</div>
         <div v-else class="overflow-x-auto">
-          <table class="w-full min-w-[760px] text-right text-sm">
+          <table class="w-full min-w-[920px] table-fixed text-right text-sm">
+            <colgroup><col class="w-[18%]"><col class="w-[20%]"><col class="w-[14%]"><col class="w-[19%]"><col class="w-[29%]"></colgroup>
             <thead class="bg-[#f3f7f8] text-xs text-[#61757d]"><tr><th class="px-5 py-3">زمان</th><th class="px-5 py-3">کاربر</th><th class="px-5 py-3">عملیات</th><th class="px-5 py-3">رکورد</th><th class="px-5 py-3">جزئیات</th></tr></thead>
             <tbody class="divide-y divide-[#e5edf0]">
               <tr v-for="event in events" :key="event.id" class="hover:bg-[#f8fbfc]">
                 <td class="whitespace-nowrap px-5 py-4 text-xs text-[#61757d]">{{ formatDate(event.createdAt) }}</td>
-                <td class="px-5 py-4"><p class="font-semibold text-[#24434d]">{{ event.actor?.displayName || 'سیستم' }}</p><p dir="ltr" class="mt-1 text-xs text-[#61757d]">{{ event.actor?.email || '' }}</p></td>
-                <td class="px-5 py-4 text-xs font-semibold text-[#1f7994]">{{ actionLabel(event.action) }}</td>
-                <td class="px-5 py-4 text-xs text-[#61757d]">{{ entityLabel(event.entityType) }} · <span dir="ltr" class="font-mono">{{ event.entityId }}</span></td>
-                <td class="max-w-xs px-5 py-4 text-xs text-[#61757d]">{{ summary(event.metadata) }}</td>
+                <td class="whitespace-nowrap px-5 py-4"><p class="font-semibold text-[#24434d]">{{ event.actor?.displayName || 'سیستم' }}</p><p dir="ltr" class="mt-1 text-xs text-[#61757d]">{{ event.actor?.email || '' }}</p></td>
+                <td class="whitespace-nowrap px-5 py-4 text-xs font-semibold text-[#1f7994]">{{ actionLabel(event.action) }}</td>
+                <td class="whitespace-nowrap px-5 py-4 text-xs text-[#61757d]">{{ entityLabel(event.entityType) }} · <span dir="ltr" class="font-mono">{{ event.entityId }}</span></td>
+                <td class="truncate px-5 py-4 text-xs text-[#61757d]" :title="summary(event.metadata)">{{ summary(event.metadata) }}</td>
               </tr>
               <tr v-if="!events.length"><td colspan="5" class="px-5 py-10 text-center text-sm text-[#61757d]">فعالیتی با این فیلتر پیدا نشد.</td></tr>
             </tbody>

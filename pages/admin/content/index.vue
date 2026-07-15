@@ -18,16 +18,17 @@
       <div v-if="pending" class="p-6 text-sm text-[#61757d]">در حال دریافت محتوا...</div>
       <div v-else-if="loadError" class="p-6 text-sm text-[#b42318]">{{ loadError }}</div>
       <div v-else class="overflow-x-auto">
-        <table class="w-full min-w-[720px] text-right text-sm">
+        <table class="w-full min-w-[920px] table-fixed text-right text-sm">
+          <colgroup><col class="w-[25%]"><col class="w-[12%]"><col class="w-[23%]"><col class="w-[13%]"><col class="w-[17%]"><col class="w-[10%]"></colgroup>
           <thead class="bg-[#f3f7f8] text-xs text-[#61757d]"><tr><th class="px-5 py-3 font-semibold">عنوان</th><th class="px-5 py-3 font-semibold">نوع</th><th class="px-5 py-3 font-semibold">نامک</th><th class="px-5 py-3 font-semibold">وضعیت</th><th class="px-5 py-3 font-semibold">آخرین تغییر</th><th class="px-5 py-3"></th></tr></thead>
           <tbody class="divide-y divide-[#e5edf0]">
             <tr v-for="item in records" :key="item.id" class="hover:bg-[#f8fbfc]">
-              <td class="px-5 py-4 font-semibold text-[#24434d]">{{ faTitle(item) }}</td>
-              <td class="px-5 py-4 text-[#61757d]">{{ typeLabel(item.type) }}</td>
-              <td dir="ltr" class="px-5 py-4 text-left text-xs text-[#61757d]">{{ item.slug }}</td>
-              <td class="px-5 py-4"><span :class="statusClass(item.status)" class="rounded-full px-2.5 py-1 text-xs font-semibold">{{ statusLabel(item.status) }}</span></td>
-              <td class="px-5 py-4 text-xs text-[#61757d]">{{ formatDate(item.updatedAt) }}</td>
-              <td class="px-5 py-4"><NuxtLink :to="`/admin/content/${item.id}`" class="text-sm font-semibold text-[#1f7994]">{{ canEdit ? 'ویرایش' : 'مشاهده' }}</NuxtLink></td>
+              <td class="truncate whitespace-nowrap px-5 py-4 font-semibold text-[#24434d]" :title="faTitle(item)">{{ faTitle(item) }}</td>
+              <td class="whitespace-nowrap px-5 py-4 text-[#61757d]">{{ typeLabel(item.type) }}</td>
+              <td dir="ltr" class="truncate whitespace-nowrap px-5 py-4 text-left text-xs text-[#61757d]" :title="item.slug">{{ item.slug }}</td>
+              <td class="whitespace-nowrap px-5 py-4"><span :class="statusClass(item.status)" class="rounded-full px-2.5 py-1 text-xs font-semibold">{{ statusLabel(item.status) }}</span></td>
+              <td class="whitespace-nowrap px-5 py-4 text-xs text-[#61757d]">{{ formatDate(item.updatedAt) }}</td>
+              <td class="whitespace-nowrap px-5 py-4"><NuxtLink :to="`/admin/content/${item.id}`" class="text-sm font-semibold text-[#1f7994]">{{ canEdit ? 'ویرایش' : 'مشاهده' }}</NuxtLink></td>
             </tr>
             <tr v-if="!records.length"><td colspan="6" class="px-5 py-10 text-center text-sm text-[#61757d]">موردی پیدا نشد.</td></tr>
           </tbody>
