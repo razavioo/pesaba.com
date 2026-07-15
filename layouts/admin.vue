@@ -96,7 +96,24 @@ async function signOut() {
 
 .admin-shell label,
 .admin-shell .field {
-  font-size: 1rem;
+  font-size: 1rem !important;
+}
+
+/* A few admin widgets use component-specific sizes instead of Tailwind
+ * utilities; bring their captions and editor controls onto the same floor. */
+.admin-shell .editor-caption,
+.admin-shell .mode,
+.admin-shell .picker__empty small,
+.admin-shell .picker__change,
+.admin-shell .editor-footer {
+  font-size: 0.8125rem !important;
+  line-height: 1.7;
+}
+
+.admin-shell .source-editor,
+.admin-shell .search,
+.admin-shell .dropzone {
+  font-size: 1rem !important;
 }
 
 /* Keep native selects familiar, while giving every admin form a consistent control. */
