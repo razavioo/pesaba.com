@@ -26,10 +26,10 @@
         <ul v-else class="divide-y divide-[#e5edf0]">
           <li v-for="event in dashboard?.recentActivity || []" :key="event.id" class="flex items-center justify-between gap-4 px-5 py-4 text-sm">
             <div>
-              <p class="font-semibold text-[#24434d]">{{ event.action }}</p>
+              <p class="font-semibold text-[#24434d]">{{ actionLabel(event.action) }}</p>
               <p class="mt-1 text-xs text-[#61757d]">{{ event.actor?.displayName || 'سیستم' }} · {{ formatDate(event.createdAt) }}</p>
             </div>
-            <span class="text-xs text-[#61757d]">{{ event.entityType }}</span>
+            <span class="text-xs text-[#61757d]">{{ entityLabel(event.entityType) }}</span>
           </li>
           <li v-if="!(dashboard?.recentActivity || []).length" class="px-5 py-8 text-sm text-[#61757d]">هنوز فعالیتی ثبت نشده است.</li>
         </ul>
@@ -65,6 +65,13 @@ const cards = computed(() => {
   ]
 })
 const formatDate = (value: string) => new Intl.DateTimeFormat('fa-IR', { dateStyle: 'medium', timeStyle: 'short' }).format(new Date(value))
+const actionLabel = (value: string) => ({
+  'auth.login': 'ورود به پنل', 'auth.logout': 'خروج از پنل', 'user.create': 'ایجاد کاربر', 'user.update': 'ویرایش کاربر',
+  'user.delete': 'حذف کاربر', 'content.create': 'ایجاد محتوا', 'content.update': 'ویرایش محتوا', 'content.delete': 'حذف محتوا',
+  'content.restore': 'بازیابی نسخه محتوا', 'redirect.save': 'ذخیره مسیر', 'settings.update': 'ویرایش تنظیمات',
+  'media.upload': 'بارگذاری رسانه', 'media.update': 'ویرایش رسانه', 'archive.restore': 'بازیابی پشتیبان',
+}[value] || value)
+const entityLabel = (value: string) => ({ user: 'کاربر', content: 'محتوا', redirect: 'مسیر', setting: 'تنظیمات', media: 'رسانه', archive: 'پشتیبان' }[value] || value)
 
 onMounted(async () => {
   try {
