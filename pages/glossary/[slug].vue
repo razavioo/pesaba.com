@@ -19,7 +19,7 @@
       </div>
     </section>
     <div class="container-prose py-12 lg:py-16 mx-auto px-6">
-      <div class="prose-article"><ContentRenderer :value="termContent" /></div>
+      <CmsMarkdown :source="bodyWithoutRelatedProducts" class="prose-article" />
       <section
         v-if="relatedProducts.length"
         id="محصولات-مرتبط-پرتو-ارتباط-صبا"
@@ -52,44 +52,20 @@ const localePath = useLocalePath()
 const route = useRoute()
 const { emitGlossaryTerm, emitBreadcrumbs } = useSchemaOrg()
 const termSlug = String(route.params.slug || '')
-const { data: term } = await useAsyncData(`glossary-${termSlug}-${locale.value}`, () => queryContent('glossary').where({ slug: termSlug, locale: locale.value }).findOne())
+const { get, list } = usePublicCms()
+const { data: term } = await useAsyncData(`glossary-${termSlug}-${locale.value}`, () => get('glossary', termSlug, locale.value as 'fa' | 'en'), { watch: [locale] })
 
-const { data: products } = await useAsyncData(`glossary-products-${termSlug}-${locale.value}`, () => queryContent('products').find())
+const { data: products } = await useAsyncData(`glossary-products-${termSlug}-${locale.value}`, () => list('product', locale.value as 'fa' | 'en'), { watch: [locale] })
+const { publicDescription } = useProductCopy()
 
-const productDescription = (product: any) => locale.value === 'fa'
-  ? product.description_fa || product.description || ''
-  : product.description_en || product.description || ''
+const productDescription = (product: any) => {
+  if (locale.value !== 'fa') return product.description_en || product.description || ''
 
-function nodeText(node: any): string {
-  if (typeof node === 'string') return node
-  if (!node) return ''
-  if (typeof node.value === 'string') return node.value
-  return Array.isArray(node.children) ? node.children.map(nodeText).join('') : ''
+  const localized = product.description_fa || (product.locale === 'fa' ? product.description : '')
+  // Older CMS records may contain the English safety fallback in the Persian slot.
+  if (localized && !/\bis listed in the Pesaba catalogue\b/i.test(localized)) return localized
+  return publicDescription(product)
 }
-
-const termContent = computed(() => {
-  if (!term.value?.body?.children || !Array.isArray(term.value.body.children)) return term.value
-
-  const children = term.value.body.children
-  const relatedHeadingIndex = children.findIndex((node: any) =>
-    node?.tag === 'h2' && /related products|محصولات مرتبط/.test(nodeText(node)),
-  )
-  if (relatedHeadingIndex < 0) return term.value
-
-  let nextHeadingIndex = relatedHeadingIndex + 1
-  while (nextHeadingIndex < children.length && children[nextHeadingIndex]?.tag !== 'h2') nextHeadingIndex += 1
-
-  return {
-    ...term.value,
-    body: {
-      ...term.value.body,
-      children: [
-        ...children.slice(0, relatedHeadingIndex),
-        ...children.slice(nextHeadingIndex),
-      ],
-    },
-  }
-})
 
 const relatedProducts = computed(() => {
   const relatedSlugs = Array.isArray(term.value?.related_products) ? term.value.related_products : []
@@ -101,8 +77,14 @@ const relatedProducts = computed(() => {
       && product.active !== false
       && (locale.value === 'fa' ? product.locale === 'fa' : product.locale !== 'fa'),
     ))
-    .filter(Boolean)
+    .filter(Boolean) as any[]
 })
+
+// Relation records are rendered as product cards below. Remove the legacy
+// markdown appendix so the same relationships are not duplicated as text.
+const bodyWithoutRelatedProducts = computed(() => String(term.value?.body || '')
+  .replace(/\n## (?:محصولات مرتبط پرتو ارتباط صبا|Related Pesaba Products)[\s\S]*$/i, '')
+  .trim())
 
 if (!term.value) {
   throw createError({ statusCode: 404, statusMessage: 'Glossary term not found' })

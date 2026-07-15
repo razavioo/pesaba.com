@@ -11,6 +11,7 @@ const { locale, t } = useI18n()
 const route = useRoute()
 const switchLocalePath = useSwitchLocalePath()
 const config = useRuntimeConfig()
+const { seo } = usePublicSettings()
 
 const SEO_LOCALES = [
   { code: 'fa' as const, hreflang: 'fa-IR' },
@@ -24,9 +25,10 @@ const canonicalPath = computed(() => {
   return path.length > 1 ? path.replace(/\/+$/, '') : path
 })
 const canonicalUrl = computed(() => `${siteUrl.value}${canonicalPath.value}`)
-const defaultTitle = computed(() => t('meta.default_title'))
-const defaultDescription = computed(() => t('meta.default_description'))
-const defaultOgImage = computed(() => `${siteUrl.value}/og/site/home.${locale.value}.png`)
+const currentSeo = computed(() => seo.data.value)
+const defaultTitle = computed(() => currentSeo.value.defaultTitle[locale.value] || t('meta.default_title'))
+const defaultDescription = computed(() => currentSeo.value.defaultDescription[locale.value] || t('meta.default_description'))
+const defaultOgImage = computed(() => currentSeo.value.defaultImageUrl || `${siteUrl.value}/og/site/home.${locale.value}.png`)
 const robotsDirective = computed(() => config.public.siteIndexable
   ? 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1'
   : 'noindex, nofollow')
@@ -76,5 +78,6 @@ useSeoMeta({
   twitterDescription: defaultDescription,
   twitterImage: defaultOgImage,
   twitterCard: 'summary_large_image',
+  twitterSite: computed(() => currentSeo.value.twitterHandle || undefined),
 })
 </script>

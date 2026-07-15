@@ -123,16 +123,15 @@ const useCases = [
 
 const CATEGORY_KEYS = ['data-diodes', 'network-encryption', 'network-switching-filtering', 'telecom-transmission', 'cellular-monitoring', 'bio-monitoring']
 
-const { data: allProducts } = await useAsyncData('mega-products', () =>
-  queryContent('products').only(['title', 'title_fa', 'slug', 'category', 'priority', 'locale']).find(),
-)
+const { list } = usePublicCms()
+const { data: allProducts } = await useAsyncData('mega-products', () => list('product', locale.value as 'fa' | 'en'), { watch: [locale] })
 
 const productCategories = computed(() =>
   CATEGORY_KEYS.map((key) => {
     const items = (allProducts.value || [])
-      .filter(p => p.category === key && (locale.value === 'fa' ? p.locale === 'fa' : !p.locale))
-      .sort((a, b) => (a.priority ?? 99) - (b.priority ?? 99))
-      .map(p => ({ slug: p.slug as string, name: (locale.value === 'fa' && p.title_fa) ? p.title_fa : p.title }))
+      .filter((p: any) => p.category === key)
+      .sort((a: any, b: any) => Number(a.priority ?? a.sortOrder ?? 99) - Number(b.priority ?? b.sortOrder ?? 99))
+      .map((p: any) => ({ slug: p.slug as string, name: p.title }))
     return { key, products: items }
   }),
 )

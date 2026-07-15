@@ -63,12 +63,12 @@
 
               <div class="space-y-4">
                 <p class="text-sm text-[var(--text-secondary)] leading-relaxed">
-                  {{ $t('footer.address') }}
+                  {{ contactSettings.address[locale === 'fa' ? 'fa' : 'en'] }}
                 </p>
 
                 <!-- Action row -->
                 <div class="flex flex-wrap gap-3 pt-2">
-                  <a href="https://www.google.com/maps/place/%D9%BE%D8%B1%D8%AA%D9%88+%D8%A7%D8%B1%D8%AA%D8%A8%D8%A7%D8%B7+%D8%B5%D8%A8%D8%A7%E2%80%AD/@35.7315228,51.3446176,20z/data=!4m5!3m4!1s0x3f8dfd6fbc1bc0dd:0x928653e044a47e7c!8m2!3d35.7315228!4d51.3446176" target="_blank" class="inline-flex items-center gap-2 text-xs font-medium px-4 py-2.5 rounded-lg border border-[var(--border-strong)] bg-[var(--bg-page)] text-[var(--text-primary)] hover:border-[#1F7994]/40 hover:bg-[rgba(31,121,148,0.08)] hover:text-[#1F7994] transition-all duration-200 w-full sm:w-auto justify-center">
+                  <a :href="contactSettings.mapUrl" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-xs font-medium px-4 py-2.5 rounded-lg border border-[var(--border-strong)] bg-[var(--bg-page)] text-[var(--text-primary)] hover:border-[#1F7994]/40 hover:bg-[rgba(31,121,148,0.08)] hover:text-[#1F7994] transition-all duration-200 w-full sm:w-auto justify-center">
                     <!-- Map Pin Icon -->
                     <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                       <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
@@ -362,8 +362,10 @@ const route = useRoute()
 const config = useRuntimeConfig()
 const localePath = useLocalePath()
 const { salesPhoneHref, salesPhoneDisplay, salesPhoneDisplayInternational, salesEmail, salesEmailHref } = useContactInfo()
-const linkedinUrl = 'https://ir.linkedin.com/company/partov-ertebat-saba'
-const contactFormEnabled = computed(() => config.public.contactFormEnabled !== false)
+const { contact } = usePublicSettings()
+const contactSettings = computed(() => contact.data.value)
+const linkedinUrl = computed(() => contactSettings.value.linkedinUrl)
+const contactFormEnabled = computed(() => config.public.contactFormEnabled !== false && contactSettings.value.formEnabled)
 
 useSeoMeta({
   title: `${t('contact.title')} | Pesaba`,
@@ -437,13 +439,13 @@ const messagePlaceholder = computed(() => {
 
 
 function copyEmail() {
-  navigator.clipboard.writeText(salesEmail)
+  navigator.clipboard.writeText(salesEmail.value)
   copiedEmail.value = true
   setTimeout(() => { copiedEmail.value = false }, 2000)
 }
 
 function copyPhone() {
-  navigator.clipboard.writeText(salesPhoneDisplayInternational)
+  navigator.clipboard.writeText(salesPhoneDisplayInternational.value)
   copiedPhone.value = true
   setTimeout(() => { copiedPhone.value = false }, 2000)
 }
@@ -453,7 +455,7 @@ async function submitForm() {
   submitting.value = true
   submitStatus.value = null
   try {
-    const response = await $fetch<{ ok: boolean, requestId: string }>(config.public.contactFormUrl || '/api/contact', {
+    const response = await $fetch(config.public.contactFormUrl || '/api/contact', {
       method: 'POST', 
       body: { 
         name: form.name,
@@ -465,9 +467,10 @@ async function submitForm() {
         website: form.website,
         consent: form.consent,
       } 
-    })
+    }) as { ok: boolean, id?: string, requestId?: string }
     submitStatus.value = 'success'
-    submitMessage.value = `${t('contact.success_sent')} (${locale.value === 'fa' ? 'شناسه پیگیری' : 'Reference'}: ${response.requestId})`
+    const requestId = response.id || response.requestId
+    submitMessage.value = requestId ? `${t('contact.success_sent')} (${locale.value === 'fa' ? 'شناسه پیگیری' : 'Reference'}: ${requestId})` : t('contact.success_sent')
   } catch {
     submitStatus.value = 'error'
     submitMessage.value = t('contact.error_sent')

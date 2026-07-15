@@ -80,7 +80,7 @@
 
     <CTAStrip
       :headline="locale === 'fa' ? 'برای انتخاب پلتفرم مناسب راهنمایی می‌خواهید؟' : 'Need help matching the right platform?'"
-      :sub="locale === 'fa' ? 'تیم فروش فنی صبا درباره معماری، مستندات اعتماد و تناسب استقرار راهنمایی می‌کند.' : 'Talk to Pesaba sales engineering for architecture guidance, trust documentation, and deployment fit.'"
+      :sub="locale === 'fa' ? 'سناریوی شما را می‌شنویم و درباره راهکار، محصول مناسب و مسیر شروع راهنمایی‌تان می‌کنیم.' : 'Tell us about your situation and we will help you find the right solution, product, and next step.'"
       :primary-label="locale === 'fa' ? 'تماس با فروش' : 'Talk to sales'"
       :primary-href="localePath('/company/contact')"
       :secondary-label="locale === 'fa' ? 'مشاهده محصولات' : 'Browse products'"

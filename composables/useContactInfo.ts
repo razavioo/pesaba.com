@@ -1,12 +1,13 @@
 export function useContactInfo() {
   const { locale } = useI18n()
+  const { contact } = usePublicSettings()
 
-  const salesPhoneHref = 'tel:+982144215738'
-  const salesEmail = 'admin@pesaba.com'
-  const salesEmailHref = `mailto:${salesEmail}`
+  const salesPhoneHref = computed(() => `tel:${contact.data.value.phone.replace(/[^+\d]/g, '')}`)
+  const salesEmail = computed(() => contact.data.value.email)
+  const salesEmailHref = computed(() => `mailto:${salesEmail.value}`)
 
-  const salesPhoneDisplay = computed(() => locale.value === 'fa' ? '۰۲۱-۴۴۲۱۵۷۳۸' : '+98 21 4421 5738')
-  const salesPhoneDisplayInternational = '+98 21 4421 5738'
+  const salesPhoneDisplay = computed(() => contact.data.value.phoneDisplay[locale.value === 'fa' ? 'fa' : 'en'])
+  const salesPhoneDisplayInternational = computed(() => contact.data.value.phoneDisplay.en)
 
   return {
     salesPhoneHref,

@@ -74,8 +74,13 @@ useSeoMeta({
   ogDescription: computed(() => locale.value === 'fa' ? 'مقالات فنی درباره رمزنگاری، امنیت OT/ICS، پایش شبکه سلولی و تجهیزات مخابراتی.' : 'Technical articles on encryption, OT/ICS security, cellular network monitoring and telecom hardware.'),
 })
 
-const { data: articles } = await useAsyncData('articles-list', () =>
-  queryContent('articles').where({ locale: locale.value }).sort({ date: -1 }).find()
+const { list } = usePublicCms()
+const { data: articles } = await useAsyncData(
+  () => `articles-list-${locale.value}`,
+  async () => (await list('article', locale.value as 'fa' | 'en')).sort((first, second) =>
+    String(second.date || second.updatedAt).localeCompare(String(first.date || first.updatedAt)),
+  ) as any[],
+  { watch: [locale] },
 )
 
 const featuredArticle = computed(() => articles.value?.[0] || null)

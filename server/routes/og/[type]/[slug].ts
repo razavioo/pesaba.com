@@ -1,13 +1,13 @@
-import { serverQueryContent } from '#content/server'
 import { createError, defineEventHandler, getQuery, getRouterParam, setHeader } from 'h3'
 import sharp from 'sharp'
+import { cmsGet } from '../../../utils/cms'
 
-const CONTENT_COLLECTIONS = {
-  product: 'products',
-  article: 'articles',
+const CONTENT_TYPES = {
+  product: 'product',
+  article: 'article',
   glossary: 'glossary',
-  industry: 'industries',
-  'use-case': 'use-cases',
+  industry: 'industry',
+  'use-case': 'use_case',
 } as const
 
 const CATEGORY_TITLES: Record<string, { fa: string; en: string }> = {
@@ -29,15 +29,8 @@ const TYPE_LABELS: Record<string, { fa: string; en: string }> = {
   category: { fa: 'دسته محصولات', en: 'PRODUCT CATEGORY' },
 }
 
-type OgDocument = {
-  title?: string
-  description?: string
-  short_definition?: string
-  locale?: string
-}
-
-function isContentType(type: string): type is keyof typeof CONTENT_COLLECTIONS {
-  return type in CONTENT_COLLECTIONS
+function isContentType(type: string): type is keyof typeof CONTENT_TYPES {
+  return type in CONTENT_TYPES
 }
 
 export default defineEventHandler(async (event) => {
@@ -73,14 +66,10 @@ export default defineEventHandler(async (event) => {
       ? 'محصولات سخت‌افزاری پرتو ارتباط صبا'
       : 'Hardware products by Partov Ertebat Saba'
   } else if (isContentType(type)) {
-    const documents = await serverQueryContent(event, CONTENT_COLLECTIONS[type])
-      .where({ slug })
-      .find() as OgDocument[]
-    const document = documents.find(item => locale === 'fa'
-      ? item.locale === 'fa'
-      : item.locale === 'en' || !item.locale)
-
-    if (!document?.title) {
+    let document: Record<string, any>
+    try {
+      document = await cmsGet(event, CONTENT_TYPES[type], slug, locale)
+    } catch {
       throw createError({ statusCode: 404, statusMessage: 'Open Graph image not found' })
     }
 

@@ -16,9 +16,9 @@
       <nav aria-label="Main Menu" class="flex h-14 justify-between items-center w-full">
         <!-- Logo -->
         <NuxtLink :to="localePath('/')" class="flex items-center gap-2.5 shrink-0 me-4" :aria-label="$t('meta.site_name')">
-          <NuxtImg src="/pesaba-mark.svg" alt="Pesaba" class="h-8 w-8" />
+          <NuxtImg :src="branding.logoUrl" :alt="branding.name[locale === 'fa' ? 'fa' : 'en']" class="h-8 w-8" />
           <div class="hidden sm:block">
-            <div class="text-sm font-bold tracking-wider font-display text-[#27282D]">Pesaba</div>
+            <div class="text-sm font-bold tracking-wider font-display text-[#27282D]">{{ branding.name[locale === 'fa' ? 'fa' : 'en'] }}</div>
           </div>
         </NuxtLink>
 
@@ -42,7 +42,7 @@
               ]"
               v-bind="item.subItems ? { 'aria-expanded': activeMenu === item.key, 'aria-haspopup': true } : {}"
             >
-              {{ $t(`nav.${item.key}`) }}
+              {{ item.label || $t(`nav.${item.key}`) }}
             </NuxtLink>
           </div>
         </div>
@@ -58,7 +58,7 @@
             :to="localePath('/company/contact')"
             class="button button-cta font-display !min-h-0 !min-w-0 min-w-[8.5rem] whitespace-nowrap h-[46px] md:h-[56px] px-5 md:px-8 text-[14px] md:text-[1.125rem] font-medium flex items-center justify-center bg-[#1F7994] text-white hover:bg-[#093544] rounded-[2px] transition-colors duration-300"
           >
-            {{ locale === 'fa' ? 'تماس با ما' : 'Contact us' }}
+            {{ contactLabel }}
           </NuxtLink>
 
           <!-- Mobile hamburger -->
@@ -102,7 +102,7 @@
         <!-- Header inside mobile menu drawer -->
         <div class="flex justify-between items-center mb-12">
           <NuxtLink :to="localePath('/')" class="flex items-center gap-2.5" @click="mobileOpen = false">
-            <NuxtImg src="/pesaba-mark.svg" alt="Pesaba" class="h-8 w-8" />
+            <NuxtImg :src="branding.logoUrl" :alt="branding.name[locale === 'fa' ? 'fa' : 'en']" class="h-8 w-8" />
             <div class="text-sm font-bold tracking-wider font-display text-white">Pesaba</div>
           </NuxtLink>
 
@@ -131,7 +131,7 @@
                 class="text-xl font-medium text-white hover:text-[#1F7994] transition-colors"
                 @click="closeMobile()"
               >
-                {{ $t(`nav.${item.key}`) }}
+                {{ item.label || $t(`nav.${item.key}`) }}
               </NuxtLink>
               <button
                 v-if="item.subItems"
@@ -162,7 +162,7 @@
               class="button button-cta font-display w-full h-[56px] text-[1.125rem] font-medium flex items-center justify-center bg-[#1F7994] text-white hover:bg-[#093544] rounded-[2px] transition-colors duration-300"
               @click="closeMobile()"
             >
-              {{ locale === 'fa' ? 'تماس با ما' : 'Contact us' }}
+              {{ contactLabel }}
             </NuxtLink>
           </div>
         </nav>
@@ -174,6 +174,9 @@
 <script setup lang="ts">
 const { t, locale } = useI18n()
 const localePath = useLocalePath()
+const { branding: brandingSetting, navigation } = usePublicSettings()
+const branding = computed(() => brandingSetting.data.value)
+const contactLabel = computed(() => locale.value === 'fa' ? 'تماس با ما' : 'Contact us')
 
 const headerRef = ref<HTMLElement | null>(null)
 const scrolled = ref(false)
@@ -195,11 +198,12 @@ const imageHeroPage = computed(() => [
 
 const homePage = computed(() => route.path === '/fa' || route.path === '/en' || route.path === '/fa/' || route.path === '/en/')
 
-const navItems = computed(() => [
-  { key: 'home', to: '/', subItems: false, children: [] },
+const defaultNavItems = computed(() => [
+  { key: 'home', to: '/', label: '', subItems: false, children: [] },
   {
     key: 'solutions',
     to: '/industries',
+    label: '',
     subItems: true,
     children: [
       { to: '/industries/power-grid', label: t('industries.power_grid') },
@@ -212,6 +216,7 @@ const navItems = computed(() => [
   {
     key: 'products',
     to: '/products',
+    label: '',
     subItems: true,
     children: [
       { to: '/products/data-diodes', label: t('products.categories.data-diodes') },
@@ -223,6 +228,7 @@ const navItems = computed(() => [
   {
     key: 'resources',
     to: '/resources',
+    label: '',
     subItems: true,
     children: [
       { to: '/blog', label: t('blog.title') },
@@ -230,9 +236,19 @@ const navItems = computed(() => [
       { to: '/resources/firmware', label: t('footer.firmware') },
     ],
   },
-  { key: 'technology', to: '/technology', subItems: false, children: [] },
-  { key: 'trust', to: '/trust', subItems: false, children: [] },
+  { key: 'technology', to: '/technology', label: '', subItems: false, children: [] },
+  { key: 'trust', to: '/trust', label: '', subItems: false, children: [] },
 ])
+
+const navItems = computed(() => navigation.data.value.header.length
+  ? navigation.data.value.header.map((item: { key: string; to: string; label: { fa: string; en: string }; children: { to: string; label: { fa: string; en: string } }[] }) => ({
+      key: item.key,
+      to: item.to,
+      label: item.label[locale.value === 'fa' ? 'fa' : 'en'],
+      subItems: item.children.length > 0,
+      children: item.children.map((child: { to: string; label: { fa: string; en: string } }) => ({ to: child.to, label: child.label[locale.value === 'fa' ? 'fa' : 'en'] })),
+    }))
+  : defaultNavItems.value)
 
 function openMenu(key: string) { cancelClose(); activeMenu.value = key }
 function scheduleClose() { closeTimer = setTimeout(() => { activeMenu.value = null }, 120) }
@@ -317,7 +333,6 @@ onUnmounted(() => {
 }
 
 .site-header--home::before {
-  bottom: -16px;
   background: transparent;
 }
 

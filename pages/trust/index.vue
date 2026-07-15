@@ -36,7 +36,7 @@
       <div class="container-site py-10">
         <div class="overflow-hidden rounded-3xl border border-[var(--border)]">
           <NuxtImg
-            src="/images/trust/rack-installation.png"
+            :src="pageData.evidenceImage"
             :alt="locale === 'fa' ? 'نصب رک — سخت‌افزار پرتو ارتباط صبا در محیط عملیاتی' : 'Rack installation — Pesaba hardware in operational environment'"
             class="h-64 w-full object-cover object-center md:h-80"
             loading="lazy"
@@ -74,6 +74,12 @@
 <script setup lang="ts">
 const { t, locale } = useI18n()
 const localePath = useLocalePath()
+const { get } = usePublicCms()
+const { data: page } = await useAsyncData('trust-page', () => get('page', 'trust', locale.value as 'fa' | 'en').catch(() => null), { watch: [locale] })
+const pageData = computed(() => {
+  const data = page.value as { evidenceImage?: string } | null
+  return { evidenceImage: data?.evidenceImage || '/images/trust/rack-installation.png' }
+})
 
 useSeoMeta({
   title: `${t('trust.title')} | Pesaba`,

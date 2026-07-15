@@ -87,16 +87,10 @@ if (!Object.hasOwn(DESCS, category)) {
   throw createError({ statusCode: 404, statusMessage: 'Product category not found' })
 }
 
-const { data: products } = await useAsyncData(`category-${category}-${locale.value}`, async () => {
-  const all = await queryContent('products')
-    .where({ category, active: { $ne: false } })
-    .find()
-  return all
-    .filter(p => locale.value === 'fa'
-      ? p.locale === 'fa'
-      : p.locale === 'en' || !p.locale)
-    .sort((a, b) => (a.priority ?? 999) - (b.priority ?? 999))
-})
+const { list } = usePublicCms()
+const { data: products } = await useAsyncData(`category-${category}-${locale.value}`, async () =>
+  (await list('product', locale.value as 'fa' | 'en')).filter((product: any) => product.category === category).sort((a: any, b: any) => (a.priority ?? a.sortOrder ?? 999) - (b.priority ?? b.sortOrder ?? 999)), { watch: [locale] },
+)
 
 const categoryDesc = computed(() => locale.value === 'fa' ? DESCS[category]?.fa || '' : DESCS[category]?.en || '')
 const categoryTag = computed(() => locale.value === 'fa' ? TAGS[category]?.fa || '' : TAGS[category]?.en || '')

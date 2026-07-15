@@ -9,7 +9,7 @@
           </h1>
           <p class="max-w-3xl text-lg leading-relaxed text-white/70">
             {{ locale === 'fa'
-              ? 'سناریوی مناسب را انتخاب کنید تا معماری پیشنهادی، مزیت فنی و محصولات مرتبط پرتو ارتباط صبا را ببینید.'
+              ? 'مسئله‌ای را که می‌خواهید حل کنید انتخاب کنید تا نتیجه مورد انتظار، راهکار مناسب و محصولات مرتبط را ببینید.'
               : 'Choose a scenario to review the recommended architecture, technical advantage, and matching Pesaba platforms.' }}
           </p>
         </div>
@@ -63,22 +63,10 @@ useSeoMeta({
     : 'Deployment scenarios for Pesaba platforms across critical infrastructure, industrial networks, encryption, and cellular monitoring.',
 })
 
-const useCases = computed(() => locale.value === 'fa'
-  ? [
-      { slug: 'one-way-data-transfer', title: 'انتقال یک طرفه داده', description: 'طراحی مسیر خروج داده با مرز سخت‌افزاری مستندشده برای مدل انتخابی.', image: '/images/use-cases/one-way-data-transfer.png' },
-      { slug: 'ot-it-segmentation', title: 'تفکیک OT و IT', description: 'ایجاد مرز قابل کنترل بین شبکه صنعتی و شبکه سازمانی.', image: '/images/use-cases/ot-it-segmentation.png' },
-      { slug: 'aes-256-network-encryption', title: 'رمزنگاری شبکه AES-256', description: 'حفاظت از لینک های بین سایت با رمزنگاری سخت افزاری.', image: '/images/use-cases/network-encryption-hero.png' },
-      { slug: 'cellular-quality-monitoring', title: 'پایش کیفیت شبکه سلولی', description: 'اندازه گیری پوشش و KPIهای سرویس از میدان تا مرکز پایش.', image: '/images/use-cases/cellular-quality-monitoring.png' },
-      { slug: 'scada-isolation', title: 'ایزوله سازی SCADA', description: 'کاهش سطح حمله سامانه های کنترل صنعتی و مسیرهای مدیریتی.', image: '/images/use-cases/scada-isolation.png' },
-      { slug: 'water-toxicity-monitoring', title: 'پایش سمیت آب', description: 'پایش سریع کیفیت آب برای زیرساخت های شهری و صنعتی.', image: '/images/use-cases/water-toxicity-monitoring.png' },
-    ]
-  : [
-      { slug: 'one-way-data-transfer', title: 'One-Way Data Transfer', description: 'Design outbound data flows around the documented hardware boundary of the selected data-diode model.', image: '/images/use-cases/one-way-data-transfer.png' },
-      { slug: 'ot-it-segmentation', title: 'OT/IT Segmentation', description: 'Create a controlled boundary between industrial and enterprise networks.', image: '/images/use-cases/ot-it-segmentation.png' },
-      { slug: 'aes-256-network-encryption', title: 'AES-256 Network Encryption', description: 'Protect inter-site links with hardware-native encryption appliances.', image: '/images/use-cases/network-encryption-hero.png' },
-      { slug: 'cellular-quality-monitoring', title: 'Cellular Quality Monitoring', description: 'Measure service coverage and KPIs from field probes to central analytics.', image: '/images/use-cases/cellular-quality-monitoring.png' },
-      { slug: 'scada-isolation', title: 'SCADA Isolation', description: 'Reduce the attack surface around industrial control systems and management paths.', image: '/images/use-cases/scada-isolation.png' },
-      { slug: 'water-toxicity-monitoring', title: 'Water Toxicity Monitoring', description: 'Monitor water quality rapidly for municipal and industrial infrastructure.', image: '/images/use-cases/water-toxicity-monitoring.png' },
-    ]
-)
+const { list } = usePublicCms()
+const fallbackImages: Record<string, string> = {
+  'one-way-data-transfer': '/images/use-cases/one-way-data-transfer.png', 'ot-it-segmentation': '/images/use-cases/ot-it-segmentation.png', 'aes-256-network-encryption': '/images/use-cases/network-encryption-hero.png', 'cellular-quality-monitoring': '/images/use-cases/cellular-quality-monitoring.png', 'scada-isolation': '/images/use-cases/scada-isolation.png', 'water-toxicity-monitoring': '/images/use-cases/water-toxicity-monitoring.png',
+}
+const { data: records } = await useAsyncData('use-case-index', () => list('use_case', locale.value as 'fa' | 'en'), { watch: [locale] })
+const useCases = computed(() => (records.value || []).map(item => ({ ...item, image: typeof item.image === 'string' ? item.image : typeof item.hero_image === 'string' ? item.hero_image : fallbackImages[item.slug] || '/images/use-cases/one-way-data-transfer.png' })))
 </script>

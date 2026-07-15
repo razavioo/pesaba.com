@@ -34,7 +34,7 @@
           <div class="spec-exhibit">№&nbsp;01</div>
           <div class="spec-visual-zone">
             <img
-              :src="withBase('/images/stats/products.png')"
+              :src="withBase(displayProductImage)"
               :alt="locale === 'fa' ? 'مدخل‌های کاتالوگ محصول' : 'Published product catalogue entries'"
               class="spec-image"
               loading="lazy"
@@ -56,7 +56,7 @@
           <div class="spec-exhibit">№&nbsp;02</div>
           <div class="spec-visual-zone">
             <img
-              :src="withBase('/images/stats/categories.png')"
+              :src="withBase(displayCategoryImage)"
               :alt="locale === 'fa' ? 'خانواده‌های محصول' : 'Product families'"
               class="spec-image"
               loading="lazy"
@@ -78,7 +78,7 @@
           <div class="spec-exhibit">№&nbsp;03</div>
           <div class="spec-visual-zone">
             <img
-              :src="withBase('/images/stats/years.png')"
+              :src="withBase(displayLocaleImage)"
               :alt="locale === 'fa' ? 'محتوای فارسی و انگلیسی' : 'Persian and English content'"
               class="spec-image"
               loading="lazy"
@@ -103,13 +103,17 @@
 <script setup lang="ts">
 const { locale } = useI18n()
 const { withBase } = useBaseUrl()
-const { data: catalogueProducts } = await useAsyncData('homepage-catalogue-stats', () =>
-  queryContent('products').only(['slug', 'category', 'locale', 'active']).find(),
-)
+const props = withDefaults(defineProps<{ productImage?: string; categoryImage?: string; localeImage?: string }>(), {
+  productImage: '/images/stats/products.png', categoryImage: '/images/stats/categories.png', localeImage: '/images/stats/years.png',
+})
+const displayProductImage = computed(() => props.productImage)
+const displayCategoryImage = computed(() => props.categoryImage)
+const displayLocaleImage = computed(() => props.localeImage)
+const { list } = usePublicCms()
+const { data: catalogueProducts } = await useAsyncData('homepage-catalogue-stats', () => list('product', locale.value as 'fa' | 'en'), { watch: [locale] })
 const activeProducts = computed(() => (catalogueProducts.value || []).filter(product => product.active !== false))
 const productCount = computed(() => new Set(
   activeProducts.value
-    .filter(product => product.locale !== 'fa')
     .map(product => `${product.category}/${product.slug}`),
 ).size)
 const categoryCount = computed(() => new Set(activeProducts.value.map(product => product.category).filter(Boolean)).size)

@@ -1,5 +1,11 @@
-import { defineEventHandler, sendRedirect } from 'h3'
+import { defineEventHandler, getRequestURL, sendRedirect } from 'h3'
 import { REDIRECTS } from '../redirects-map'
+
+type CmsRedirect = {
+  fromPath: string
+  toPath: string
+  statusCode: 301 | 302
+}
 
 function safeDecode(path: string) {
   try {
@@ -30,10 +36,32 @@ for (const [source, target] of Object.entries(REDIRECTS)) {
   for (const variant of pathVariants(source)) redirectLookup.set(variant, target)
 }
 
-export default defineEventHandler((event) => {
-  const rawPath = (event.path || '/').split('?')[0]
+export default defineEventHandler(async (event) => {
+  const requestUrl = getRequestURL(event)
+  const rawPath = requestUrl.pathname || '/'
   for (const variant of pathVariants(rawPath)) {
     const target = redirectLookup.get(variant)
     if (target) return sendRedirect(event, target, 301)
+  }
+
+  // Admin routes are intentionally never subject to editor-managed public redirects.
+  if (rawPath === '/admin' || rawPath.startsWith('/admin/')) return
+
+  try {
+    const config = useRuntimeConfig(event)
+    const base = String(config.public.cmsApiUrl).replace(/\/$/, '')
+    const redirect = await $fetch(`${base}/public/redirect`, {
+      query: { path: rawPath },
+      timeout: 1_500,
+    }) as CmsRedirect | null
+    if (!redirect || redirect.fromPath === redirect.toPath) return
+
+    const separator = redirect.toPath.includes('?') ? '&' : '?'
+    const target = requestUrl.search && !redirect.toPath.includes(requestUrl.search)
+      ? `${redirect.toPath}${separator}${requestUrl.search.slice(1)}`
+      : redirect.toPath
+    return sendRedirect(event, target, redirect.statusCode)
+  } catch {
+    // CMS availability must not take down otherwise renderable public pages.
   }
 })

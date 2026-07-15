@@ -5,7 +5,7 @@ slug: 'a10'
 category: 'data-diodes'
 category_label: 'Data Diodes'
 category_label_fa: 'دیتادیود'
-description: 'Data Diode A10 is listed in the Pesaba catalogue; specifications require model and revision confirmation.'
+description: 'Data Diode A10 is a hardware-based one-way data transfer solution that physically eliminates return paths to protect OT/ICS and SCADA networks; capabilities require model and revision confirmation.'
 description_fa: 'دیتادیود A10 در کاتالوگ پسابا ثبت شده است و مشخصات آن باید برای مدل و نسخه انتخابی تأیید شود.'
 id: 'dab6a5e5-e850-443f-878f-f4b175cc7961'
 active: true

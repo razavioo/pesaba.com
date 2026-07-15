@@ -17,37 +17,36 @@
     </section>
 
     <!-- Product picker -->
-    <section class="container-site pb-8">
-      <div class="mb-4 grid gap-3 md:grid-cols-[minmax(0,1fr)_14rem]">
+    <section class="container-site pt-8 pb-8">
+      <div class="mb-4">
         <label class="sr-only" for="compare-search">{{ locale === 'fa' ? 'جست‌وجوی محصول' : 'Search products' }}</label>
         <input id="compare-search" v-model="search" type="search" :placeholder="locale === 'fa' ? 'جست‌وجوی نام محصول...' : 'Search by product name...'" class="w-full border border-[var(--border)] bg-[var(--bg-page)] px-3 py-2 text-sm text-[var(--text-primary)] outline-none focus:border-[var(--accent)]">
-        <select v-model="categoryFilter" class="border border-[var(--border)] bg-[var(--bg-page)] px-3 py-2 text-sm text-[var(--text-primary)] outline-none focus:border-[var(--accent)]">
-          <option value="">{{ locale === 'fa' ? 'همه دسته‌ها' : 'All categories' }}</option>
-          <option v-for="category in categories" :key="category" :value="category">{{ category.replace(/-/g, ' ') }}</option>
-        </select>
       </div>
-      <div class="flex max-h-56 flex-wrap gap-2 overflow-y-auto border border-[var(--border)] bg-[var(--bg-elevated)] p-3">
-        <button
-          v-for="p in filteredProducts"
-          :key="p.slug + p.category"
-          :class="[
-            'px-3 py-1.5 text-xs font-medium rounded-[2px] border transition-all duration-150',
-            isSelected(p)
-              ? 'bg-[rgba(31,121,148,0.15)] border-[#1F7994]/60 text-[#1F7994]'
-              : 'border-ink-700 text-ink-400 hover:border-ink-500 hover:text-ink-200',
-          ]"
-          @click="toggleProduct(p)"
-        >
-          {{ locale === 'fa' && p.title_fa ? p.title_fa : p.title }}
-        </button>
+      <div class="grid gap-x-10 gap-y-5 md:grid-cols-2">
+        <section v-for="group in groupedProducts" :key="group.category" class="min-w-0 border-s-2 border-[#1F7994]/35 ps-3">
+          <div class="mb-2 flex items-baseline gap-2">
+            <h2 class="text-sm font-semibold text-[var(--text-primary)]">
+              {{ $t(`products.categories.${group.category}`) }}
+            </h2>
+          </div>
+          <div class="flex flex-wrap gap-1.5">
+            <button
+              v-for="p in group.products"
+              :key="p.slug + p.category"
+              :class="[
+                'rounded-[2px] border px-2.5 py-1 text-xs font-medium transition-all duration-150',
+                isSelected(p)
+                  ? 'border-[#1F7994]/60 bg-[rgba(31,121,148,0.15)] text-[#1F7994]'
+                  : 'border-ink-700 text-ink-400 hover:border-ink-500 hover:text-ink-200',
+              ]"
+              @click="toggleProduct(p)"
+            >
+              {{ locale === 'fa' && p.title_fa ? p.title_fa : p.title }}
+            </button>
+          </div>
+        </section>
       </div>
       <p v-if="!filteredProducts.length" class="mt-3 text-sm text-[var(--text-muted)]">{{ locale === 'fa' ? 'محصولی پیدا نشد.' : 'No products found.' }}</p>
-      <p class="text-xs text-ink-600">
-        {{ $t('compare.selected', { n: selected.length }) }}
-        <button v-if="selected.length" class="ms-3 text-[#1F7994] hover:text-[#1F7994] transition-colors" @click="selected = []">
-          {{ $t('compare.clear_all') }}
-        </button>
-      </p>
     </section>
 
     <!-- Comparison table -->
@@ -61,18 +60,23 @@
             <th
               v-for="p in selected"
               :key="p.slug"
-              class="py-4 px-4 text-center min-w-[180px]"
+              class="min-w-[220px] px-4 py-4 text-center"
             >
               <NuxtLink :to="localePath(`/products/${p.category}/${p.slug}`)" class="group">
-                <div class="w-12 h-12 rounded-[2px] bg-ink-900 border border-ink-700 flex items-center justify-center mx-auto mb-2 group-hover:border-[#1F7994]/40 transition-colors">
-                  <span class="text-xs font-mono text-ink-500">{{ (p.slug ?? '').toUpperCase().slice(0, 3) }}</span>
+                <div class="mx-auto mb-3 h-24 w-36 rounded-[2px] border border-ink-700 bg-white p-1 transition-colors group-hover:border-[#1F7994]/40">
+                  <NuxtImg
+                    :src="p.photos?.[0] || '/placeholder-product.svg'"
+                    :alt="locale === 'fa' && p.title_fa ? p.title_fa : p.title"
+                    class="h-full w-full object-contain"
+                    loading="eager"
+                  />
                 </div>
                 <p class="font-semibold text-ink-100 text-sm group-hover:text-[#1F7994] transition-colors">
                   {{ locale === 'fa' && p.title_fa ? p.title_fa : p.title }}
                 </p>
-                <p class="text-xs text-ink-600 mt-0.5">{{ (p.category ?? '').replace(/-/g, ' ') }}</p>
+                <p class="mt-0.5 text-xs text-ink-600">{{ $t(`products.categories.${p.category}`) }}</p>
               </NuxtLink>
-              <button class="mt-2 text-[10px] text-ink-600 hover:text-[var(--accent)] transition-colors" @click="deselect(p)">
+              <button class="mt-3 inline-flex min-h-8 items-center border border-red-500/35 px-3 py-1 text-xs text-red-400 transition-colors hover:border-red-400 hover:bg-red-500/10 hover:text-red-300" @click="deselect(p)">
                 {{ $t('compare.remove') }}
               </button>
             </th>
@@ -131,21 +135,36 @@
           <rect x="26" y="4" width="18" height="40" rx="2" stroke="currentColor" stroke-width="1.5"/>
           <path d="M4 16h18M26 16h18M4 28h18M26 28h18" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3 3"/>
         </svg>
-        <p class="text-base text-[var(--text-secondary)] mb-1">
+        <p v-if="sameCategorySuggestions.length" class="text-base text-[var(--text-secondary)] mb-1">
+          {{ recommendationHint }}
+        </p>
+        <p v-else class="text-base text-[var(--text-secondary)] mb-1">
           {{ $t('compare.select_hint') }}
         </p>
         <p class="text-xs text-[var(--text-muted)] mb-6">
-          {{ $t('compare.popular_hint') }}
+          {{ sameCategorySuggestions.length ? recommendationSubHint : $t('compare.popular_hint') }}
         </p>
         <div class="flex flex-wrap gap-2 justify-center">
-          <button
-            v-for="qs in quickStart"
-            :key="qs.label"
-            class="px-3.5 py-2 text-xs font-medium rounded-[2px] border border-[#1F7994]/30 bg-[rgba(31,121,148,0.05)] text-[#1F7994] hover:bg-[rgba(31,121,148,0.15)] hover:border-[#1F7994]/60 transition-all"
-            @click="loadQuickStart(qs.slugs)"
-          >
-            {{ qs.label }}
-          </button>
+          <template v-if="sameCategorySuggestions.length">
+            <button
+              v-for="p in sameCategorySuggestions"
+              :key="p.slug + p.category"
+              class="px-3.5 py-2 text-xs font-medium rounded-[2px] border border-[#1F7994]/30 bg-[rgba(31,121,148,0.05)] text-[#1F7994] hover:bg-[rgba(31,121,148,0.15)] hover:border-[#1F7994]/60 transition-all"
+              @click="toggleProduct(p)"
+            >
+              {{ locale === 'fa' && p.title_fa ? p.title_fa : p.title }}
+            </button>
+          </template>
+          <template v-else>
+            <button
+              v-for="qs in quickStart"
+              :key="qs.label"
+              class="px-3.5 py-2 text-xs font-medium rounded-[2px] border border-[#1F7994]/30 bg-[rgba(31,121,148,0.05)] text-[#1F7994] hover:bg-[rgba(31,121,148,0.15)] hover:border-[#1F7994]/60 transition-all"
+              @click="loadQuickStart(qs.slugs)"
+            >
+              {{ qs.label }}
+            </button>
+          </template>
         </div>
       </div>
     </section>
@@ -165,14 +184,12 @@ useSeoMeta({
 interface Product {
   title: string; title_fa?: string; slug: string; category: string
   description?: string; description_fa?: string; evidence_reviewed?: boolean
+  photos?: string[]
   specs?: Array<{ label: string; value: string }>
 }
 
-const { data: rawProducts } = await useAsyncData('compare-products', () =>
-  queryContent('products')
-    .only(['title', 'title_fa', 'slug', 'category', 'description', 'description_fa', 'evidence_reviewed', 'specs'])
-    .find()
-)
+const { list } = usePublicCms()
+const { data: rawProducts } = await useAsyncData('compare-products', () => list('product', locale.value as 'fa' | 'en'), { watch: [locale] })
 
 // De-dupe: one entry per slug+category (both en and fa files exist)
 const allProducts = computed((): Product[] => {
@@ -182,23 +199,46 @@ const allProducts = computed((): Product[] => {
     const key = `${p.category}/${p.slug}`
     if (seen.has(key)) continue
     seen.add(key)
-    out.push(p as Product)
+    out.push(p as unknown as Product)
   }
   return out.sort((a, b) => a.category.localeCompare(b.category))
 })
 
 const selected = ref<Product[]>([])
 const search = ref('')
-const categoryFilter = ref('')
 
-const categories = computed(() => Array.from(new Set(allProducts.value.map(p => p.category))))
 const filteredProducts = computed(() => {
   const query = search.value.trim().toLocaleLowerCase()
   return allProducts.value.filter((p) => {
-    const title = (locale.value === 'fa' && p.title_fa ? p.title_fa : p.title).toLocaleLowerCase()
-    return (!categoryFilter.value || p.category === categoryFilter.value) && (!query || title.includes(query) || p.slug.includes(query))
+    const title = (p.title_fa || p.title).toLocaleLowerCase()
+    return !query || title.includes(query) || p.slug.includes(query)
   })
 })
+
+const groupedProducts = computed(() => {
+  const groups = new Map<string, Product[]>()
+  for (const product of filteredProducts.value) {
+    const group = groups.get(product.category) || []
+    group.push(product)
+    groups.set(product.category, group)
+  }
+  return Array.from(groups, ([category, products]) => ({ category, products }))
+})
+
+const sameCategorySuggestions = computed(() => {
+  if (selected.value.length !== 1) return []
+  const category = selected.value[0].category
+  return allProducts.value.filter(p => p.category === category && !isSelected(p)).slice(0, 4)
+})
+
+const recommendationHint = computed(() => {
+  const selectedTitle = selected.value[0] ? (selected.value[0].title_fa || selected.value[0].title) : ''
+  return locale.value === 'fa'
+    ? `برای مقایسه با ${selectedTitle}، یک محصول دیگر از همین دسته را انتخاب کنید.`
+    : `Choose another product from the same category to compare with ${selectedTitle}.`
+})
+
+const recommendationSubHint = computed(() => locale.value === 'fa' ? 'محصول پیشنهادی:' : 'Suggested products:')
 
 // URL-state: ?p=g200,emx-6
 const route = useRoute()

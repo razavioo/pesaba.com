@@ -1,19 +1,19 @@
 import { defineEventHandler, setHeader } from 'h3'
-import { serverQueryContent } from '#content/server'
+import { cmsList } from '../utils/cms'
 
 export default defineEventHandler(async (event) => {
   const config = useRuntimeConfig()
   const siteUrl = (config.public.siteUrl as string) || 'https://pesaba.com'
 
-  const articles = await serverQueryContent(event, 'articles')
-    .sort({ date: -1 })
-    .limit(20)
-    .find()
+  const articles = (await Promise.all([
+    cmsList(event, 'article', 'fa'),
+    cmsList(event, 'article', 'en'),
+  ])).flat().sort((first: any, second: any) => String(second.date || second.updatedAt).localeCompare(String(first.date || first.updatedAt))).slice(0, 20)
 
   const items = articles.map((a) => {
     const locale = a.locale === 'fa' ? 'fa' : 'en'
     const url = `${siteUrl}/${locale}/blog/${a.slug}`
-    const date = a.date ? new Date(a.date).toUTCString() : new Date().toUTCString()
+    const date = a.date ? new Date(String(a.date)).toUTCString() : new Date(a.updatedAt).toUTCString()
     return `
   <item>
     <title><![CDATA[${a.title || ''}]]></title>

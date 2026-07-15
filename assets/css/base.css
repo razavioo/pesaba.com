@@ -250,15 +250,16 @@
     border-bottom: none;
     background: #093544;
     padding-bottom: 3rem; /* space for SVG wedge */
-    /* Account for the navigation's 1px top and bottom borders. */
-    margin-top: calc(-6.5rem - 2px);
-    padding-top: calc(6.5rem + 2px);
+    /* Match the compact mobile navigation's rendered 5rem height and borders. */
+    margin-top: calc(-5rem - 2px);
+    padding-top: calc(5rem + 2px);
   }
 
   @media (min-width: 48rem) {
     .page-hero {
-      margin-top: calc(-7.5rem - 2px);
-      padding-top: calc(7.5rem + 2px);
+      /* The desktop header is 6rem tall including its outer spacing and borders. */
+      margin-top: calc(-6rem - 2px);
+      padding-top: calc(6rem + 2px);
     }
   }
 

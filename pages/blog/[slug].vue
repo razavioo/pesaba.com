@@ -32,7 +32,7 @@
           <article ref="articleRef" class="min-w-0">
 
             <div ref="proseRef" class="prose-article">
-              <ContentRenderer :value="article" />
+              <CmsMarkdown :source="String(article.body || '')" />
             </div>
 
             <div class="mt-10 flex items-center justify-between border-t border-[var(--border)] pt-6">
@@ -79,8 +79,9 @@ const route = useRoute()
 const { emitArticle, emitBreadcrumbs } = useSchemaOrg()
 
 const articleSlug = String(route.params.slug || '')
+const { get } = usePublicCms()
 const { data: article } = await useAsyncData(`article-${articleSlug}-${locale.value}`, () =>
-  queryContent('articles').where({ slug: articleSlug, locale: locale.value }).findOne(),
+  get('article', articleSlug, locale.value as 'fa' | 'en'), { watch: [locale] },
 )
 
 if (!article.value) {
@@ -89,7 +90,7 @@ if (!article.value) {
 
 const readingTime = computed(() => {
   if (!article.value?.body) return 5
-  const text = JSON.stringify(article.value.body)
+  const text = String(article.value.body)
   return Math.max(1, Math.ceil(text.length / 1000))
 })
 

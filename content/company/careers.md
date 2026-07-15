@@ -4,6 +4,7 @@ sub: "Join our engineering team and work on network-security and telecommunicati
 seo_title: "Careers | Pesaba"
 seo_desc: "Career opportunities at Partov Ertebat Saba — FPGA design, hardware security, network engineering."
 locale: en
+heroImage: "/images/heroes/careers-hero.png"
 reasons:
   - "Design and verify production hardware for industrial and security-sensitive network environments"
   - "Work with engineers across electronics, embedded systems, networking, and applied cryptography"

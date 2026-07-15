@@ -1,8 +1,13 @@
 // @ts-check
 import withNuxt from './.nuxt/eslint.config.mjs'
+import { globalIgnores } from 'eslint/config'
 
-export default withNuxt({
-  ignores: ['.nuxt-seo/**', '.output/**', 'playwright-report/**', 'test-results/**'],
+export default withNuxt(globalIgnores([
+  '**/.nuxt*/**',
+  '**/.output/**',
+  '**/playwright-report/**',
+  '**/test-results/**',
+]), {
   rules: {
     'vue/multi-word-component-names': 'off',
     'vue/no-v-html': 'warn',

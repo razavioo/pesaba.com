@@ -1,0 +1,48 @@
+{
+  "name": "@pesaba/cms-api",
+  "private": true,
+  "version": "0.1.0",
+  "type": "commonjs",
+  "scripts": {
+    "dev": "npm --workspace @pesaba/cms-contracts run build && npm run build && node dist/main.js",
+    "build": "tsc -p tsconfig.build.json",
+    "start": "node dist/main.js",
+    "prisma:generate": "prisma generate",
+    "prisma:migrate": "prisma migrate dev",
+    "prisma:deploy": "prisma migrate deploy",
+    "seed": "tsx src/seed.ts",
+    "import:content": "tsx src/import-content.ts",
+    "import:media": "tsx src/import-media.ts",
+    "sync:media-usages": "tsx src/sync-media-usages.ts",
+    "test": "node --test"
+  },
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.758.0",
+    "@aws-sdk/s3-request-presigner": "^3.758.0",
+    "@nestjs/common": "^11.0.11",
+    "@nestjs/core": "^11.0.11",
+    "@nestjs/platform-express": "^11.0.11",
+    "@nestjs/swagger": "^11.0.5",
+    "@pesaba/cms-contracts": "file:../../modules/cms-contracts",
+    "@prisma/client": "^6.5.0",
+    "argon2": "^0.41.1",
+    "cookie-parser": "^1.4.7",
+    "helmet": "^8.1.0",
+    "nodemailer": "9.0.3",
+    "reflect-metadata": "^0.2.2",
+    "sharp": "^0.34.1",
+    "yaml": "^2.7.1",
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "@nestjs/cli": "^11.0.5",
+    "@nestjs/schematics": "^11.0.0",
+    "@nestjs/testing": "^11.0.11",
+    "@types/cookie-parser": "^1.4.9",
+    "@types/node": "^22.14.1",
+    "@types/nodemailer": "^7.0.2",
+    "prisma": "^6.5.0",
+    "tsx": "^4.19.3",
+    "typescript": "^5.8.3"
+  }
+}

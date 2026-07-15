@@ -2,8 +2,8 @@
 title: 'تفکیک OT/IT'
 title_en: 'OT/IT Segmentation'
 slug: 'ot-it-segmentation'
-description: 'طراحی ناحیه، کانال، صدور یک‌طرفه، پایش و مسیر نگهداری مشخص میان OT و IT.'
-tagline: 'تفکیک را معماری کنید و سپس هر مسیر مجاز را راستی‌آزمایی کنید.'
+description: 'جدا نگه‌داشتن شبکه صنعتی از شبکه سازمانی و عبور دادن فقط جریان‌های داده موردنیاز.'
+tagline: 'شبکه صنعتی را جدا نگه دارید، بدون قطع ارتباط ضروری.'
 locale: fa
 products:
   - 'data-diode-a100'

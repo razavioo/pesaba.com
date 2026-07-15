@@ -1,7 +1,7 @@
 import { test } from '@playwright/test'
 import * as fs from 'fs'
 
-const BASE = 'http://localhost:3000'
+const BASE = process.env.BASE_URL || 'http://localhost:3000'
 const OUT = '/tmp/ui_screenshots'
 fs.mkdirSync(OUT, { recursive: true })
 

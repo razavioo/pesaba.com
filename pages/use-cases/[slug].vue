@@ -45,7 +45,7 @@
 
     <!-- Content -->
     <section class="container-site py-16">
-      <div class="prose-custom max-w-prose-narrow"><ContentRenderer :value="useCase" /></div>
+      <CmsMarkdown :source="String(useCase.body || '')" class="prose-custom max-w-prose-narrow" />
     </section>
 
     <CTAStrip :headline="$t('use_cases.cta_headline')" :primary-label="$t('products.request_quote')" :primary-href="localePath('/company/contact')" />
@@ -58,8 +58,9 @@ const localePath = useLocalePath()
 const route = useRoute()
 const { emitBreadcrumbs } = useSchemaOrg()
 
+const { get } = usePublicCms()
 const { data: useCase } = await useAsyncData(`use-case-${route.params.slug}-${locale.value}`, () =>
-  queryContent('use-cases').where({ slug: route.params.slug as string, locale: locale.value }).findOne()
+  get('use_case', String(route.params.slug), locale.value as 'fa' | 'en'), { watch: [locale] },
 )
 
 if (!useCase.value) {
@@ -96,7 +97,12 @@ const { withBase } = useBaseUrl()
 
 const heroMediaStyle = computed(() => {
   const position = locale.value === 'fa' ? 'left center' : 'right center'
-  return `background-image: url('${withBase(`/images/use-cases/${useCase.value?.slug}.png`)}'); background-size: cover; background-position: ${position};`
+  const image = typeof useCase.value?.hero_image === 'string'
+    ? useCase.value.hero_image
+    : typeof useCase.value?.image === 'string'
+      ? useCase.value.image
+      : `/images/use-cases/${useCase.value?.slug}.png`
+  return `background-image: url('${withBase(image)}'); background-size: cover; background-position: ${position};`
 })
 
 

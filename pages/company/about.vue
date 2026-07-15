@@ -46,7 +46,7 @@
     <section class="border-b border-[var(--border)]">
       <div class="relative h-[420px] overflow-hidden lg:h-[520px]">
         <NuxtImg
-          src="/images/hero-datacenter.png"
+          :src="aboutData.heroImage"
           :alt="locale === 'fa' ? 'تصویر مفهومی از زیرساخت شبکه' : 'Conceptual visualization of network infrastructure'"
           class="h-full w-full object-cover object-center"
           loading="lazy"
@@ -54,7 +54,7 @@
         <div class="absolute inset-0 bg-gradient-to-t from-[var(--bg-page)] via-[var(--bg-page)]/30 to-transparent" />
         <div class="absolute bottom-0 start-0 end-0 container-site pb-10">
           <p class="max-w-xl text-sm leading-relaxed text-[var(--text-secondary)]">
-            {{ locale === 'fa' ? 'دامنه طراحی، مونتاژ، آزمون و منشأ قطعات باید برای هر مدل و سفارش در مستندات خرید مشخص شود.' : 'Design, assembly, testing, and component-origin scope should be identified for each model and order in procurement documentation.' }}
+            {{ locale === 'fa' ? 'برای ما مهم است بدانید چه چیزی می‌خرید، چرا برای شبکه شما مناسب است و در زمان استقرار چه پشتیبانی‌ای دریافت می‌کنید. جزئیات ساخت و مدارک هر مدل نیز در مسیر خرید قابل ارائه است.' : 'You should know what you are buying, why it fits your network, and what support is available during deployment. Model-specific build details and documentation are also available through the buying process.' }}
           </p>
         </div>
       </div>
@@ -67,13 +67,13 @@
           <h2 class="section-heading mb-4 text-[var(--text-primary)]">{{ locale === 'fa' ? 'سخت‌افزار قابل توضیح، تیمی که پشتش می‌ایستد' : 'Explainable hardware, a team that stands behind it' }}</h2>
           <p class="text-sm leading-relaxed text-[var(--text-secondary)]">
             {{ locale === 'fa'
-              ? 'تمرکز تیم پرتو ارتباط صبا بر رمزنگاری، سخت‌افزار ارتباطی و امنیت OT/ICS است. هر محصول باید برای خریدار حرفه‌ای قابل توضیح باشد — از مسیر داده تا سطح حمله.'
+              ? 'تمرکز تیم پرتو ارتباط صبا بر رمزنگاری، سخت‌افزار ارتباطی و امنیت OT/ICS است. این تخصص را به محصولاتی تبدیل می‌کنیم که در شبکه‌های واقعی قابل استفاده، قابل توضیح و قابل پشتیبانی باشند.'
               : 'The Pesaba team focuses on cryptography, communications hardware, and OT/ICS security. Every product must be legible to professional buyers — from the data path to the attack surface.' }}
           </p>
         </div>
         <div class="overflow-hidden rounded-[2px] border border-[var(--border)]">
           <NuxtImg
-            src="/images/about/soc-operations.png"
+            :src="aboutData.engineeringImage"
             :alt="locale === 'fa' ? 'تصویر مفهومی از عملیات مهندسی و پایش شبکه' : 'Conceptual visualization of network engineering and monitoring'"
             class="h-72 w-full object-cover object-center lg:h-80"
             loading="lazy"
@@ -85,7 +85,7 @@
     <section class="section">
       <div class="container-site">
         <div class="max-w-4xl prose text-[var(--text-secondary)] prose-headings:text-[var(--text-primary)] prose-strong:text-[var(--text-primary)] prose-a:text-[#1F7994]">
-          <ContentRenderer :value="doc" />
+          <CmsMarkdown :source="String(doc.body || '')" />
         </div>
       </div>
     </section>
@@ -94,18 +94,24 @@
 
 <script setup lang="ts">
 const { locale } = useI18n()
-const { data: doc } = await useAsyncData(`about-${locale.value}`, async () => {
-  const entry = await queryContent('company/about').where({ locale: locale.value }).findOne()
-  if (entry) return entry
-  return await queryContent('company/about').findOne()
+const { get, list } = usePublicCms()
+const { data: doc } = await useAsyncData(`about-${locale.value}`, () => get('company', 'about', locale.value as 'fa' | 'en'), { watch: [locale] })
+
+type AboutPageData = { heroImage?: string; engineeringImage?: string }
+const aboutData = computed(() => {
+  const data = doc.value as (AboutPageData & Record<string, unknown>) | null
+  return {
+    heroImage: data?.heroImage || '/images/hero-datacenter.png',
+    engineeringImage: data?.engineeringImage || '/images/about/soc-operations.png',
+  }
 })
 
 const whyCards = computed(() => locale.value === 'fa'
   ? [
-      { title: 'توسعه محصول در ایران', body: 'پرتو ارتباط صبا محصولات امنیت شبکه را در ایران توسعه می‌دهد؛ دامنه ساخت و منشأ قطعات برای هر مدل و پروژه جداگانه تأیید می‌شود.' },
-      { title: 'معماری متناسب با محصول', body: 'وجود سیستم‌عامل، مرز مسیر داده و نقش FPGA بین مدل‌ها متفاوت است و باید از دیتاشیت همان نسخه بررسی شود.' },
-      { title: 'انطباق مبتنی بر مدرک', body: 'وضعیت گواهی تنها با شماره مدرک، مرجع، مدل، نسخه، دامنه و تاریخ اعتبار قابل تأیید است.' },
-      { title: 'بررسی مهندسی', body: 'تناسب محصول، الزامات استقرار و مستندات قابل ارائه در بررسی فنی و خرید مشخص می‌شوند.' },
+      { title: 'ساخته‌شده برای شبکه‌های حساس', body: 'محصولات پرتو ارتباط صبا برای جاهایی ساخته شده‌اند که امنیت، پایداری و کنترل جریان داده مستقیماً روی کار سازمان اثر می‌گذارد.' },
+      { title: 'راهکار متناسب با کار شما', body: 'از انتقال یک‌طرفه داده و رمزنگاری لینک تا پایش شبکه و آب، محصول بر اساس مسئله و محیط استفاده انتخاب می‌شود.' },
+      { title: 'اطلاعات روشن برای تصمیم مطمئن', body: 'مشخصات محصولات، محدودیت‌ها و مدارک قابل ارائه را شفاف منتشر می‌کنیم تا مقایسه و انتخاب برای شما ساده‌تر باشد.' },
+      { title: 'همراهی از انتخاب تا استقرار', body: 'اگر درباره تناسب محصول، روش اتصال یا الزامات شبکه مطمئن نیستید، تیم ما سناریوی شما را بررسی و مسیر مناسب را پیشنهاد می‌کند.' },
     ]
   : [
       { title: 'Product development in Iran', body: 'Pesaba develops network-security products in Iran; manufacturing scope and component origin are confirmed per model and project.' },
@@ -115,12 +121,10 @@ const whyCards = computed(() => locale.value === 'fa'
     ]
 )
 
-const { data: catalogProducts } = await useAsyncData('about-catalog-stats', () =>
-  queryContent('products').only(['slug', 'category', 'locale', 'active']).find(),
-)
+const { data: catalogProducts } = await useAsyncData('about-catalog-stats', () => list('product', locale.value as 'fa' | 'en'), { watch: [locale] })
 const catalogEntries = computed(() => new Set(
   (catalogProducts.value || [])
-    .filter(product => product.active !== false && product.locale !== 'fa')
+    .filter(product => product.active !== false)
     .map(product => `${product.category}/${product.slug}`),
 ).size)
 const catalogCategories = computed(() => new Set(
@@ -134,7 +138,7 @@ const aboutStats = computed(() => locale.value === 'fa'
   : [{ value: String(catalogEntries.value), label: 'Catalog entries' }, { value: String(catalogCategories.value), label: 'Product families' }, { value: '2', label: 'Site languages' }]
 )
 
-useSeoMeta({ title: doc.value?.seo_title ?? `About | Pesaba`, description: doc.value?.seo_desc })
+useSeoMeta({ title: doc.value?.seoTitle ?? `About | Pesaba`, description: doc.value?.seoDescription })
 </script>
 
 <style scoped>

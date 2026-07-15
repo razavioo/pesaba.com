@@ -114,19 +114,6 @@ interface ProductSpec {
   value?: string
 }
 
-interface CatalogProduct {
-  slug: string
-  title: string
-  category: string
-  description?: string
-  card_summary?: string
-  specs?: ProductSpec[]
-  locale?: string
-  active?: boolean
-  priority?: number
-  evidence_reviewed?: boolean
-}
-
 interface SelectorProduct {
   slug: string
   title: string
@@ -138,20 +125,16 @@ interface SelectorProduct {
 
 const { locale } = useI18n()
 const { publicDescription } = useProductCopy()
+const { list } = usePublicCms()
 const localePath = useLocalePath()
 const route = useRoute()
 const open = ref(false)
 const selectedCategory = ref('data-diodes')
 const categoryOrder = ['data-diodes', 'network-encryption', 'network-switching-filtering', 'telecom-transmission', 'cellular-monitoring', 'bio-monitoring']
 
-const { data: catalog, pending } = await useAsyncData('assistant-product-catalog', () =>
-  queryContent<CatalogProduct>('products')
-    .where({ active: { $ne: false } })
-    .find(),
-)
+const { data: catalog, pending } = await useAsyncData('assistant-product-catalog', () => list('product', locale.value))
 
 const localizedProducts = computed<SelectorProduct[]>(() => (catalog.value || [])
-  .filter(product => locale.value === 'fa' ? product.locale === 'fa' : !product.locale)
   .map(product => ({
     slug: product.slug,
     title: product.title,

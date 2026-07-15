@@ -1,6 +1,6 @@
 <template>
   <!-- Advenica pattern: dark navy hero, just H1, SVG wedge transitions to light -->
-  <section class="topology-hero page-hero relative overflow-hidden min-h-[430px] md:min-h-[560px] flex flex-col justify-center bg-[#093544]">
+  <section class="topology-hero page-hero relative overflow-hidden min-h-[430px] md:min-h-[560px] flex flex-col justify-center bg-[#093544]" :style="heroStyle">
     <!-- Grid pattern overlay -->
     <div class="absolute inset-0 pointer-events-none" style="background-image: radial-gradient(circle, rgba(170,197,208,0.04) 1px, transparent 1px); background-size: 28px 28px;" aria-hidden="true" />
 
@@ -30,7 +30,9 @@
 </template>
 
 <script setup lang="ts">
+const props = withDefaults(defineProps<{ heroImage?: string }>(), { heroImage: '/images/hero-bg.png' })
 const { t } = useI18n()
+const heroStyle = computed(() => ({ backgroundImage: `linear-gradient(to left, rgba(4, 24, 32, .88) 0%, rgba(4, 24, 32, .58) 48%, rgba(4, 24, 32, .22) 100%), url('${props.heroImage}')` }))
 </script>
 
 <style scoped>
@@ -40,9 +42,6 @@ const { t } = useI18n()
 }
 
 .topology-hero {
-  background-image:
-    linear-gradient(to left, rgba(4, 24, 32, .88) 0%, rgba(4, 24, 32, .58) 48%, rgba(4, 24, 32, .22) 100%),
-    url('/images/hero-bg.png');
   background-size: cover;
   background-position: center center;
   background-origin: border-box;

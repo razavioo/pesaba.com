@@ -5,6 +5,8 @@ node_modules/
 .nuxt/
 .nuxt-codex/
 .nuxt-seo/
+.nuxt-parity/
+.nuxt-verify/
 .output/
 dist/
 dist
@@ -13,6 +15,7 @@ dist
 .env
 .env.local
 .env.*.local
+.env.cms.local
 !.env.example
 
 # Logs
@@ -46,6 +49,8 @@ blender/
 # Playwright
 test-results/
 playwright-report/
+services/cms-api/dist/
+modules/cms-contracts/dist/
 
 # Large binary assets (use Git LFS for these)
 assets/fonts/**/*.woff2

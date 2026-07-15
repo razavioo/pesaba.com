@@ -2,8 +2,8 @@
 title: 'پایش کیفیت شبکه سلولی'
 title_en: 'Cellular Quality Monitoring'
 slug: 'cellular-quality-monitoring'
-description: 'جمع‌آوری و تحلیل اندازه‌گیری‌های مستند سرویس و رادیوی موبایل در 2G،‏ 3G،‏ LTE و TD-LTE.'
-tagline: 'نتیجه قابل مقایسه از روش اندازه‌گیری کنترل‌شده آغاز می‌شود.'
+description: 'پیدا کردن افت پوشش و کیفیت سرویس با اندازه‌گیری شبکه‌های 2G،‏ 3G،‏ LTE و TD-LTE.'
+tagline: 'مشکل کیفیت شبکه را زودتر پیدا کنید و بهتر تصمیم بگیرید.'
 locale: fa
 products:
   - 'capella'

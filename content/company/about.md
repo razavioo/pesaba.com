@@ -4,6 +4,8 @@ sub: "Developing network-security and telecommunications products with model-spe
 seo_title: "About | Pesaba"
 seo_desc: "Partov Ertebat Saba (Pesaba) develops hardware encryption, data-diode, network-monitoring, and telecommunications products in Iran."
 locale: en
+heroImage: "/images/hero-datacenter.png"
+engineeringImage: "/images/about/soc-operations.png"
 ---
 
 ## Who We Are

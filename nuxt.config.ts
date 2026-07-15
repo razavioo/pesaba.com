@@ -242,6 +242,7 @@ export default defineNuxtConfig({
     contactRateLimitMax: 5,
     contactMaxBodyBytes: 16_384,
     public: {
+      cmsApiUrl: process.env.NUXT_PUBLIC_CMS_API_URL || 'http://localhost:4400/api/v1',
       siteUrl: publicSiteUrl,
       siteIndexable: process.env.NUXT_PUBLIC_SITE_INDEXABLE
         ? process.env.NUXT_PUBLIC_SITE_INDEXABLE === 'true'

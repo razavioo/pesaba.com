@@ -7,17 +7,17 @@
         <!-- Brand column -->
         <div class="space-y-7">
           <NuxtLink :to="localePath('/')" class="inline-flex items-center gap-3">
-            <NuxtImg src="/pesaba-mark.svg" alt="Pesaba" class="h-10 w-10" />
+            <NuxtImg :src="branding.logoUrl" :alt="branding.name[locale === 'fa' ? 'fa' : 'en']" class="h-10 w-10" />
             <div>
-              <div class="text-lg font-bold text-white tracking-wide">Pesaba</div>
+              <div class="text-lg font-bold text-white tracking-wide">{{ branding.name[locale === 'fa' ? 'fa' : 'en'] }}</div>
               <div class="text-xs uppercase tracking-[0.22em] font-medium text-white/50">
-                {{ locale === 'fa' ? 'سخت‌افزار برای شبکه‌های حیاتی' : 'Hardware for critical networks' }}
+                {{ branding.tagline[locale === 'fa' ? 'fa' : 'en'] }}
               </div>
             </div>
           </NuxtLink>
 
           <p class="max-w-sm text-sm leading-relaxed text-white/60">
-            {{ $t('footer.tagline') }}
+            {{ branding.footerTagline[locale === 'fa' ? 'fa' : 'en'] }}
           </p>
 
           <!-- Contact block -->
@@ -43,7 +43,7 @@
             </a>
 
             <a
-              href="https://ir.linkedin.com/company/partov-ertebat-saba"
+              :href="contactSettings.linkedinUrl"
               target="_blank"
               rel="noopener noreferrer"
               :aria-label="locale === 'fa' ? 'لینکدین پرتو ارتباط صبا' : 'Partov Ertebat Saba on LinkedIn'"
@@ -59,40 +59,10 @@
 
         <!-- Links columns -->
         <div class="grid gap-8 sm:grid-cols-3">
-          <div>
-            <h3 class="mb-5 text-xs font-semibold uppercase tracking-[0.18em] text-white/40">{{ $t('footer.products') }}</h3>
+          <div v-for="group in footerGroups" :key="group.title">
+            <h3 class="mb-5 text-xs font-semibold uppercase tracking-[0.18em] text-white/40">{{ group.title }}</h3>
             <ul class="space-y-3">
-              <li v-for="item in productLinks" :key="item.to">
-                <NuxtLink
-                  :to="localePath(item.to)"
-                  class="text-sm text-white/60 hover:text-white transition-colors"
-                >
-                  {{ item.label }}
-                </NuxtLink>
-              </li>
-            </ul>
-          </div>
-
-          <div>
-            <h3 class="mb-5 text-xs font-semibold uppercase tracking-[0.18em] text-white/40">{{ $t('footer.solutions') }}</h3>
-            <ul class="space-y-3">
-              <li v-for="item in solutionLinks" :key="item.to">
-                <NuxtLink
-                  :to="localePath(item.to)"
-                  class="text-sm text-white/60 hover:text-white transition-colors"
-                >
-                  {{ item.label }}
-                </NuxtLink>
-              </li>
-            </ul>
-          </div>
-
-          <div>
-            <h3 class="mb-5 text-xs font-semibold uppercase tracking-[0.18em] text-white/40">
-              {{ locale === 'fa' ? 'شرکت' : 'Company' }}
-            </h3>
-            <ul class="space-y-3">
-              <li v-for="item in companyLinks" :key="item.to">
+              <li v-for="item in group.items" :key="item.to">
                 <NuxtLink
                   :to="localePath(item.to)"
                   class="text-sm text-white/60 hover:text-white transition-colors"
@@ -113,20 +83,8 @@
           {{ $t('footer.copyright', { year: new Date().getFullYear() }) }}
         </p>
         <nav class="flex flex-wrap items-center gap-x-4 gap-y-2" :aria-label="locale === 'fa' ? 'پیوندهای حقوقی' : 'Legal links'">
-          <NuxtLink :to="localePath('/trust')" class="text-xs text-white/35 hover:text-white/70 transition-colors">
-            {{ $t('trust.title') }}
-          </NuxtLink>
-          <NuxtLink :to="localePath('/legal/privacy')" class="text-xs text-white/35 hover:text-white/70 transition-colors">
-            {{ locale === 'fa' ? 'حریم خصوصی' : 'Privacy' }}
-          </NuxtLink>
-          <NuxtLink :to="localePath('/legal/terms')" class="text-xs text-white/35 hover:text-white/70 transition-colors">
-            {{ locale === 'fa' ? 'شرایط استفاده' : 'Terms' }}
-          </NuxtLink>
-          <NuxtLink :to="localePath('/legal/security')" class="text-xs text-white/35 hover:text-white/70 transition-colors">
-            {{ locale === 'fa' ? 'گزارش آسیب‌پذیری' : 'Security disclosure' }}
-          </NuxtLink>
-          <NuxtLink :to="localePath('/legal/accessibility')" class="text-xs text-white/35 hover:text-white/70 transition-colors">
-            {{ locale === 'fa' ? 'دسترس‌پذیری' : 'Accessibility' }}
+          <NuxtLink v-for="item in legalLinks" :key="item.to" :to="localePath(item.to)" class="text-xs text-white/35 hover:text-white/70 transition-colors">
+            {{ item.label }}
           </NuxtLink>
         </nav>
       </div>
@@ -138,6 +96,9 @@
 const { t, locale } = useI18n()
 const localePath = useLocalePath()
 const { salesPhoneHref, salesPhoneDisplayInternational, salesEmail, salesEmailHref } = useContactInfo()
+const { contact, branding: brandingSetting, navigation } = usePublicSettings()
+const contactSettings = computed(() => contact.data.value)
+const branding = computed(() => brandingSetting.data.value)
 
 const productLinks = computed(() => [
   { to: '/products/data-diodes', label: t('products.categories.data-diodes') },
@@ -164,4 +125,22 @@ const companyLinks = computed(() => [
   { to: '/blog', label: t('blog.title') },
   { to: '/glossary', label: t('glossary.title') },
 ])
+
+const footerGroups = computed(() => navigation.data.value.footer.length
+  ? navigation.data.value.footer.map((group: { title: { fa: string; en: string }; items: { to: string; label: { fa: string; en: string } }[] }) => ({ title: group.title[locale.value === 'fa' ? 'fa' : 'en'], items: group.items.map((item: { to: string; label: { fa: string; en: string } }) => ({ to: item.to, label: item.label[locale.value === 'fa' ? 'fa' : 'en'] })) }))
+  : [
+      { title: t('footer.products'), items: productLinks.value },
+      { title: t('footer.solutions'), items: solutionLinks.value },
+      { title: locale.value === 'fa' ? 'شرکت' : 'Company', items: companyLinks.value },
+    ])
+
+const legalLinks = computed(() => navigation.data.value.legal.length
+  ? navigation.data.value.legal.map((item: { to: string; label: { fa: string; en: string } }) => ({ to: item.to, label: item.label[locale.value === 'fa' ? 'fa' : 'en'] }))
+  : [
+      { to: '/trust', label: t('trust.title') },
+      { to: '/legal/privacy', label: locale.value === 'fa' ? 'حریم خصوصی' : 'Privacy' },
+      { to: '/legal/terms', label: locale.value === 'fa' ? 'شرایط استفاده' : 'Terms' },
+      { to: '/legal/security', label: locale.value === 'fa' ? 'گزارش آسیب پذیری' : 'Security disclosure' },
+      { to: '/legal/accessibility', label: locale.value === 'fa' ? 'دسترس پذیری' : 'Accessibility' },
+    ])
 </script>

@@ -56,7 +56,7 @@
     <!-- Prose: Challenge + Solution -->
     <section class="container-site py-16">
       <div class="max-w-3xl">
-        <div class="prose-custom"><ContentRenderer :value="industry" /></div>
+        <CmsMarkdown :source="String(industry.body || '')" class="prose-custom" />
       </div>
     </section>
 
@@ -155,26 +155,25 @@ const { publicDescription } = useProductCopy()
 const route = useRoute()
 const { emitBreadcrumbs } = useSchemaOrg()
 
+const { get, list } = usePublicCms()
 const { data: industry } = await useAsyncData(`industry-${route.params.slug}-${locale.value}`, () =>
-  queryContent('industries').where({ slug: route.params.slug as string, locale: locale.value }).findOne()
+  get('industry', String(route.params.slug), locale.value as 'fa' | 'en'), { watch: [locale] },
 )
 
 if (!industry.value) {
   throw createError({ statusCode: 404, statusMessage: 'Industry not found' })
 }
 
-const { data: allProducts } = await useAsyncData(`products-${locale.value}`, () =>
-  queryContent('products').where({ locale: locale.value }).find()
-)
+const { data: allProducts } = await useAsyncData(`products-${locale.value}`, () => list('product', locale.value as 'fa' | 'en'), { watch: [locale] })
 
-const { data: latestArticles } = await useAsyncData(`articles-${locale.value}-${route.params.slug}`, () =>
-  queryContent('articles').where({ locale: locale.value }).sort({ date: -1 }).limit(2).find()
+const { data: latestArticles } = await useAsyncData(`articles-${locale.value}-${route.params.slug}`, async () =>
+  (await list('article', locale.value as 'fa' | 'en')).sort((a: any, b: any) => String(b.date || b.updatedAt).localeCompare(String(a.date || a.updatedAt))).slice(0, 2), { watch: [locale] },
 )
 
 const industryProducts = computed(() => {
   if (!industry.value?.products || !allProducts.value) return []
   return ((industry.value.products as string[])
-    .map(id => allProducts.value!.find(p => p._path?.endsWith(id)))
+    .map(id => allProducts.value!.find((p: any) => p.slug === id || p.legacyFilename === id || p._path?.endsWith(id)))
     .filter(Boolean) as typeof allProducts.value)
     .slice(0, 3)
 })
@@ -209,6 +208,7 @@ const { withBase } = useBaseUrl()
 
 const heroMediaStyle = computed(() => {
   const position = locale.value === 'fa' ? 'left center' : 'center'
-  return `background-image: url('${withBase(`/images/industries/${industry.value?.slug}.png`)}'); background-size: cover; background-position: ${position};`
+  const image = typeof industry.value?.image === 'string' ? industry.value.image : `/images/industries/${industry.value?.slug}.png`
+  return `background-image: url('${withBase(image)}'); background-size: cover; background-position: ${position};`
 })
 </script>

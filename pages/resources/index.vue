@@ -1,7 +1,7 @@
 <template>
   <div>
     <ImageHero
-      image="/images/heroes/resources-hero.png"
+      :image="pageData.heroImage"
       :image-alt="locale === 'fa' ? 'میز کار مهندسی و منابع فنی امنیت شبکه' : 'Engineering workspace with technical security resources'"
       :eyebrow="locale === 'fa' ? 'منابع فنی' : 'Technical resources'"
       :title="$t('resources.headline')"
@@ -32,7 +32,7 @@
           </div>
         </div>
         <div class="border-s border-[var(--border)] ps-8">
-          <div class="label-meta mb-5">{{ locale === 'fa' ? 'برای ارزیابی خرید' : 'For technical evaluation' }}</div>
+          <div class="label-meta mb-5">{{ locale === 'fa' ? 'برای تصمیم بهتر' : 'Make a better decision' }}</div>
           <ul class="space-y-4">
             <li v-for="item in buyerTasks" :key="item" class="list-dot">{{ item }}</li>
           </ul>
@@ -45,6 +45,12 @@
 <script setup lang="ts">
 const { t, locale } = useI18n()
 const localePath = useLocalePath()
+const { get } = usePublicCms()
+const { data: page } = await useAsyncData('resources-page', () => get('page', 'resources', locale.value as 'fa' | 'en').catch(() => null), { watch: [locale] })
+const pageData = computed(() => {
+  const data = page.value as { heroImage?: string } | null
+  return { heroImage: data?.heroImage || '/images/heroes/resources-hero.png' }
+})
 
 useSeoMeta({
   title: `${t('nav.resources')} | Pesaba`,
@@ -59,8 +65,8 @@ const items = computed(() => [
 
 const featured = computed(() => locale.value === 'fa'
   ? [
-      { href: '/blog/what-is-a-data-diode-and-why-do-industrial-networks-need-one-way-data-transfer', title: 'چرا شبکه‌های صنعتی به انتقال یک‌طرفه داده نیاز دارند؟', desc: 'مقاله‌ای برای خریداران و معماران شبکه که بین فایروال و دیتا دیود مردد هستند.' },
-      { href: '/glossary/data-diode', title: 'واژه‌نامه: Data Diode', desc: 'تعریف سریع، کاربردها و جایگاه در معماری‌های با اطمینان بالا.' },
+      { href: '/blog/what-is-a-data-diode-and-why-do-industrial-networks-need-one-way-data-transfer', title: 'چرا شبکه‌های صنعتی به انتقال یک‌طرفه داده نیاز دارند؟', desc: 'توضیح ساده تفاوت فایروال و دیتا دیود و اینکه هرکدام چه زمانی به کار می‌آیند.' },
+      { href: '/glossary/data-diode', title: 'واژه‌نامه: Data Diode', desc: 'تعریف سریع یک فناوری مهم برای جدا نگه‌داشتن شبکه‌های حساس.' },
     ]
   : [
       { href: '/blog/what-is-a-data-diode-and-why-do-industrial-networks-need-one-way-data-transfer', title: 'Why industrial networks need one-way data transfer', desc: 'A practical explainer for buyers deciding between firewalls and physical one-way enforcement.' },
@@ -70,9 +76,9 @@ const featured = computed(() => locale.value === 'fa'
 
 const buyerTasks = computed(() => locale.value === 'fa'
   ? [
-      'انتخاب بین محصولات برای سناریوی استقرار و نرخ لینک.',
-      'دسترسی به واژه‌نامه و مقالات برای تیم فنی و خرید.',
-      'بررسی مسیر به‌روزرسانی فریم‌ور.',
+      'پیدا کردن راهکار مناسب بر اساس مسئله و صنعت شما.',
+      'آشنایی سریع با اصطلاحات و فناوری‌های موردنیاز.',
+      'دسترسی به مشخصات محصول و مسیر دریافت پشتیبانی.',
     ]
   : [
       'Compare product fit by deployment pattern and link speed.',

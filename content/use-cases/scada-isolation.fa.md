@@ -2,8 +2,8 @@
 title: 'ایزولاسیون SCADA'
 title_en: 'SCADA Isolation'
 slug: 'scada-isolation'
-description: 'کاهش مسیرهای ورودی شبکه به SCADA با حفظ صدور یک‌طرفه و آزموده‌شده داده عملیاتی منتخب.'
-tagline: 'ایزولاسیون ویژگی معماری است، نه وعده مطلق یک محصول.'
+description: 'کاهش مسیرهای پرریسک ورودی به SCADA و حفظ جریان خروجی داده عملیاتی موردنیاز.'
+tagline: 'سامانه کنترل صنعتی را از مسیرهای پرریسک دور نگه دارید.'
 locale: fa
 products:
   - 'data-diode-a100'

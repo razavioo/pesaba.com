@@ -1,7 +1,7 @@
 <template>
   <div>
     <ImageHero
-      image="/images/heroes/glossary-hero.png"
+      :image="pageData.heroImage"
       :image-alt="locale === 'fa' ? 'برد الکترونیکی و لایه‌های مفهومی دانش فنی' : 'Circuit board and layered technical knowledge concept'"
       :eyebrow="locale === 'fa' ? 'مرجع اصطلاحات فنی' : 'Technical reference'"
       :title="locale === 'fa' ? 'زبان مشترک برای تصمیم‌های فنی' : 'Technical Glossary: A shared language for technical decisions'"
@@ -71,6 +71,12 @@
 <script setup lang="ts">
 const { t, locale } = useI18n()
 const localePath = useLocalePath()
+const { get } = usePublicCms()
+const { data: page } = await useAsyncData('glossary-page', () => get('page', 'glossary', locale.value as 'fa' | 'en').catch(() => null), { watch: [locale] })
+const pageData = computed(() => {
+  const data = page.value as { heroImage?: string } | null
+  return { heroImage: data?.heroImage || '/images/heroes/glossary-hero.png' }
+})
 
 useSeoMeta({
   title: `${t('glossary.title')} | Pesaba`,
@@ -79,7 +85,12 @@ useSeoMeta({
   ogDescription: computed(() => locale.value === 'fa' ? 'واژه‌نامه فنی رمزنگاری، امنیت OT/ICS، پایش سلولی و تجهیزات مخابراتی به فارسی و انگلیسی.' : 'Technical glossary for encryption, OT/ICS security, cellular monitoring, and telecom hardware in Persian and English.'),
 })
 
-const { data: terms } = await useAsyncData('glossary-all', () => queryContent('glossary').where({ locale: locale.value }).sort({ title: 1 }).find())
+const { list } = usePublicCms()
+const { data: terms } = await useAsyncData(
+  () => `glossary-all-${locale.value}`,
+  () => list('glossary', locale.value as 'fa' | 'en'),
+  { watch: [locale] },
+)
 const query = ref('')
 const ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('')
 const letters = ALPHABET
@@ -97,7 +108,7 @@ const filteredTerms = computed(() => {
 const filteredByLetter = computed(() => {
   const map: Record<string, any[]> = {}
   for (const term of filteredTerms.value) {
-    const source = (locale.value === 'fa' ? term.title_en : term.title) || term.title || ''
+    const source = String((locale.value === 'fa' ? term.title_en : term.title) || term.title || '')
     const l = source[0]?.toUpperCase() || ''
     if (!/^[A-Z]$/.test(l)) continue
     if (!map[l]) map[l] = []

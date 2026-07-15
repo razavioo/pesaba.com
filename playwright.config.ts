@@ -15,12 +15,20 @@ export default defineConfig({
     video: 'on-first-retry',
   },
 
-  webServer: {
-    command: 'NUXT_IGNORE_LOCK=1 NUXT_PUBLIC_SITE_URL=https://pesaba.com NUXT_PUBLIC_SITE_INDEXABLE=true NUXT_CONTACT_RATE_LIMIT_MAX=100 npm run dev',
-    url: 'http://localhost:3000/fa',
-    reuseExistingServer: !process.env.CI,
-    timeout: 120000,
-  },
+  webServer: process.env.PLAYWRIGHT_SKIP_WEBSERVER ? undefined : [
+    {
+      command: 'bash scripts/start-cms-e2e.sh',
+      url: 'http://localhost:4400/api/v1/public/health',
+      reuseExistingServer: !process.env.CI,
+      timeout: 120000,
+    },
+    {
+      command: 'NUXT_IGNORE_LOCK=1 NUXT_PUBLIC_CMS_API_URL=http://localhost:4400/api/v1 NUXT_PUBLIC_SITE_URL=https://pesaba.com NUXT_PUBLIC_SITE_INDEXABLE=true NUXT_CONTACT_RATE_LIMIT_MAX=100 npm run dev',
+      url: 'http://localhost:3000/fa',
+      reuseExistingServer: !process.env.CI,
+      timeout: 120000,
+    },
+  ],
 
   projects: [
     {

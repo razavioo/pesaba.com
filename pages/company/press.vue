@@ -13,7 +13,7 @@
     <section class="section border-b border-[var(--border)]">
       <div class="container-site grid gap-5 lg:grid-cols-[minmax(0,1fr)_20rem]">
         <div class="max-w-4xl prose text-[var(--text-secondary)] prose-headings:text-[var(--text-primary)] prose-strong:text-[var(--text-primary)] prose-a:text-[#1F7994]">
-          <ContentRenderer :value="doc" />
+          <CmsMarkdown :source="String(doc.body || '')" />
         </div>
         <div class="border-s border-[var(--border)] ps-6">
           <div class="label-meta mb-5">{{ $t('press.key_facts') }}</div>
@@ -31,9 +31,7 @@
 
 <script setup lang="ts">
 const { locale } = useI18n()
-const { data: doc } = await useAsyncData(`press-${locale.value}`, async () => {
-  const all = await queryContent('company').where({ _file: { $contains: 'press' } }).find()
-  return all.find(d => d.locale === locale.value) ?? all[0] ?? null
-})
-useSeoMeta({ title: doc.value?.seo_title ?? 'Press | Pesaba', description: doc.value?.seo_desc })
+const { get } = usePublicCms()
+const { data: doc } = await useAsyncData(`press-${locale.value}`, () => get('company', 'press', locale.value as 'fa' | 'en'), { watch: [locale] })
+useSeoMeta({ title: doc.value?.seoTitle ?? 'Press | Pesaba', description: doc.value?.seoDescription })
 </script>

@@ -1,7 +1,7 @@
 <template>
   <div v-if="doc">
     <ImageHero
-      image="/images/heroes/careers-hero.png"
+      :image="typeof doc?.heroImage === 'string' ? doc.heroImage : '/images/heroes/careers-hero.png'"
       :image-alt="locale === 'fa' ? 'مهندس در حال آزمایش برد امنیت شبکه در آزمایشگاه' : 'Engineer testing a network security board in a laboratory'"
       :eyebrow="locale === 'fa' ? 'همکاری با پرتو ارتباط صبا' : 'Careers at Pesaba'"
       :title="locale === 'fa' ? 'در ساختن امنیت سخت‌افزاری همراه ما باشید' : (doc.title ?? 'Careers')"
@@ -47,9 +47,7 @@
 
 <script setup lang="ts">
 const { t, locale } = useI18n()
-const { data: doc } = await useAsyncData(`careers-${locale.value}`, async () => {
-  const all = await queryContent('company').where({ _file: { $contains: 'careers' } }).find()
-  return all.find(d => d.locale === locale.value) ?? all[0] ?? null
-})
-useSeoMeta({ title: doc.value?.seo_title ?? `${t('careers.open_positions')} | Pesaba`, description: doc.value?.seo_desc })
+const { get } = usePublicCms()
+const { data: doc } = await useAsyncData(`careers-${locale.value}`, () => get('company', 'careers', locale.value as 'fa' | 'en'), { watch: [locale] })
+useSeoMeta({ title: doc.value?.seoTitle ?? `${t('careers.open_positions')} | Pesaba`, description: doc.value?.seoDescription })
 </script>

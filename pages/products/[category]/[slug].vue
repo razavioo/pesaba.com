@@ -142,7 +142,7 @@
                 {{ normalizedOverview.linkText }}
               </p>
             </template>
-            <ContentRenderer v-else :value="product" />
+              <CmsMarkdown v-else :source="String(product.body || '')" />
           </div>
           <div class="min-w-0 space-y-4 xl:sticky xl:top-36 xl:self-start">
             <div v-if="primarySpecs.length || keyCapabilityItems.length" class="border border-[var(--border)] bg-[var(--bg-elevated)] p-5">
@@ -276,12 +276,10 @@ const { publicDescription } = useProductCopy()
 const { emitProduct, emitBreadcrumbs } = useSchemaOrg()
 const { category, slug } = route.params as { category: string; slug: string }
 
-const { data: product } = await useAsyncData(`product-${slug}-${locale.value}`, async () => {
-  const matches = await queryContent('products', category).where({ slug }).find()
-  return matches.find(p => locale.value === 'fa'
-    ? p.locale === 'fa'
-    : p.locale === 'en' || !p.locale) ?? null
-})
+const { get, list } = usePublicCms()
+const { data: product } = await useAsyncData(`product-${slug}-${locale.value}`, () =>
+  get('product', slug, locale.value as 'fa' | 'en'), { watch: [locale] },
+)
 
 if (!product.value) {
   throw createError({ statusCode: 404, statusMessage: 'Product not found' })
@@ -343,13 +341,6 @@ function thumbSrc(src: string) {
   return src
 }
 
-type ProductBodyNode = {
-  type?: string
-  tag?: string
-  value?: string
-  children?: ProductBodyNode[]
-}
-
 type ProductOverview = {
   title: string
   paragraphs: string[]
@@ -357,72 +348,6 @@ type ProductOverview = {
   features: string[]
   linkHeading: string
   linkText: string
-}
-
-const PRODUCT_FEATURE_MARKERS = [
-  'True one-way data transfer',
-  'Unidirectional communication',
-  'Documented unidirectional communication',
-  'Unidirectional link implemented',
-  'Hardware-level separation',
-  'Complete hardware-based separation',
-  'Complete protection',
-  'Physical isolation',
-  'OS-less hardware design',
-  'Fully hardware-based',
-  'Full elimination',
-  'Complete elimination',
-  'Significantly reduced',
-  'Reduced hacking risk',
-  'Suitable for',
-  'Designed for',
-  'Supports industrial protocols',
-  'Support for common',
-  'Support for industrial',
-  'Support for data transfer',
-  'Available in desktop',
-  '24/7 operation',
-  'High reliability',
-  'Easy integration',
-  'No return path',
-  'No requirement',
-  'Independent power circuits',
-  'Isolated power circuits',
-  'Complete isolation',
-  'FPGA-based design',
-  'Multiple supported services, including:',
-  'One-way message transfer',
-  'File, database, and image transfer',
-  'Database synchronization',
-  'Screen mirroring',
-  'Screen Mirroring',
-  'Modbus service',
-  'Modbus',
-  'Camera streaming service',
-  'Camera services',
-  'Integrated LED status indicators',
-  'Integrated LED display',
-  'Front-panel display',
-  'SNMP monitoring protocol',
-  'SYSLOG implementation',
-  'Data transfer rate',
-  'Ability to add custom',
-  'Ability to connect',
-  'Connect and disconnect',
-  'Support for multiple users',
-  'Simultaneous access',
-  'Scalable and adaptable',
-  'File reception event integration',
-  'Display of software outputs',
-  'Low Process consumption',
-  'Form Factor:',
-  'This product contains',
-]
-
-function collectText(node?: ProductBodyNode): string {
-  if (!node) return ''
-  if (typeof node.value === 'string') return node.value
-  return (node.children || []).map(child => collectText(child)).join(' ')
 }
 
 function normalizeTextItems(items: string[]) {
@@ -452,148 +377,17 @@ function sentenceSplit(text: string) {
     .trim()
 }
 
-function cleanHeading(text: string) {
-  return text
-    .replace(/\|/g, ' - ')
-    .replace(/\s+/g, ' ')
-    .replace(/\s+-\s*$/g, '')
-    .trim()
-}
-
-function splitSection(text: string, marker: string) {
-  const index = text.indexOf(marker)
-  if (index === -1) return [text, ''] as const
-  return [text.slice(0, index).trim(), text.slice(index + marker.length).trim()] as const
-}
-
-function splitFeatureText(text: string) {
-  const escaped = PRODUCT_FEATURE_MARKERS.map(marker => marker.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|')
-  return text
-    .replace(new RegExp(`\\s*(${escaped})`, 'g'), '\n$1')
-    .split('\n')
-    .map(item => item.trim())
-    .filter(Boolean)
-}
-
-function firstFeatureMarkerIndex(text: string) {
-  return PRODUCT_FEATURE_MARKERS.reduce((first, marker) => {
-    const index = text.indexOf(marker)
-    if (index === -1) return first
-    return first === -1 ? index : Math.min(first, index)
-  }, -1)
-}
-
-function extractMarkdownListAfterHeading(nodes: ProductBodyNode[] | undefined, headingPattern: RegExp) {
-  if (!nodes?.length) return []
-  const items: string[] = []
-  let collecting = false
-
-  for (const node of nodes) {
-    const text = collectText(node).trim()
-    if (!text) continue
-
-    if (node.tag === 'h2' || node.tag === 'h3') {
-      if (collecting) break
-      collecting = headingPattern.test(text)
-      continue
-    }
-
-    if (!collecting) continue
-    if (node.tag === 'ul' || node.tag === 'ol') {
-      for (const child of node.children || []) {
-        const item = collectText(child).trim()
-        if (item) items.push(item)
-      }
-      break
-    }
-  }
-
+function extractCapabilitiesFromBody(productValue: typeof product.value) {
+  const body = String(productValue?.body || '')
+  const items = body.split('\n')
+    .filter(line => /^\s*[-*+]\s+/.test(line))
+    .map(line => line.replace(/^\s*[-*+]\s+/, '').trim())
   return normalizeTextItems(items)
 }
 
-function extractCapabilitiesFromBody(productValue: typeof product.value) {
-  const children = productValue?.body?.children as ProductBodyNode[] | undefined
-  const headingPattern = locale.value === 'fa'
-    ? /ویژگی|قابلیت|امکانات/
-    : /key features|features|capabilities/i
-  const listItems = extractMarkdownListAfterHeading(children, headingPattern)
-  if (listItems.length) return listItems
-
-  if (normalizedOverview.value?.features.length) {
-    return normalizeTextItems(normalizedOverview.value.features)
-  }
-
-  const readable = sentenceSplit(collectText(children?.[0]))
-  const plainOverview = normalizePlainCompressedOverview(readable, productValue?.title)
-  return normalizeTextItems(plainOverview?.paragraphs || [])
-}
-
-function normalizePlainCompressedOverview(readable: string, fallbackTitle?: string): ProductOverview | null {
-  const titleMarkers = ['Product Overview', 'Full Description & Key Features']
-  let title = fallbackTitle || ''
-  let body = readable
-
-  for (const marker of titleMarkers) {
-    const index = readable.indexOf(marker)
-    if (index === -1) continue
-
-    title = cleanHeading(readable.slice(0, index + marker.length))
-    body = readable.slice(index + marker.length).trim()
-    break
-  }
-
-  const [bodyText, linkText] = splitSection(body, 'Relevant Internal Links:')
-  const sectionedBody = bodyText
-    .replace(/\s+(Introduction to|Communication Ports|Secure Software-less Architecture|Hardware Design|Traffic Filtering Capabilities|Customization Capabilities)/g, '\n$1')
-  const paragraphs = sectionedBody
-    .split(/\n|(?<=\.)\s+/)
-    .map(item => item.trim())
-    .filter(Boolean)
-
-  if (!paragraphs.length) return null
-
-  return {
-    title: cleanHeading(title || fallbackTitle || ''),
-    paragraphs,
-    featureHeading: '',
-    features: [],
-    linkHeading: linkText ? 'Relevant Internal Links' : '',
-    linkText,
-  }
-}
-
 function normalizeCompressedOverview(productValue: typeof product.value): ProductOverview | null {
-  const children = productValue?.body?.children as ProductBodyNode[] | undefined
-  if (!children?.length || children.length > 1) return null
-
-  const raw = collectText(children[0]).trim()
-  const isCompressed = raw.length > 500 && /[a-z)][A-Z][a-z]|:[A-Z0-9]|[a-z)]\d+\s*[×x]/.test(raw)
-  if (!isCompressed) return null
-
-  const readable = sentenceSplit(raw)
-  if (!readable.includes('Product Overview') || !readable.includes('Key Features')) {
-    return normalizePlainCompressedOverview(readable, productValue?.title)
-  }
-
-  const [titleText, afterTitle] = splitSection(readable, 'Product Overview')
-  const [overviewText, afterOverview] = splitSection(afterTitle, 'Key Features')
-  const [featureBlock, linkText] = splitSection(afterOverview, 'Relevant Internal Links:')
-  const firstFeatureIndex = firstFeatureMarkerIndex(featureBlock)
-  const featureHeading = firstFeatureIndex > 0 ? `Key Features ${featureBlock.slice(0, firstFeatureIndex).trim()}` : 'Key Features'
-  const featureText = firstFeatureIndex > -1 ? featureBlock.slice(firstFeatureIndex).trim() : featureBlock
-  const paragraphs = overviewText
-    .split(/(?<=\.)\s+/)
-    .map(item => item.trim())
-    .filter(Boolean)
-
-  return {
-    title: cleanHeading(titleText),
-    paragraphs,
-    featureHeading,
-    features: splitFeatureText(featureText),
-    linkHeading: linkText ? 'Relevant Internal Links' : '',
-    linkText,
-  }
+  void productValue
+  return null
 }
 
 const reviewedOverview = computed(() => normalizeCompressedOverview(product.value))
@@ -648,9 +442,9 @@ const primaryDatasheetHref = computed(() => productDatasheets.value[0] ? withBas
 const quoteHref = computed(() => `${localePath('/company/contact')}?dept=sales&product=${encodeURIComponent(product.value?.slug || slug)}`)
 
 const { data: relatedProducts } = await useAsyncData(`related-${slug}-${locale.value}`, async () => {
-  const all = await queryContent('products', category).where({ slug: { $ne: slug } }).find()
-  return all.filter(p => locale.value === 'fa' ? p.locale === 'fa' : !p.locale).slice(0, 3)
-})
+  const all = await list('product', locale.value as 'fa' | 'en')
+  return all.filter((item: any) => item.slug !== slug && item.category === category).slice(0, 3)
+}, { watch: [locale] })
 
 const activeTab = ref('overview')
 const tabs = computed(() => [

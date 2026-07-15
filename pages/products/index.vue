@@ -104,7 +104,8 @@ useSeoMeta({
 })
 
 const CATEGORY_KEYS = ['data-diodes', 'network-encryption', 'network-switching-filtering', 'telecom-transmission', 'cellular-monitoring', 'bio-monitoring']
-const { data: allProducts } = await useAsyncData('all-products', () => queryContent('products').find())
+const { list } = usePublicCms()
+const { data: allProducts } = await useAsyncData('all-products', () => list('product', locale.value as 'fa' | 'en'), { watch: [locale] })
 
 const CATEGORY_TAGS: Record<string, { fa: string[]; en: string[] }> = {
   'data-diodes': { fa: ['انتقال یک‌طرفه', 'جداسازی سخت‌افزاری'], en: ['One-way transfer', 'Hardware isolation'] },
@@ -135,7 +136,7 @@ function productFallbackImage(category: unknown) {
 const categories = computed(() =>
   CATEGORY_KEYS.map(key => ({
     key,
-    products: (allProducts.value || []).filter(p => p.category === key && (locale.value === 'fa' ? p.locale === 'fa' : !p.locale)),
+    products: (allProducts.value || []).filter((p: any) => p.category === key),
   })).filter(cat => cat.products.length),
 )
 </script>

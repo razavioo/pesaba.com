@@ -237,16 +237,14 @@ test.describe('Product compare page', () => {
     await expect(buttons).toBeVisible()
   })
 
-  test('selecting one product shows selected count', async ({ page }) => {
-    const firstBtn = page.locator('section').nth(1).locator('button').first()
-    await firstBtn.click()
-    await expect(page.locator('p').filter({ hasText: /selected/i })).toContainText('1')
+  test('selecting one product suggests another product from its category', async ({ page }) => {
+    await page.locator('section.container-site').first().getByRole('button', { name: 'Data Diode A10', exact: true }).click()
+    await expect(page.locator('section.container-site').last().getByRole('button', { name: 'Data Diode G200', exact: true })).toBeVisible()
   })
 
   test('selecting 2 products shows comparison table', async ({ page }) => {
-    const buttons = page.locator('section').nth(1).locator('button')
-    await buttons.nth(0).click()
-    await buttons.nth(1).click()
+    await page.locator('section.container-site').first().getByRole('button', { name: 'Data Diode A10', exact: true }).click()
+    await page.locator('section.container-site').first().getByRole('button', { name: 'Data Diode G200', exact: true }).click()
     const table = page.locator('table')
     await expect(table).toBeVisible()
   })
@@ -259,23 +257,13 @@ test.describe('Product compare page', () => {
     await expect(table).toContainText(/Description/i)
   })
 
-  test('"Clear all" button deselects all products', async ({ page }) => {
-    const buttons = page.locator('section').nth(1).locator('button')
-    await buttons.nth(0).click()
-    await buttons.nth(1).click()
-    const clearBtn = page.getByRole('button', { name: /clear all/i })
-    await clearBtn.click()
-    await expect(page.locator('table')).not.toBeVisible()
-  })
-
   test('remove button deselects a single product', async ({ page }) => {
     const pickerButtons = page.locator('section').nth(1).locator('button')
     await pickerButtons.nth(0).click()
     await pickerButtons.nth(1).click()
     const removeBtn = page.getByRole('button', { name: /remove/i }).first()
     await removeBtn.click()
-    const selected = page.locator('p').filter({ hasText: /selected/i })
-    await expect(selected).toContainText('1')
+    await expect(page.locator('table')).not.toBeVisible()
   })
 
   test('selected product name links to its detail page', async ({ page }) => {
@@ -284,5 +272,14 @@ test.describe('Product compare page', () => {
     await pickerButtons.nth(1).click()
     const productLinks = page.locator('table thead a')
     await expect(productLinks.first()).toHaveAttribute('href', /\/products\//)
+  })
+
+  test('selected products render their images', async ({ page }) => {
+    await goto(page, `${FA}/products/compare?p=orazan,upcryptor`)
+    const images = page.locator('table thead img')
+    await expect(images).toHaveCount(2)
+    await expect(images.nth(0)).toHaveAttribute('src', /orazan\/photo-1\.webp/)
+    await expect(images.nth(1)).toHaveAttribute('src', /placeholder-product\.svg|upcryptor/)
+    await expect.poll(() => images.nth(0).evaluate((image: HTMLImageElement) => image.naturalWidth)).toBeGreaterThan(0)
   })
 })

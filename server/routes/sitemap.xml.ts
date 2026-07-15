@@ -1,221 +1,85 @@
-import { serverQueryContent } from '#content/server'
 import { defineEventHandler, setHeader } from 'h3'
+import { cmsList } from '../utils/cms'
 
 type Locale = 'fa' | 'en'
-type ContentDocument = {
-  slug?: string
-  category?: string
-  locale?: string
-  active?: boolean
-  draft?: boolean
-  index?: boolean
-  robots?: string
-  date?: string
-  updated?: string
-}
-type LocalizedPaths = Partial<Record<Locale, string>>
-type LocalizedDates = Partial<Record<Locale, string | undefined>>
-type SitemapEntry = {
-  path: string
-  modified?: string
-  alternates: LocalizedPaths
-}
+type CmsEntry = Record<string, any> & { slug: string; locale: Locale; updatedAt: string }
+type Entry = { path: string; modified?: string; alternates: Partial<Record<Locale, string>> }
 
-const LOCALES: Locale[] = ['fa', 'en']
-const HREFLANG: Record<Locale, string> = {
-  fa: 'fa-IR',
-  en: 'en-US',
-}
-
-const STATIC_ROUTES = [
-  '',
-  '/products',
-  '/products/compare',
-  '/blog',
-  '/glossary',
-  '/industries',
-  '/use-cases',
-  '/solutions',
-  '/technology',
-  '/resources',
-  '/resources/firmware',
-  '/trust',
-  '/company/about',
-  '/company/careers',
-  '/company/contact',
-  '/company/press',
-  '/legal',
-  '/legal/privacy',
-  '/legal/terms',
-  '/legal/security',
-  '/legal/accessibility',
-]
+const locales: Locale[] = ['fa', 'en']
+const hrefLang: Record<Locale, string> = { fa: 'fa-IR', en: 'en-US' }
+const staticRoutes = ['', '/products', '/products/compare', '/blog', '/glossary', '/industries', '/use-cases', '/solutions', '/technology', '/resources', '/resources/firmware', '/trust', '/company/about', '/company/careers', '/company/contact', '/company/press', '/legal', '/legal/privacy', '/legal/terms', '/legal/security', '/legal/accessibility']
 
 function escapeXml(value: string) {
-  return value
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&apos;')
+  return value.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&apos;')
 }
 
-function normalizePath(path: string) {
-  if (!path.startsWith('/')) path = `/${path}`
-  return path.length > 1 ? path.replace(/\/+$/, '') : path
+function segment(value: unknown) {
+  return encodeURIComponent(String(value || '').trim())
 }
 
-function encodePathSegment(value: string) {
-  try {
-    return encodeURIComponent(decodeURIComponent(value))
-  } catch {
-    return encodeURIComponent(value)
+function modified(value?: string) {
+  const time = value ? Date.parse(value) : NaN
+  return Number.isNaN(time) ? undefined : new Date(time).toISOString().slice(0, 10)
+}
+
+function add(entries: Map<string, Entry>, paths: Partial<Record<Locale, string>>, dates: Partial<Record<Locale, string>> = {}) {
+  for (const locale of locales) {
+    const path = paths[locale]
+    if (!path) continue
+    const previous = entries.get(path)
+    const nextModified = dates[locale]
+    entries.set(path, { path, modified: nextModified && (!previous?.modified || nextModified > previous.modified) ? nextModified : previous?.modified, alternates: { ...previous?.alternates, ...paths } })
   }
 }
 
-function localeOf(document: ContentDocument): Locale {
-  return document.locale === 'fa' ? 'fa' : 'en'
-}
-
-function isIndexable(document: ContentDocument) {
-  return document.active !== false
-    && document.draft !== true
-    && document.index !== false
-    && !String(document.robots || '').toLowerCase().includes('noindex')
-}
-
-function lastModified(document: ContentDocument) {
-  const value = document.updated || document.date
-  if (!value || Number.isNaN(Date.parse(value))) return undefined
-  return new Date(value).toISOString().slice(0, 10)
-}
-
-function groupLocalizedDocuments(
-  documents: ContentDocument[],
-  keyFor: (document: ContentDocument) => string | undefined,
-  pathFor: (document: ContentDocument, locale: Locale) => string | undefined,
-) {
-  const groups = new Map<string, { paths: LocalizedPaths, dates: LocalizedDates }>()
-
-  for (const document of documents.filter(isIndexable)) {
-    const key = keyFor(document)
-    const locale = localeOf(document)
-    const path = pathFor(document, locale)
-    if (!key || !path) continue
-
-    const group = groups.get(key) || { paths: {}, dates: {} }
-    group.paths[locale] = normalizePath(path)
-    group.dates[locale] = lastModified(document)
-    groups.set(key, group)
-  }
-
+function pair(records: CmsEntry[]) {
+  const groups = new Map<string, Partial<Record<Locale, CmsEntry>>>()
+  for (const record of records) groups.set(record.slug, { ...(groups.get(record.slug) || {}), [record.locale]: record })
   return groups
 }
 
 export default defineEventHandler(async (event) => {
-  const config = useRuntimeConfig()
-  const base = String(config.public.siteUrl || 'https://pesaba.com').replace(/\/+$/, '')
+  const config = useRuntimeConfig(event)
+  const siteUrl = String(config.public.siteUrl || 'https://pesaba.com').replace(/\/+$/, '')
+  const collections = await Promise.all(['product', 'article', 'glossary', 'industry', 'use_case'].map(async type => ({
+    type,
+    records: (await Promise.all(locales.map(locale => cmsList(event, type, locale)))).flat() as CmsEntry[],
+  })))
+  const entries = new Map<string, Entry>()
+  for (const route of staticRoutes) add(entries, { fa: `/fa${route}`, en: `/en${route}` })
 
-  const [products, articles, glossary, industries, useCases] = await Promise.all([
-    serverQueryContent(event, 'products').find() as Promise<ContentDocument[]>,
-    serverQueryContent(event, 'articles').find() as Promise<ContentDocument[]>,
-    serverQueryContent(event, 'glossary').find() as Promise<ContentDocument[]>,
-    serverQueryContent(event, 'industries').find() as Promise<ContentDocument[]>,
-    serverQueryContent(event, 'use-cases').find() as Promise<ContentDocument[]>,
-  ])
-
-  const entries = new Map<string, SitemapEntry>()
-  const addLocalized = (paths: LocalizedPaths, dates: LocalizedDates = {}) => {
-    const alternates = Object.fromEntries(
-      Object.entries(paths).map(([locale, path]) => [locale, normalizePath(path)]),
-    ) as LocalizedPaths
-
-    for (const locale of LOCALES) {
-      const path = alternates[locale]
-      if (!path) continue
-
-      const existing = entries.get(path)
-      const modified = dates[locale]
-      entries.set(path, {
-        path,
-        modified: modified && (!existing?.modified || modified > existing.modified) ? modified : existing?.modified,
-        alternates: { ...existing?.alternates, ...alternates },
-      })
+  for (const collection of collections) {
+    const groups = pair(collection.records)
+    for (const records of groups.values()) {
+      const fa = records.fa
+      const en = records.en
+      const item = fa || en
+      if (!item) continue
+      const category = item.category
+      let makePath: (locale: Locale, record: CmsEntry) => string | null
+      if (collection.type === 'product') {
+        if (!category) continue
+        makePath = (locale, record) => `/${locale}/products/${segment(record.category)}/${segment(record.slug)}`
+        add(entries, { fa: `/fa/products/${segment(category)}`, en: `/en/products/${segment(category)}` })
+      } else if (collection.type === 'article') makePath = (locale, record) => `/${locale}/blog/${segment(record.slug)}`
+      else if (collection.type === 'glossary') makePath = (locale, record) => `/${locale}/glossary/${segment(record.slug)}`
+      else if (collection.type === 'industry') makePath = (locale, record) => `/${locale}/industries/${segment(record.slug)}`
+      else makePath = (locale, record) => `/${locale}/use-cases/${segment(record.slug)}`
+      add(entries, {
+        ...(fa ? { fa: makePath('fa', fa) || undefined } : {}),
+        ...(en ? { en: makePath('en', en) || undefined } : {}),
+      }, { fa: modified(fa?.updatedAt), en: modified(en?.updatedAt) })
     }
   }
 
-  for (const route of STATIC_ROUTES) {
-    addLocalized({ fa: `/fa${route}`, en: `/en${route}` })
-  }
-
-  const productCategories = groupLocalizedDocuments(
-    products,
-    product => product.category,
-    (product, locale) => product.category
-      ? `/${locale}/products/${encodePathSegment(product.category)}`
-      : undefined,
-  )
-  const productPages = groupLocalizedDocuments(
-    products,
-    product => product.category && product.slug ? `${product.category}/${product.slug}` : undefined,
-    (product, locale) => product.category && product.slug
-      ? `/${locale}/products/${encodePathSegment(product.category)}/${encodePathSegment(product.slug)}`
-      : undefined,
-  )
-  const articlePages = groupLocalizedDocuments(
-    articles,
-    article => article.slug,
-    (article, locale) => article.slug ? `/${locale}/blog/${encodePathSegment(article.slug)}` : undefined,
-  )
-  const glossaryPages = groupLocalizedDocuments(
-    glossary,
-    term => term.slug,
-    (term, locale) => term.slug ? `/${locale}/glossary/${encodePathSegment(term.slug)}` : undefined,
-  )
-  const industryPages = groupLocalizedDocuments(
-    industries,
-    industry => industry.slug,
-    (industry, locale) => industry.slug ? `/${locale}/industries/${encodePathSegment(industry.slug)}` : undefined,
-  )
-  const useCasePages = groupLocalizedDocuments(
-    useCases,
-    useCase => useCase.slug,
-    (useCase, locale) => useCase.slug ? `/${locale}/use-cases/${encodePathSegment(useCase.slug)}` : undefined,
-  )
-
-  for (const groups of [productCategories, productPages, articlePages, glossaryPages, industryPages, useCasePages]) {
-    for (const { paths, dates } of groups.values()) addLocalized(paths, dates)
-  }
-
-  const xmlEntries = [...entries.values()]
-    .sort((left, right) => left.path.localeCompare(right.path))
-    .map(({ path, modified, alternates }) => {
-      const links = LOCALES.flatMap((locale) => {
-        const alternatePath = alternates[locale]
-        return alternatePath
-          ? [`    <xhtml:link rel="alternate" hreflang="${HREFLANG[locale]}" href="${escapeXml(`${base}${alternatePath}`)}" />`]
-          : []
-      })
-      const defaultPath = alternates.fa || alternates.en
-      if (defaultPath) {
-        links.push(`    <xhtml:link rel="alternate" hreflang="x-default" href="${escapeXml(`${base}${defaultPath}`)}" />`)
-      }
-
-      return [
-        '  <url>',
-        `    <loc>${escapeXml(`${base}${path}`)}</loc>`,
-        ...(modified ? [`    <lastmod>${escapeXml(modified)}</lastmod>`] : []),
-        ...links,
-        '  </url>',
-      ].join('\n')
-    })
-
-  const xml = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
-${xmlEntries.join('\n')}
-</urlset>`
+  const xml = [...entries.values()].sort((a, b) => a.path.localeCompare(b.path)).map((entry) => {
+    const links = locales.flatMap(locale => entry.alternates[locale] ? [`    <xhtml:link rel="alternate" hreflang="${hrefLang[locale]}" href="${escapeXml(`${siteUrl}${entry.alternates[locale]}`)}" />`] : [])
+    const defaultPath = entry.alternates.fa || entry.alternates.en
+    if (defaultPath) links.push(`    <xhtml:link rel="alternate" hreflang="x-default" href="${escapeXml(`${siteUrl}${defaultPath}`)}" />`)
+    return ['  <url>', `    <loc>${escapeXml(`${siteUrl}${entry.path}`)}</loc>`, ...(entry.modified ? [`    <lastmod>${entry.modified}</lastmod>`] : []), ...links, '  </url>'].join('\n')
+  }).join('\n')
 
   setHeader(event, 'Content-Type', 'application/xml; charset=utf-8')
-  setHeader(event, 'Cache-Control', 'public, max-age=3600, s-maxage=3600, stale-while-revalidate=86400')
-  return xml
+  setHeader(event, 'Cache-Control', 'no-cache, max-age=0, must-revalidate')
+  return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n${xml}\n</urlset>`
 })

@@ -1,0 +1,254 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  OWNER
+  EDITOR
+  VIEWER
+}
+
+enum ContentStatus {
+  ACTIVE
+  INACTIVE
+  ARCHIVED
+}
+
+enum ContentType {
+  ARTICLE
+  PRODUCT
+  GLOSSARY
+  INDUSTRY
+  USE_CASE
+  PAGE
+  LEGAL
+  COMPANY
+}
+
+enum LeadStatus {
+  NEW
+  IN_PROGRESS
+  RESOLVED
+  SPAM
+  ARCHIVED
+}
+
+enum MediaKind {
+  IMAGE
+  DOCUMENT
+  VIDEO
+  OTHER
+}
+
+model User {
+  id           String       @id @default(uuid()) @db.Uuid
+  email        String       @unique
+  displayName  String
+  passwordHash String
+  role         UserRole     @default(VIEWER)
+  active       Boolean      @default(true)
+  lastLoginAt  DateTime?
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+  sessions     Session[]
+  revisions    ContentRevision[]
+  settingRevisions SettingRevision[]
+  auditEvents  AuditEvent[]
+  assignedLeads Lead[]      @relation("AssignedLeads")
+  leadNotes    LeadNote[]
+}
+
+model Session {
+  id        String   @id @default(uuid()) @db.Uuid
+  tokenHash String   @unique
+  userId    String   @db.Uuid
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  lastSeenAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, expiresAt])
+}
+
+model ContentItem {
+  id          String          @id @default(uuid()) @db.Uuid
+  type        ContentType
+  slug        String
+  status      ContentStatus   @default(ACTIVE)
+  sortOrder   Int             @default(0)
+  data        Json            @default("{}")
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+  translations ContentTranslation[]
+  revisions   ContentRevision[]
+
+  @@unique([type, slug])
+  @@index([type, status, sortOrder])
+}
+
+model ContentTranslation {
+  id             String      @id @default(uuid()) @db.Uuid
+  contentItemId  String      @db.Uuid
+  locale         String      @db.VarChar(5)
+  title          String
+  description    String      @default("")
+  body           String      @default("")
+  seoTitle       String      @default("")
+  seoDescription String      @default("")
+  data           Json        @default("{}")
+  contentItem    ContentItem @relation(fields: [contentItemId], references: [id], onDelete: Cascade)
+
+  @@unique([contentItemId, locale])
+  @@index([locale, title])
+}
+
+model ContentRevision {
+  id            String      @id @default(uuid()) @db.Uuid
+  contentItemId String      @db.Uuid
+  actorId       String      @db.Uuid
+  snapshot      Json
+  createdAt     DateTime    @default(now())
+  contentItem   ContentItem @relation(fields: [contentItemId], references: [id], onDelete: Cascade)
+  actor         User        @relation(fields: [actorId], references: [id], onDelete: Restrict)
+
+  @@index([contentItemId, createdAt])
+}
+
+model SiteSetting {
+  id        String   @id @default(uuid()) @db.Uuid
+  namespace String   @unique
+  data      Json     @default("{}")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  revisions SettingRevision[]
+}
+
+model SettingRevision {
+  id        String      @id @default(uuid()) @db.Uuid
+  settingId String      @db.Uuid
+  actorId   String      @db.Uuid
+  snapshot  Json
+  createdAt DateTime    @default(now())
+  setting   SiteSetting @relation(fields: [settingId], references: [id], onDelete: Cascade)
+  actor     User        @relation(fields: [actorId], references: [id], onDelete: Restrict)
+
+  @@index([settingId, createdAt])
+}
+
+model MediaAsset {
+  id          String       @id @default(uuid()) @db.Uuid
+  key         String       @unique
+  checksum    String?      @unique
+  sourcePath  String?      @unique
+  filename    String
+  mimeType    String
+  kind        MediaKind
+  bytes       Int
+  width       Int?
+  height      Int?
+  altFa       String       @default("")
+  altEn       String       @default("")
+  captionFa   String       @default("")
+  captionEn   String       @default("")
+  focalX      Float?
+  focalY      Float?
+  tags        String[]     @default([])
+  folder      String       @default("/")
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  variants    MediaVariant[]
+  usages      MediaUsage[]
+}
+
+model MediaVariant {
+  id           String     @id @default(uuid()) @db.Uuid
+  mediaAssetId String     @db.Uuid
+  key          String     @unique
+  mimeType     String
+  width        Int?
+  height       Int?
+  bytes        Int
+  mediaAsset   MediaAsset @relation(fields: [mediaAssetId], references: [id], onDelete: Cascade)
+}
+
+model MediaUsage {
+  id           String     @id @default(uuid()) @db.Uuid
+  mediaAssetId String     @db.Uuid
+  ownerType    String
+  ownerId      String
+  field        String
+  mediaAsset   MediaAsset @relation(fields: [mediaAssetId], references: [id], onDelete: Cascade)
+
+  @@unique([mediaAssetId, ownerType, ownerId, field])
+}
+
+model Redirect {
+  id          String   @id @default(uuid()) @db.Uuid
+  fromPath    String   @unique
+  toPath      String
+  statusCode  Int      @default(301)
+  active      Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Lead {
+  id             String     @id @default(uuid()) @db.Uuid
+  department     String
+  name           String
+  company        String?
+  email          String
+  phone          String?
+  product        String?
+  message        String
+  consentAt      DateTime?
+  status         LeadStatus @default(NEW)
+  assignedToId   String?    @db.Uuid
+  emailDelivered Boolean    @default(false)
+  emailError     String?
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
+  assignedTo     User?      @relation("AssignedLeads", fields: [assignedToId], references: [id], onDelete: SetNull)
+  notes          LeadNote[]
+
+  @@index([status, createdAt])
+}
+
+model LeadNote {
+  id        String   @id @default(uuid()) @db.Uuid
+  leadId    String   @db.Uuid
+  authorId  String   @db.Uuid
+  body      String
+  createdAt DateTime @default(now())
+  lead      Lead     @relation(fields: [leadId], references: [id], onDelete: Cascade)
+  author    User     @relation(fields: [authorId], references: [id], onDelete: Restrict)
+}
+
+model AuditEvent {
+  id         String   @id @default(uuid()) @db.Uuid
+  actorId    String?  @db.Uuid
+  action     String
+  entityType String
+  entityId   String?
+  metadata   Json     @default("{}")
+  ipHash     String?
+  createdAt  DateTime @default(now())
+  actor      User?    @relation(fields: [actorId], references: [id], onDelete: SetNull)
+
+  @@index([entityType, entityId, createdAt])
+}
+
+model ExportJob {
+  id          String   @id @default(uuid()) @db.Uuid
+  requestedBy String   @db.Uuid
+  status      String   @default("queued")
+  key         String?
+  error       String?
+  createdAt   DateTime @default(now())
+  completedAt DateTime?
+}

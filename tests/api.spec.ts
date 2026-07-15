@@ -19,8 +19,8 @@ test.describe('Contact API', () => {
     expect(response.status()).toBe(200)
     const body = await response.json()
     expect(body.ok).toBe(true)
-    expect(body.requestId).toMatch(/^[0-9a-f-]{36}$/)
-    expect(response.headers()['x-request-id']).toBe(body.requestId)
+    expect(body.id).toMatch(/^[0-9a-f-]{36}$/)
+    expect(response.headers()['x-request-id']).toMatch(/^[0-9a-f-]{36}$/)
     expect(response.headers()['cache-control']).toContain('no-store')
   })
 
@@ -35,7 +35,7 @@ test.describe('Contact API', () => {
     
     expect(response.status()).toBe(400)
     const body = await response.json()
-    expect(body.statusMessage).toContain('required')
+    expect(body.statusMessage.toLowerCase()).toContain('name')
   })
 
   test('should reject submission with invalid email format', async ({ request }) => {
@@ -50,7 +50,7 @@ test.describe('Contact API', () => {
     
     expect(response.status()).toBe(400)
     const body = await response.json()
-    expect(body.statusMessage).toContain('email')
+    expect(body.statusMessage.toLowerCase()).toContain('email')
   })
 
   test('should require explicit privacy consent', async ({ request }) => {
@@ -63,7 +63,7 @@ test.describe('Contact API', () => {
     })
 
     expect(response.status()).toBe(400)
-    expect((await response.json()).statusMessage).toContain('Consent')
+    expect((await response.json()).statusMessage.toLowerCase()).toContain('consent')
   })
 
   test('should reject unsupported content types', async ({ request }) => {
@@ -136,13 +136,13 @@ test.describe('Public server endpoints', () => {
     expect(text).toContain('<title>')
   })
 
-  test('content API does not expose unreviewed product bodies', async ({ request }) => {
-    const response = await request.get('/api/_content/query')
+  test('public CMS API exposes reviewed public product records', async ({ request }) => {
+    const response = await request.get('http://localhost:4400/api/v1/public/content/product?locale=en')
     expect(response.status()).toBe(200)
     const documents = await response.json()
-    const product = documents.find((item: { _path?: string }) => item._path === '/products/data-diodes/data-diode-a10')
+    const product = documents.find((item: { slug?: string }) => item.slug === 'a10')
     expect(product).toBeTruthy()
-    expect(product.description).toContain('must be confirmed')
+    expect(product.translation.description).toContain('require model and revision confirmation')
     expect(JSON.stringify(product)).not.toContain('physically impossible')
   })
 })

@@ -2,10 +2,23 @@
   "name": "pesaba-com",
   "private": true,
   "type": "module",
+  "workspaces": [
+    "services/cms-api",
+    "modules/cms-contracts"
+  ],
   "scripts": {
     "prebuild": "npm run check:secrets && npm run validate:content",
-    "build": "nuxt build",
+    "build": "npm run build:web && npm run build:cms",
+    "build:contracts": "npm --workspace @pesaba/cms-contracts run build",
+    "build:web": "nuxt build",
+    "build:cms": "npm run build:contracts && npm --workspace @pesaba/cms-api run build",
     "dev": "nuxt dev",
+    "dev:cms": "npm --workspace @pesaba/cms-api run dev",
+    "cms:generate": "npm --workspace @pesaba/cms-api run prisma:generate",
+    "cms:migrate": "npm --workspace @pesaba/cms-api run prisma:migrate",
+    "cms:seed": "npm --workspace @pesaba/cms-api run seed",
+    "docker:up": "docker compose up -d",
+    "docker:down": "docker compose down",
     "generate": "nuxt generate",
     "postgenerate": "npm run validate:output",
     "preview": "nuxt preview",
@@ -28,14 +41,24 @@
   "dependencies": {
     "@nuxt/content": "^2.13.4",
     "@nuxt/image": "^1.8.1",
+    "@nuxt/ui": "^3.3.2",
     "@nuxtjs/i18n": "^9.5.0",
+    "@tiptap/core": "^2.27.2",
+    "@tiptap/extension-link": "^2.27.2",
+    "@tiptap/pm": "^2.27.2",
+    "@tiptap/starter-kit": "^2.27.2",
+    "@tiptap/vue-3": "^2.27.2",
+    "@types/markdown-it": "^14.1.2",
     "@vueuse/core": "^12.7.0",
     "@vueuse/nuxt": "^12.7.0",
+    "lucide-vue-next": "^0.468.0",
+    "markdown-it": "^14.3.0",
     "nodemailer": "9.0.3",
     "nuxt": "3.21.8",
     "sharp": "^0.34.5",
     "vue": "^3.5.13",
-    "vue-router": "^4.5.0"
+    "vue-router": "^4.5.0",
+    "yaml": "^2.9.0"
   },
   "overrides": {
     "@nuxt/content": {

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <TopologyHero />
+    <TopologyHero :hero-image="homeData.heroImage" />
 
     <!-- Advenica-signature: sector cards with grayscale-to-color hover -->
     <IndustrySectors />
@@ -132,8 +132,8 @@
               {{ locale === 'fa' ? 'درباره پرتو ارتباط صبا' : 'About Pesaba' }}
             </h2>
             <div class="space-y-5 text-base leading-relaxed text-[var(--text-secondary)]">
-              <p>{{ locale === 'fa' ? 'پرتو ارتباط صبا در ایران محصولات سخت‌افزاری و نرم‌افزاری حوزه انتقال داده، امنیت شبکه، مخابرات و پایش را توسعه می‌دهد. کاتالوگ سایت برای هر مدل، مشخصات منتشرشده و مسیر دریافت اطلاعات تکمیلی را ارائه می‌کند.' : 'Partov Ertebat Saba develops hardware and software products in Iran for data transfer, network security, telecommunications, and monitoring. The site catalogue presents the published specifications and route to further information for each model.' }}</p>
-              <p>{{ locale === 'fa' ? 'تاریخچه ثبتی، دامنه ساخت، وضعیت گواهی، شرایط خدمات و تناسب استقرار باید با اسناد جاری و برای همان مدل، نسخه و پروژه تأیید شوند. مرکز اعتماد سایت موارد قابل انتشار و موارد نیازمند بررسی خرید را از هم جدا می‌کند.' : 'Corporate history, build scope, certification status, service terms, and deployment fit must be confirmed from current records for the specific model, revision, and project. The Trust Center separates published evidence from items that require procurement review.' }}</p>
+              <p>{{ locale === 'fa' ? 'پرتو ارتباط صبا به سازمان‌ها کمک می‌کند داده را با کنترل بیشتر جابه‌جا کنند، شبکه‌های حساس را از مسیرهای پرریسک جدا نگه دارند و کیفیت ارتباطات خود را بهتر ببینند.' : 'Pesaba helps organizations move data with greater control, separate sensitive networks from risky paths, and see the quality of their communications more clearly.' }}</p>
+              <p>{{ locale === 'fa' ? 'از دیتا دیود و رمزکننده شبکه تا تجهیزات انتقال مخابراتی و پایش آب و شبکه سلولی، راهکارها برای محیط‌های صنعتی و زیرساخت‌های حیاتی ساخته شده‌اند. مشخصات دقیق هر مدل در صفحه همان محصول آمده است.' : 'From data diodes and network encryptors to telecom transport and water and cellular monitoring, our solutions are built for industrial environments and critical infrastructure. Exact model specifications are available on each product page.' }}</p>
             </div>
             <div class="flex justify-start rtl:justify-end">
               <NuxtLink :to="localePath('/company/about')" class="mt-6 inline-block text-sm font-medium text-[var(--accent)] hover:text-[var(--accent-hover)] transition-colors">
@@ -155,7 +155,7 @@
                 {{ locale === 'fa' ? 'دیتا دیودهای سری G' : 'Data Diode G-Series' }}
               </h2>
               <p class="mb-7 text-base leading-relaxed text-[#D7E6EC]">
-                {{ locale === 'fa' ? 'دیتا دیودهای سری G برای انتقال یک‌طرفه میان شبکه‌ها عرضه می‌شوند. نوع جداسازی، مرز سخت‌افزاری، سرویس‌های جانبی، توان عملیاتی و آزمون پذیرش باید از مستندات مدل و نسخه انتخابی تأیید شوند.' : 'Pesaba G-Series data diodes are offered for one-way transfer between networks. Separation method, hardware boundary, ancillary services, throughput, and acceptance tests must be confirmed from the selected model and revision documentation.' }}
+                {{ locale === 'fa' ? 'وقتی شبکه حساس نباید مسیر برگشت داشته باشد، دیتا دیودهای سری G داده را فقط در جهت تعریف‌شده عبور می‌دهند. از صفحه محصولات، مدل مناسب سرعت، نوع شبکه و شیوه استقرار خود را پیدا کنید.' : 'When a sensitive network must not have a return path, G-Series data diodes move data only in the defined direction. Explore the product range to find the right model for your link speed, network, and deployment.' }}
               </p>
               <BaseButton variant="primary" size="lg" :to="localePath('/products/data-diodes')">
                 {{ locale === 'fa' ? 'مشاهده دیتا دیودها' : 'Explore Data Diodes' }}
@@ -179,7 +179,7 @@
             </h2>
           </div>
           <p class="section-copy max-w-2xl">
-            {{ locale === 'fa' ? 'مانند سایت‌های مرجع مخابراتی، مسیر انتخاب محصول را بر اساس کاربرد ساده کرده‌ایم: مرزبندی امن، انتقال مخابراتی، پایش سلولی و زیرساخت‌های حیاتی.' : 'Inspired by leading telecom hardware sites, discovery is organized by use case: secure boundaries, telecom transport, cellular monitoring, and critical-infrastructure operations.' }}
+            {{ locale === 'fa' ? 'لازم نیست از نام فناوری شروع کنید. مسئله خود را انتخاب کنید تا به راهکارها و محصولات مرتبط برسید.' : 'You do not need to start with a technology name. Choose the problem you need to solve and find the related solutions and products.' }}
           </p>
         </div>
 
@@ -277,51 +277,65 @@ useSeoMeta({
 emitOrganization()
 emitWebsite()
 
-const { data: featuredArticles } = await useAsyncData('home-articles', () =>
-  queryContent('articles').where({ locale: locale.value }).sort({ date: -1 }).limit(4).find()
+const { get, list } = usePublicCms()
+const { data: homePage } = await useAsyncData('home-page', () => get('page', 'home', locale.value as 'fa' | 'en').catch(() => null), { watch: [locale] })
+const homeData = computed(() => {
+  const data = homePage.value as { heroImage?: string; statsProductsImage?: string; statsCategoriesImage?: string; statsLocalesImage?: string } | null
+  return {
+    heroImage: data?.heroImage || '/images/hero-bg.png',
+    statsProductsImage: data?.statsProductsImage || '/images/stats/products.png',
+    statsCategoriesImage: data?.statsCategoriesImage || '/images/stats/categories.png',
+    statsLocalesImage: data?.statsLocalesImage || '/images/stats/years.png',
+  }
+})
+const { data: featuredArticles } = await useAsyncData('home-articles', async () =>
+  (await list('article', locale.value as 'fa' | 'en')).sort((first: any, second: any) => String(second.date || second.updatedAt).localeCompare(String(first.date || first.updatedAt))).slice(0, 4), { watch: [locale] },
 )
+const featuredProductIds = ['g200', 'emx-6', 'g300', 'capella', 'orazan']
+const featuredProductImages: Record<string, string> = { g200: '/photos/g200/photo-1.webp', 'emx-6': '/photos/emx-6/photo-1.webp', g300: '/photos/g300/photo-1.webp', capella: '/photos/capella/photo-1.webp', orazan: '/photos/orazan/photo-1.webp' }
+const { data: productRecords } = await useAsyncData('home-featured-products', () => list('product', locale.value as 'fa' | 'en'), { watch: [locale] })
 
 
 const applicationSegments = computed(() => locale.value === 'fa' ? [
   {
     badge: 'OT/IT',
     title: 'مرزبندی امن شبکه‌های عملیاتی',
-    desc: 'انتقال یک‌طرفه داده از محیط‌های حساس به شبکه سازمانی، بدون مسیر برگشت نرم‌افزاری.',
+    desc: 'فرستادن داده موردنیاز از محیط حساس به شبکه سازمانی، بدون باز گذاشتن مسیر برگشت.',
     to: '/use-cases/one-way-data-transfer',
     tags: ['دیتادیود', 'یک‌طرفه', 'SCADA'],
   },
   {
     badge: 'AES',
     title: 'رمزنگاری لینک‌های حساس',
-    desc: 'رمزنگاری سخت‌افزاری برای ارتباط بین سایت‌ها و لینک‌های زیرساختی با سطح حمله کوچک‌تر.',
+    desc: 'محافظت از ارتباط بین سایت‌ها و لینک‌های زیرساختی در برابر شنود و دست‌کاری.',
     to: '/use-cases/aes-256-network-encryption',
     tags: ['AES-256', 'FPGA', 'بدون OS'],
   },
   {
     badge: 'QoS',
     title: 'پایش کیفیت شبکه سلولی',
-    desc: 'اندازه‌گیری KPI، پوشش و کیفیت تجربه از ابزار میدانی تا گزارش متمرکز.',
+    desc: 'پیدا کردن افت پوشش و کیفیت سرویس از طریق اندازه‌گیری میدانی و گزارش متمرکز.',
     to: '/use-cases/cellular-quality-monitoring',
     tags: ['2G/3G/4G', 'QoS', 'میدانی'],
   },
   {
     badge: 'SDH',
     title: 'انتقال مخابراتی و شبکه اپراتوری',
-    desc: 'حفظ و نوسازی لایه‌های انتقال قدیمی و جدید با رابط‌های SDH، E1 و اترنت.',
+    desc: 'اتصال شبکه‌های قدیمی و جدید با رابط‌های SDH، E1 و اترنت، بدون تعویض شتاب‌زده زیرساخت.',
     to: '/products/telecom-transmission',
     tags: ['SDH/E1', 'Carrier', 'Transport'],
   },
   {
     badge: 'Grid',
     title: 'زیرساخت‌های حیاتی و صنایع حساس',
-    desc: 'الگوهای استقرار برای برق، آب، دولت و محیط‌های صنعتی با نیاز به مستندسازی فنی.',
+    desc: 'محافظت و پایش شبکه‌هایی که توقف یا نفوذ در آن‌ها هزینه سنگینی دارد.',
     to: '/industries/power-grid',
     tags: ['زیرساخت حیاتی', 'OT', 'اعتماد'],
   },
   {
     badge: 'Water',
     title: 'پایش زیست‌محیطی و کیفیت آب',
-    desc: 'تشخیص زودهنگام و هشدار بلادرنگ برای شبکه‌های توزیع و تأسیسات آب.',
+    desc: 'تشخیص زودهنگام تغییرات خطرناک آب و ارسال هشدار برای واکنش سریع‌تر.',
     to: '/use-cases/water-toxicity-monitoring',
     tags: ['پایش آب', 'هشدار', 'بلادرنگ'],
   },
@@ -370,64 +384,18 @@ const applicationSegments = computed(() => locale.value === 'fa' ? [
   },
 ])
 
-const featuredProducts = computed(() => [
-  {
-    id: 'g200',
-    title: 'Data Diode G200',
-    titleFa: 'دیتا دیود G200',
-    desc: locale.value === 'fa' ? 'انتقال یک‌طرفه سخت‌افزاری مبتنی بر FPGA برای شبکه‌های صنعتی OT/SCADA.' : 'FPGA-native one-way data transfer for industrial OT/SCADA systems.',
-    image: '/photos/g200/photo-1.webp',
-    to: localePath('/products/data-diodes/g200'),
-    class: 'col-span-1',
-    isWide: false,
-  },
-  {
-    id: 'emx-6',
-    title: 'Network Encryptor EMX-6',
-    titleFa: 'رمزکننده شبکه EMX-6',
-    desc: locale.value === 'fa' ? 'رمزنگاری سخت‌افزاری AES-256 و فیلترینگ ترافیک؛ قابلیت‌های دقیق باید برای نسخه دستگاه تأیید شوند.' : 'Hardware AES-256 encryption and traffic filtering; exact capabilities must be confirmed for the device revision.',
-    image: '/photos/emx-6/photo-1.webp',
-    to: localePath('/products/network-encryption/emx-6'),
-    class: 'col-span-1',
-    isWide: false,
-  },
-  {
-    id: 'g300',
-    title: 'Data Diode G300',
-    titleFa: 'دیتا دیود G300',
-    desc: locale.value === 'fa' ? 'دیتا دیود ۱U راک‌مونت با کارایی بالا و منبع تغذیه پشتیبان دوگانه.' : 'High-throughput 1U rackmount data diode with dual redundant power supplies.',
-    image: '/photos/g300/photo-1.webp',
-    to: localePath('/products/data-diodes/g300'),
-    class: 'col-span-1 md:col-span-2',
-    isWide: true,
-  },
-  {
-    id: 'capella',
-    title: 'Cellular Monitor Capella',
-    titleFa: 'پایشگر سلولی Capella',
-    desc: locale.value === 'fa' ? 'اندازه‌گیری شاخص‌های کیفیت خدمات و تجربه در شبکه‌های 2G، 3G، LTE و TD-LTE.' : 'QoS and QoE measurement across 2G, 3G, LTE, and TD-LTE networks.',
-    image: '/photos/capella/photo-1.webp',
-    to: localePath('/products/cellular-monitoring/capella'),
-    class: 'col-span-1',
-    isWide: false,
-  },
-  {
-    id: 'orazan',
-    title: 'Biomonitor Orazan',
-    titleFa: 'زیست‌پایشگر اورازان',
-    desc: locale.value === 'fa' ? 'تشخیص زودهنگام سمیت و پایش زیست‌محیطی بلادرنگ کیفیت آب.' : 'Early toxicity warning and real-time biological water quality monitoring.',
-    image: '/photos/orazan/photo-1.webp',
-    to: localePath('/products/bio-monitoring/orazan'),
-    class: 'col-span-1',
-    isWide: false,
-  },
-])
+const featuredProducts = computed(() => featuredProductIds.flatMap((id, index) => {
+  const record = (productRecords.value || []).find(item => item.slug === id)
+  if (!record) return []
+  const gallery = Array.isArray(record.gallery) ? record.gallery : []
+  return [{ id, title: record.title, titleFa: record.title_fa || record.title, desc: record.description, image: typeof record.image === 'string' ? record.image : typeof gallery[0] === 'string' ? gallery[0] : featuredProductImages[id], to: localePath(`/products/${record.category}/${record.slug}`), class: index === 2 ? 'col-span-1 md:col-span-2' : 'col-span-1', isWide: index === 2 }]
+}))
 
 const buildPillars = computed(() => [
-  { icon: resolveComponent('IconFpgaChip'), title: t('common.fpga_native'), desc: locale.value === 'fa' ? 'در مدل‌های مستندشده، بخشی از مسیر داده در منطق FPGA پیاده‌سازی می‌شود؛ مرز دقیق معماری در دیتاشیت همان مدل مشخص است.' : 'On documented models, parts of the data path use FPGA logic; the applicable datasheet defines the exact architecture boundary.' },
-  { icon: resolveComponent('IconAesLock'), title: t('common.os_less'), desc: locale.value === 'fa' ? 'برخی مدل‌ها وابستگی مسیر داده به سیستم‌عامل عمومی را کاهش می‌دهند؛ رابط مدیریت و سرویس‌های جانبی باید جداگانه ارزیابی شوند.' : 'Some models reduce general-purpose OS dependencies on the data path; management and ancillary services still require separate review.' },
-  { icon: resolveComponent('IconComplianceCert'), title: t('trust.title'), desc: locale.value === 'fa' ? 'هر ادعای گواهی، سطح خدمت یا چرخه عمر باید با مدرک دارای مدل، نسخه، دامنه و اعتبار مشخص پشتیبانی شود.' : 'Certification, service-level, and lifecycle claims require evidence with a defined model, version, scope, and validity.' },
-  { icon: resolveComponent('IconMadeInIran'), title: t('common.made_in_iran'), desc: locale.value === 'fa' ? 'دامنه طراحی، مونتاژ، آزمون و منشأ قطعات برای محصول و سفارش موردنظر در فرایند خرید تأیید می‌شود.' : 'Design, assembly, testing, and component-origin scope are confirmed for the specific product and order during procurement.' },
+  { icon: resolveComponent('IconFpgaChip'), title: locale.value === 'fa' ? 'پردازش کنترل‌شده' : t('common.fpga_native'), desc: locale.value === 'fa' ? 'در مدل‌های منتخب، بخشی از پردازش داده در منطق سخت‌افزاری انجام می‌شود تا رفتار دستگاه سریع و قابل پیش‌بینی بماند.' : 'On selected models, parts of the data path use hardware logic for fast, predictable behaviour.' },
+  { icon: resolveComponent('IconAesLock'), title: locale.value === 'fa' ? 'وابستگی کمتر به نرم‌افزار عمومی' : t('common.os_less'), desc: locale.value === 'fa' ? 'برخی محصولات مسیر داده را از سرویس‌های غیرضروری جدا می‌کنند تا نقاط قابل حمله و پیچیدگی نگهداری کمتر شود.' : 'Some products reduce dependence on unnecessary services to limit attack paths and maintenance complexity.' },
+  { icon: resolveComponent('IconComplianceCert'), title: locale.value === 'fa' ? 'اطلاعات روشن' : t('trust.title'), desc: locale.value === 'fa' ? 'مشخصات، محدودیت‌ها و مدارک قابل ارائه را روشن بیان می‌کنیم تا تصمیم‌گیری شما بر پایه اطلاعات واقعی باشد.' : 'We make specifications, limitations, and available evidence clear so decisions are based on real information.' },
+  { icon: resolveComponent('IconMadeInIran'), title: locale.value === 'fa' ? 'همراهی در مسیر اجرا' : t('common.made_in_iran'), desc: locale.value === 'fa' ? 'از انتخاب مدل تا اتصال و پشتیبانی، برای پیدا کردن مسیر مناسب استقرار کنار شما هستیم.' : 'We support the path from model selection through connection and deployment.' },
 ])
 
 </script>
