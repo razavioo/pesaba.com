@@ -96,7 +96,8 @@ const labelRows = ref<Array<{ key: string; fa: string; en: string }>>([])
 const advancedSettings = computed(() => settings.value.filter(setting => !['contact', 'branding', 'navigation'].includes(setting.namespace)))
 
 function assign<T extends object>(target: T, value: unknown) {
-  if (value && typeof value === 'object' && !Array.isArray(value)) Object.assign(target, structuredClone(value))
+  // Settings live inside a reactive array; JSON cloning avoids passing a Vue proxy to structuredClone.
+  if (value && typeof value === 'object' && !Array.isArray(value)) Object.assign(target, JSON.parse(JSON.stringify(value)))
 }
 function find(namespace: string) { return settings.value.find(item => item.namespace === namespace) }
 async function save(namespace: string, data: unknown) {
