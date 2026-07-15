@@ -29,23 +29,8 @@ function recordValue(value: unknown): Record<string, unknown> {
   return value && typeof value === 'object' && !Array.isArray(value) ? value as Record<string, unknown> : {}
 }
 
-function isRecord(value: unknown): value is Record<string, unknown> {
-  return !!value && typeof value === 'object' && !Array.isArray(value)
-}
-
 function sameJson(first: unknown, second: unknown) {
   return JSON.stringify(first) === JSON.stringify(second)
-}
-
-function mergeMissing(existing: unknown, defaults: unknown): Record<string, unknown> {
-  const current = recordValue(existing)
-  const fallback = recordValue(defaults)
-  const result: Record<string, unknown> = { ...current }
-  for (const [key, value] of Object.entries(fallback)) {
-    if (!(key in current)) result[key] = value
-    else if (isRecord(current[key]) && isRecord(value)) result[key] = mergeMissing(current[key], value)
-  }
-  return result
 }
 
 function parseDocument(file: string, source: string): ParsedDocument | null {
@@ -142,25 +127,6 @@ async function importContent() {
       prisma.contentRevision.create({ data: { contentItemId: record.id, actorId: owner.id, snapshot } }),
       prisma.auditEvent.create({ data: { actorId: owner.id, action: 'migration.import', entityType: first.type, entityId: record.id, metadata: { slug: first.slug } } }),
     ])
-  }
-  const readJson = async (file: string) => {
-    try { return JSON.parse(await fs.readFile(file, 'utf8')) as Record<string, unknown> } catch { return {} }
-  }
-  const [legacySite, faLabels, enLabels] = await Promise.all([
-    readJson(path.join(CONTENT_ROOT, 'site.json')),
-    readJson(path.join(ROOT, 'i18n/locales/fa.json')),
-    readJson(path.join(ROOT, 'i18n/locales/en.json')),
-  ])
-  const siteSettings = { legacyVariables: legacySite } as Prisma.InputJsonValue
-  const labelSettings = { fa: faLabels, en: enLabels } as Prisma.InputJsonValue
-  // Legacy files are migration inputs, not a second editable source of truth.
-  await prisma.siteSetting.upsert({ where: { namespace: 'site' }, create: { namespace: 'site', data: siteSettings }, update: {} })
-  // Populate the first import, but never overwrite labels changed in the panel.
-  const labels = await prisma.siteSetting.findUnique({ where: { namespace: 'labels' } })
-  if (!labels) await prisma.siteSetting.create({ data: { namespace: 'labels', data: labelSettings } })
-  else {
-    const merged = mergeMissing(labels.data, labelSettings)
-    if (!sameJson(labels.data, merged)) await prisma.siteSetting.update({ where: { namespace: 'labels' }, data: { data: merged as Prisma.InputJsonValue } })
   }
   await prisma.$disconnect()
 }

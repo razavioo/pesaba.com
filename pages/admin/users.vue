@@ -1,5 +1,5 @@
 <template>
-  <div class="mx-auto max-w-6xl p-5 lg:p-8">
+  <div class="mx-auto max-w-7xl p-5 lg:p-8">
     <div class="mb-7">
       <p class="text-sm font-semibold text-[#1f7994]">کاربران</p>
       <h1 class="mt-1 text-2xl font-bold text-[#093544]">دسترسی کاربران</h1>
@@ -172,4 +172,21 @@ onMounted(load);
 .field:focus {
   border-color: #1f7994;
 }
+
+select.field {
+  min-width: 6rem;
+  padding-inline-start: 2rem;
+  appearance: none;
+  background-color: #fff;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 14 14' fill='none' stroke='%23576b73' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m3.5 5.25 3.5 3.5 3.5-3.5'/%3E%3C/svg%3E");
+  background-position: left 0.7rem center;
+  background-repeat: no-repeat;
+  background-size: 0.875rem;
+  cursor: pointer;
+}
+
+select.field:disabled {
+  cursor: not-allowed;
+}
+
 </style>

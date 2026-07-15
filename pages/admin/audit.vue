@@ -44,6 +44,7 @@ definePageMeta({ name: 'admin-audit___fa', layout: 'admin', middleware: 'admin' 
 
 const { request } = useCmsApi()
 const { user } = useCmsSession()
+const { actionLabel, entityLabel } = useAdminLabels()
 const events = ref<any[]>([])
 const action = ref('')
 const entityType = ref('')
@@ -51,13 +52,6 @@ const pending = ref(true)
 const error = ref('')
 
 const formatDate = (value: string) => new Intl.DateTimeFormat('fa-IR', { dateStyle: 'medium', timeStyle: 'short' }).format(new Date(value))
-const actionLabel = (value: string) => ({
-  'auth.login': 'ورود به پنل', 'auth.logout': 'خروج از پنل', 'user.create': 'ایجاد کاربر', 'user.update': 'ویرایش کاربر',
-  'user.delete': 'حذف کاربر', 'content.create': 'ایجاد محتوا', 'content.update': 'ویرایش محتوا', 'content.delete': 'حذف محتوا',
-  'content.restore': 'بازیابی نسخه محتوا', 'redirect.save': 'ذخیره مسیر', 'settings.update': 'ویرایش تنظیمات',
-  'media.upload': 'بارگذاری رسانه', 'media.update': 'ویرایش رسانه', 'archive.restore': 'بازیابی پشتیبان',
-}[value] || value)
-const entityLabel = (value: string) => ({ user: 'کاربر', content: 'محتوا', redirect: 'مسیر', setting: 'تنظیمات', media: 'رسانه', archive: 'پشتیبان' }[value] || value)
 const summary = (metadata: unknown) => {
   if (!metadata || typeof metadata !== 'object') return '—'
   const text = JSON.stringify(metadata)

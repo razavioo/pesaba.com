@@ -6,22 +6,6 @@ const contentRoot = path.join(root, 'content')
 const publicRoot = path.join(root, 'public')
 const errors: string[] = []
 
-const PUBLIC_SITE_VARIABLE_KEYS = new Set([
-  'contact_address',
-  'contact_email',
-  'contact_fax',
-  'contact_instagram',
-  'contact_linkedin',
-  'contact_phone',
-  'contact_postalCode',
-  'contact_telegram',
-  'contact_whatsapp',
-  'main_articles',
-  'main_clients',
-  'main_footer',
-  'main_intro',
-])
-
 const FORBIDDEN_PUBLIC_KEY = /(?:^|[_-])(?:smtp|mail[_-]?server|password|passwd|passphrase|pass|secret|token|api[_-]?key|private[_-]?key|client[_-]?secret|credentials?)(?:$|[_-])/i
 const ASSET_EXTENSION = /\.(?:avif|gif|jpe?g|png|svg|webp)$/i
 const ASSET_REFERENCE = /(^|[\s'"(:])((?:\/(?!\/))[^'"\s)]+?\.(?:avif|gif|jpe?g|png|svg|webp|pdf))(?:[?#][^'"\s)]*)?/gim
@@ -74,11 +58,9 @@ function checkForbiddenKeys(value: unknown, file: string, trail: string[] = []):
 }
 
 function validateJson(): void {
-  const parsedJson = new Map<string, unknown>()
   for (const file of filesIn(contentRoot, file => file.endsWith('.json'))) {
     try {
       const value: unknown = JSON.parse(fs.readFileSync(file, 'utf8'))
-      parsedJson.set(file, value)
       checkForbiddenKeys(value, file)
     }
     catch (error) {
@@ -87,34 +69,6 @@ function validateJson(): void {
     }
   }
 
-  const siteFile = path.join(contentRoot, 'site.json')
-  const site = parsedJson.get(siteFile)
-  if (!isRecord(site)) {
-    errors.push('content/site.json must contain a JSON object')
-    return
-  }
-
-  for (const key of PUBLIC_SITE_VARIABLE_KEYS) {
-    if (!(key in site)) errors.push(`Missing public site variable ${key}: content/site.json`)
-  }
-
-  for (const [key, value] of Object.entries(site)) {
-    if (!PUBLIC_SITE_VARIABLE_KEYS.has(key)) {
-      errors.push(`Unexpected site variable ${key}: content/site.json`)
-      continue
-    }
-    if (!isRecord(value)) {
-      errors.push(`Site variable ${key} must be an object: content/site.json`)
-      continue
-    }
-    const locales = Object.keys(value).sort()
-    if (locales.join(',') !== 'en,fa') {
-      errors.push(`Site variable ${key} must contain only en and fa: content/site.json`)
-    }
-    if (typeof value.en !== 'string' || typeof value.fa !== 'string') {
-      errors.push(`Site variable ${key} locale values must be strings: content/site.json`)
-    }
-  }
 }
 
 function resolvePublicAsset(asset: string): string | null {

@@ -1,5 +1,5 @@
 <template>
-  <div dir="rtl" lang="fa" class="min-h-screen bg-[#f5f7f8] text-[#13272e]">
+  <div dir="rtl" lang="fa" class="admin-shell min-h-screen bg-[#f5f7f8] text-[#13272e]">
     <aside class="fixed inset-y-0 start-0 z-30 hidden w-64 border-e border-[#d4e0e4] bg-[#093544] text-white lg:block">
       <div class="flex h-20 items-center gap-3 border-b border-white/10 px-6">
         <img src="/pesaba-mark.svg" alt="Pesaba" class="h-9 w-9">
@@ -66,10 +66,56 @@ const pageTitle = computed(() => navigation.value.find(item => route.path === it
 const roleLabel = computed(() => ({ OWNER: 'مالک', EDITOR: 'ویرایشگر', VIEWER: 'مشاهده‌گر' }[user.value?.role || 'VIEWER']))
 const navClass = (to: string) => [
   'flex items-center gap-3 rounded-md px-3 py-2.5 text-sm transition',
-  route.path === to || (to !== '/admin' && route.path.startsWith(`${to}/`)) ? 'bg-[#1f7994] font-semibold text-white' : 'text-white/70 hover:bg-white/10 hover:text-white',
+  route.path === to || (to !== '/admin' && route.path.startsWith(`${to}/`))
+    ? 'bg-[#1f7994] font-semibold text-white hover:!bg-[#1f7994] hover:!text-white'
+    : 'text-white/70 hover:bg-white/10 hover:text-white',
 ]
 async function signOut() {
   await logout()
   await navigateTo('/admin/login')
 }
 </script>
+
+<style>
+/* Keep native selects familiar, while giving every admin form a consistent control. */
+.admin-shell select,
+.admin-shell main select.field {
+  min-height: 2.5rem;
+  width: 100%;
+  appearance: none;
+  border: 1px solid #c9d9df;
+  border-radius: 0;
+  background-color: #fff;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16' fill='none'%3E%3Cpath d='m4 6 4 4 4-4' stroke='%231f7994' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-position: left 0.75rem center;
+  background-repeat: no-repeat;
+  background-size: 1rem;
+  box-shadow: 0 1px 2px rgb(9 53 68 / 0.04);
+  color: #13272e;
+  cursor: pointer;
+  padding-block: 0.5rem;
+  padding-inline: 0.75rem 2.5rem;
+  transition: border-color 150ms ease, box-shadow 150ms ease, background-color 150ms ease;
+}
+
+.admin-shell select:hover:not(:disabled),
+.admin-shell main select.field:hover:not(:disabled) {
+  border-color: #7eb4c3;
+  background-color: #f8fbfc;
+}
+
+.admin-shell select:focus-visible,
+.admin-shell main select.field:focus-visible {
+  border-color: #1f7994;
+  box-shadow: 0 0 0 3px rgb(31 121 148 / 0.18);
+  outline: none;
+}
+
+.admin-shell select:disabled,
+.admin-shell main select.field:disabled {
+  background-color: #f3f7f8;
+  border-color: #d4e0e4;
+  color: #82949b;
+  cursor: not-allowed;
+}
+</style>

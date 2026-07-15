@@ -16,11 +16,12 @@
     </div>
     <section class="overflow-hidden border border-[#d4e0e4] bg-white">
       <div v-if="pending" class="p-6 text-sm text-[#61757d]">در حال دریافت محتوا...</div>
+      <div v-else-if="loadError" class="p-6 text-sm text-[#b42318]">{{ loadError }}</div>
       <div v-else class="overflow-x-auto">
         <table class="w-full min-w-[720px] text-right text-sm">
           <thead class="bg-[#f3f7f8] text-xs text-[#61757d]"><tr><th class="px-5 py-3 font-semibold">عنوان</th><th class="px-5 py-3 font-semibold">نوع</th><th class="px-5 py-3 font-semibold">نامک</th><th class="px-5 py-3 font-semibold">وضعیت</th><th class="px-5 py-3 font-semibold">آخرین تغییر</th><th class="px-5 py-3"></th></tr></thead>
           <tbody class="divide-y divide-[#e5edf0]">
-            <tr v-for="item in filtered" :key="item.id" class="hover:bg-[#f8fbfc]">
+            <tr v-for="item in records" :key="item.id" class="hover:bg-[#f8fbfc]">
               <td class="px-5 py-4 font-semibold text-[#24434d]">{{ faTitle(item) }}</td>
               <td class="px-5 py-4 text-[#61757d]">{{ typeLabel(item.type) }}</td>
               <td dir="ltr" class="px-5 py-4 text-left text-xs text-[#61757d]">{{ item.slug }}</td>
@@ -28,10 +29,18 @@
               <td class="px-5 py-4 text-xs text-[#61757d]">{{ formatDate(item.updatedAt) }}</td>
               <td class="px-5 py-4"><NuxtLink :to="`/admin/content/${item.id}`" class="text-sm font-semibold text-[#1f7994]">{{ canEdit ? 'ویرایش' : 'مشاهده' }}</NuxtLink></td>
             </tr>
-            <tr v-if="!filtered.length"><td colspan="6" class="px-5 py-10 text-center text-sm text-[#61757d]">موردی پیدا نشد.</td></tr>
+            <tr v-if="!records.length"><td colspan="6" class="px-5 py-10 text-center text-sm text-[#61757d]">موردی پیدا نشد.</td></tr>
           </tbody>
         </table>
       </div>
+      <nav v-if="totalPages > 1" aria-label="صفحه‌بندی محتوا" class="flex flex-wrap items-center justify-between gap-3 border-t border-[#e5edf0] px-5 py-4 text-sm">
+        <p class="text-[#61757d]">صفحه {{ page }} از {{ totalPages }} · {{ total }} مورد</p>
+        <div class="flex items-center gap-1" dir="ltr">
+          <button :disabled="page === 1" class="min-h-9 border border-[#c9d9df] px-3 text-[#1f7994] disabled:cursor-not-allowed disabled:opacity-40" @click="goToPage(page - 1)">قبلی</button>
+          <button v-for="pageNumber in visiblePages" :key="pageNumber" :aria-current="pageNumber === page ? 'page' : undefined" :class="pageNumber === page ? 'bg-[#1f7994] text-white' : 'border border-[#c9d9df] text-[#1f7994]'" class="min-h-9 min-w-9 px-2" @click="goToPage(pageNumber)">{{ pageNumber }}</button>
+          <button :disabled="page === totalPages" class="min-h-9 border border-[#c9d9df] px-3 text-[#1f7994] disabled:cursor-not-allowed disabled:opacity-40" @click="goToPage(page + 1)">بعدی</button>
+        </div>
+      </nav>
     </section>
   </div>
 </template>
@@ -45,22 +54,54 @@ const pending = ref(true)
 const records = ref<any[]>([])
 const search = ref('')
 const type = ref('')
+const page = ref(1)
+const total = ref(0)
+const totalPages = ref(1)
+const loadError = ref('')
+const pageSize = 20
 const types = [
   { value: 'page', label: 'صفحه' }, { value: 'product', label: 'محصول' }, { value: 'article', label: 'مقاله' }, { value: 'glossary', label: 'واژه‌نامه' },
   { value: 'industry', label: 'صنعت' }, { value: 'use_case', label: 'کاربرد' }, { value: 'company', label: 'شرکت' }, { value: 'legal', label: 'حقوقی' },
 ]
 const canEdit = computed(() => user.value?.role !== 'VIEWER')
-const filtered = computed(() => records.value.filter((item) => {
-  const query = search.value.trim().toLowerCase()
-  return (!type.value || item.type === type.value) && (!query || item.slug.includes(query) || item.translations.some((translation: any) => `${translation.title} ${translation.description}`.toLowerCase().includes(query)))
-}))
+const visiblePages = computed(() => Array.from({ length: totalPages.value }, (_, index) => index + 1).slice(Math.max(0, page.value - 3), page.value + 2))
 const faTitle = (item: any) => item.translations.find((translation: any) => translation.locale === 'fa')?.title || item.translations[0]?.title || item.slug
 const typeLabel = (value: string) => types.find(type => type.value === value)?.label || value
 const statusLabel = (value: string) => ({ active: 'فعال', inactive: 'غیرفعال', archived: 'بایگانی' }[value] || value)
 const statusClass = (value: string) => ({ active: 'bg-[#e8f6ef] text-[#087443]', inactive: 'bg-[#fff7e8] text-[#a56c00]', archived: 'bg-[#edf1f2] text-[#61757d]' }[value] || '')
 const formatDate = (value: string) => new Intl.DateTimeFormat('fa-IR', { dateStyle: 'medium' }).format(new Date(value))
 
-onMounted(async () => {
-  try { records.value = await request<any[]>('/admin/content') } finally { pending.value = false }
+async function load() {
+  pending.value = true
+  loadError.value = ''
+  const params = new URLSearchParams({ page: String(page.value), pageSize: String(pageSize) })
+  if (type.value) params.set('type', type.value)
+  if (search.value.trim()) params.set('search', search.value.trim())
+  try {
+    const result = await request<{ items: any[]; total: number; page: number; totalPages: number } | any[]>(`/admin/content?${params}`)
+    if (Array.isArray(result)) {
+      // Accept the legacy CMS response until a running API instance is restarted.
+      records.value = result
+      total.value = result.length
+      totalPages.value = 1
+      return
+    }
+    records.value = result.items
+    total.value = result.total
+    totalPages.value = result.totalPages
+    page.value = result.page
+  } catch {
+    records.value = []
+    loadError.value = 'دریافت محتوا ناموفق بود. صفحه را دوباره بارگذاری کنید.'
+  } finally { pending.value = false }
+}
+function goToPage(value: number) {
+  page.value = Math.min(totalPages.value, Math.max(1, value))
+  load()
+}
+watch([search, type], () => {
+  page.value = 1
+  load()
 })
+onMounted(load)
 </script>

@@ -2,7 +2,7 @@
   <div class="mx-auto max-w-7xl p-5 lg:p-8">
     <div class="mb-7 flex flex-wrap items-end justify-between gap-4">
       <div><p class="text-sm font-semibold text-[#1f7994]">رسانه</p><h1 class="mt-1 text-2xl font-bold text-[#093544]">کتابخانه رسانه</h1></div>
-      <label v-if="canEdit" class="inline-flex min-h-10 cursor-pointer items-center bg-[#1f7994] px-4 text-sm font-semibold text-white transition hover:bg-[#093544]"><Upload class="ms-2 h-4 w-4" />بارگذاری فایل<input class="hidden" type="file" @change="upload"></label>
+      <label v-if="canEdit" dir="rtl" class="inline-flex min-h-10 cursor-pointer items-center gap-2 whitespace-nowrap bg-[#1f7994] px-4 text-sm font-semibold text-white transition hover:bg-[#093544]"><Upload class="h-4 w-4 shrink-0" />بارگذاری فایل<input class="hidden" type="file" @change="upload"></label>
     </div>
     <p v-if="error" role="alert" class="mb-5 border-s-2 border-[#c33] bg-[#fff2f2] px-4 py-3 text-sm text-[#a32626]">{{ error }}</p>
     <div class="mb-5 grid gap-3 border border-[#d4e0e4] bg-white p-4 sm:grid-cols-[1fr_220px]"><input v-model="search" class="field mt-0" placeholder="جست‌وجو در نام، پوشه یا برچسب"><select v-model="kind" class="field mt-0"><option value="">همه فایل‌ها</option><option value="IMAGE">تصویر</option><option value="DOCUMENT">سند</option><option value="VIDEO">ویدئو</option></select></div>
@@ -11,7 +11,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import { File, Upload } from 'lucide-vue-next'
+import { Upload } from 'lucide-vue-next'
 defineI18nRoute(false)
 definePageMeta({ name: 'admin-media___fa', layout: 'admin', middleware: 'admin' })
 const { request } = useCmsApi(); const { user } = useCmsSession()
@@ -29,4 +29,15 @@ onMounted(() => window.addEventListener('keydown', onKeydown))
 onBeforeUnmount(() => window.removeEventListener('keydown', onKeydown))
 function onKeydown(event: KeyboardEvent) { if (event.key === 'Escape') selectedAsset.value = null }
 </script>
-<style scoped>.field { display: block; width: 100%; border: 1px solid #c9d9df; background: #fff; padding: .625rem .75rem; font-size: .875rem; outline: none; }.field:focus { border-color: #1f7994; }</style>
+<style scoped>
+.field { display: block; width: 100%; border: 1px solid #c9d9df; background: #fff; padding: .625rem .75rem; font-size: .875rem; outline: none; }
+.field:focus { border-color: #1f7994; }
+
+/* SVG previews get a blueprint surface so white canvases and fine linework remain visible. */
+button:has(img[src$=".svg"]), button:has(img[src*=".svg?"]) {
+  background-color: #092f3d !important;
+  background-image: linear-gradient(rgba(116,205,216,.1) 1px, transparent 1px), linear-gradient(90deg, rgba(116,205,216,.1) 1px, transparent 1px), radial-gradient(circle at 15% 20%, rgba(53,174,189,.3), transparent 38%), radial-gradient(circle at 85% 80%, rgba(31,121,148,.35), transparent 42%);
+  background-size: 24px 24px, 24px 24px, auto, auto;
+  box-shadow: inset 0 0 0 1px rgba(157,229,235,.24), inset 0 0 0 12px rgba(3,33,42,.08) !important;
+}
+</style>

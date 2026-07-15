@@ -109,18 +109,35 @@ export class ContentService {
     }
   }
 
-  async list(type?: string, status?: string, includeArchived = false) {
+  async list(type?: string, status?: string, includeArchived = false, options: { page?: string; pageSize?: string; search?: string } = {}) {
     const parsedType = type ? contentTypeSchema.parse(type) : undefined
     const parsedStatus = status ? contentStatusSchema.parse(status) : undefined
-    const items = await this.prisma.contentItem.findMany({
-      where: {
-        ...(parsedType ? { type: typeMap[parsedType] } : {}),
-        ...(parsedStatus ? { status: statusMap[parsedStatus] } : includeArchived ? {} : { status: { not: ContentStatus.ARCHIVED } }),
-      },
+    const page = Math.max(1, Number.parseInt(options.page || '1', 10) || 1)
+    const pageSize = Math.min(100, Math.max(1, Number.parseInt(options.pageSize || '20', 10) || 20))
+    const search = options.search?.trim()
+    const where = {
+      ...(parsedType ? { type: typeMap[parsedType] } : {}),
+      ...(parsedStatus ? { status: statusMap[parsedStatus] } : includeArchived ? {} : { status: { not: ContentStatus.ARCHIVED } }),
+      ...(search ? {
+        OR: [
+          { slug: { contains: search, mode: 'insensitive' as const } },
+          { translations: { some: { title: { contains: search, mode: 'insensitive' as const } } } },
+          { translations: { some: { description: { contains: search, mode: 'insensitive' as const } } } },
+        ],
+      } : {}),
+    }
+    const [total, items] = await Promise.all([
+      this.prisma.contentItem.count({ where }),
+      this.prisma.contentItem.findMany({
+        where,
+        skip: (page - 1) * pageSize,
+        take: pageSize,
       include: { translations: true },
       orderBy: [{ sortOrder: 'asc' }, { updatedAt: 'desc' }],
-    })
-    return items.map(item => this.serialize(item))
+      }),
+    ])
+    const totalPages = Math.max(1, Math.ceil(total / pageSize))
+    return { items: items.map(item => this.serialize(item)), total, page: Math.min(page, totalPages), pageSize, totalPages }
   }
 
   async get(id: string) {
@@ -296,8 +313,8 @@ export class AdminContentController {
   constructor(private readonly content: ContentService) {}
 
   @Get()
-  list(@Query('type') type?: string, @Query('status') status?: string) {
-    return this.content.list(type, status, true)
+  list(@Query('type') type?: string, @Query('status') status?: string, @Query('page') page?: string, @Query('pageSize') pageSize?: string, @Query('search') search?: string) {
+    return this.content.list(type, status, true, { page, pageSize, search })
   }
 
   @Get(':id')

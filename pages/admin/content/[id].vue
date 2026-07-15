@@ -14,6 +14,13 @@
     <div v-if="loading" class="border border-[#d4e0e4] bg-white p-6 text-sm text-[#61757d]">در حال دریافت محتوا...</div>
     <form v-else class="grid gap-6 xl:grid-cols-[minmax(0,1fr)_300px]" @submit.prevent="save">
       <div class="space-y-6">
+        <section v-if="isNew" class="border border-[#b9d7df] bg-[#f4fafb] p-5">
+          <h2 class="font-bold text-[#093544]">شروع سریع با قالب محتوا</h2>
+          <p class="mt-2 text-sm leading-6 text-[#61757d]">یک ساختار استاندارد انتخاب کنید تا تیترها و بخش‌های اصلی آماده شوند؛ همه بخش‌ها بعداً قابل ویرایش هستند.</p>
+          <div class="mt-4 flex flex-wrap gap-3">
+            <button v-for="item in templates" :key="item.value" type="button" class="border border-[#9fc3cf] bg-white px-3 py-2 text-sm font-semibold text-[#1f7994] hover:bg-[#e8f2f5]" @click="applyTemplate(item.value)">{{ item.label }}</button>
+          </div>
+        </section>
         <section class="border border-[#d4e0e4] bg-white p-5">
           <div class="mb-5 flex items-center justify-between gap-3 border-b border-[#e5edf0] pb-4">
             <h2 class="font-bold text-[#093544]">نسخه فارسی</h2>
@@ -28,25 +35,26 @@
               <label class="block text-sm font-semibold text-[#24434d]">توضیح سئو<textarea v-model="fa.seoDescription" :disabled="!canEdit" class="field min-h-24" maxlength="320"></textarea></label>
             </div>
             <details class="border border-[#d4e0e4] p-4"><summary class="cursor-pointer text-sm font-semibold text-[#24434d]">تصاویر و رسانه‌های فارسی</summary><div class="mt-4 grid gap-4 md:grid-cols-2"><label v-for="key in visibleMediaKeys(fa)" :key="key" class="block text-xs font-semibold text-[#24434d]" dir="ltr">{{ key }}<input :value="mediaValue(fa, key)" :disabled="!canEdit" class="field text-left" @input="setMediaValue(fa, key, $event)"></label></div><p class="mt-3 text-xs text-[#61757d]">مسیر یا URL تصویر را وارد کنید. برای بارگذاری و کپی URL از کتابخانه رسانه استفاده کنید.</p></details>
-            <label class="block text-sm font-semibold text-[#24434d]">داده‌های ویژه فارسی (JSON)<textarea v-model="fa.dataText" :disabled="!canEdit" dir="ltr" spellcheck="false" class="field min-h-36 font-mono text-xs text-left"></textarea><span class="mt-2 block text-xs font-normal leading-5 text-[#61757d]">برای فیلدهای قالبی مثل تصویر قهرمان، دسته‌بندی یا ارتباطات استفاده می‌شود. نمونه: <code dir="ltr">{"heroImage":"/media/example.webp"}</code></span></label>
+            <div class="border-t border-[#e5edf0] pt-4"><h3 class="mb-3 text-sm font-bold text-[#24434d]">اطلاعات قابل تنظیم فارسی</h3><StructuredFields v-model="fa.dataText" :type="form.type" locale="fa" :disabled="!canEdit" /></div>
+            <details class="border border-[#d4e0e4] p-4"><summary class="cursor-pointer text-xs font-semibold text-[#61757d]">تنظیمات پیشرفته (JSON)</summary><textarea v-model="fa.dataText" :disabled="!canEdit" dir="ltr" spellcheck="false" class="field min-h-28 font-mono text-xs text-left"></textarea></details>
           </div>
         </section>
 
-        <section class="border border-[#d4e0e4] bg-white p-5" dir="ltr" lang="en">
+        <section class="english-content border border-[#d4e0e4] bg-white p-5" lang="en">
           <div class="mb-5 flex items-center justify-between gap-3 border-b border-[#e5edf0] pb-4">
-            <h2 class="font-bold text-[#093544]">English version</h2>
-            <span class="text-xs text-[#61757d]">Required for every live record.</span>
+            <h2 class="font-bold text-[#093544]">نسخه انگلیسی</h2>
+            <span class="text-xs text-[#61757d]">برای هر رکورد فعال الزامی است.</span>
           </div>
-          <div class="space-y-4 text-left">
-            <label class="block text-sm font-semibold text-[#24434d]">Title<input v-model="en.title" :disabled="!canEdit" required class="field" maxlength="180"></label>
-            <label class="block text-sm font-semibold text-[#24434d]">Short description<textarea v-model="en.description" :disabled="!canEdit" class="field min-h-24" maxlength="500"></textarea></label>
-            <label class="block text-sm font-semibold text-[#24434d]">Body</label><MarkdownEditor v-model="en.body" :disabled="!canEdit" />
+          <div class="space-y-4">
+            <label class="block text-sm font-semibold text-[#24434d]">عنوان انگلیسی<input v-model="en.title" :disabled="!canEdit" required dir="ltr" class="field text-left" maxlength="180"></label>
+            <label class="block text-sm font-semibold text-[#24434d]">توضیح کوتاه انگلیسی<textarea v-model="en.description" :disabled="!canEdit" dir="ltr" class="field min-h-24 text-left" maxlength="500"></textarea></label>
+            <label class="block text-sm font-semibold text-[#24434d]">متن صفحه به انگلیسی</label><MarkdownEditor v-model="en.body" :disabled="!canEdit" />
             <div class="grid gap-4 md:grid-cols-2">
-              <label class="block text-sm font-semibold text-[#24434d]">SEO title<input v-model="en.seoTitle" :disabled="!canEdit" class="field" maxlength="180"></label>
-              <label class="block text-sm font-semibold text-[#24434d]">SEO description<textarea v-model="en.seoDescription" :disabled="!canEdit" class="field min-h-24" maxlength="320"></textarea></label>
+              <label class="block text-sm font-semibold text-[#24434d]">عنوان سئو به انگلیسی<input v-model="en.seoTitle" :disabled="!canEdit" dir="ltr" class="field text-left" maxlength="180"></label>
+              <label class="block text-sm font-semibold text-[#24434d]">توضیح سئو به انگلیسی<textarea v-model="en.seoDescription" :disabled="!canEdit" dir="ltr" class="field min-h-24 text-left" maxlength="320"></textarea></label>
             </div>
-            <details class="border border-[#d4e0e4] p-4"><summary class="cursor-pointer text-sm font-semibold text-[#24434d]">English images and media</summary><div class="mt-4 grid gap-4 md:grid-cols-2"><label v-for="key in visibleMediaKeys(en)" :key="key" class="block text-xs font-semibold text-[#24434d]">{{ key }}<input :value="mediaValue(en, key)" :disabled="!canEdit" class="field" @input="setMediaValue(en, key, $event)"></label></div><p class="mt-3 text-xs text-[#61757d]">Enter an image path or URL. Upload and copy media URLs from the media library.</p></details>
-            <label class="block text-sm font-semibold text-[#24434d]">Localized data (JSON)<textarea v-model="en.dataText" :disabled="!canEdit" spellcheck="false" class="field min-h-36 font-mono text-xs"></textarea><span class="mt-2 block text-xs font-normal leading-5 text-[#61757d]">Use this for template-specific fields such as hero images, categories, relations, and product specifications. Example: <code dir="ltr">{"heroImage":"/media/example.webp"}</code></span></label>
+            <div class="border-t border-[#e5edf0] pt-4"><h3 class="mb-3 text-sm font-bold text-[#24434d]">اطلاعات قابل تنظیم انگلیسی</h3><StructuredFields v-model="en.dataText" :type="form.type" locale="en" :disabled="!canEdit" /></div>
+            <details class="border border-[#d4e0e4] p-4"><summary class="cursor-pointer text-xs font-semibold text-[#61757d]">تنظیمات پیشرفته (JSON)</summary><textarea v-model="en.dataText" :disabled="!canEdit" dir="ltr" spellcheck="false" class="field min-h-28 font-mono text-xs text-left"></textarea></details>
           </div>
         </section>
       </div>
@@ -64,8 +72,8 @@
         <section class="border border-[#d4e0e4] bg-white p-5">
           <h2 class="font-bold text-[#093544]">داده‌های ویژه</h2>
           <p class="mt-2 text-xs leading-5 text-[#61757d]">مشخصات محصول، تصویر قهرمان، دسته‌بندی، ارتباطات و فیلدهای هر قالب در این بخش نگهداری می‌شوند.</p>
-          <textarea v-model="form.dataText" :disabled="!canEdit" dir="ltr" spellcheck="false" aria-label="داده‌های ویژه عمومی JSON" class="field mt-4 min-h-64 font-mono text-xs text-left"></textarea>
-          <p class="mt-2 text-xs leading-5 text-[#61757d]">این بخش برای داده‌های مشترک رکورد است؛ داده‌های وابسته به زبان را در بخش همان زبان وارد کنید.</p>
+          <StructuredFields v-model="form.dataText" :type="form.type" locale="shared" :disabled="!canEdit" />
+          <details class="mt-4 border border-[#d4e0e4] p-4"><summary class="cursor-pointer text-xs font-semibold text-[#61757d]">تنظیمات پیشرفته مشترک (JSON)</summary><textarea v-model="form.dataText" :disabled="!canEdit" dir="ltr" spellcheck="false" aria-label="داده‌های ویژه عمومی JSON" class="field mt-3 min-h-28 font-mono text-xs text-left"></textarea></details>
         </section>
         <section v-if="!isNew" class="border border-[#d4e0e4] bg-white p-5">
           <h2 class="font-bold text-[#093544]">تاریخچه</h2>
@@ -97,6 +105,12 @@ const error = ref('')
 const saved = ref(false)
 const revisions = ref<any[]>([])
 const types = [{ value: 'page', label: 'صفحه' }, { value: 'product', label: 'محصول' }, { value: 'article', label: 'مقاله' }, { value: 'glossary', label: 'واژه‌نامه' }, { value: 'industry', label: 'صنعت' }, { value: 'use_case', label: 'کاربرد' }, { value: 'company', label: 'شرکت' }, { value: 'legal', label: 'حقوقی' }]
+const templates = [
+  { value: 'page', label: 'صفحه عمومی' }, { value: 'product', label: 'محصول' },
+  { value: 'article', label: 'مقاله تحلیلی' }, { value: 'glossary', label: 'واژه‌نامه' },
+  { value: 'industry', label: 'صنعت' }, { value: 'use_case', label: 'سناریوی کاربرد' },
+  { value: 'company', label: 'صفحه شرکت' }, { value: 'legal', label: 'صفحه حقوقی' },
+]
 const knownMediaKeys = ['heroImage', 'image', 'hero_image', 'engineeringImage', 'airGapImage', 'filteringImage', 'evidenceImage', 'statsProductsImage', 'statsCategoriesImage', 'statsLocalesImage']
 const form = reactive({ type: 'page', slug: '', status: 'active', sortOrder: 0, dataText: '{}', updatedAt: '' })
 const fa = reactive({ title: '', description: '', body: '', seoTitle: '', seoDescription: '', dataText: '{}' })
@@ -112,6 +126,21 @@ function setMediaValue(target: typeof fa, key: string, event: Event) {
   } catch { error.value = 'ابتدا داده‌های ویژه را به JSON معتبر تبدیل کنید.' }
 }
 const translation = (locale: 'fa' | 'en', value: typeof fa) => ({ locale, title: value.title, description: value.description, body: value.body, seoTitle: value.seoTitle, seoDescription: value.seoDescription, data: parseJson(value.dataText, `داده‌های ${locale === 'fa' ? 'فارسی' : 'انگلیسی'}`) })
+function applyTemplate(kind: string) {
+  const templates: Record<string, { type: string; fa: string; en: string; data: Record<string, unknown> }> = {
+    page: { type: 'page', fa: '# عنوان صفحه\n\n## معرفی\n\n## بخش اصلی\n\n## پرسش‌های متداول\n\n## اقدام بعدی\n', en: '# Page title\n\n## Introduction\n\n## Main section\n\n## Frequently asked questions\n\n## Next step\n', data: { heroImage: '', sections: [] } },
+    product: { type: 'product', fa: '# نام محصول\n\n## معرفی محصول\n\n## قابلیت‌ها و مزیت‌ها\n\n- قابلیت اول\n- قابلیت دوم\n\n## مشخصات فنی\n\n## رابط‌ها و سازگاری\n\n## کاربردها و سناریوهای استقرار\n\n## مدارک و شواهد\n\n## درخواست اطلاعات و پشتیبانی\n', en: '# Product name\n\n## Product overview\n\n## Capabilities and benefits\n\n- Capability one\n- Capability two\n\n## Technical specifications\n\n## Interfaces and compatibility\n\n## Applications and deployment scenarios\n\n## Documents and evidence\n\n## Information request and support\n', data: { category: '', heroImage: '', gallery: [], specs: [{ label: '', value: '' }], schematicPdf: '', diagram: '', relatedProducts: [] } },
+    article: { type: 'article', fa: '# عنوان مقاله\n\n## خلاصه\n\n## مقدمه\n\n## بدنه اصلی\n\n## چارچوب فنی یا مقایسه\n\n## ملاحظات استقرار\n\n## جمع‌بندی\n\n## منابع و محصولات مرتبط\n', en: '# Article title\n\n## Summary\n\n## Introduction\n\n## Main discussion\n\n## Technical framework or comparison\n\n## Deployment considerations\n\n## Conclusion\n\n## References and related products\n', data: { image: '', author: '', date: '', updated: '', relatedProducts: [], relatedArticles: [] } },
+    glossary: { type: 'glossary', fa: '# اصطلاح\n\n## تعریف کوتاه\n\n## تعریف دقیق\n\n## چگونه کار می‌کند؟\n\n## چرا مهم است؟\n\n## اصطلاحات مرتبط\n\n## محصولات و مقالات مرتبط\n', en: '# Term\n\n## Short definition\n\n## Detailed definition\n\n## How it works\n\n## Why it matters\n\n## Related terms\n\n## Related products and articles\n', data: { shortDefinition: '', category: '', relatedProducts: [], relatedArticles: [] } },
+    industry: { type: 'industry', fa: '# نام صنعت\n\n## چالش‌های این صنعت\n\n## الزامات امنیت و شبکه\n\n## معماری پیشنهادی\n\n## محصولات و قابلیت‌های مرتبط\n\n## پرسش‌های متداول\n\n## ملاحظات و شواهد لازم\n', en: '# Industry name\n\n## Industry challenges\n\n## Security and network requirements\n\n## Recommended architecture\n\n## Related products and capabilities\n\n## Frequently asked questions\n\n## Considerations and required evidence\n', data: { heroImage: '', relatedProducts: [], relatedUseCases: [], faq: [] } },
+    use_case: { type: 'use_case', fa: '# عنوان سناریو\n\n## مسئله و زمینه عملیاتی\n\n## معماری و جریان داده\n\n## راهکار پیشنهادی\n\n## مزیت‌های فنی\n\n## محصولات مناسب\n\n## الزامات استقرار و پذیرش\n\n## پرسش‌های متداول\n', en: '# Use-case title\n\n## Problem and operating context\n\n## Architecture and data flow\n\n## Recommended solution\n\n## Technical advantages\n\n## Suitable products\n\n## Deployment and acceptance requirements\n\n## Frequently asked questions\n', data: { heroImage: '', relatedProducts: [], relatedIndustries: [], architectureImage: '', faq: [] } },
+    company: { type: 'company', fa: '# عنوان صفحه شرکت\n\n## معرفی\n\n## حوزه فعالیت\n\n## محصولات و توانمندی‌ها\n\n## چرا پرتو ارتباط صبا؟\n\n## مجوزها، عضویت‌ها و شواهد\n\n## تماس\n', en: '# Company page title\n\n## Who we are\n\n## Areas of work\n\n## Products and capabilities\n\n## Why Pesaba\n\n## Approvals, memberships, and evidence\n\n## Contact\n', data: { heroImage: '', engineeringImage: '', facts: [], reasons: [], areas: [] } },
+    legal: { type: 'legal', fa: '# عنوان سند حقوقی\n\n## دامنه و تعاریف\n\n## تعهدات کاربر\n\n## حریم خصوصی و داده‌ها\n\n## مالکیت فکری\n\n## محدودیت مسئولیت\n\n## تغییرات و تماس\n\nتاریخ اجرا: YYYY-MM-DD\n', en: '# Legal document title\n\n## Scope and definitions\n\n## User obligations\n\n## Privacy and data\n\n## Intellectual property\n\n## Limitation of liability\n\n## Changes and contact\n\nEffective date: YYYY-MM-DD\n', data: { effectiveDate: '', version: '', documentType: 'legal', contactEmail: '' } },
+  }
+  const selected = templates[kind]
+  if (!selected) return
+  fa.body = selected.fa; en.body = selected.en; form.type = selected.type; form.dataText = JSON.stringify(selected.data, null, 2)
+}
 const formatDate = (value: string) => new Intl.DateTimeFormat('fa-IR', { dateStyle: 'medium', timeStyle: 'short' }).format(new Date(value))
 
 function assign(record: any) {
@@ -152,4 +181,15 @@ onMounted(async () => {
 
 <style scoped>
 .field { display: block; width: 100%; margin-top: .5rem; border: 1px solid #c9d9df; background: #fff; padding: .625rem .75rem; color: #13272e; font-size: .875rem; font-weight: 400; outline: none; transition: border-color .15s ease; }.field:focus { border-color: #1f7994; box-shadow: 0 0 0 2px rgb(31 121 148 / .15); }.field:disabled { cursor: not-allowed; background: #f3f7f8; }
+.english-content input,
+.english-content textarea,
+.english-content :deep(.tiptap),
+.english-content :deep(.tiptap p),
+.english-content :deep(.tiptap h1),
+.english-content :deep(.tiptap h2),
+.english-content :deep(.tiptap h3),
+.english-content :deep(.tiptap li) {
+  direction: ltr;
+  text-align: left;
+}
 </style>

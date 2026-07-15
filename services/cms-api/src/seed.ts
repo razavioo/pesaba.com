@@ -16,7 +16,6 @@ async function seed() {
     update: { displayName: name, role: UserRole.OWNER },
   })
   const settings = [
-    ['site', { name: { fa: 'پرتو ارتباط صبا', en: 'Pesaba' }, defaultLocale: 'fa', locales: ['fa', 'en'] }],
     ['contact', {
       phone: '+982144215738', phoneDisplay: { fa: '۰۲۱-۴۴۲۱۵۷۳۸', en: '+98 21 4421 5738' }, email: 'admin@pesaba.com',
       address: { fa: 'تهران، بلوار مرزداران، خیابان شهید ابراهیمی، نبش کوچه الوند هفتم، پلاک ۲', en: 'No. 2, 7th Alvand Alley, Ebrahimi St., Marzdaran Blvd., Tehran - IRAN' },
@@ -26,7 +25,6 @@ async function seed() {
     ['navigation', { header: [], footer: [], legal: [] }],
     ['branding', { name: { fa: 'پرتو ارتباط صبا', en: 'Pesaba' }, tagline: { fa: 'سخت افزار برای شبکه های حیاتی', en: 'Hardware for critical networks' }, footerTagline: { fa: 'طراحی سخت‌افزار برای انتقال کنترل‌شده داده و حفاظت از شبکه‌های حیاتی.', en: 'Hardware for controlled transfer and protection of critical networks.' }, logoUrl: '/pesaba-mark.svg' }],
     ['seo', { defaultTitle: { fa: 'پرتو ارتباط صبا | سخت افزار برای شبکه های حیاتی', en: 'Pesaba | Hardware for critical networks' }, defaultDescription: { fa: 'راهکارهای سخت افزاری برای انتقال کنترل شده داده، رمزنگاری شبکه و پایش زیرساخت.', en: 'Hardware products for controlled data transfer, network encryption, and infrastructure monitoring.' }, defaultImageUrl: '', twitterHandle: '' }],
-    ['labels', { fa: {}, en: {} }],
   ] as const
   // Seeding provisions only missing defaults. It must never overwrite values
   // an Owner changed from the panel.

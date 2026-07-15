@@ -136,20 +136,20 @@ const sectors = computed(() => locale.value === 'fa' ? [
 .industries-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 0.75rem;
+  gap: 1rem;
 }
 
 @media (min-width: 1024px) {
   .industries-grid {
     grid-template-columns: repeat(4, 1fr);
-    gap: 0.5rem;
+    gap: 1rem;
   }
 }
 
 @media (max-width: 639px) {
   .industries-grid {
     grid-template-columns: 1fr;
-    gap: 0.5rem;
+    gap: 0.75rem;
   }
 }
 
@@ -171,8 +171,8 @@ const sectors = computed(() => locale.value === 'fa' ? [
 
 @media (min-width: 1024px) {
   .sector-card {
-    aspect-ratio: 2/3;
-    min-height: 430px;
+    aspect-ratio: 5/7;
+    min-height: 400px;
   }
 }
 
@@ -183,7 +183,7 @@ const sectors = computed(() => locale.value === 'fa' ? [
 @media (max-width: 639px) {
   .sector-card {
     aspect-ratio: auto;
-    min-height: 138px;
+    min-height: 130px;
   }
 }
 

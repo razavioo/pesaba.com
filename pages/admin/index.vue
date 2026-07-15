@@ -40,7 +40,7 @@
         <dl class="mt-5 space-y-4 text-sm">
           <div class="flex items-center justify-between border-b border-[#e5edf0] pb-3"><dt class="text-[#61757d]">مدیریت محتوا</dt><dd class="font-semibold text-[#087443]">متصل</dd></div>
           <div class="flex items-center justify-between border-b border-[#e5edf0] pb-3"><dt class="text-[#61757d]">رسانه</dt><dd class="font-semibold text-[#087443]">متصل</dd></div>
-          <div class="flex items-center justify-between border-b border-[#e5edf0] pb-3"><dt class="text-[#61757d]">Plausible</dt><dd :class="analytics?.configured ? 'text-[#087443]' : 'text-[#a56c00]'" class="font-semibold">{{ analytics?.configured ? 'متصل' : 'پیکربندی نشده' }}</dd></div>
+          <div class="flex items-center justify-between border-b border-[#e5edf0] pb-3"><dt class="text-[#61757d]">تحلیل بازدید</dt><dd :class="analytics?.configured ? 'text-[#087443]' : 'text-[#a56c00]'" class="font-semibold">{{ analytics?.configured ? 'متصل' : 'پیکربندی نشده' }}</dd></div>
         </dl>
       </section>
     </div>
@@ -51,6 +51,7 @@
 defineI18nRoute(false)
 definePageMeta({ name: 'admin___fa', layout: 'admin', middleware: 'admin' })
 const { request } = useCmsApi()
+const { actionLabel, entityLabel } = useAdminLabels()
 const pending = ref(true)
 const dashboard = ref<any>(null)
 const analytics = ref<any>(null)
@@ -65,14 +66,6 @@ const cards = computed(() => {
   ]
 })
 const formatDate = (value: string) => new Intl.DateTimeFormat('fa-IR', { dateStyle: 'medium', timeStyle: 'short' }).format(new Date(value))
-const actionLabel = (value: string) => ({
-  'auth.login': 'ورود به پنل', 'auth.logout': 'خروج از پنل', 'user.create': 'ایجاد کاربر', 'user.update': 'ویرایش کاربر',
-  'user.delete': 'حذف کاربر', 'content.create': 'ایجاد محتوا', 'content.update': 'ویرایش محتوا', 'content.delete': 'حذف محتوا',
-  'content.restore': 'بازیابی نسخه محتوا', 'redirect.save': 'ذخیره مسیر', 'settings.update': 'ویرایش تنظیمات',
-  'media.upload': 'بارگذاری رسانه', 'media.update': 'ویرایش رسانه', 'archive.restore': 'بازیابی پشتیبان',
-}[value] || value)
-const entityLabel = (value: string) => ({ user: 'کاربر', content: 'محتوا', redirect: 'مسیر', setting: 'تنظیمات', media: 'رسانه', archive: 'پشتیبان' }[value] || value)
-
 onMounted(async () => {
   try {
     ;[dashboard.value, analytics.value] = await Promise.all([request('/admin/dashboard'), request('/admin/analytics')])

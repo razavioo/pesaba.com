@@ -7,7 +7,7 @@ import { PrismaService } from './prisma.service'
 
 type Actor = { id: string }
 const restrictedNamespaces = new Set(['database', 's3', 'smtp_credentials', 'session_secret', 'plausible_api_key'])
-const publicNamespaces = new Set(['site', 'contact', 'navigation', 'labels', 'branding', 'seo'])
+const publicNamespaces = new Set(['contact', 'navigation', 'branding', 'seo'])
 
 function validateNamespace(namespace: string, data: Record<string, unknown>) {
   if (namespace === 'contact') return contactSettingsSchema.parse(data)
@@ -38,7 +38,7 @@ export class SettingsService {
   }
 
   async save(namespace: string, input: unknown, actor: Actor) {
-    if (restrictedNamespaces.has(namespace)) throw new NotFoundException('Setting namespace not found.')
+    if (restrictedNamespaces.has(namespace) || !publicNamespaces.has(namespace)) throw new NotFoundException('Setting namespace not found.')
     const payload = settingsWriteSchema.parse({ ...(input as Record<string, unknown>), namespace })
     const data = validateNamespace(namespace, payload.data)
     return this.prisma.$transaction(async (tx) => {

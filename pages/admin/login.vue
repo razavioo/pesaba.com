@@ -11,7 +11,7 @@
       <form class="space-y-5" @submit.prevent="submit">
         <label class="block text-sm font-semibold text-[#24434d]">
           ایمیل
-          <input v-model="email" dir="ltr" type="email" autocomplete="email" required class="mt-2 block w-full border border-[#c9d9df] px-3 py-3 text-left text-sm outline-none transition focus:border-[#1f7994] focus:ring-2 focus:ring-[#1f7994]/15">
+          <input v-model="email" dir="ltr" type="text" inputmode="email" autocomplete="username" required class="mt-2 block w-full border border-[#c9d9df] px-3 py-3 text-left text-sm outline-none transition focus:border-[#1f7994] focus:ring-2 focus:ring-[#1f7994]/15">
         </label>
         <label class="block text-sm font-semibold text-[#24434d]">
           گذرواژه

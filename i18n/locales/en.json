@@ -373,6 +373,23 @@
     "fallback": "Product fit, compatibility, availability, and final specifications must be confirmed for your project by sales engineering.",
     "reset": "New conversation"
   },
+  "adminSettings": {
+    "eyebrow": "Settings",
+    "title": "Site settings",
+    "subtitle": "Manage each settings area separately. Saved changes are applied to the site immediately.",
+    "loading": "Loading settings…",
+    "tabsLabel": "Settings categories",
+    "actions": { "save": "Save" },
+    "tabs": { "contact": "Contact", "seo": "SEO", "branding": "Brand & footer", "navigation": "Menus & links", "labels": "Public text", "site": "Additional info" },
+    "contact": { "title": "Contact information", "description": "Shown on the contact page, footer, and sales paths." },
+    "seo": { "title": "Default site SEO", "description": "The title, description, and image used on pages without custom SEO." },
+    "labels": { "title": "Public site text", "description": "Edit all public interface labels and messages in Persian and English.", "save": "Save all text", "search": "Search label key or text…", "persian": "Persian", "english": "English", "empty": "No text matches this search." },
+    "branding": { "title": "Brand & footer", "description": "Name, tagline, logo, and footer introduction." },
+    "navigation": { "title": "Menus & legal links", "description": "Each link includes a path and Persian/English labels. Nested links belong in the children field." },
+    "site": { "title": "Additional site information", "description": "Manage legacy site copy, social links, and contact details without editing JSON." },
+    "siteFields": { "mainIntro": "Main site introduction", "mainFooter": "Legacy footer copy", "mainClients": "Clients and organisations copy", "mainArticles": "Articles and technical knowledge copy", "fax": "Fax", "oldPhone": "Legacy phone", "oldEmail": "Legacy email", "oldAddress": "Legacy address", "oldLinkedin": "Legacy LinkedIn", "telegram": "Telegram", "whatsapp": "WhatsApp", "instagram": "Instagram", "postalCode": "Postal code" },
+    "errors": { "save": "Settings could not be saved.", "load": "Settings could not be loaded.", "json": "The settings JSON is invalid.", "navigationJson": "The menu JSON is invalid." }
+  },
   "meta": {
     "site_name": "Pesaba",
     "default_title": "Pesaba — Hardware for Critical Networks",

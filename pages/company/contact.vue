@@ -270,14 +270,23 @@
                        dir="ltr"
                      />
 
-                    <BaseInput
-                      v-if="form.product"
-                      id="contact-product"
-                      v-model="form.product"
-                      name="product"
-                      :label="$t('contact.product')"
-                      readonly
-                    />
+                    <div>
+                      <label for="contact-product" class="mb-1.5 block text-sm font-medium text-[var(--text-secondary)]">
+                        {{ $t('contact.product') }}
+                      </label>
+                      <select
+                        id="contact-product"
+                        v-model="form.product"
+                        name="product"
+                        class="w-full border border-[var(--border)] bg-[var(--bg-elevated)] py-2.5 ps-3.5 pe-11 text-sm leading-6 text-[var(--text-primary)] outline-none transition-colors duration-150 ease-hover focus:border-[#1F7994]/60 focus:ring-1 focus:ring-[#1F7994]/20 disabled:cursor-not-allowed disabled:opacity-50"
+                        :disabled="productsPending"
+                      >
+                        <option value="">{{ locale === 'fa' ? 'انتخاب محصول (اختیاری)' : 'Select a product (optional)' }}</option>
+                        <option v-for="product in productOptions" :key="product.slug" :value="product.slug">
+                          {{ product.title }}
+                        </option>
+                      </select>
+                    </div>
 
                     <BaseInput
                       id="contact-message"
@@ -366,6 +375,12 @@ const { contact } = usePublicSettings()
 const contactSettings = computed(() => contact.data.value)
 const linkedinUrl = computed(() => contactSettings.value.linkedinUrl)
 const contactFormEnabled = computed(() => config.public.contactFormEnabled !== false && contactSettings.value.formEnabled)
+const { list } = usePublicCms()
+const { data: products, pending: productsPending } = await useAsyncData(
+  'contact-products',
+  () => list('product', locale.value as 'fa' | 'en'),
+  { watch: [locale] },
+)
 
 useSeoMeta({
   title: `${t('contact.title')} | Pesaba`,
@@ -385,19 +400,28 @@ const form = reactive({
   website: '',
 })
 
-onMounted(() => {
-  const deptQuery = route.query.dept as string
-  if (deptQuery && ['sales', 'support', 'partnership'].includes(deptQuery)) {
-    form.department = deptQuery
+const productOptions = computed(() => (products.value || [])
+  .filter((product: any) => typeof product.slug === 'string' && typeof product.title === 'string')
+  .map((product: any) => ({ slug: product.slug, title: product.title }))
+  .sort((a, b) => a.title.localeCompare(b.title, locale.value === 'fa' ? 'fa' : 'en')),
+)
+
+watch(() => route.query.dept, (department) => {
+  if (typeof department === 'string' && ['sales', 'support', 'partnership'].includes(department)) {
+    form.department = department
   }
-  const productQuery = route.query.product as string
-  if (productQuery) {
-    form.product = productQuery
-    form.message = locale.value === 'fa'
-      ? `برای استعلام قیمت و راهنمایی خرید محصول ${productQuery} تماس می‌گیرم.`
-      : `I am asking about pricing and purchase guidance for ${productQuery}.`
-  }
-})
+}, { immediate: true })
+
+watch([productOptions, () => route.query.product], ([options, product]) => {
+  if (typeof product !== 'string') return
+  const selectedProduct = options.find(option => option.slug === product)
+  if (!selectedProduct) return
+
+  form.product = selectedProduct.slug
+  form.message = locale.value === 'fa'
+    ? `برای استعلام قیمت و راهنمایی خرید محصول ${selectedProduct.title} تماس می‌گیرم.`
+    : `I am asking about pricing and purchase guidance for ${selectedProduct.title}.`
+}, { immediate: true })
 
 const submitting = ref(false)
 const submitStatus = ref<'success' | 'error' | null>(null)

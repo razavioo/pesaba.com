@@ -101,49 +101,61 @@
       </div>
     </section>
     <Teleport to="body">
-      <div v-if="selected" class="fixed inset-0 z-50 bg-[#062d39]/45 p-4" @click.self="selected = null">
-        <aside class="ms-auto flex h-full w-full max-w-xl flex-col overflow-hidden bg-white shadow-2xl">
-          <header class="flex items-start justify-between border-b border-[#d4e0e4] p-5">
-            <div>
-              <p class="text-xs font-semibold text-[#1f7994]">پیگیری درخواست</p>
-              <h2 class="mt-1 text-lg font-bold text-[#093544]">{{ selected.name }}</h2>
-              <a :href="`mailto:${selected.email}`" dir="ltr" class="text-sm text-[#1f7994]">{{ selected.email }}</a>
+      <div v-if="selected" class="fixed inset-0 z-50 bg-[#062d39]/50 p-3 backdrop-blur-[2px] sm:p-5" @click.self="selected = null">
+        <aside class="ms-auto flex h-full w-full max-w-2xl flex-col overflow-hidden rounded-xl bg-[#fbfcfc] shadow-2xl" role="dialog" aria-modal="true" aria-labelledby="lead-title">
+          <header class="relative shrink-0 overflow-hidden border-b border-[#d9e5e8] bg-white px-6 py-5 sm:px-8">
+            <div class="absolute inset-x-0 top-0 h-1 bg-[#1f7994]"></div>
+            <div class="flex items-start justify-between gap-4">
+              <div class="min-w-0">
+                <p class="text-xs font-bold tracking-wide text-[#1f7994]">پیگیری درخواست</p>
+                <h2 id="lead-title" class="mt-2 truncate text-xl font-bold text-[#093544]">{{ selected.name }}</h2>
+                <a :href="`mailto:${selected.email}`" dir="ltr" class="mt-1 inline-block text-sm text-[#1f7994] hover:underline">{{ selected.email }}</a>
+              </div>
+              <button type="button" class="grid size-9 shrink-0 place-items-center rounded-full text-xl leading-none text-[#61757d] transition hover:bg-[#eef5f6] hover:text-[#093544]" aria-label="بستن" @click="selected = null">×</button>
             </div>
-            <button type="button" class="p-2 text-[#61757d]" aria-label="بستن" @click="selected = null">×</button>
           </header>
-          <div class="flex-1 overflow-y-auto p-5">
-            <dl class="grid gap-4 text-sm sm:grid-cols-2">
-              <div><dt class="text-xs text-[#61757d]">شرکت</dt><dd class="mt-1 font-medium">{{ selected.company || '—' }}</dd></div>
-              <div><dt class="text-xs text-[#61757d]">محصول</dt><dd class="mt-1 font-medium">{{ selected.product || '—' }}</dd></div>
-              <div><dt class="text-xs text-[#61757d]">بخش</dt><dd class="mt-1 font-medium">{{ department(selected.department) }}</dd></div>
-              <div><dt class="text-xs text-[#61757d]">تحویل ایمیل</dt><dd class="mt-1 font-medium">{{ selected.emailDelivered ? 'ارسال شد' : (selected.emailError || 'ارسال نشده') }}</dd></div>
+          <div class="flex-1 overflow-y-auto px-6 py-6 sm:px-8">
+            <dl class="grid overflow-hidden rounded-lg border border-[#dce7ea] bg-white text-sm sm:grid-cols-2">
+              <div class="border-b border-[#e7eef0] p-4 sm:border-s"><dt class="text-xs font-medium text-[#71858c]">شرکت</dt><dd class="mt-1.5 font-semibold text-[#173b47]">{{ selected.company || '—' }}</dd></div>
+              <div class="border-b border-[#e7eef0] p-4"><dt class="text-xs font-medium text-[#71858c]">محصول</dt><dd class="mt-1.5 font-semibold text-[#173b47]">{{ selected.product || '—' }}</dd></div>
+              <div class="p-4 sm:border-s sm:border-[#e7eef0]"><dt class="text-xs font-medium text-[#71858c]">بخش</dt><dd class="mt-1.5 font-semibold text-[#173b47]">{{ department(selected.department) }}</dd></div>
+              <div class="p-4"><dt class="text-xs font-medium text-[#71858c]">تحویل ایمیل</dt><dd class="mt-1.5 font-semibold" :class="selected.emailDelivered ? 'text-[#197458]' : 'text-[#a14d32]'">{{ selected.emailDelivered ? 'ارسال شد' : (selected.emailError || 'ارسال نشده') }}</dd></div>
             </dl>
-            <p class="mt-5 whitespace-pre-wrap border-s-2 border-[#d4e0e4] ps-4 text-sm leading-7 text-[#24434d]">{{ selected.message }}</p>
-            <div class="mt-6 grid gap-4 sm:grid-cols-2">
-              <label class="text-sm font-semibold text-[#24434d]">وضعیت
-                <select v-model="selected.status" class="field" @change="update(selected)">
+            <section class="mt-6">
+              <h3 class="text-sm font-bold text-[#093544]">متن درخواست</h3>
+              <p class="mt-3 whitespace-pre-wrap rounded-lg border-s-4 border-[#8fc2d1] bg-[#eef7f8] px-4 py-3 text-sm leading-7 text-[#24434d]">{{ selected.message }}</p>
+            </section>
+            <section class="mt-6 rounded-lg border border-[#dce7ea] bg-white p-4 sm:p-5">
+              <h3 class="text-sm font-bold text-[#093544]">مدیریت پیگیری</h3>
+              <div class="mt-4 grid gap-4 sm:grid-cols-2">
+                <label class="text-sm font-semibold text-[#24434d]"><span>وضعیت</span>
+                <select v-model="selected.status" class="field mt-2 w-full" @change="update(selected)">
                   <option v-for="item in statuses.slice(1)" :key="item.value" :value="item.value">{{ item.label }}</option>
                 </select>
               </label>
-              <label class="text-sm font-semibold text-[#24434d]">مسئول پیگیری
-                <select v-model="selected.assignedToId" class="field" @change="update(selected)">
+              <label class="text-sm font-semibold text-[#24434d]"><span>مسئول پیگیری</span>
+                <select v-model="selected.assignedToId" class="field mt-2 w-full" @change="update(selected)">
                   <option :value="null">بدون مسئول</option>
                   <option v-for="person in assignees" :key="person.id" :value="person.id">{{ person.displayName }} ({{ person.email }})</option>
                 </select>
               </label>
-            </div>
-            <section class="mt-7 border-t border-[#e5edf0] pt-5">
+              </div>
+            </section>
+            <section class="mt-6 border-t border-[#dce7ea] pt-6">
               <h3 class="text-sm font-bold text-[#093544]">یادداشت‌های تیم</h3>
-              <form class="mt-3" @submit.prevent="addNote">
-                <textarea v-model="note" class="field min-h-24" placeholder="یادداشت داخلی برای این درخواست"></textarea>
-                <button :disabled="savingNote || !note.trim()" class="mt-2 bg-[#1f7994] px-4 py-2 text-sm font-semibold text-white disabled:opacity-50">ثبت یادداشت</button>
+              <p class="mt-1 text-xs text-[#71858c]">این یادداشت فقط برای اعضای تیم قابل مشاهده است.</p>
+              <form class="mt-4 rounded-lg bg-[#eef5f6] p-3 sm:p-4" @submit.prevent="addNote">
+                <textarea v-model="note" class="field min-h-24 w-full bg-white" placeholder="یادداشت داخلی برای این درخواست"></textarea>
+                <div class="mt-3 flex justify-end">
+                  <button :disabled="savingNote || !note.trim()" class="rounded-md bg-[#1f7994] px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-[#17677f] disabled:cursor-not-allowed disabled:opacity-50">{{ savingNote ? 'در حال ثبت...' : 'ثبت یادداشت' }}</button>
+                </div>
               </form>
               <div class="mt-5 space-y-3">
-                <article v-for="item in selected.notes || []" :key="item.id" class="border-s-2 border-[#d4e0e4] ps-3 text-sm">
+                <article v-for="item in selected.notes || []" :key="item.id" class="rounded-lg border border-[#e0eaed] bg-white p-4 text-sm">
                   <p class="whitespace-pre-wrap text-[#24434d]">{{ item.body }}</p>
                   <p class="mt-1 text-xs text-[#61757d]">{{ item.author.displayName }} · {{ date(item.createdAt) }}</p>
                 </article>
-                <p v-if="!(selected.notes || []).length" class="text-sm text-[#61757d]">هنوز یادداشتی ثبت نشده است.</p>
+                <p v-if="!(selected.notes || []).length" class="rounded-lg border border-dashed border-[#cbdcdf] py-5 text-center text-sm text-[#71858c]">هنوز یادداشتی ثبت نشده است.</p>
               </div>
             </section>
           </div>
