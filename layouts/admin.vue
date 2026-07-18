@@ -41,12 +41,6 @@
           </NuxtLink>
         </div>
       </header>
-      <nav class="admin-mobile-nav lg:hidden" aria-label="منوی مدیریت موبایل">
-        <NuxtLink v-for="item in navigation" :key="`mobile-${item.to}`" :to="item.to" :class="navClass(item.to)">
-          <component :is="item.icon" class="h-4 w-4 shrink-0" />
-          <span>{{ item.label }}</span>
-        </NuxtLink>
-      </nav>
       <slot />
     </main>
   </div>
@@ -91,11 +85,6 @@ async function signOut() {
 }
 .admin-brand img { filter: drop-shadow(0 5px 12px rgb(0 0 0 / .18)); }
 .admin-header { box-shadow: 0 1px 0 rgb(9 53 68 / .02), 0 8px 24px rgb(9 53 68 / .04); }
-.admin-mobile-nav { display: flex; gap: .5rem; overflow-x: auto; padding: .65rem 1rem; border-bottom: 1px solid #d4e0e4; background: rgb(255 255 255 / .94); scrollbar-width: thin; }
-.admin-mobile-nav .admin-nav-item { flex: 0 0 auto; white-space: nowrap; padding: .55rem .8rem; color: #467386; background: #f3f7f8; }
-.admin-mobile-nav .admin-nav-item::before { display: none; }
-.admin-mobile-nav .admin-nav-item:hover { color: #093544; background: #e6eef1; }
-.admin-mobile-nav .admin-nav-item.bg-\[\#1f7994\] { color: #fff; background: #1f7994; }
 .admin-shell main > .mx-auto { position: relative; }
 .admin-shell main > .mx-auto::before { content: ''; display: block; position: absolute; inset-inline-start: 0; top: 0; width: 4rem; height: 3px; background: #1f7994; }
 .admin-shell main section,
