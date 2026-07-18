@@ -227,6 +227,9 @@ export default defineNuxtConfig({
   // Secrets intentionally have empty defaults. Set NUXT_* variables on the running
   // Node process so credentials are never captured in build output.
   runtimeConfig: {
+    // Server-side rendering must use the Compose service name, while browsers
+    // use the publicly reachable URL below.
+    cmsApiInternalUrl: process.env.NUXT_CMS_API_INTERNAL_URL || process.env.NUXT_PUBLIC_CMS_API_URL || 'http://localhost:4400/api/v1',
     smtpHost: '',
     smtpPort: 587,
     smtpSecure: false,

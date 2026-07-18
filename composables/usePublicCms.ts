@@ -57,7 +57,7 @@ function flatten(record: PublicRecord): FlattenedRecord {
 
 export function usePublicCms() {
   const config = useRuntimeConfig()
-  const base = String(config.public.cmsApiUrl).replace(/\/$/, '')
+  const base = String(import.meta.server ? config.cmsApiInternalUrl : config.public.cmsApiUrl).replace(/\/$/, '')
 
   async function list(type: string, locale: 'fa' | 'en') {
     const records = await $fetch(`${base}/public/content/${type}`, { query: { locale } }) as PublicRecord[]

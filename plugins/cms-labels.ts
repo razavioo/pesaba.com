@@ -6,7 +6,7 @@ function isLabelTree(value: unknown): value is LabelTree {
 
 export default defineNuxtPlugin(async (nuxtApp) => {
   const config = useRuntimeConfig()
-  const base = String(config.public.cmsApiUrl).replace(/\/$/, '')
+  const base = String(import.meta.server ? config.cmsApiInternalUrl : config.public.cmsApiUrl).replace(/\/$/, '')
   try {
     const setting = await $fetch(`${base}/public/settings/labels`) as { data?: { fa?: LabelTree; en?: LabelTree } }
     const i18n = nuxtApp.$i18n as { mergeLocaleMessage?: (locale: string, messages: LabelTree) => void }

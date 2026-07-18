@@ -58,6 +58,24 @@ and `NITRO_PORT` (defaults: `0.0.0.0:3000`). Terminate HTTPS at the company reve
 proxy, redirect HTTP to HTTPS, preserve the original host/protocol headers, and
 proxy `/api/*` to the same Node process. The production site must be served at `/`.
 
+## Docker Compose (local full stack)
+
+The Compose stack starts the website, CMS API, PostgreSQL, and MinIO. Database
+migrations and bucket creation run automatically before the CMS becomes healthy.
+
+```bash
+docker compose up --build
+```
+
+- Website: http://localhost:3000
+- CMS API: http://localhost:4400/api/v1 (health: `/public/health`)
+- MinIO console: http://localhost:9001
+
+`CMS_SESSION_SECRET` has a development-only fallback in Compose. Set a unique
+32+ character value through the deployment environment for every non-local
+deployment. Production must also replace the local database/MinIO credentials
+and set the public CMS and media URLs to their externally reachable HTTPS URLs.
+
 ## Adding a product
 
 1. Create `content/products/{category}/{slug}.md` (English):

@@ -33,7 +33,7 @@ type PublicSetting<T> = { namespace: string; data: T; updatedAt: string }
 
 function useSetting<T>(namespace: string, fallback: T) {
   const config = useRuntimeConfig()
-  const base = String(config.public.cmsApiUrl).replace(/\/$/, '')
+  const base = String(import.meta.server ? config.cmsApiInternalUrl : config.public.cmsApiUrl).replace(/\/$/, '')
   const { data, pending, error, refresh } = useAsyncData(`public-setting-${namespace}`, async () => {
     try {
       const setting = await $fetch(`${base}/public/settings/${namespace}`) as PublicSetting<T>

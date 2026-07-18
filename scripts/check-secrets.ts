@@ -49,11 +49,22 @@ function repositoryFiles(): string[] {
     encoding: 'utf8',
     maxBuffer: 20 * 1024 * 1024,
   })
-  if (result.status !== 0) {
-    console.error('Secret scan could not enumerate repository files.')
-    process.exit(2)
+  if (result.status === 0) return result.stdout.split('\0').filter(Boolean)
+
+  // Production image builds intentionally omit .git. Keep the same scan useful
+  // there by walking the source tree when Git metadata is unavailable.
+  const ignored = new Set(['.git', 'node_modules', '.nuxt', '.output', 'Pictures', 'blender', 'screenshots'])
+  const files: string[] = []
+  function walk(directory: string) {
+    for (const entry of fs.readdirSync(directory, { withFileTypes: true })) {
+      if (ignored.has(entry.name)) continue
+      const relative = path.relative(root, path.join(directory, entry.name))
+      if (entry.isDirectory()) walk(path.join(directory, entry.name))
+      else if (entry.isFile()) files.push(relative)
+    }
   }
-  return result.stdout.split('\0').filter(Boolean)
+  walk(root)
+  return files
 }
 
 function isTextCandidate(file: string): boolean {

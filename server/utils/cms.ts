@@ -44,14 +44,14 @@ export function flattenCmsRecord(record: CmsPublicRecord): Record<string, any> {
 
 export async function cmsList(event: H3Event, type: string, locale: 'fa' | 'en') {
   const config = useRuntimeConfig(event)
-  const base = String(config.public.cmsApiUrl).replace(/\/$/, '')
+  const base = String(config.cmsApiInternalUrl).replace(/\/$/, '')
   const records = await $fetch(`${base}/public/content/${type}`, { query: { locale } }) as CmsPublicRecord[]
   return records.map(flattenCmsRecord)
 }
 
 export async function cmsGet(event: H3Event, type: string, slug: string, locale: 'fa' | 'en') {
   const config = useRuntimeConfig(event)
-  const base = String(config.public.cmsApiUrl).replace(/\/$/, '')
+  const base = String(config.cmsApiInternalUrl).replace(/\/$/, '')
   const record = await $fetch(`${base}/public/content/${type}/${slug}`, { query: { locale } }) as CmsPublicRecord
   return flattenCmsRecord(record)
 }

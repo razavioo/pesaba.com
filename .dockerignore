@@ -1,6 +1,7 @@
 .git
 .github
 .nuxt
+.nuxt-*
 .output
 .env
 .env.*
@@ -9,5 +10,8 @@ node_modules
 playwright-report
 test-results
 screenshots
+Pictures
+blender
+advenica-reference
 scripts/__pycache__
 *.log

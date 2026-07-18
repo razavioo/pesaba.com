@@ -45,7 +45,7 @@ export default defineEventHandler(async (event) => {
   } catch {
     throw createError({ statusCode: 400, statusMessage: 'Request body must be valid JSON' })
   }
-  const base = String(config.public.cmsApiUrl).replace(/\/$/, '')
+  const base = String(config.cmsApiInternalUrl).replace(/\/$/, '')
 
   try {
     const response = await $fetch.raw(`${base}/contact`, {

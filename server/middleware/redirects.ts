@@ -49,7 +49,7 @@ export default defineEventHandler(async (event) => {
 
   try {
     const config = useRuntimeConfig(event)
-    const base = String(config.public.cmsApiUrl).replace(/\/$/, '')
+    const base = String(config.cmsApiInternalUrl).replace(/\/$/, '')
     const redirect = await $fetch(`${base}/public/redirect`, {
       query: { path: rawPath },
       timeout: 1_500,
