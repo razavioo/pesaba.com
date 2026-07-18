@@ -82,6 +82,9 @@ async function signOut() {
 <style>
 .admin-shell {
   background-image: radial-gradient(circle at 100% 0%, rgb(31 121 148 / 0.06), transparent 28rem), linear-gradient(135deg, #f8fafb 0%, #f2f6f7 100%);
+  font-family: 'IRANYekanX', 'Inter', Tahoma, sans-serif;
+  font-size: .875rem;
+  line-height: 1.7;
 }
 .admin-brand img { filter: drop-shadow(0 5px 12px rgb(0 0 0 / .18)); }
 .admin-header { box-shadow: 0 1px 0 rgb(9 53 68 / .02), 0 8px 24px rgb(9 53 68 / .04); }
@@ -140,26 +143,24 @@ async function signOut() {
 @media (max-width: 1023px) {
   .admin-shell main > .mx-auto { padding-top: 1.75rem; }
 }
-/* Admin typography is intentionally more generous than the public site. The
- * Persian font has an 85% size-adjust, so Tailwind's 12px/14px utilities
- * otherwise render as unusually small text in the dashboard. Keep the
- * existing hierarchy, but establish a readable floor across every admin
- * route and component. */
+/* Admin type scale: 12px metadata, 14px body controls, 16px section labels.
+ * Keep the UI compact enough for data-heavy screens while preserving Persian
+ * readability. */
 .admin-shell .text-xs,
 .admin-shell .text-\[11px\],
 .admin-shell .text-\[10px\] {
-  font-size: 0.8125rem !important;
+  font-size: 0.75rem !important;
   line-height: 1.7 !important;
 }
 
 .admin-shell .text-sm {
-  font-size: 1rem !important;
+  font-size: 0.875rem !important;
   line-height: 1.7 !important;
 }
 
 .admin-shell label,
 .admin-shell .field {
-  font-size: 1rem !important;
+  font-size: 0.875rem !important;
 }
 
 /* A few admin widgets use component-specific sizes instead of Tailwind
@@ -169,14 +170,14 @@ async function signOut() {
 .admin-shell .picker__empty small,
 .admin-shell .picker__change,
 .admin-shell .editor-footer {
-  font-size: 0.8125rem !important;
+  font-size: 0.75rem !important;
   line-height: 1.7;
 }
 
 .admin-shell .source-editor,
 .admin-shell .search,
 .admin-shell .dropzone {
-  font-size: 1rem !important;
+  font-size: 0.875rem !important;
 }
 
 /* Keep native selects familiar, while giving every admin form a consistent control. */
