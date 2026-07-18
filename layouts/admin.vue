@@ -1,14 +1,14 @@
 <template>
   <div dir="rtl" lang="fa" class="admin-shell min-h-screen bg-[#f5f7f8] text-[#13272e]">
-    <aside class="fixed inset-y-0 start-0 z-30 hidden w-64 border-e border-[#d4e0e4] bg-[#093544] text-white lg:block">
-      <div class="flex h-20 items-center gap-3 border-b border-white/10 px-6">
+    <aside class="fixed inset-y-0 start-0 z-30 hidden w-72 border-e border-[#d4e0e4] bg-[#093544] text-white lg:block">
+      <div class="admin-brand flex h-20 items-center gap-3 border-b border-white/10 px-6">
         <img src="/pesaba-mark.svg" alt="Pesaba" class="h-9 w-9">
         <div>
           <p class="text-base font-bold">پرتو ارتباط صبا</p>
           <p class="text-xs text-white/55">مدیریت وب‌سایت</p>
         </div>
       </div>
-      <nav class="space-y-1 px-3 py-5" aria-label="منوی مدیریت">
+      <nav class="space-y-1 px-4 py-6" aria-label="منوی مدیریت">
         <NuxtLink v-for="item in navigation" :key="item.to" :to="item.to" :class="navClass(item.to)">
           <component :is="item.icon" class="h-5 w-5 shrink-0" />
           <span>{{ item.label }}</span>
@@ -23,8 +23,8 @@
       </div>
     </aside>
 
-    <main class="min-h-screen lg:ms-64">
-      <header class="sticky top-0 z-20 flex h-20 items-center justify-between border-b border-[#d4e0e4] bg-white/95 px-5 backdrop-blur lg:px-8">
+    <main class="min-h-screen lg:ms-72">
+      <header class="admin-header sticky top-0 z-20 flex h-20 items-center justify-between border-b border-[#d4e0e4] bg-white/95 px-5 backdrop-blur lg:px-10">
         <div class="flex items-center gap-3">
           <NuxtLink to="/admin" class="grid h-10 w-10 place-items-center rounded-md border border-[#d4e0e4] text-[#093544] lg:hidden">
             <LayoutDashboard class="h-5 w-5" />
@@ -51,7 +51,10 @@ import { Archive, ExternalLink, FileText, History, Image, LayoutDashboard, Link,
 
 const route = useRoute()
 const { user, logout } = useCmsSession()
-const navigation = computed(() => [
+// Keep the route list stable during SSR and hydration. Filtering owner-only
+// entries here made the sidebar render a different set of links before the
+// session request completed, so the users link could not receive a click.
+const navigation = [
   { to: '/admin', label: 'داشبورد', icon: LayoutDashboard },
   { to: '/admin/content', label: 'محتوا و صفحات', icon: FileText },
   { to: '/admin/media', label: 'رسانه', icon: Image },
@@ -61,11 +64,11 @@ const navigation = computed(() => [
   { to: '/admin/users', label: 'کاربران', icon: Users, ownerOnly: true },
   { to: '/admin/audit', label: 'تاریخچه فعالیت', icon: History, ownerOnly: true },
   { to: '/admin/archive', label: 'پشتیبان و بازیابی', icon: Archive, ownerOnly: true },
-].filter(item => !item.ownerOnly || user.value?.role === 'OWNER'))
-const pageTitle = computed(() => navigation.value.find(item => route.path === item.to || route.path.startsWith(`${item.to}/`))?.label || 'مدیریت وب‌سایت')
+]
+const pageTitle = computed(() => navigation.find(item => route.path === item.to || route.path.startsWith(`${item.to}/`))?.label || 'مدیریت وب‌سایت')
 const roleLabel = computed(() => ({ OWNER: 'مالک', EDITOR: 'ویرایشگر', VIEWER: 'مشاهده‌گر' }[user.value?.role || 'VIEWER']))
 const navClass = (to: string) => [
-  'flex items-center gap-3 rounded-md px-3 py-2.5 text-sm transition',
+  'admin-nav-item flex items-center gap-3 rounded-lg px-3 py-3 text-sm transition',
   route.path === to || (to !== '/admin' && route.path.startsWith(`${to}/`))
     ? 'bg-[#1f7994] font-semibold text-white hover:!bg-[#1f7994] hover:!text-white'
     : 'text-white/70 hover:bg-white/10 hover:text-white',
@@ -77,6 +80,29 @@ async function signOut() {
 </script>
 
 <style>
+.admin-shell {
+  background-image: radial-gradient(circle at 100% 0%, rgb(31 121 148 / 0.06), transparent 28rem), linear-gradient(135deg, #f8fafb 0%, #f2f6f7 100%);
+}
+.admin-brand img { filter: drop-shadow(0 5px 12px rgb(0 0 0 / .18)); }
+.admin-header { box-shadow: 0 1px 0 rgb(9 53 68 / .02), 0 8px 24px rgb(9 53 68 / .04); }
+.admin-shell main > .mx-auto { position: relative; }
+.admin-shell main > .mx-auto::before { content: ''; display: block; position: absolute; inset-inline-start: 0; top: 0; width: 4rem; height: 3px; background: #1f7994; }
+.admin-shell main section,
+.admin-shell main article,
+.admin-shell main > .mx-auto > .border { border-radius: .75rem; box-shadow: 0 2px 12px rgb(9 53 68 / .035); }
+.admin-shell main section.overflow-hidden { overflow: hidden; }
+.admin-shell main article { transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease; }
+.admin-shell main article:hover { border-color: #a3c5d1; box-shadow: 0 8px 24px rgb(9 53 68 / .08); }
+.admin-nav-item { position: relative; }
+.admin-nav-item::before { content: ''; position: absolute; inset-block: .7rem; inset-inline-start: 0; width: 3px; border-radius: 4px; background: transparent; transition: background 150ms ease; }
+.admin-nav-item:hover::before { background: rgb(255 255 255 / .35); }
+.admin-shell button:not([class*="rounded-full"]), .admin-shell a[class*="bg-[#1f7994]"] { border-radius: .5rem; }
+.admin-shell input, .admin-shell textarea, .admin-shell select { border-radius: .5rem; }
+.admin-shell input:focus, .admin-shell textarea:focus { box-shadow: 0 0 0 3px rgb(31 121 148 / .14); }
+.admin-shell table tbody tr { transition: background-color 150ms ease; }
+@media (max-width: 1023px) {
+  .admin-shell main > .mx-auto { padding-top: 1.75rem; }
+}
 /* Admin typography is intentionally more generous than the public site. The
  * Persian font has an 85% size-adjust, so Tailwind's 12px/14px utilities
  * otherwise render as unusually small text in the dashboard. Keep the
