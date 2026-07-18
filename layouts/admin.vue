@@ -41,6 +41,12 @@
           </NuxtLink>
         </div>
       </header>
+      <nav class="admin-mobile-nav lg:hidden" aria-label="منوی مدیریت موبایل">
+        <NuxtLink v-for="item in navigation" :key="`mobile-${item.to}`" :to="item.to" :class="navClass(item.to)">
+          <component :is="item.icon" class="h-4 w-4 shrink-0" />
+          <span>{{ item.label }}</span>
+        </NuxtLink>
+      </nav>
       <slot />
     </main>
   </div>
@@ -85,6 +91,11 @@ async function signOut() {
 }
 .admin-brand img { filter: drop-shadow(0 5px 12px rgb(0 0 0 / .18)); }
 .admin-header { box-shadow: 0 1px 0 rgb(9 53 68 / .02), 0 8px 24px rgb(9 53 68 / .04); }
+.admin-mobile-nav { display: flex; gap: .5rem; overflow-x: auto; padding: .65rem 1rem; border-bottom: 1px solid #d4e0e4; background: rgb(255 255 255 / .94); scrollbar-width: thin; }
+.admin-mobile-nav .admin-nav-item { flex: 0 0 auto; white-space: nowrap; padding: .55rem .8rem; color: #467386; background: #f3f7f8; }
+.admin-mobile-nav .admin-nav-item::before { display: none; }
+.admin-mobile-nav .admin-nav-item:hover { color: #093544; background: #e6eef1; }
+.admin-mobile-nav .admin-nav-item.bg-\[\#1f7994\] { color: #fff; background: #1f7994; }
 .admin-shell main > .mx-auto { position: relative; }
 .admin-shell main > .mx-auto::before { content: ''; display: block; position: absolute; inset-inline-start: 0; top: 0; width: 4rem; height: 3px; background: #1f7994; }
 .admin-shell main section,
@@ -100,6 +111,43 @@ async function signOut() {
 .admin-shell input, .admin-shell textarea, .admin-shell select { border-radius: .5rem; }
 .admin-shell input:focus, .admin-shell textarea:focus { box-shadow: 0 0 0 3px rgb(31 121 148 / .14); }
 .admin-shell table tbody tr { transition: background-color 150ms ease; }
+.admin-shell table { border-collapse: separate; border-spacing: 0; }
+.admin-shell th { vertical-align: middle; white-space: nowrap; }
+.admin-shell td { vertical-align: middle; }
+.admin-shell td, .admin-shell th { line-height: 1.65; }
+.admin-leads table tbody tr:hover,
+.admin-users table tbody tr:hover,
+.admin-audit table tbody tr:hover,
+.admin-redirects table tbody tr:hover { background: #f2f9fa; }
+.admin-leads table tbody tr,
+.admin-users table tbody tr,
+.admin-audit table tbody tr,
+.admin-redirects table tbody tr { border-inline-start: 3px solid transparent; }
+.admin-leads table tbody tr:hover,
+.admin-users table tbody tr:hover,
+.admin-audit table tbody tr:hover,
+.admin-redirects table tbody tr:hover { border-inline-start-color: #1f7994; }
+.admin-leads table thead,
+.admin-users table thead,
+.admin-audit table thead,
+.admin-redirects table thead { position: sticky; top: 0; z-index: 2; box-shadow: 0 1px 0 #d4e0e4; }
+.admin-settings .settings-navigation { position: sticky; top: 5rem; z-index: 3; padding-block: .5rem; background: rgb(245 247 248 / .9); backdrop-filter: blur(10px); }
+.admin-settings .settings-navigation-card { border-radius: .65rem; transition: transform 150ms ease, box-shadow 150ms ease; }
+.admin-settings .settings-navigation-card:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgb(9 53 68 / .08); }
+.admin-archive section:first-of-type { border-top: 4px solid #1f7994; }
+.admin-archive section:nth-of-type(2) { min-height: 13rem; }
+.admin-archive input[type=file] + span { font-weight: 700; }
+.admin-media section > div.grid { max-height: calc(100vh - 14rem); overflow: auto; scrollbar-color: #7eb4c3 #e6eef1; }
+.admin-content-list section > div.overflow-x-auto,
+.admin-leads section > div.overflow-x-auto,
+.admin-redirects section > div.overflow-x-auto,
+.admin-users section > div.overflow-x-auto,
+.admin-audit section > div.overflow-x-auto { max-height: calc(100vh - 15rem); overflow: auto; scrollbar-color: #7eb4c3 #e6eef1; }
+.admin-audit table td { overflow: hidden; }
+.admin-audit table td > span { min-width: 0; }
+.admin-dashboard .admin-activity { max-height: 34rem; overflow: auto; scrollbar-color: #7eb4c3 #e6eef1; }
+.admin-media section article { transition: transform 180ms ease, box-shadow 180ms ease; }
+.admin-media section article:hover { position: relative; z-index: 1; transform: translateY(-2px); box-shadow: 0 8px 20px rgb(9 53 68 / .12); }
 @media (max-width: 1023px) {
   .admin-shell main > .mx-auto { padding-top: 1.75rem; }
 }

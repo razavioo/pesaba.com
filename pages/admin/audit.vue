@@ -1,5 +1,5 @@
 <template>
-  <div class="mx-auto max-w-7xl p-5 lg:p-8">
+  <div class="admin-audit mx-auto max-w-7xl p-5 lg:p-8">
     <div class="mb-7 flex flex-wrap items-end justify-between gap-4">
       <div>
         <p class="text-sm font-semibold text-[#1f7994]">نظارت</p>
@@ -27,8 +27,8 @@
                 <td class="whitespace-nowrap px-5 py-4 text-xs text-[#61757d]">{{ formatDate(event.createdAt) }}</td>
                 <td class="whitespace-nowrap px-5 py-4"><p class="font-semibold text-[#24434d]">{{ event.actor?.displayName || 'سیستم' }}</p><p dir="ltr" class="mt-1 text-xs text-[#61757d]">{{ event.actor?.email || '' }}</p></td>
                 <td class="whitespace-nowrap px-5 py-4 text-xs font-semibold text-[#1f7994]">{{ actionLabel(event.action) }}</td>
-                <td class="whitespace-nowrap px-5 py-4 text-xs text-[#61757d]">{{ entityLabel(event.entityType) }} · <span dir="ltr" class="font-mono">{{ event.entityId }}</span></td>
-                <td class="truncate px-5 py-4 text-xs text-[#61757d]" :title="summary(event.metadata)">{{ summary(event.metadata) }}</td>
+                <td class="max-w-0 px-5 py-4 text-xs text-[#61757d]"><span>{{ entityLabel(event.entityType) }} · </span><span dir="ltr" class="inline-block max-w-[65%] truncate align-bottom font-mono" :title="event.entityId">{{ event.entityId }}</span></td>
+                <td class="max-w-0 px-5 py-4 text-xs text-[#61757d]"><span class="block truncate" :title="summary(event.metadata)">{{ summary(event.metadata) }}</span></td>
               </tr>
               <tr v-if="!events.length"><td colspan="5" class="px-5 py-10 text-center text-sm text-[#61757d]">فعالیتی با این فیلتر پیدا نشد.</td></tr>
             </tbody>
@@ -55,7 +55,8 @@ const error = ref('')
 const formatDate = (value: string) => new Intl.DateTimeFormat('fa-IR', { dateStyle: 'medium', timeStyle: 'short' }).format(new Date(value))
 const summary = (metadata: unknown) => {
   if (!metadata || typeof metadata !== 'object') return '—'
-  const text = JSON.stringify(metadata)
+  const labels: Record<string, string> = { slug: 'نامک', previous: 'مقدار قبلی', next: 'مقدار جدید', unresolvedMedia: 'رسانه‌های حل‌نشده', unresolvedRelations: 'ارتباط‌های حل‌نشده', createdCount: 'ایجادشده', updatedCount: 'ویرایش‌شده', deletedCount: 'حذف‌شده' }
+  const text = Object.entries(metadata as Record<string, unknown>).map(([key, value]) => `${labels[key] || key}: ${typeof value === 'object' ? JSON.stringify(value) : String(value)}`).join(' · ')
   return text.length > 180 ? `${text.slice(0, 177)}...` : text
 }
 async function load() {

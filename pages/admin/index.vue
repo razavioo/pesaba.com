@@ -1,5 +1,5 @@
 <template>
-  <div class="mx-auto max-w-7xl p-5 lg:p-8">
+  <div class="admin-dashboard mx-auto max-w-7xl p-5 lg:p-8">
     <div class="mb-8 flex flex-wrap items-end justify-between gap-4">
       <div>
         <p class="text-sm font-semibold text-[#1f7994]">نمای کلی</p>
@@ -9,7 +9,7 @@
     </div>
 
     <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-      <article v-for="card in cards" :key="card.label" class="border border-[#d4e0e4] bg-white p-5">
+      <article v-for="(card, index) in cards" :key="card.label" class="dashboard-stat border border-[#d4e0e4] bg-white p-5" :class="`stat-${index + 1}`">
         <p class="text-sm text-[#61757d]">{{ card.label }}</p>
         <p class="mt-3 text-3xl font-bold text-[#093544]">{{ card.value }}</p>
         <p class="mt-2 text-xs text-[#61757d]">{{ card.detail }}</p>
@@ -23,7 +23,7 @@
           <NuxtLink to="/admin/content" class="text-sm font-semibold text-[#1f7994]">مدیریت محتوا</NuxtLink>
         </div>
         <div v-if="pending" class="p-5 text-sm text-[#61757d]">در حال دریافت اطلاعات...</div>
-        <ul v-else class="divide-y divide-[#e5edf0]">
+        <ul v-else class="admin-activity divide-y divide-[#e5edf0]">
           <li v-for="event in dashboard?.recentActivity || []" :key="event.id" class="flex items-center justify-between gap-4 px-5 py-4 text-sm">
             <div>
               <p class="font-semibold text-[#24434d]">{{ actionLabel(event.action) }}</p>
@@ -74,3 +74,13 @@ onMounted(async () => {
   }
 })
 </script>
+
+<style scoped>
+.admin-dashboard .dashboard-stat { position: relative; overflow: hidden; }
+.admin-dashboard .dashboard-stat::after { content: ''; position: absolute; width: 6rem; height: 6rem; border-radius: 50%; inset-inline-end: -2.5rem; bottom: -3rem; background: rgb(31 121 148 / .08); }
+.admin-dashboard .stat-2::after { background: rgb(137 29 30 / .08); }
+.admin-dashboard .stat-3::after { background: rgb(255 176 32 / .12); }
+.admin-dashboard .stat-4::after { background: rgb(52 199 89 / .1); }
+.admin-dashboard .admin-activity li { position: relative; }
+.admin-dashboard .admin-activity li::before { content: ''; width: .45rem; height: .45rem; flex: 0 0 auto; border-radius: 50%; background: #1f7994; }
+</style>

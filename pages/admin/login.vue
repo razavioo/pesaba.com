@@ -1,6 +1,6 @@
 <template>
-  <main dir="rtl" lang="fa" class="grid min-h-screen place-items-center bg-[#093544] p-5">
-    <section class="w-full max-w-md border border-white/10 bg-white p-7 shadow-2xl sm:p-9">
+  <main dir="rtl" lang="fa" class="admin-login grid min-h-screen place-items-center bg-[#093544] p-5">
+    <section class="admin-login-card w-full max-w-md border border-white/10 bg-white p-7 shadow-2xl sm:p-9">
       <div class="mb-8 flex items-center gap-3">
         <img src="/pesaba-mark.svg" alt="Pesaba" class="h-11 w-11">
         <div>
@@ -53,3 +53,12 @@ async function submit() {
   }
 }
 </script>
+
+<style scoped>
+.admin-login { position: relative; overflow: hidden; background: radial-gradient(circle at 15% 15%, rgb(31 121 148 / .8), transparent 28rem), linear-gradient(135deg, #062b38, #093544 55%, #061f29); }
+.admin-login::before, .admin-login::after { content: ''; position: absolute; border: 1px solid rgb(157 229 235 / .18); border-radius: 999px; pointer-events: none; }
+.admin-login::before { width: 42rem; height: 42rem; inset-inline-start: -18rem; top: -16rem; }
+.admin-login::after { width: 32rem; height: 32rem; inset-inline-end: -14rem; bottom: -14rem; }
+.admin-login-card { position: relative; z-index: 1; border-radius: 1rem; box-shadow: 0 24px 70px rgb(0 0 0 / .22); }
+.admin-login-card input, .admin-login-card button { border-radius: .55rem; }
+</style>

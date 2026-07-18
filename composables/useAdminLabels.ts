@@ -36,6 +36,24 @@ const ADMIN_ENTITY_LABELS: Record<string, string> = {
   export: 'خروجی',
 }
 
+const ADMIN_STATUS_LABELS: Record<string, string> = {
+  active: 'فعال', inactive: 'غیرفعال', archived: 'بایگانی',
+  NEW: 'جدید', IN_PROGRESS: 'در حال پیگیری', RESOLVED: 'رسیدگی‌شده', SPAM: 'هرزنامه', ARCHIVED: 'بایگانی',
+  pending: 'در انتظار', processing: 'در حال پردازش', completed: 'تکمیل‌شده', failed: 'ناموفق',
+  draft: 'پیش‌نویس', in_review: 'در حال بررسی', published: 'منتشرشده',
+}
+
+const ADMIN_CONTENT_TYPES: Record<string, string> = {
+  page: 'صفحه', product: 'محصول', article: 'مقاله', glossary: 'واژه‌نامه', industry: 'صنعت',
+  use_case: 'کاربرد', company: 'شرکت', legal: 'حقوقی',
+}
+
+const ADMIN_BLOCK_TYPES: Record<string, string> = {
+  hero: 'قهرمان', rich_text: 'متن غنی', media_text: 'رسانه و متن', specification_table: 'جدول مشخصات',
+  faq: 'پرسش‌های متداول', notice: 'اعلان', cta: 'فراخوان اقدام', collection: 'مجموعه',
+  download_list: 'فهرست دانلود', related_links: 'پیوندهای مرتبط', stat_grid: 'شبکه آمار', card_grid: 'شبکه کارت‌ها',
+}
+
 export function useAdminLabels() {
   const actionLabel = (value: unknown) => {
     const key = typeof value === 'string' ? value : ''
@@ -47,5 +65,9 @@ export function useAdminLabels() {
     return ADMIN_ENTITY_LABELS[key] || 'رکورد'
   }
 
-  return { actionLabel, entityLabel }
+  const statusLabel = (value: unknown) => ADMIN_STATUS_LABELS[String(value)] || 'نامشخص'
+  const contentTypeLabel = (value: unknown) => ADMIN_CONTENT_TYPES[String(value)] || 'نوع محتوا'
+  const blockTypeLabel = (value: unknown) => ADMIN_BLOCK_TYPES[String(value)] || String(value || 'بلوک')
+
+  return { actionLabel, entityLabel, statusLabel, contentTypeLabel, blockTypeLabel }
 }

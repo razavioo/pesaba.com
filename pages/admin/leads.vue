@@ -1,5 +1,5 @@
 <template>
-  <div class="mx-auto max-w-7xl p-5 lg:p-8">
+  <div class="admin-leads mx-auto max-w-7xl p-5 lg:p-8">
     <div class="mb-7">
       <p class="text-sm font-semibold text-[#1f7994]">درخواست‌ها</p>
       <h1 class="mt-1 text-2xl font-bold text-[#093544]">

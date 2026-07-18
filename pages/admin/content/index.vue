@@ -1,5 +1,5 @@
 <template>
-  <div class="mx-auto max-w-7xl p-5 lg:p-8">
+  <div class="admin-content-list mx-auto max-w-7xl p-5 lg:p-8">
     <div class="mb-7 flex flex-wrap items-end justify-between gap-4">
       <div>
         <p class="text-sm font-semibold text-[#1f7994]">محتوا</p>
@@ -17,7 +17,7 @@
     <section class="overflow-hidden border border-[#d4e0e4] bg-white">
       <div v-if="pending" class="p-6 text-sm text-[#61757d]">در حال دریافت محتوا...</div>
       <div v-else-if="loadError" class="p-6 text-sm text-[#b42318]">{{ loadError }}</div>
-      <div v-else class="overflow-x-auto">
+      <div v-else class="overflow-x-auto content-table-wrap">
         <table class="w-full min-w-[920px] table-fixed text-right text-sm">
           <colgroup><col class="w-[25%]"><col class="w-[12%]"><col class="w-[23%]"><col class="w-[13%]"><col class="w-[17%]"><col class="w-[10%]"></colgroup>
           <thead class="bg-[#f3f7f8] text-xs text-[#61757d]"><tr><th class="px-5 py-3 font-semibold">عنوان</th><th class="px-5 py-3 font-semibold">نوع</th><th class="px-5 py-3 font-semibold">نامک</th><th class="px-5 py-3 font-semibold">وضعیت</th><th class="px-5 py-3 font-semibold">آخرین تغییر</th><th class="px-5 py-3"></th></tr></thead>
@@ -50,6 +50,7 @@
 defineI18nRoute(false)
 definePageMeta({ name: 'admin-content___fa', layout: 'admin', middleware: 'admin' })
 const { request } = useCmsApi()
+const { contentTypeLabel, statusLabel: localizedStatusLabel } = useAdminLabels()
 const { user } = useCmsSession()
 const pending = ref(true)
 const records = ref<any[]>([])
@@ -67,8 +68,8 @@ const types = [
 const canEdit = computed(() => user.value?.role !== 'VIEWER')
 const visiblePages = computed(() => Array.from({ length: totalPages.value }, (_, index) => index + 1).slice(Math.max(0, page.value - 3), page.value + 2))
 const faTitle = (item: any) => item.translations.find((translation: any) => translation.locale === 'fa')?.title || item.translations[0]?.title || item.slug
-const typeLabel = (value: string) => types.find(type => type.value === value)?.label || value
-const statusLabel = (value: string) => ({ active: 'فعال', inactive: 'غیرفعال', archived: 'بایگانی' }[value] || value)
+const typeLabel = (value: string) => contentTypeLabel(value)
+const statusLabel = (value: string) => localizedStatusLabel(value)
 const statusClass = (value: string) => ({ active: 'bg-[#e8f6ef] text-[#087443]', inactive: 'bg-[#fff7e8] text-[#a56c00]', archived: 'bg-[#edf1f2] text-[#61757d]' }[value] || '')
 const formatDate = (value: string) => new Intl.DateTimeFormat('fa-IR', { dateStyle: 'medium' }).format(new Date(value))
 
@@ -106,3 +107,9 @@ watch([search, type], () => {
 })
 onMounted(load)
 </script>
+
+<style scoped>
+.content-table-wrap thead { position: sticky; top: 0; z-index: 1; box-shadow: 0 1px 0 #d4e0e4; }
+.content-table-wrap td:first-child { border-inline-start: 3px solid transparent; }
+.content-table-wrap tbody tr:hover td:first-child { border-inline-start-color: #1f7994; }
+</style>
