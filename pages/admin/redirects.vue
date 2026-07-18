@@ -70,7 +70,7 @@
 </template>
 <script setup lang="ts">
 defineI18nRoute(false);
-definePageMeta({ name: "admin-redirects___fa", layout: "admin", middleware: "admin" });
+definePageMeta({ name: "admin-redirects___fa", alias: ["/admin/site/seo"], layout: "admin", middleware: "admin" });
 const { request } = useCmsApi();
 const { user } = useCmsSession();
 const redirects = ref<any[]>([]);

@@ -1,5 +1,8 @@
 <template>
-  <div v-if="industry">
+  <div v-if="v2Industry">
+    <ContentBlocks :blocks="v2Industry.translation.blocks" :locale="locale === 'fa' ? 'fa' : 'en'" />
+  </div>
+  <div v-else-if="industry">
     <!-- Hero -->
     <section class="page-hero relative overflow-hidden" style="min-height: 440px; display: flex; flex-direction: column; justify-content: center;">
       <div class="absolute inset-0 opacity-30" :style="heroMediaStyle" aria-hidden="true" />
@@ -156,6 +159,10 @@ const route = useRoute()
 const { emitBreadcrumbs } = useSchemaOrg()
 
 const { get, list } = usePublicCms()
+const { get: getV2 } = usePublicCmsV2()
+const { data: v2Industry } = await useAsyncData(`industry-v2-${route.params.slug}-${locale.value}`, () =>
+  getV2('industry', String(route.params.slug), locale.value as 'fa' | 'en').catch(() => null), { watch: [locale] },
+)
 const { data: industry } = await useAsyncData(`industry-${route.params.slug}-${locale.value}`, () =>
   get('industry', String(route.params.slug), locale.value as 'fa' | 'en'), { watch: [locale] },
 )

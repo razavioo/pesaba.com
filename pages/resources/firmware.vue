@@ -1,5 +1,8 @@
 <template>
-  <div class="relative min-h-screen bg-[var(--bg-page)] bg-graph-paper">
+  <div v-if="v2Firmware">
+    <ContentBlocks :blocks="v2Firmware.translation.blocks" :locale="locale === 'fa' ? 'fa' : 'en'" />
+  </div>
+  <div v-else class="relative min-h-screen bg-[var(--bg-page)] bg-graph-paper">
     <section class="page-hero">
       <div class="container-site pt-12 pb-20">
         <nav class="flex items-center gap-2 text-xs text-white/40 mb-6">
@@ -237,6 +240,8 @@
 const { t, locale } = useI18n()
 const localePath = useLocalePath()
 const { get } = usePublicCms()
+const { get: getV2 } = usePublicCmsV2()
+const { data: v2Firmware } = await useAsyncData('firmware-page-v2', () => getV2('page', 'firmware', locale.value as 'fa' | 'en').catch(() => null), { watch: [locale] })
 const { data: page } = await useAsyncData('firmware-page', () => get('page', 'firmware', locale.value as 'fa' | 'en').catch(() => null), { watch: [locale] })
 const pageData = computed(() => {
   const data = page.value as { heroImage?: string } | null

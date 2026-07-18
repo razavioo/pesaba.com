@@ -5,7 +5,7 @@
         <p class="text-sm font-semibold text-[#1f7994]">نمای کلی</p>
         <h1 class="mt-1 text-2xl font-bold text-[#093544]">داشبورد مدیریت</h1>
       </div>
-      <NuxtLink to="/admin/content/new" class="inline-flex min-h-10 items-center bg-[#1f7994] px-4 text-sm font-semibold text-white transition hover:bg-[#093544]">محتوای جدید</NuxtLink>
+      <NuxtLink to="/admin/site/content/new" class="inline-flex min-h-10 items-center bg-[#1f7994] px-4 text-sm font-semibold text-white transition hover:bg-[#093544]">محتوای جدید</NuxtLink>
     </div>
 
     <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
@@ -20,7 +20,7 @@
       <section class="border border-[#d4e0e4] bg-white">
         <div class="flex items-center justify-between border-b border-[#d4e0e4] px-5 py-4">
           <h2 class="font-bold text-[#093544]">فعالیت‌های اخیر</h2>
-          <NuxtLink to="/admin/content" class="text-sm font-semibold text-[#1f7994]">مدیریت محتوا</NuxtLink>
+          <NuxtLink to="/admin/site" class="text-sm font-semibold text-[#1f7994]">مدیریت سایت</NuxtLink>
         </div>
         <div v-if="pending" class="p-5 text-sm text-[#61757d]">در حال دریافت اطلاعات...</div>
         <ul v-else class="admin-activity divide-y divide-[#e5edf0]">

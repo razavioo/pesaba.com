@@ -41,6 +41,7 @@
                   : 'text-[#27282D] hover:text-[#1F7994]',
               ]"
               v-bind="item.subItems ? { 'aria-expanded': activeMenu === item.key, 'aria-haspopup': true } : {}"
+              @click="item.subItems ? toggleMenu(item.key, $event) : undefined"
             >
               {{ item.label || $t(`nav.${item.key}`) }}
             </NuxtLink>
@@ -64,11 +65,12 @@
           <!-- Mobile hamburger -->
           <button
             ref="mobileTrigger"
+            type="button"
             class="header-nav-buttons text-[#27282D] hover:text-[#1F7994] xl:hidden"
             :aria-label="$t('common.open')"
             aria-controls="mobile-navigation"
             :aria-expanded="mobileOpen"
-            @click="mobileOpen ? closeMobile() : openMobile()"
+            @click="toggleMobile()"
           >
             <svg v-if="mobileOpen" class="w-5 h-5 shrink-0" viewBox="0 0 19 17" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M18.945 0.470703H16.125L9.50499 7.0907L2.88499 0.470703H0.0549927L8.08499 8.5007L0.114993 16.4707H2.94499L9.50499 9.9107L16.065 16.4707H18.885L10.915 8.5007L18.945 0.470703Z" fill="currentColor" />
@@ -97,7 +99,7 @@
         aria-modal="true"
         :aria-label="$t('nav.home')"
         tabindex="-1"
-        class="fixed inset-0 z-50 overflow-y-auto bg-[#093544] text-white p-6 md:p-12 flex flex-col pointer-events-auto"
+        class="mobile-nav-panel fixed inset-0 z-50 overflow-y-auto bg-[#093544] text-white p-6 md:p-12 flex flex-col pointer-events-auto"
       >
         <!-- Header inside mobile menu drawer -->
         <div class="flex justify-between items-center mb-12">
@@ -251,12 +253,22 @@ const navItems = computed(() => navigation.data.value.header.length
   : defaultNavItems.value)
 
 function openMenu(key: string) { cancelClose(); activeMenu.value = key }
+function toggleMenu(key: string, event: MouseEvent) {
+  event.preventDefault()
+  if (activeMenu.value === key) activeMenu.value = null
+  else openMenu(key)
+}
 function scheduleClose() { closeTimer = setTimeout(() => { activeMenu.value = null }, 120) }
 function cancelClose() { if (closeTimer) { clearTimeout(closeTimer); closeTimer = null } }
 
 function openMobile() {
   mobileOpen.value = true
   nextTick(() => mobilePanel.value?.focus())
+}
+
+function toggleMobile() {
+  if (mobileOpen.value) closeMobile()
+  else openMobile()
 }
 
 function closeMobile() {
@@ -320,6 +332,15 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
+.mobile-nav-panel {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.mobile-nav-panel::-webkit-scrollbar {
+  display: none;
+}
+
 .site-header::before {
   content: '';
   position: absolute;

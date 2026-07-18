@@ -1,5 +1,8 @@
 <template>
-  <div v-if="article" class="min-h-screen">
+  <div v-if="v2Article" class="min-h-screen">
+    <ContentBlocks :blocks="v2Article.translation.blocks" :locale="locale === 'fa' ? 'fa' : 'en'" />
+  </div>
+  <div v-else-if="article" class="min-h-screen">
     <div class="fixed top-0 inset-x-0 z-[60] h-0.5 bg-[var(--bg-elevated)]" aria-hidden="true">
       <div class="h-full bg-[#1F7994] transition-all duration-75 ease-linear" :style="{ width: `${readingProgress}%` }" />
     </div>
@@ -80,6 +83,8 @@ const { emitArticle, emitBreadcrumbs } = useSchemaOrg()
 
 const articleSlug = String(route.params.slug || '')
 const { get } = usePublicCms()
+const { get: getV2 } = usePublicCmsV2()
+const { data: v2Article } = await useAsyncData(`article-v2-${articleSlug}-${locale.value}`, () => getV2('article', articleSlug, locale.value as 'fa' | 'en').catch(() => null), { watch: [locale] })
 const { data: article } = await useAsyncData(`article-${articleSlug}-${locale.value}`, () =>
   get('article', articleSlug, locale.value as 'fa' | 'en'), { watch: [locale] },
 )

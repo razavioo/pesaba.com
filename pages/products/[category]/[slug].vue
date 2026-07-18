@@ -1,5 +1,9 @@
 <template>
-  <div v-if="product">
+  <div v-if="v2Product">
+    <ContentBlocks :blocks="v2Product.translation.blocks" :locale="locale === 'fa' ? 'fa' : 'en'" />
+  </div>
+
+  <div v-else-if="product">
     <section class="page-hero overflow-hidden pb-0">
       <div class="container-site pb-6 pt-8 md:pt-12 lg:pb-8">
         <nav class="product-breadcrumb mb-4 flex min-w-0 max-w-full items-center gap-2 overflow-x-auto whitespace-nowrap pb-1 text-xs text-white/40" :aria-label="$t('common.breadcrumb')">
@@ -277,6 +281,10 @@ const { emitProduct, emitBreadcrumbs } = useSchemaOrg()
 const { category, slug } = route.params as { category: string; slug: string }
 
 const { get, list } = usePublicCms()
+const { get: getV2 } = usePublicCmsV2()
+const { data: v2Product } = await useAsyncData(`product-v2-${slug}-${locale.value}`, () =>
+  getV2('product', slug, locale.value as 'fa' | 'en').catch(() => null), { watch: [locale] },
+)
 const { data: product } = await useAsyncData(`product-${slug}-${locale.value}`, () =>
   get('product', slug, locale.value as 'fa' | 'en'), { watch: [locale] },
 )

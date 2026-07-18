@@ -7,6 +7,7 @@
       </div>
       <label class="field-label">شناسه بلوک<input v-model="block.id" class="field" :disabled="structureLocked" pattern="[a-z][a-z0-9-]*"></label>
       <label class="field-label">anchor (اختیاری)<input v-model="block.anchor" class="field" dir="ltr"></label>
+      <fieldset class="mt-4 grid gap-3 border border-[#e5edf0] p-3 md:grid-cols-3"><legend class="px-1 text-xs font-semibold text-[#24434d]">نمایش و چیدمان</legend><label class="field-label !mt-0">گونه<select :value="block.design?.variant || 'standard'" class="field" @change="setDesign(block, 'variant', $event)"><option value="standard">استاندارد</option><option value="compact">فشرده</option><option value="feature">شاخص</option></select></label><label class="field-label !mt-0">پس‌زمینه<select :value="block.design?.surface || 'default'" class="field" @change="setDesign(block, 'surface', $event)"><option value="default">پیش‌فرض</option><option value="muted">ملایم</option><option value="dark">تیره</option><option value="accent">تأکیدی</option></select></label><label class="field-label !mt-0">عرض<select :value="block.design?.width || 'default'" class="field" @change="setDesign(block, 'width', $event)"><option value="default">استاندارد</option><option value="narrow">متمرکز</option><option value="wide">عریض</option></select></label><label class="field-label !mt-0">ترازبندی<select :value="block.design?.align || 'start'" class="field" @change="setDesign(block, 'align', $event)"><option value="start">ابتدای متن</option><option value="center">وسط</option></select></label><label class="field-label !mt-0">فاصله عمودی<select :value="block.design?.spacing || 'normal'" class="field" @change="setDesign(block, 'spacing', $event)"><option value="normal">عادی</option><option value="compact">فشرده</option><option value="generous">بیشتر</option></select></label><label class="field-label !mt-0">ستون‌ها<select :value="block.design?.columns || 'auto'" class="field" @change="setDesign(block, 'columns', $event)"><option value="auto">خودکار</option><option value="2">دو ستون</option><option value="3">سه ستون</option><option value="4">چهار ستون</option></select></label></fieldset>
 
       <template v-if="block.type === 'hero'"><TextField v-model="block.eyebrow" label="برچسب"/><TextField v-model="block.title" label="عنوان" required/><TextArea v-model="block.copy" label="متن کوتاه"/><CtaFields v-model="block.primaryCta" label="CTA اصلی"/><CtaFields v-model="block.secondaryCta" label="CTA دوم"/></template>
       <template v-else-if="block.type === 'rich_text'"><TextField v-model="block.title" label="عنوان (اختیاری)"/><TextArea v-model="block.markdown" label="متن Markdown" required :rows="9"/></template>
@@ -48,7 +49,7 @@ const newType = ref<string>(allowed.value[0])
 watch(allowed, value => { if (!value.includes(newType.value as any)) newType.value = value[0] })
 function blank(type: ContentBlock['type']): ContentBlock {
   const id = `${type.replace(/_/g, '-')}-${blocks.value.length + 1}`
-  const common = { id }
+  const common = { id, design: { variant: 'standard' as const, surface: 'default' as const, width: 'default' as const, align: 'start' as const, spacing: 'normal' as const, columns: 'auto' as const } }
   switch (type) {
     case 'hero': return { ...common, type, eyebrow: '', title: '', copy: '' }
     case 'rich_text': return { ...common, type, markdown: '' }
@@ -67,6 +68,10 @@ function blank(type: ContentBlock['type']): ContentBlock {
 function add() { blocks.value = [...blocks.value, blank(newType.value as ContentBlock['type'])] }
 function remove(index: number) { blocks.value = blocks.value.filter((_, position) => position !== index) }
 function move(index: number, offset: number) { const next = [...blocks.value]; const [block] = next.splice(index, 1); next.splice(index + offset, 0, block); blocks.value = next }
+function setDesign(block: ContentBlock, key: 'variant' | 'surface' | 'width' | 'align' | 'spacing' | 'columns', event: Event) {
+  const value = (event.target as HTMLSelectElement).value
+  block.design = { variant: 'standard', surface: 'default', width: 'default', align: 'start', spacing: 'normal', columns: 'auto', ...(block.design || {}), [key]: value } as NonNullable<ContentBlock['design']>
+}
 </script>
 
 <style scoped>

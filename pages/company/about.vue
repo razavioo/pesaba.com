@@ -1,5 +1,8 @@
 <template>
-  <div v-if="doc">
+  <div v-if="v2Document">
+    <ContentBlocks :blocks="v2Document.translation.blocks" :locale="locale === 'fa' ? 'fa' : 'en'" />
+  </div>
+  <div v-else-if="doc">
     <section class="page-hero relative">
       <div class="container-site section-hero relative z-10">
         <div class="max-w-3xl">
@@ -95,6 +98,8 @@
 <script setup lang="ts">
 const { locale } = useI18n()
 const { get, list } = usePublicCms()
+const { get: getV2 } = usePublicCmsV2()
+const { data: v2Document } = await useAsyncData(`about-v2-${locale.value}`, () => getV2('company', 'about', locale.value as 'fa' | 'en').catch(() => null), { watch: [locale] })
 const { data: doc } = await useAsyncData(`about-${locale.value}`, () => get('company', 'about', locale.value as 'fa' | 'en'), { watch: [locale] })
 
 type AboutPageData = { heroImage?: string; engineeringImage?: string }

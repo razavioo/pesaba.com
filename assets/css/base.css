@@ -112,13 +112,11 @@
   }
 
   /* Scrollbar */
-  ::-webkit-scrollbar { width: 6px; height: 6px; }
-  ::-webkit-scrollbar-track { background: var(--bg-elevated); }
-  ::-webkit-scrollbar-thumb {
-    background: var(--border);
-    border-radius: var(--r-full);
+  * {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
   }
-  ::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+  *::-webkit-scrollbar { display: none; }
 
   /* Code blocks */
   code, kbd, samp, pre {

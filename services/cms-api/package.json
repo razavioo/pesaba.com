@@ -12,6 +12,7 @@
     "prisma:deploy": "prisma migrate deploy",
     "seed": "tsx src/seed.ts",
     "import:content": "tsx src/import-content.ts",
+    "migrate:content-v2": "tsx src/migrate-content-v2.ts",
     "import:media": "tsx src/import-media.ts",
     "sync:media-usages": "tsx src/sync-media-usages.ts",
     "test": "node --test"

@@ -47,7 +47,7 @@
 </template>
 
 <script setup lang="ts">
-import { Archive, ExternalLink, FileText, History, Image, LayoutDashboard, Link, LogOut, Mail, Settings, Users } from 'lucide-vue-next'
+import { Archive, Bot, ExternalLink, History, LayoutDashboard, LayoutPanelTop, LogOut, Mail, Users } from 'lucide-vue-next'
 
 const route = useRoute()
 const { user, logout } = useCmsSession()
@@ -56,11 +56,9 @@ const { user, logout } = useCmsSession()
 // session request completed, so the users link could not receive a click.
 const navigation = [
   { to: '/admin', label: 'داشبورد', icon: LayoutDashboard },
-  { to: '/admin/content', label: 'محتوا و صفحات', icon: FileText },
-  { to: '/admin/media', label: 'رسانه', icon: Image },
+  { to: '/admin/site', label: 'مدیریت سایت', icon: LayoutPanelTop },
+  { to: '/admin/ai-providers', label: 'هوش مصنوعی', icon: Bot },
   { to: '/admin/leads', label: 'درخواست‌ها', icon: Mail },
-  { to: '/admin/redirects', label: 'مسیرها و سئو', icon: Link },
-  { to: '/admin/settings', label: 'تنظیمات سایت', icon: Settings },
   { to: '/admin/users', label: 'کاربران', icon: Users, ownerOnly: true },
   { to: '/admin/audit', label: 'تاریخچه فعالیت', icon: History, ownerOnly: true },
   { to: '/admin/archive', label: 'پشتیبان و بازیابی', icon: Archive, ownerOnly: true },

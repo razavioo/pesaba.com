@@ -1,5 +1,8 @@
 <template>
-  <div v-if="useCase">
+  <div v-if="v2UseCase">
+    <ContentBlocks :blocks="v2UseCase.translation.blocks" :locale="locale === 'fa' ? 'fa' : 'en'" />
+  </div>
+  <div v-else-if="useCase">
     <!-- Hero with image -->
     <section class="page-hero relative overflow-hidden" style="min-height: 440px; display: flex; flex-direction: column; justify-content: center;">
       <div class="absolute inset-0 opacity-30" :style="heroMediaStyle" aria-hidden="true" />
@@ -59,6 +62,10 @@ const route = useRoute()
 const { emitBreadcrumbs } = useSchemaOrg()
 
 const { get } = usePublicCms()
+const { get: getV2 } = usePublicCmsV2()
+const { data: v2UseCase } = await useAsyncData(`use-case-v2-${route.params.slug}-${locale.value}`, () =>
+  getV2('use_case', String(route.params.slug), locale.value as 'fa' | 'en').catch(() => null), { watch: [locale] },
+)
 const { data: useCase } = await useAsyncData(`use-case-${route.params.slug}-${locale.value}`, () =>
   get('use_case', String(route.params.slug), locale.value as 'fa' | 'en'), { watch: [locale] },
 )

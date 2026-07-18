@@ -13,7 +13,7 @@
 <script setup lang="ts">
 import { Upload } from 'lucide-vue-next'
 defineI18nRoute(false)
-definePageMeta({ name: 'admin-media___fa', layout: 'admin', middleware: 'admin' })
+definePageMeta({ name: 'admin-media___fa', alias: ['/admin/site/media'], layout: 'admin', middleware: 'admin' })
 const { request } = useCmsApi(); const { user } = useCmsSession()
 const assets = ref<any[]>([]); const selectedAsset = ref<any | null>(null); const pending = ref(true); const error = ref(''); const search = ref(''); const kind = ref('')
 const canEdit = computed(() => user.value?.role !== 'VIEWER')

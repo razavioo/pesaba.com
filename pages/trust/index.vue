@@ -1,5 +1,8 @@
 <template>
-  <div>
+  <div v-if="v2Trust">
+    <ContentBlocks :blocks="v2Trust.translation.blocks" :locale="locale === 'fa' ? 'fa' : 'en'" />
+  </div>
+  <div v-else>
     <section class="page-hero relative">
       <div class="container-site section-hero relative z-10">
         <div class="max-w-3xl">
@@ -75,6 +78,8 @@
 const { t, locale } = useI18n()
 const localePath = useLocalePath()
 const { get } = usePublicCms()
+const { get: getV2 } = usePublicCmsV2()
+const { data: v2Trust } = await useAsyncData('trust-page-v2', () => getV2('page', 'trust', locale.value as 'fa' | 'en').catch(() => null), { watch: [locale] })
 const { data: page } = await useAsyncData('trust-page', () => get('page', 'trust', locale.value as 'fa' | 'en').catch(() => null), { watch: [locale] })
 const pageData = computed(() => {
   const data = page.value as { evidenceImage?: string } | null

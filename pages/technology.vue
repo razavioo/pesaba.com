@@ -1,5 +1,8 @@
 <template>
-  <div>
+  <div v-if="v2Technology">
+    <ContentBlocks :blocks="v2Technology.translation.blocks" :locale="locale === 'fa' ? 'fa' : 'en'" />
+  </div>
+  <div v-else>
     <section class="page-hero" style="min-height: 440px; display: flex; flex-direction: column; justify-content: center;">
       <!-- Background image overlay on dark navy -->
       <div class="absolute inset-0 opacity-20" :style="heroImgStyle" aria-hidden="true" />
@@ -119,6 +122,8 @@ const { t, locale } = useI18n()
 const localePath = useLocalePath()
 const { withBase } = useBaseUrl()
 const { get } = usePublicCms()
+const { get: getV2 } = usePublicCmsV2()
+const { data: v2Technology } = await useAsyncData('technology-page-v2', () => getV2('page', 'technology', locale.value as 'fa' | 'en').catch(() => null), { watch: [locale] })
 type TechnologyPageData = {
   heroImage?: string
   airGapImage?: string

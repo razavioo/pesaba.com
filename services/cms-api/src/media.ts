@@ -1,4 +1,4 @@
-import { Body, ConflictException, Controller, Delete, Get, Inject, Injectable, NotFoundException, Param, Patch, Post, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common'
+import { Body, ConflictException, Controller, Delete, Get, Inject, Injectable, NotFoundException, Param, Patch, Post, Query, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common'
 import { FileInterceptor } from '@nestjs/platform-express'
 import { DeleteObjectCommand, PutObjectCommand, S3Client } from '@aws-sdk/client-s3'
 import type { Prisma} from '@prisma/client';
@@ -132,6 +132,16 @@ export class MediaService {
     return this.serialize(asset)
   }
 
+  async publicAsset(id: string, locale: 'fa' | 'en') {
+    const asset = await this.prisma.mediaAsset.findUnique({ where: { id }, include: { variants: true, usages: false } })
+    if (!asset) throw new NotFoundException('Media asset not found.')
+    return {
+      id: asset.id, kind: asset.kind.toLowerCase(), mimeType: asset.mimeType, width: asset.width, height: asset.height,
+      url: this.publicUrl(asset.key), alt: locale === 'fa' ? asset.altFa : asset.altEn,
+      variants: asset.variants.map(variant => ({ width: variant.width, mimeType: variant.mimeType, url: this.publicUrl(variant.key) })),
+    }
+  }
+
   async update(id: string, input: unknown, actor: Actor) {
     const data = metadataSchema.parse(input)
     const asset = await this.prisma.mediaAsset.update({ where: { id }, data, include: { variants: true, usages: true } })
@@ -148,6 +158,13 @@ export class MediaService {
     await this.prisma.auditEvent.create({ data: { actorId: actor.id, action: 'media.delete', entityType: 'media', entityId: id } })
     return { ok: true }
   }
+}
+
+@Controller('public/media')
+export class PublicMediaController {
+  constructor(private readonly media: MediaService) {}
+  @Get(':id')
+  get(@Param('id') id: string, @Query('locale') locale: 'fa' | 'en' = 'fa') { return this.media.publicAsset(id, locale === 'en' ? 'en' : 'fa') }
 }
 
 @Controller('admin/media')

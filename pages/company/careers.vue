@@ -1,5 +1,8 @@
 <template>
-  <div v-if="doc">
+  <div v-if="v2Document">
+    <ContentBlocks :blocks="v2Document.translation.blocks" :locale="locale === 'fa' ? 'fa' : 'en'" />
+  </div>
+  <div v-else-if="doc">
     <ImageHero
       :image="typeof doc?.heroImage === 'string' ? doc.heroImage : '/images/heroes/careers-hero.png'"
       :image-alt="locale === 'fa' ? 'مهندس در حال آزمایش برد امنیت شبکه در آزمایشگاه' : 'Engineer testing a network security board in a laboratory'"
@@ -48,6 +51,8 @@
 <script setup lang="ts">
 const { t, locale } = useI18n()
 const { get } = usePublicCms()
+const { get: getV2 } = usePublicCmsV2()
+const { data: v2Document } = await useAsyncData(`careers-v2-${locale.value}`, () => getV2('company', 'careers', locale.value as 'fa' | 'en').catch(() => null), { watch: [locale] })
 const { data: doc } = await useAsyncData(`careers-${locale.value}`, () => get('company', 'careers', locale.value as 'fa' | 'en'), { watch: [locale] })
 useSeoMeta({ title: doc.value?.seoTitle ?? `${t('careers.open_positions')} | Pesaba`, description: doc.value?.seoDescription })
 </script>

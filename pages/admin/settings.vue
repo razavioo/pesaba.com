@@ -1,9 +1,9 @@
 <template>
   <div class="admin-settings mx-auto max-w-7xl p-5 lg:p-8">
     <div class="mb-7">
-      <p class="text-sm font-semibold text-[#1f7994]">{{ t('adminSettings.eyebrow') }}</p>
-      <h1 class="mt-1 text-2xl font-bold text-[#093544]">{{ t('adminSettings.title') }}</h1>
-      <p class="mt-2 max-w-2xl text-sm text-[#61757d]">{{ t('adminSettings.subtitle') }}</p>
+      <p class="text-sm font-semibold text-[#1f7994]">مدیریت سایت</p>
+      <h1 class="mt-1 text-2xl font-bold text-[#093544]">اجزای سراسری سایت</h1>
+      <p class="mt-2 max-w-2xl text-sm text-[#61757d]">هویت برند، اطلاعات تماس، منو و پیش‌فرض‌های SEO را به‌صورت نسخه‌بندی‌شده مدیریت کنید.</p>
     </div>
     <p v-if="error" role="alert" class="mb-5 border-s-2 border-[#c33] bg-[#fff2f2] px-4 py-3 text-sm text-[#a32626]">{{ error }}</p>
     <div v-if="pending" class="border border-[#d4e0e4] bg-white p-6 text-sm text-[#61757d]">{{ t('adminSettings.loading') }}</div>
@@ -15,7 +15,7 @@
       </div>
 
       <section v-if="activeTab === 'contact'" id="settings-panel-contact" class="panel" role="tabpanel">
-        <div class="panel-head"><div><h2>{{ t('adminSettings.contact.title') }}</h2><p>{{ t('adminSettings.contact.description') }}</p></div><button v-if="canEdit" class="save" @click="saveContact">{{ t('adminSettings.actions.save') }}</button></div>
+        <div class="panel-head"><div><h2>{{ t('adminSettings.contact.title') }}</h2><p>{{ t('adminSettings.contact.description') }}</p></div><SettingWorkflowActions :state="settingState('contact')" :can-edit="canEdit" :can-publish="canPublish" @save="saveContact" @submit="submitSetting('contact')" @publish="publishSetting('contact')" /></div>
         <div class="grid gap-4 md:grid-cols-2">
           <label>تلفن بین المللی<input v-model="contact.phone" dir="ltr" class="field"></label>
           <label>ایمیل عمومی<input v-model="contact.email" dir="ltr" type="email" class="field"></label>
@@ -25,15 +25,15 @@
           <label>English address<textarea v-model="contact.address.en" dir="ltr" class="field min-h-24" /></label>
           <label>پیوند نقشه<input v-model="contact.mapUrl" dir="ltr" class="field"></label>
           <label>پیوند LinkedIn<input v-model="contact.linkedinUrl" dir="ltr" class="field"></label>
-          <label>گیرنده فروش<input v-model="contact.recipients.sales" dir="ltr" class="field" placeholder="sales@example.com"></label>
-          <label>گیرنده پشتیبانی<input v-model="contact.recipients.support" dir="ltr" class="field" placeholder="support@example.com"></label>
-          <label>گیرنده همکاری<input v-model="contact.recipients.partnership" dir="ltr" class="field" placeholder="partners@example.com"></label>
-          <label class="contact-form-toggle"><input v-model="contact.formEnabled" type="checkbox" class="h-4 w-4 shrink-0 accent-[#1f7994]"><span>فرم تماس آنلاین فعال باشد</span></label>
+        </div>
+        <div v-if="canPublish" class="mt-7 border-t border-[#e5edf0] pt-5">
+          <div class="mb-4 flex flex-wrap items-center justify-between gap-3"><div><h3 class="font-bold text-[#093544]">عملیات فرم تماس</h3><p class="mt-1 text-sm text-[#61757d]">این تغییرات فقط برای مالک هستند و بلافاصله اعمال می‌شوند.</p></div><button class="save" @click="saveContactOperations">ذخیره عملیات</button></div>
+          <div class="grid gap-4 md:grid-cols-2"><label>گیرنده فروش<input v-model="contactOperations.recipients.sales" dir="ltr" class="field" placeholder="sales@example.com"></label><label>گیرنده پشتیبانی<input v-model="contactOperations.recipients.support" dir="ltr" class="field" placeholder="support@example.com"></label><label>گیرنده همکاری<input v-model="contactOperations.recipients.partnership" dir="ltr" class="field" placeholder="partners@example.com"></label><label class="contact-form-toggle"><input v-model="contactOperations.formEnabled" type="checkbox" class="h-4 w-4 shrink-0 accent-[#1f7994]"><span>فرم تماس آنلاین فعال باشد</span></label></div>
         </div>
       </section>
 
       <section v-if="activeTab === 'seo'" id="settings-panel-seo" class="panel" role="tabpanel">
-        <div class="panel-head"><div><h2>{{ t('adminSettings.seo.title') }}</h2><p>{{ t('adminSettings.seo.description') }}</p></div><button v-if="canEdit" class="save" @click="saveSeo">{{ t('adminSettings.actions.save') }}</button></div>
+        <div class="panel-head"><div><h2>{{ t('adminSettings.seo.title') }}</h2><p>{{ t('adminSettings.seo.description') }}</p></div><SettingWorkflowActions :state="settingState('seo')" :can-edit="canEdit" :can-publish="canPublish" @save="saveSeo" @submit="submitSetting('seo')" @publish="publishSetting('seo')" /></div>
         <div class="grid gap-4 md:grid-cols-2">
           <label>عنوان فارسی<input v-model="seo.defaultTitle.fa" class="field" maxlength="180"></label><label>English title<input v-model="seo.defaultTitle.en" dir="ltr" class="field" maxlength="180"></label>
           <label>توضیح فارسی<textarea v-model="seo.defaultDescription.fa" class="field min-h-24" maxlength="320" /></label><label>English description<textarea v-model="seo.defaultDescription.en" dir="ltr" class="field min-h-24" maxlength="320" /></label>
@@ -48,7 +48,7 @@
       </section>
 
       <section v-if="activeTab === 'branding'" id="settings-panel-branding" class="panel" role="tabpanel">
-        <div class="panel-head"><div><h2>{{ t('adminSettings.branding.title') }}</h2><p>{{ t('adminSettings.branding.description') }}</p></div><button v-if="canEdit" class="save" @click="saveBranding">{{ t('adminSettings.actions.save') }}</button></div>
+        <div class="panel-head"><div><h2>{{ t('adminSettings.branding.title') }}</h2><p>{{ t('adminSettings.branding.description') }}</p></div><SettingWorkflowActions :state="settingState('branding')" :can-edit="canEdit" :can-publish="canPublish" @save="saveBranding" @submit="submitSetting('branding')" @publish="publishSetting('branding')" /></div>
         <div class="grid gap-4 md:grid-cols-2">
           <label>نام فارسی<input v-model="branding.name.fa" class="field"></label><label>English name<input v-model="branding.name.en" dir="ltr" class="field"></label>
           <label>شعار فارسی<input v-model="branding.tagline.fa" class="field"></label><label>English tagline<input v-model="branding.tagline.en" dir="ltr" class="field"></label>
@@ -63,7 +63,7 @@
       </section>
 
       <section v-if="activeTab === 'navigation'" id="settings-panel-navigation" class="panel" role="tabpanel">
-        <div class="panel-head"><div><h2>{{ t('adminSettings.navigation.title') }}</h2><p>{{ t('adminSettings.navigation.description') }}</p></div><button v-if="canEdit" class="save" @click="saveNavigation">{{ t('adminSettings.actions.save') }}</button></div>
+        <div class="panel-head"><div><h2>{{ t('adminSettings.navigation.title') }}</h2><p>{{ t('adminSettings.navigation.description') }}</p></div><SettingWorkflowActions :state="settingState('navigation')" :can-edit="canEdit" :can-publish="canPublish" @save="saveNavigation" @submit="submitSetting('navigation')" @publish="publishSetting('navigation')" /></div>
         <div class="space-y-8">
           <div class="navigation-section">
             <div class="navigation-section-head"><div><h3>منوی اصلی</h3><p>پیوندهایی که در سربرگ سایت نمایش داده می‌شوند.</p></div><button v-if="canEdit" type="button" class="add" @click="navigation.header.push(newNavigationItem())">افزودن آیتم</button></div>
@@ -72,6 +72,7 @@
               <div class="navigation-card-head"><strong>آیتم {{ index + 1 }}</strong><button v-if="canEdit" type="button" class="remove" @click="navigation.header.splice(index, 1)">حذف</button></div>
               <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
                 <label>کلید داخلی<input v-model="item.key" :disabled="!canEdit" dir="ltr" class="field" placeholder="products"></label>
+                <label>صفحه داخلی<select v-model="item.targetId" :disabled="!canEdit" class="field" @change="selectTarget(item)"><option value="">پیوند خارجی / دستی</option><option v-for="target in contentTargets" :key="target.id" :value="target.id">{{ targetTitle(target) }}</option></select></label>
                 <label>مسیر پیوند<input v-model="item.to" :disabled="!canEdit" dir="ltr" class="field" placeholder="/products"></label>
                 <label>برچسب فارسی<input v-model="item.label.fa" :disabled="!canEdit" class="field" placeholder="محصولات"></label>
                 <label>English label<input v-model="item.label.en" :disabled="!canEdit" dir="ltr" class="field" placeholder="Products"></label>
@@ -80,6 +81,7 @@
                 <div class="subnavigation-head"><span>زیرمنو</span><button v-if="canEdit" type="button" class="add-small" @click="item.children.push(newNavigationChild())">افزودن زیرمنو</button></div>
                 <p v-if="!item.children.length" class="navigation-empty">زیرمنویی ندارد.</p>
                 <div v-for="(child, childIndex) in item.children" :key="child.id" class="grid items-end gap-3 border-t border-[#e5edf0] py-3 md:grid-cols-[1fr_1fr_1fr_auto]">
+                  <label>صفحه داخلی<select v-model="child.targetId" :disabled="!canEdit" class="field" @change="selectTarget(child)"><option value="">پیوند خارجی / دستی</option><option v-for="target in contentTargets" :key="target.id" :value="target.id">{{ targetTitle(target) }}</option></select></label>
                   <label>مسیر پیوند<input v-model="child.to" :disabled="!canEdit" dir="ltr" class="field" placeholder="/products/example"></label>
                   <label>برچسب فارسی<input v-model="child.label.fa" :disabled="!canEdit" class="field"></label>
                   <label>English label<input v-model="child.label.en" :disabled="!canEdit" dir="ltr" class="field"></label>
@@ -99,7 +101,7 @@
                 <div class="subnavigation-head"><span>پیوندهای گروه</span><button v-if="canEdit" type="button" class="add-small" @click="group.items.push(newNavigationItem())">افزودن پیوند</button></div>
                 <p v-if="!group.items.length" class="navigation-empty">این گروه هنوز پیوندی ندارد.</p>
                 <div v-for="(item, itemIndex) in group.items" :key="item.id" class="grid items-end gap-3 border-t border-[#e5edf0] py-3 md:grid-cols-[.7fr_1fr_1fr_1fr_auto]">
-                  <label>کلید داخلی<input v-model="item.key" :disabled="!canEdit" dir="ltr" class="field"></label><label>مسیر پیوند<input v-model="item.to" :disabled="!canEdit" dir="ltr" class="field"></label><label>برچسب فارسی<input v-model="item.label.fa" :disabled="!canEdit" class="field"></label><label>English label<input v-model="item.label.en" :disabled="!canEdit" dir="ltr" class="field"></label>
+                  <label>کلید داخلی<input v-model="item.key" :disabled="!canEdit" dir="ltr" class="field"></label><label>صفحه داخلی<select v-model="item.targetId" :disabled="!canEdit" class="field" @change="selectTarget(item)"><option value="">پیوند خارجی / دستی</option><option v-for="target in contentTargets" :key="target.id" :value="target.id">{{ targetTitle(target) }}</option></select></label><label>مسیر پیوند<input v-model="item.to" :disabled="!canEdit" dir="ltr" class="field"></label><label>برچسب فارسی<input v-model="item.label.fa" :disabled="!canEdit" class="field"></label><label>English label<input v-model="item.label.en" :disabled="!canEdit" dir="ltr" class="field"></label>
                   <button v-if="canEdit" type="button" class="remove mb-0.5" @click="group.items.splice(itemIndex, 1)">حذف</button>
                 </div>
               </div>
@@ -110,7 +112,7 @@
             <div class="navigation-section-head"><div><h3>پیوندهای قانونی</h3><p>پیوندهایی مانند حریم خصوصی و شرایط استفاده.</p></div><button v-if="canEdit" type="button" class="add" @click="navigation.legal.push(newNavigationItem())">افزودن پیوند</button></div>
             <p v-if="!navigation.legal.length" class="navigation-empty">هنوز پیوند قانونی تعریف نشده است.</p>
             <div v-for="(item, index) in navigation.legal" :key="item.id" class="navigation-card grid items-end gap-3 md:grid-cols-[.7fr_1fr_1fr_1fr_auto]">
-              <label>کلید داخلی<input v-model="item.key" :disabled="!canEdit" dir="ltr" class="field" placeholder="privacy"></label><label>مسیر پیوند<input v-model="item.to" :disabled="!canEdit" dir="ltr" class="field" placeholder="/privacy"></label><label>برچسب فارسی<input v-model="item.label.fa" :disabled="!canEdit" class="field" placeholder="حریم خصوصی"></label><label>English label<input v-model="item.label.en" :disabled="!canEdit" dir="ltr" class="field" placeholder="Privacy"></label>
+              <label>کلید داخلی<input v-model="item.key" :disabled="!canEdit" dir="ltr" class="field" placeholder="privacy"></label><label>صفحه داخلی<select v-model="item.targetId" :disabled="!canEdit" class="field" @change="selectTarget(item)"><option value="">پیوند خارجی / دستی</option><option v-for="target in contentTargets" :key="target.id" :value="target.id">{{ targetTitle(target) }}</option></select></label><label>مسیر پیوند<input v-model="item.to" :disabled="!canEdit" dir="ltr" class="field" placeholder="/privacy"></label><label>برچسب فارسی<input v-model="item.label.fa" :disabled="!canEdit" class="field" placeholder="حریم خصوصی"></label><label>English label<input v-model="item.label.en" :disabled="!canEdit" dir="ltr" class="field" placeholder="Privacy"></label>
               <button v-if="canEdit" type="button" class="remove mb-0.5" @click="navigation.legal.splice(index, 1)">حذف</button>
             </div>
           </div>
@@ -125,59 +127,89 @@
 import { defaultBrandingSettings, defaultContactSettings, defaultNavigationSettings, defaultSeoSettings } from '~/composables/usePublicSettings'
 
 defineI18nRoute(false)
-definePageMeta({ name: 'admin-settings___fa', layout: 'admin', middleware: 'admin' })
+definePageMeta({ name: 'admin-settings___fa', alias: ['/admin/site/settings'], layout: 'admin', middleware: 'admin' })
 const { request } = useCmsApi()
 const { user } = useCmsSession()
 const { t } = useI18n()
+const route = useRoute()
 const pending = ref(true)
 const error = ref('')
-const activeTab = ref('contact')
+const activeTab = ref(typeof route.query.tab === 'string' ? route.query.tab : 'contact')
 const tabs = [
   { id: 'contact', label: 'adminSettings.tabs.contact' },
   { id: 'seo', label: 'adminSettings.tabs.seo' },
   { id: 'branding', label: 'adminSettings.tabs.branding' },
   { id: 'navigation', label: 'adminSettings.tabs.navigation' },
-  { id: 'labels', label: 'adminSettings.tabs.labels' },
-  { id: 'site', label: 'adminSettings.tabs.site' },
 ]
 const canEdit = computed(() => user.value?.role !== 'VIEWER')
+const canPublish = computed(() => user.value?.role === 'OWNER')
+const SettingWorkflowActions = { props: ['state', 'canEdit', 'canPublish'], emits: ['save', 'submit', 'publish'], template: '<div class="flex flex-wrap items-center justify-end gap-2"><span class="text-xs font-semibold text-[#61757d]">{{ ({ draft: \'پیش‌نویس\', in_review: \'در انتظار تأیید\', published: \'منتشرشده\' })[state] || state }}</span><button v-if="canEdit && state !== \'in_review\'" type="button" class="save" @click="$emit(\'save\')">ذخیره پیش‌نویس</button><button v-if="canEdit && state === \'draft\'" type="button" class="save secondary" @click="$emit(\'submit\')">ارسال برای تأیید</button><button v-if="canPublish && state === \'in_review\'" type="button" class="save publish" @click="$emit(\'publish\')">انتشار</button></div>' }
 const contact = reactive(structuredClone(defaultContactSettings))
+const contactOperations = reactive({ recipients: { sales: '', support: '', partnership: '' }, formEnabled: true })
 const branding = reactive(structuredClone(defaultBrandingSettings))
 const seo = reactive(structuredClone(defaultSeoSettings))
-type NavigationChildForm = { id: string; to: string; label: { fa: string; en: string } }
-type NavigationItemForm = { id: string; key: string; to: string; label: { fa: string; en: string }; children: NavigationChildForm[] }
+type NavigationChildForm = { id: string; to: string; targetId: string; label: { fa: string; en: string } }
+type NavigationItemForm = { id: string; key: string; to: string; targetId: string; label: { fa: string; en: string }; children: NavigationChildForm[] }
 type FooterGroupForm = { id: string; title: { fa: string; en: string }; items: NavigationItemForm[] }
 const newId = () => `${Date.now()}-${Math.random().toString(36).slice(2)}`
-const newNavigationChild = (): NavigationChildForm => ({ id: newId(), to: '', label: { fa: '', en: '' } })
-const newNavigationItem = (): NavigationItemForm => ({ id: newId(), key: '', to: '', label: { fa: '', en: '' }, children: [] })
+const newNavigationChild = (): NavigationChildForm => ({ id: newId(), to: '', targetId: '', label: { fa: '', en: '' } })
+const newNavigationItem = (): NavigationItemForm => ({ id: newId(), key: '', to: '', targetId: '', label: { fa: '', en: '' }, children: [] })
 const newFooterGroup = (): FooterGroupForm => ({ id: newId(), title: { fa: '', en: '' }, items: [] })
 const navigation = reactive<{ header: NavigationItemForm[]; footer: FooterGroupForm[]; legal: NavigationItemForm[] }>({ header: [], footer: [], legal: [] })
+const contentTargets = ref<any[]>([])
 const settings = ref<any[]>([])
 const labelFilter = ref('')
 const labelRows = ref<Array<{ key: string; fa: string; en: string }>>([])
-const site = reactive({ legacyVariables: {} as Record<string, { fa: string; en: string }> })
 const siteFields = [
   { key: 'main_intro', label: 'adminSettings.siteFields.mainIntro', long: true }, { key: 'main_footer', label: 'adminSettings.siteFields.mainFooter', long: true }, { key: 'main_clients', label: 'adminSettings.siteFields.mainClients', long: true }, { key: 'main_articles', label: 'adminSettings.siteFields.mainArticles', long: true },
   { key: 'contact_fax', label: 'adminSettings.siteFields.fax' }, { key: 'contact_phone', label: 'adminSettings.siteFields.oldPhone' }, { key: 'contact_email', label: 'adminSettings.siteFields.oldEmail' }, { key: 'contact_address', label: 'adminSettings.siteFields.oldAddress', long: true }, { key: 'contact_linkedin', label: 'adminSettings.siteFields.oldLinkedin', long: true }, { key: 'contact_telegram', label: 'adminSettings.siteFields.telegram' }, { key: 'contact_whatsapp', label: 'adminSettings.siteFields.whatsapp' }, { key: 'contact_instagram', label: 'adminSettings.siteFields.instagram' }, { key: 'contact_postalCode', label: 'adminSettings.siteFields.postalCode' },
 ]
+const site = reactive({
+  legacyVariables: Object.fromEntries(siteFields.map(field => [field.key, { fa: '', en: '' }])) as Record<string, { fa: string; en: string }>,
+})
 
 function assign<T extends object>(target: T, value: unknown) {
   // Settings live inside a reactive array; JSON cloning avoids passing a Vue proxy to structuredClone.
   if (value && typeof value === 'object' && !Array.isArray(value)) Object.assign(target, JSON.parse(JSON.stringify(value)))
 }
+function loadSite(value: unknown) {
+  const source = value && typeof value === 'object' && !Array.isArray(value) ? value as Record<string, unknown> : {}
+  const existing = source.legacyVariables && typeof source.legacyVariables === 'object' && !Array.isArray(source.legacyVariables)
+    ? source.legacyVariables as Record<string, unknown>
+    : {}
+  site.legacyVariables = Object.fromEntries(siteFields.map(field => {
+    const current = existing[field.key] && typeof existing[field.key] === 'object' ? existing[field.key] as Record<string, unknown> : {}
+    return [field.key, { fa: typeof current.fa === 'string' ? current.fa : '', en: typeof current.en === 'string' ? current.en : '' }]
+  }))
+}
 function find(namespace: string) { return settings.value.find(item => item.namespace === namespace) }
+function settingState(namespace: string) { return find(namespace)?.publicationState || 'draft' }
+function replaceSetting(saved: any) {
+  const index = settings.value.findIndex(item => item.namespace === saved.namespace)
+  const entry = { ...saved, text: JSON.stringify(saved.data, null, 2) }
+  if (index >= 0) settings.value[index] = entry
+  else settings.value.push(entry)
+}
 async function save(namespace: string, data: unknown) {
   if (!canEdit.value) return
   error.value = ''
   try {
     const saved = await request<any>(`/admin/settings/${namespace}`, { method: 'PUT', body: { data } })
-    const index = settings.value.findIndex(item => item.namespace === namespace)
-    const entry = { ...saved, text: JSON.stringify(saved.data, null, 2) }
-    if (index >= 0) settings.value[index] = entry
-    else settings.value.push(entry)
+    replaceSetting(saved)
   } catch (cause: any) { error.value = cause?.data?.message || t('adminSettings.errors.save') }
 }
+async function submitSetting(namespace: string) {
+  if (!canEdit.value) return
+  try { replaceSetting(await request<any>(`/admin/settings/${namespace}/submit-review`, { method: 'POST' })) }
+  catch (cause: any) { error.value = cause?.data?.message || 'ارسال برای تأیید انجام نشد.' }
+}
+async function publishSetting(namespace: string) {
+  if (!canPublish.value) return
+  try { replaceSetting(await request<any>(`/admin/settings/${namespace}/publish`, { method: 'POST' })) }
+  catch (cause: any) { error.value = cause?.data?.message || 'انتشار انجام نشد.' }
+}
 const saveContact = () => save('contact', contact)
+const saveContactOperations = () => save('contact_operations', contactOperations)
 const saveBranding = () => save('branding', branding)
 const saveSeo = () => save('seo', seo)
 const saveSite = () => save('site', { legacyVariables: site.legacyVariables })
@@ -187,20 +219,27 @@ function setPath(target: Record<string, any>, path: string, value: string) { con
 function loadLabels(value: unknown) { const source = value && typeof value === 'object' ? value as Record<string, unknown> : {}; const fa = new Map(flattenLabels(source.fa).map(item => [item.key, item.value])); const en = new Map(flattenLabels(source.en).map(item => [item.key, item.value])); labelRows.value = [...new Set([...fa.keys(), ...en.keys()])].sort().map(key => ({ key, fa: fa.get(key) || '', en: en.get(key) || '' })) }
 async function saveLabels() { const data: { fa: Record<string, any>; en: Record<string, any> } = { fa: {}, en: {} }; for (const row of labelRows.value) { setPath(data.fa, row.key, row.fa); setPath(data.en, row.key, row.en) }; await save('labels', data) }
 async function saveNavigation() {
-  const cleanItem = (item: NavigationItemForm) => ({ key: item.key, to: item.to, label: item.label, children: item.children.map(child => ({ to: child.to, label: child.label })) })
+  const cleanItem = (item: NavigationItemForm) => ({ key: item.key, ...(item.targetId ? { targetId: item.targetId, to: '' } : { to: item.to }), label: item.label, children: item.children.map(child => child.targetId ? ({ targetId: child.targetId, to: '', label: child.label }) : ({ to: child.to, label: child.label })) })
   await save('navigation', { header: navigation.header.map(cleanItem), footer: navigation.footer.map(group => ({ title: group.title, items: group.items.map(cleanItem) })), legal: navigation.legal.map(cleanItem) })
 }
+const targetTitle = (target: any) => target.translations?.find((translation: any) => translation.locale === 'fa')?.title || target.translations?.[0]?.title || target.slug
+function selectTarget(item: { targetId: string; to: string; label: { fa: string; en: string } }) { const target = contentTargets.value.find(value => value.id === item.targetId); if (!target) return; item.to = ''; item.label = { fa: target.translations?.find((translation: any) => translation.locale === 'fa')?.title || '', en: target.translations?.find((translation: any) => translation.locale === 'en')?.title || '' } }
 onMounted(async () => {
   try {
-    settings.value = (await request<any[]>('/admin/settings')).map(item => ({ ...item, text: JSON.stringify(item.data, null, 2) }))
-    assign(contact, find('contact')?.data); assign(branding, find('branding')?.data); assign(seo, find('seo')?.data); assign(site, find('site')?.data); loadLabels(find('labels')?.data)
+    const [loadedSettings, targets] = await Promise.all([request<any[]>('/admin/settings'), request<any[]>('/admin/content-v2')])
+    settings.value = loadedSettings.map(item => ({ ...item, text: JSON.stringify(item.data, null, 2) }))
+    contentTargets.value = targets
+    assign(contact, find('contact')?.data); assign(contactOperations, find('contact_operations')?.data || { recipients: contact.recipients, formEnabled: contact.formEnabled }); assign(branding, find('branding')?.data); assign(seo, find('seo')?.data); loadSite(find('site')?.data); loadLabels(find('labels')?.data)
     const nav = find('navigation')?.data || defaultNavigationSettings
-    const toItem = (item: any): NavigationItemForm => ({ id: newId(), key: item?.key || '', to: item?.to || '', label: { fa: item?.label?.fa || '', en: item?.label?.en || '' }, children: (item?.children || []).map((child: any) => ({ id: newId(), to: child?.to || '', label: { fa: child?.label?.fa || '', en: child?.label?.en || '' } })) })
+    const toItem = (item: any): NavigationItemForm => ({ id: newId(), key: item?.key || '', to: item?.to || '', targetId: item?.targetId || '', label: { fa: item?.label?.fa || '', en: item?.label?.en || '' }, children: (item?.children || []).map((child: any) => ({ id: newId(), to: child?.to || '', targetId: child?.targetId || '', label: { fa: child?.label?.fa || '', en: child?.label?.en || '' } })) })
     navigation.header = (nav.header || []).map(toItem)
     navigation.footer = (nav.footer || []).map((group: any) => ({ id: newId(), title: { fa: group?.title?.fa || '', en: group?.title?.en || '' }, items: (group?.items || []).map(toItem) }))
     navigation.legal = (nav.legal || []).map(toItem)
   } catch (cause: any) { error.value = cause?.data?.message || t('adminSettings.errors.load') }
   finally { pending.value = false }
+})
+watch(() => route.query.tab, value => {
+  if (typeof value === 'string' && tabs.some(tab => tab.id === value)) activeTab.value = value
 })
 </script>
 

@@ -1,5 +1,8 @@
 <template>
-  <div v-if="term" class="min-h-screen">
+  <div v-if="v2Term" class="min-h-screen">
+    <ContentBlocks :blocks="v2Term.translation.blocks" :locale="locale === 'fa' ? 'fa' : 'en'" />
+  </div>
+  <div v-else-if="term" class="min-h-screen">
     <section class="page-hero">
       <div class="container-site pt-6 pb-16">
       <nav class="flex items-center gap-2 text-xs text-white/40 mb-8" :aria-label="$t('common.breadcrumb')">
@@ -53,6 +56,8 @@ const route = useRoute()
 const { emitGlossaryTerm, emitBreadcrumbs } = useSchemaOrg()
 const termSlug = String(route.params.slug || '')
 const { get, list } = usePublicCms()
+const { get: getV2 } = usePublicCmsV2()
+const { data: v2Term } = await useAsyncData(`glossary-v2-${termSlug}-${locale.value}`, () => getV2('glossary', termSlug, locale.value as 'fa' | 'en').catch(() => null), { watch: [locale] })
 const { data: term } = await useAsyncData(`glossary-${termSlug}-${locale.value}`, () => get('glossary', termSlug, locale.value as 'fa' | 'en'), { watch: [locale] })
 
 const { data: products } = await useAsyncData(`glossary-products-${termSlug}-${locale.value}`, () => list('product', locale.value as 'fa' | 'en'), { watch: [locale] })

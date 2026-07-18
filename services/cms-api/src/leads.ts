@@ -83,8 +83,12 @@ export class LeadsService {
 
   private async deliver(lead: { department: string; name: string; company: string | null; email: string; phone: string | null; product: string | null; message: string }) {
     if (!this.config.CMS_SMTP_HOST || !this.config.CMS_SMTP_FROM) throw new Error('SMTP is not configured.')
-    const contact = await this.prisma.siteSetting.findUnique({ where: { namespace: 'contact' } })
-    const config = contact?.data && typeof contact.data === 'object' && !Array.isArray(contact.data) ? contact.data as Record<string, unknown> : {}
+    const [operations, contact] = await Promise.all([
+      this.prisma.siteSetting.findUnique({ where: { namespace: 'contact_operations' } }),
+      this.prisma.siteSetting.findUnique({ where: { namespace: 'contact' } }),
+    ])
+    const configSource = operations?.data || contact?.data
+    const config = configSource && typeof configSource === 'object' && !Array.isArray(configSource) ? configSource as Record<string, unknown> : {}
     const recipients = config.recipients && typeof config.recipients === 'object' && !Array.isArray(config.recipients)
       ? (config.recipients as Record<string, unknown>)[lead.department]
       : undefined

@@ -1,5 +1,8 @@
 <template>
-  <div v-if="doc">
+  <div v-if="v2Document">
+    <ContentBlocks :blocks="v2Document.translation.blocks" :locale="locale === 'fa' ? 'fa' : 'en'" />
+  </div>
+  <div v-else-if="doc">
     <section class="page-hero">
       <div class="container-site section-hero">
         <div class="max-w-4xl">
@@ -32,6 +35,8 @@
 <script setup lang="ts">
 const { locale } = useI18n()
 const { get } = usePublicCms()
+const { get: getV2 } = usePublicCmsV2()
+const { data: v2Document } = await useAsyncData(`press-v2-${locale.value}`, () => getV2('company', 'press', locale.value as 'fa' | 'en').catch(() => null), { watch: [locale] })
 const { data: doc } = await useAsyncData(`press-${locale.value}`, () => get('company', 'press', locale.value as 'fa' | 'en'), { watch: [locale] })
 useSeoMeta({ title: doc.value?.seoTitle ?? 'Press | Pesaba', description: doc.value?.seoDescription })
 </script>

@@ -1,5 +1,8 @@
 <template>
-  <div>
+  <div v-if="v2Home">
+    <ContentBlocks :blocks="v2Home.translation.blocks" :locale="locale === 'fa' ? 'fa' : 'en'" />
+  </div>
+  <div v-else>
     <TopologyHero :hero-image="homeData.heroImage" />
 
     <!-- Advenica-signature: sector cards with grayscale-to-color hover -->
@@ -278,6 +281,8 @@ emitOrganization()
 emitWebsite()
 
 const { get, list } = usePublicCms()
+const { get: getV2 } = usePublicCmsV2()
+const { data: v2Home } = await useAsyncData('home-page-v2', () => getV2('page', 'home', locale.value as 'fa' | 'en').catch(() => null), { watch: [locale] })
 const { data: homePage } = await useAsyncData('home-page', () => get('page', 'home', locale.value as 'fa' | 'en').catch(() => null), { watch: [locale] })
 const homeData = computed(() => {
   const data = homePage.value as { heroImage?: string; statsProductsImage?: string; statsCategoriesImage?: string; statsLocalesImage?: string } | null

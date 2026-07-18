@@ -19,6 +19,13 @@ enum ContentStatus {
   ARCHIVED
 }
 
+enum PublicationState {
+  DRAFT
+  IN_REVIEW
+  PUBLISHED
+  ARCHIVED
+}
+
 enum ContentType {
   ARTICLE
   PRODUCT
@@ -80,6 +87,10 @@ model ContentItem {
   type        ContentType
   slug        String
   status      ContentStatus   @default(ACTIVE)
+  publicationState PublicationState @default(DRAFT)
+  pageFamily  String          @default("landing_standard") @db.VarChar(80)
+  variant     String          @default("standard") @db.VarChar(80)
+  publishedRevisionId String? @db.Uuid
   sortOrder   Int             @default(0)
   data        Json            @default("{}")
   createdAt   DateTime        @default(now())
@@ -89,6 +100,7 @@ model ContentItem {
 
   @@unique([type, slug])
   @@index([type, status, sortOrder])
+  @@index([type, publicationState, sortOrder])
 }
 
 model ContentTranslation {
@@ -101,6 +113,7 @@ model ContentTranslation {
   seoTitle       String      @default("")
   seoDescription String      @default("")
   data           Json        @default("{}")
+  blocks         Json        @default("[]")
   contentItem    ContentItem @relation(fields: [contentItemId], references: [id], onDelete: Cascade)
 
   @@unique([contentItemId, locale])
@@ -123,9 +136,29 @@ model SiteSetting {
   id        String   @id @default(uuid()) @db.Uuid
   namespace String   @unique
   data      Json     @default("{}")
+  publicationState PublicationState @default(DRAFT)
+  publishedRevisionId String? @db.Uuid
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   revisions SettingRevision[]
+}
+
+// Credentials deliberately live outside SiteSetting. Settings are versioned and
+// can be exported; provider credentials must be encrypted and never included in
+// those workflows or in an admin API response.
+model AiProviderConfig {
+  id              String   @id @default(uuid()) @db.Uuid
+  name            String   @db.VarChar(120)
+  provider        String   @db.VarChar(40)
+  baseUrl         String   @db.VarChar(500)
+  apiKeyEncrypted String   @db.Text
+  model           String   @db.VarChar(240)
+  enabled         Boolean  @default(true)
+  isDefault       Boolean  @default(false)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([enabled, isDefault])
 }
 
 model SettingRevision {
